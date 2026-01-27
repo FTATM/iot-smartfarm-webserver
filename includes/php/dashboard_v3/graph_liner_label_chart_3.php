@@ -303,7 +303,7 @@ yaxis: {
   show: true,
   labels: {
     formatter: function (value) {
-      return 'V ' + value;
+      return value;
     }
   }
 },

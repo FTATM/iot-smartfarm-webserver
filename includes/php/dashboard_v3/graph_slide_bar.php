@@ -102,8 +102,8 @@ input[type="range"]:hover::-webkit-slider-thumb {
       <div id="display_slide_<?php echo $monitor_id;?>" class="w-6/6 h-10 min-[320px]:text-sm min-[320px]:font-medium m-auto flex items-center justify-center border-slate-800 xl:text-5xl xl:mt-[70px]"><?php echo number_format($temp_value);?></div>
     </label>
     <br>
-    <input type="range" id="input_slide_<?php echo $monitor_id;?>" class="w-[100%] h-10 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 m-auto" name="input_slide_<?php echo $monitor_id;?>" min="0" max="9999" step="1" value="<?php echo $temp_value;?>" oninput="update_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" onchange="change_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" >
-    <div class="xl:text-sm min-[320px]:text-[10px] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 9,999 </div>
+    <input type="range" id="input_slide_<?php echo $monitor_id;?>" class="w-[100%] h-10 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 m-auto" name="input_slide_<?php echo $monitor_id;?>" min="0" max="100" step="1" value="<?php echo $temp_value;?>" oninput="update_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" onchange="change_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" >
+    <div class="xl:text-sm min-[320px]:text-[10px] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 100 </div>
 </div>
 
 

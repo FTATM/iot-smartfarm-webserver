@@ -307,12 +307,12 @@
               }
 
                     $sql_get_datax_from_volte_censor = "SELECT a.name as device,a.location as group,a.\"".strtoupper($array_datax[$rs_monitor[0]->datax_id])."\" as datax
-                                                            FROM volte_censor a
-                                                            LEFT JOIN page_data_manage_device b ON a.name = b.divice_name
-                                                            LEFT JOIN page_data_manage_group c ON a.location = c.value_map_volte_censor
-                                                          WHERE b.device_id='{$rs_monitor[0]->device_id}' AND c.group_id ='{$rs_monitor[0]->group_id}'
-                                                          ORDER BY a.id DESC LIMIT 1;
-                                  ";
+                      FROM volte_censor a
+                      LEFT JOIN page_data_manage_device b ON a.name = b.divice_name
+                      LEFT JOIN page_data_manage_group c ON a.location = c.value_map_volte_censor
+                      WHERE b.device_id='{$rs_monitor[0]->device_id}' AND c.group_id ='{$rs_monitor[0]->group_id}'
+                      ORDER BY a.id DESC LIMIT 1;
+                      ";
                   $rs_get_datax_from_volte_censor = select($sql_get_datax_from_volte_censor,$db);
                 if(count($rs_get_datax_from_volte_censor)=='1' && $rs_get_datax_from_volte_censor[0]->datax =='1'){
                   $data_state = 1;

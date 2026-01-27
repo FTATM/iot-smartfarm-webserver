@@ -2,7 +2,7 @@
 // $_GET['expire_token'];
 // $_GET['os_type'];
 
-$os = '0';//0= linux, 1= Windows
+$os = '1';//0= linux, 1= Windows
 
 if(isset($_GET['os_type']) && $_GET['os_type'] !=""){
     $os = $_GET['os_type'];

@@ -5622,7 +5622,7 @@ h2.semi_pie {
     <!-- <span class="label-text">Mon, Tue, Wed</span> -->
     <div class="pie-wrapper">
       <div class="arc" data-value="<?php echo number_format($temp_value,0);?>"></div>
-      <span class="score2"><?php echo number_format($temp_value,2);?> C°</span>
+      <span class="score2"><?php echo number_format($temp_value,2);?></span>
     </div>
   </div>  
 

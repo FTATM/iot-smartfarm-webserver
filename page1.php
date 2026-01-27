@@ -237,7 +237,7 @@
                           <div id="display_slide_<?php echo $rs_monitor[$i]->monitor_id;?>" class="w-2/4 m-auto flex items-center justify-center border-slate-800 text-5xl"><?php echo number_format($rs_monitor[$i]->datax_value);?></div>
                         </label>
                         <span class="text-sm font-medium text-gray-900 dark:text-gray-300"> Range 0 to 9999 : </span>
-                        <input type="range" id="input_slide_<?php echo $rs_monitor[$i]->monitor_id;?>" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_<?php echo $rs_monitor[$i]->monitor_id;?>" min="0" max="9999" value="<?php echo $rs_monitor[$i]->datax_value;?>" oninput="update_slidebar_val('<?php echo $rs_monitor[$i]->monitor_id;?>');" onchange="change_slidebar_val('<?php echo $rs_monitor[$i]->monitor_id;?>');" disabled>
+                        <input type="range" id="input_slide_<?php echo $rs_monitor[$i]->monitor_id;?>" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_<?php echo $rs_monitor[$i]->monitor_id;?>" min="0" max="100" value="<?php echo $rs_monitor[$i]->datax_value;?>" oninput="update_slidebar_val('<?php echo $rs_monitor[$i]->monitor_id;?>');" onchange="change_slidebar_val('<?php echo $rs_monitor[$i]->monitor_id;?>');" disabled>
                     <?php
                       }else if($rs_monitor[$i]->type_id=='2'){ //DATA02
                         ?>
@@ -560,7 +560,7 @@
                 var html_type_change = "";
 
                 if(sel_type=='1'){
-                  html_type_change = '<label for="input_slide_'+elm_index+'"><div id="display_slide_'+elm_index+'" class="w-2/4 m-auto flex items-center justify-center border-slate-800 text-5xl">0</div></label><span class="text-sm font-medium text-gray-900 dark:text-gray-300"> Range 0 to 9999 : </span><input type="range" id="input_slide_'+elm_index+'" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_'+elm_index+'" min="0" max="9999" value="0" oninput="update_slidebar_val(\''+elm_index+'\');" onchange="change_slidebar_val(\''+elm_index+'\');">';
+                  html_type_change = '<label for="input_slide_'+elm_index+'"><div id="display_slide_'+elm_index+'" class="w-2/4 m-auto flex items-center justify-center border-slate-800 text-5xl">0</div></label><span class="text-sm font-medium text-gray-900 dark:text-gray-300"> Range 0 to 9999 : </span><input type="range" id="input_slide_'+elm_index+'" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_'+elm_index+'" min="0" max="100" value="0" oninput="update_slidebar_val(\''+elm_index+'\');" onchange="change_slidebar_val(\''+elm_index+'\');">';
                 }else if(sel_type=='2'){
                   html_type_change = '<br>';
                   html_type_change +='     <label class="inline-flex items-center cursor-pointer">';

@@ -23,7 +23,7 @@
 ?>
 <br>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<div class="min-[320px]:w-[98%] xl:w-[98%] m-auto xl:justify-center" style="border:0px solid #f00;">
+<div class="min-[320px]:w-[98%] xl:w-[98%] m-auto xl:justify-center" style="border:1px solid #f00;">
 <?php
       $sql_plus = " ";
       $sortx = "";

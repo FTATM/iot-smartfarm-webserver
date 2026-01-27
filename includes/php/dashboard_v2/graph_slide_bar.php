@@ -14,8 +14,8 @@
       <div id="display_slide_<?php echo $monitor_id;?>" class="w-2/4 min-[320px]:text-sm min-[320px]:font-medium m-auto flex items-center justify-center border-slate-800 text-5xl xl:mt-[70px]">1,234</div>
     </label>
     
-    <input type="range" id="input_slide_<?php echo $monitor_id;?>" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_<?php echo $monitor_id;?>" min="0" max="9999" value="1234" oninput="update_slidebar_val('<?php echo $monitor_id;?>');" onchange="change_slidebar_val('<?php echo $monitor_id;?>');" >
-    <div class="xl:text-sm min-[320px]:text-[10px] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 9999 </div>
+    <input type="range" id="input_slide_<?php echo $monitor_id;?>" class="w-2/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" name="input_slide_<?php echo $monitor_id;?>" min="0" max="100" value="1234" oninput="update_slidebar_val('<?php echo $monitor_id;?>');" onchange="change_slidebar_val('<?php echo $monitor_id;?>');" >
+    <div class="xl:text-sm min-[320px]:text-[10px] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 100 </div>
 </div>
 
 

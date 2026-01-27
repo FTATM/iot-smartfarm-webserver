@@ -85,13 +85,13 @@
             bg-white rounded-lg 
             text-[#333333] shadow dark:bg-gray-800 m-3 float-left justify-center">
       <div class="justify-center text-center min-[320px]:text-[10px] text-[#777777] xl:text-[20px]">
-        <!-- <div><p>S.W.<?php echo $btn_id;?></p></div>
-        <div><b>(S.W.<?php echo $btn_id;?>)</b></div> -->
+        <!-- <div><p>S.W.</?php echo $btn_id;?></p></div>
+        <div><b>(S.W.</?php echo $btn_id;?>)</b></div> -->
         <div><p><?php echo $item_name;?><?php echo $branch_name;?></p></div>
 
-        <!-- <img src="<?php echo $img_src;?>" class="min-[320px]:w-[65px] xl:w-[100px] m-auto min-[320px]:mt-[5px]" alt="Switch"> -->
+        <!-- <img src="</?php echo $img_src;?>" class="min-[320px]:w-[65px] xl:w-[100px] m-auto min-[320px]:mt-[5px]" alt="Switch"> -->
         <!-- <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" value=""  id="enable_config_<?php echo $monitor_id;?>" class="sr-only peer" <?php echo $isChecked;?>  />
+          <input type="checkbox" value=""  id="enable_config_</?php echo $monitor_id;?>" class="sr-only peer" </?php echo $isChecked;?>  />
           <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 m-auto justify-center text-center xl:mt-8 min-[320px]:mt-3" ></div>
         </lable> -->
         <label class=" inline-flex relative flex items-center mb-5 cursor-pointer m-auto justify-center text-center min-[320px]:mt-2 xl:mt-[75px]">
