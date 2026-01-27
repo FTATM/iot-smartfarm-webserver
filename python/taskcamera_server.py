@@ -6,6 +6,7 @@ import json
 import time
 import numpy as np
 from inference_sdk import InferenceHTTPClient
+from config import CAMERAS
 
 # ======================
 # CONFIG
@@ -16,11 +17,9 @@ client = InferenceHTTPClient(
 
 WS_URI = "ws://localhost:8765"
 
-cam_list = {
-    "Camera1": "rtsp://192.168.1.168:554/",  #เปลี่ยน IP เป็น IP camera ของคุณ ที่นี่
-}
+cam_list = CAMERAS
 
-FRAME_INTERVAL = 0.3  # ~3 FPS
+FRAME_INTERVAL = 0.3
 JPEG_QUALITY = 30
 RESIZE_W = 640
 RESIZE_H = 360

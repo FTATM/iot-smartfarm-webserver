@@ -3,6 +3,7 @@ import websockets
 import json
 import asyncpg
 from datetime import datetime
+from config import DB_CONFIG
 
 rooms = {}  # room_name -> set(websocket)
 
@@ -41,10 +42,10 @@ async def handler(ws):
 async def db_service():
     global db_pool
     db_pool = await asyncpg.create_pool(
-        user="postgres",
-        password="sunny54164",
-        database="smartfarm-src",
-        host="49.0.69.152",
+        user=DB_CONFIG['user'],
+        password=DB_CONFIG['password'],
+        database=DB_CONFIG['name'],
+        host=DB_CONFIG['host'],
     )
 
     print("DB service started")
@@ -89,7 +90,7 @@ async def db_service():
                 )
         except Exception as e:
             print(f"[DB ERROR] {e}")
-        await asyncio.sleep(10)
+        await asyncio.sleep(30)
 
 
 async def check_and_update_monitor(conn, row, times):

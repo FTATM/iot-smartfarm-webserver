@@ -1,5 +1,6 @@
 <?php
 require_once("web.config.php");
+require_once __DIR__ . '/config.php';
 #########CONFIG ZONE HOST#########
 define("HOST_DEVICE_OS", '1'); //0= linux, 1= Windows
 // define("DEVICE_TOKEN", "5pdKx3CmIY4kzVAbf7dhh6/w02XOknW3elFWEjszQ7RmmgDJ0C6tOv2q3P4bufwcK2yFT4wvA9vMr+gN4xj9A7KM2QnzinSz9IsgEvo7AAE=");
@@ -8,10 +9,12 @@ define("DEVICE_TOKEN", "5pdKx3CmIY4kzVAbf7dhhzEIVY+eU6GyZGOp7nrNJmGK6oJz6KTk8nlt
 #########CONFIG ZONE HOST END#####
 
 #####PGSQL#######
-$host        = "host = 127.0.0.1";
-$port        = "port = 5432";
-$dbname      = "dbname = smartfarm-src";
-$credentials = "user = postgres password=sunny54164";
+$host   = "host = " .$db_config['host']   ?? '127.0.0.1';
+$port   = "port = " .$db_config['port']   ?? '5432';
+$dbname = "dbname = " .$db_config['name'] ?? 'smartfarm';
+$user   = $db_config['user']   ?? 'postgres';
+$pass   = $db_config['pass']   ?? 'postgres';
+$credentials = "user=$user password=$pass";
 date_default_timezone_set("Asia/Bangkok");
 
 
