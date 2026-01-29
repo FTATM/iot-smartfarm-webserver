@@ -35,6 +35,7 @@ $sql = "UPDATE dashboard_item SET
         item_name = $1,
         size = $2,
         icon_id = $3,
+	sort = $4,
         updatetime = NOW()
         
     WHERE id = $4
@@ -45,6 +46,7 @@ $params = [
     $decode->item_name ?? '',
     $decode->size ?? '1',
     $decode->icon_id ?? 1,
+    $decode->sort ?? '1',
     $decode->id
 ];
 

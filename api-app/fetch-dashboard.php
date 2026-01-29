@@ -56,7 +56,7 @@ $sql = "SELECT
         LEFT JOIN dashboard_type AS t ON t.id = d.item_type_id
         LEFT JOIN icons AS i ON d.icon_id = i.id
         WHERE d.branch_id = $1 AND d.status = '1'
-        ORDER BY d.sort DESC
+        ORDER BY d.sort ASC
         ";
 
 $result = pg_query_params($db, $sql, [$branch_id]);
