@@ -38,7 +38,7 @@ $sql = "UPDATE dashboard_item SET
 	sort = $4,
         updatetime = NOW()
         
-    WHERE id = $4
+    WHERE id = $5
 ";
 
 // ✅ เตรียมค่าพารามิเตอร์
