@@ -71,7 +71,7 @@ $dashboards = [];
 while ($row = pg_fetch_assoc($result)) {
     $monitor_id = $row['id'];
     // $data[] = $row;
-    $sql_select_log = "SELECT data_value FROM data_log WHERE group_id = $1 AND device_id = $2 AND type_id = $3 AND datax_id = $4 ORDER BY id DESC LIMIT 15";
+    $sql_select_log = "SELECT data_value FROM data_log WHERE group_id = $1 AND device_id = $2 AND type_id = $3 AND datax_id = $4 ORDER BY id DESC LIMIT 10";
     $result_select_log = pg_query_params($db, $sql_select_log, [$row['m_group_id'], $row['m_device_id'], $row['m_type_id'], $row['m_datax_id']]);
 
     if (!isset($dashboards[$monitor_id])) {
