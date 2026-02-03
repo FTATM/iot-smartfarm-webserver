@@ -1,0 +1,1117 @@
+<?php
+
+$currentDate = date('d M Y');
+date_default_timezone_set('Asia/Bangkok');
+$currentTime = date('H:i:s');
+
+$metricTitles = [
+    [
+        "title" => "ค่าความนำไฟฟ้า",
+        "value" => "(EC)",
+        "unit"  => "𝜇S/cm"
+    ],
+    [
+        "title" => "ค่าความเป็นกรด-ด่าง",
+        "value" => "(pH)",
+        "unit"  => "pH"
+    ],
+    [
+        "title" => "อุณหภูมิ",
+        "value" => "(Temp)",
+        "unit"  => "°C"
+    ],
+    [
+        "title" => "ความชื้น",
+        "value" => "(Humidity)",
+        "unit"  => "%"
+    ],
+];
+?>
+
+<!DOCTYPE html>
+<html class="light" lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Indoor System - Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8021",
+                        "background-light": "#fcfaf8",
+                        "danger": "#ef4444",
+                        "warning": "#f59e0b",
+                        "success": "#22c55e",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "Noto Sans Thai", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-light text-[#1d130c] h-screen flex flex-col overflow-hidden;
+                font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+            }
+        }
+        .fluent--door-arrow-left-20-regular {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M6 2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4.257a5.5 5.5 0 0 1-.657-1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5.022q.516.047 1 .185V4a2 2 0 0 0-2-2zm2 8a1 1 0 1 1-2 0a1 1 0 0 1 2 0m11 4.5a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0m-6.853-.354l-.003.003a.5.5 0 0 0-.144.348v.006a.5.5 0 0 0 .146.35l2 2a.5.5 0 0 0 .708-.707L13.707 15H16.5a.5.5 0 0 0 0-1h-2.793l1.147-1.146a.5.5 0 0 0-.708-.708z'/%3E%3C/svg%3E");
+            background-color: currentColor;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #FFF3E9;
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .loading-dot {
+            animation: pulse-dot 1.4s ease-in-out infinite;
+        }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        .metric-range .bar {
+            position: relative;
+            background: #e7e5e4;
+            overflow: hidden;
+            border-radius: 999px;
+        }
+
+        .metric-range .fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            border-radius: 999px;
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Gradient สำหรับแต่ละ sensor */
+        .metric-range[data-key="do"] .fill {
+            background: linear-gradient(90deg,
+                #FF0000 0%,
+                #F97316 25%,
+                #EAB308 50%,
+                #22C55E 75%,
+                #16A34A 100%
+            );
+        }
+
+        .metric-range[data-key="ph"] .fill {
+            background: linear-gradient(90deg,
+                #7F1D1D 0%,
+                #DC2626 7.7%,
+                #F97316 15.4%,
+                #FB923C 23.1%,
+                #F59E0B 30.8%,
+                #FACC15 38.5%,
+                #86EFAC 46.2%,
+                #22C55E 53.8%,
+                #06B6D4 61.5%,
+                #3B82F6 69.2%,
+                #1D4ED8 76.9%,
+                #A855F7 84.6%,
+                #581C87 100%
+            );
+        }
+
+        .metric-range[data-key="ec"] .fill {
+            background: linear-gradient(90deg,
+                #3B82F6 0%,
+                #60A5FA 22.86%,
+                #22C55E 45.71%,
+                #16A34A 68.57%,
+                #F97316 100%
+            );
+        }
+
+        .metric-range[data-key="temp"] .fill {
+            background: linear-gradient(90deg,
+                #3B82F6 0%,
+                #60A5FA 30%,
+                #22C55E 50%,
+                #EAB308 70%,
+                #F97316 100%
+            );
+        }
+
+        .metric-range .tick {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.75);
+        }
+        .ion--water-sharp {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23000' d='M256 43.91s-144 158.3-144 270.3c0 88.36 55.64 144 144 144s144-55.64 144-144c0-112-144-270.3-144-270.3m16 362.3v-24a60.07 60.07 0 0 0 60-60h24a84.09 84.09 0 0 1-84 84'/%3E%3C/svg%3E");
+            background-color: currentColor;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+        }
+        .mdi--lightning-bolt {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M11 15H6l7-14v8h5z'/%3E%3C/svg%3E");
+            background-color: currentColor;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+        }
+        .mdi--temperature-celsius {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M11 5a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m11.5 7a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3'/%3E%3C/svg%3E");
+            background-color: currentColor;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+        }
+    </style>
+
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-6 py-3 border-b border-stone-200 bg-white shrink-0 gap-3 sm:gap-0">
+        <div class="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <?php include 'navbar.php'; ?>
+            <div class="size-8 sm:size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20 shrink-0">
+                <span class="fluent--door-arrow-left-20-regular text-xl sm:text-2xl text-[#ff8021]"></span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <h1 class="text-sm sm:text-lg font-bold leading-tight text-[#1d130c] truncate">Indoor System</h1>
+                <p class="text-[9px] sm:text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Indoor Dashboard</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center justify-end gap-2 sm:gap-6 w-full sm:w-auto flex-nowrap">
+            <!-- ส่วนแสดงอัปเดตล่าสุด -->
+            <div class="flex items-center gap-6 w-auto">
+                <div class="flex flex-col items-end border-l border-stone-200 pl-3 sm:pl-6">
+                    <span class="text-[9px] sm:text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1 whitespace-nowrap">
+                        อัปเดตล่าสุด
+                    </span>
+                    <span class="text-xs sm:text-sm font-bold text-stone-800 whitespace-nowrap" id="last-update">
+                        <?php echo $currentTime; ?>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-2 sm:p-4 overflow-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
+
+            <!-- LEFT SECTION (Main Content) -->
+            <div class="lg:col-span-10 flex flex-col gap-3 sm:gap-4">
+
+                <!-- TOP ROW: รูปภาพ + กราฟ (Desktop: รูปซ้ายยาวลงมา) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-3 sm:gap-4">
+
+                    <!-- รูปภาพ (Mobile/Tablet: แสดงปกติ, Desktop: ยาวลงมา 2 rows) -->
+                    <div class="sm:col-span-2 lg:col-span-4 lg:row-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center min-h-[200px] sm:min-h-[250px] lg:min-h-full hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                        <div class="text-center text-stone-400">
+                            <span class="material-symbols-outlined" style="font-size: 3rem; sm:font-size: 5rem;">image</span>
+                            <p class="text-xs mt-2 font-medium">พื้นที่รูปภาพขยาย</p>
+                            <p class="text-[10px] mt-1 text-stone-400">เครื่องมือ/อุปกรณ์</p>
+                        </div>
+                    </div>
+
+                    <!-- กราฟ DO (Desktop: อยู่ด้านบนขวา) -->
+                    <div class="sm:col-span-2 lg:col-span-6 bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col min-h-[200px] hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2 shrink-0">
+                            <div class="flex-1 min-w-0">
+                                <h2 class="text-[10px] sm:text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
+                                    <span class="truncate">แนวโน้มค่าออกซิเจนละลายน้ำ</span>
+                                </h2>
+                                <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5 mobile-hide">
+                                    Historical DO Data (24H)
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200 shrink-0">
+                                <button id="btnDoDay" class="px-2 py-0.5 text-[8px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
+                                <button id="btnDoMonth" class="px-2 py-0.5 text-[8px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 relative border-l border-b border-stone-200 rounded-md min-h-[150px]">
+                            <div id="do-loading" class="absolute inset-0 flex items-center justify-center z-10">
+                                <div class="flex gap-1">
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                </div>
+                            </div>
+                            <canvas id="doTrendChart" class="absolute inset-0"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- กราฟ Price (Desktop: อยู่ด้านล่างขวา) -->
+                    <div class="sm:col-span-2 lg:col-span-6 bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col min-h-[200px] hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                        <div class="flex justify-between items-center mb-2 shrink-0">
+                            <div>
+                                <h2 class="text-[10px] sm:text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <span class="w-1 h-3 bg-primary rounded-full"></span>
+                                    <span class="truncate">แนวโน้มราคาตลาด</span>
+                                </h2>
+                                <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5 mobile-hide">Market Price Trend</p>
+                            </div>
+                        </div>
+                        <div class="flex-1 relative border-l border-b border-stone-100 bg-white min-h-[150px]">
+                            <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
+                                <div class="flex gap-1">
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                </div>
+                            </div>
+                            <canvas id="marketPriceChart" class="absolute inset-0"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- BOTTOM ROW: Sensor Metrics -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4" id="metrics-cards">
+                    <?php
+                    $keys = ['ec', 'ph', 'temp', 'humidity'];
+                    $warnings = [
+                        'ec' => 'ควรอยู่ระหว่าง 23K-45K μS/cm',
+                        'ph' => 'ควรอยู่ระหว่าง 7.0-8.5',
+                        'temp' => 'ควรอยู่ระหว่าง 28-32 °C',
+                        'humidity' => 'ควรอยู่ระหว่าง 60-80 %'
+                    ];
+
+                    for ($i = 0; $i < count($metricTitles); $i++): ?>
+                        <div class="bg-white rounded-2xl p-3 sm:p-4 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-<?= $keys[$i] ?>">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[8px] sm:text-[9px] font-bold text-stone-500 uppercase tracking-widest"><?= $metricTitles[$i]['title'] ?></span>
+                                <span class="px-1.5 sm:px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[8px] sm:text-[9px] font-bold uppercase status">--</span>
+                            </div>
+                            <div class="flex-1 flex items-center justify-center py-2">
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-base sm:text-lg font-black text-black value">--</span>
+                                    <span class="text-xs sm:text-sm font-bold text-stone-400"><?= $metricTitles[$i]['unit'] ?></span>
+                                </div>
+                            </div>
+                            <div class="metric-range mt-2 hidden" data-key="<?= $keys[$i] ?>">
+                                <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
+                                    <span class="label-left"></span>
+                                    <span class="label-right"></span>
+                                </div>
+                                <div class="relative h-1.5 rounded-full bar">
+                                    <div class="fill"></div>
+                                </div>
+                                <p class="text-[7px] text-stone-500 font-medium mt-2 text-center"><?= $warnings[$keys[$i]] ?></p>
+                            </div>
+                        </div>
+                    <?php endfor; ?>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SECTION (Sidebar Cards) -->
+            <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+
+                <!-- Card 1: การให้อาหารวันนี้ -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">restaurant</span>
+                        <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2" id="feeding-info">
+                        <div class="bg-stone-50 rounded-lg p-1.5">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase block">จำนวนมื้อ</span>
+                            <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
+                        </div>
+                        <div class="bg-stone-50 rounded-lg p-1.5">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase block">เพิ่มต่อมื้อ</span>
+                            <span class="text-[9px] font-black text-primary" id="feeding-increase">--</span>
+                        </div>
+                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
+                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวม</span>
+                            <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: ต้นทุนทรัพยากร -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">analytics</span>
+                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากร</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2" id="resource-info">
+                        <div class="col-span-2 flex items-center justify-center py-2">
+                            <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: คุณภาพน้ำ -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 hidden sm:block">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">waves</span>
+                        <h3 class="text-[10px] font-bold text-stone-700">คุณภาพน้ำที่เหมาะสม</h3>
+                    </div>
+                    <div>
+                        <table class="w-full">
+                            <tbody class="text-[9px] divide-y divide-stone-50">
+                                <tr>
+                                    <td class="py-0.5 text-stone-500 font-medium">EC</td>
+                                    <td class="py-0.5 text-right font-bold text-stone-700">23K-45K μS/cm</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-0.5 text-stone-500 font-medium">pH</td>
+                                    <td class="py-0.5 text-right font-bold text-stone-700">7.5 - 8.5</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-0.5 text-stone-500 font-medium">Temp</td>
+                                    <td class="py-0.5 text-right font-bold text-stone-700">28-32 °C</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-0.5 text-stone-500 font-medium">Humidity</td>
+                                    <td class="py-0.5 text-right font-bold text-stone-700">60-80 %</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Card 4: การปรับอาหาร -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 hidden sm:block">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">rule</span>
+                        <h3 class="text-[10px] font-bold text-stone-700">การปรับอาหาร</h3>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center justify-between px-2 py-1 bg-success/5 border border-success/10 rounded-lg">
+                            <span class="text-[9px] font-bold text-success uppercase">หมดเกลี้ยง</span>
+                            <span class="text-[9px] font-normal text-stone-700">+5 ถึง +10%</span>
+                        </div>
+                        <div class="flex items-center justify-between px-2 py-1 bg-warning/5 border border-warning/10 rounded-lg">
+                            <span class="text-[9px] font-bold text-warning uppercase">เหลือเล็กน้อย</span>
+                            <span class="text-[9px] font-normal text-stone-700">คงที่ / -5%</span>
+                        </div>
+                        <div class="flex items-center justify-between px-2 py-1 bg-danger/5 border border-danger/10 rounded-lg">
+                            <span class="text-[9px] font-bold text-danger uppercase">เหลือเยอะ</span>
+                            <span class="text-[9px] font-normal text-stone-700">งด / -50%</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-3 sm:px-6 py-2 border-t border-stone-200 bg-white flex items-center gap-2 shrink-0">
+    <div class="flex items-center gap-2 ml-auto">
+        <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 1.0</span>
+        <div class="h-3 w-px bg-stone-200"></div>
+        <span class="text-[9px] font-bold text-primary uppercase">Smart Farm</span>
+    </div>
+</footer>
+
+    <!-- JavaScript -->
+    <script>
+        const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+        const today = new Date();
+        const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSensorData();
+            loadFeedingInfo();
+            loadResourceToday();
+            loadDoTrendData();
+
+            setInterval(() => {
+                loadSensorData();
+                loadFeedingInfo();
+                loadResourceToday();
+                loadDoTrendData();
+            }, 30000);
+        });
+
+        async function loadSensorData() {
+            try {
+                const res = await fetch('/dashboard/api/generate_sensor.php');
+                const rows = await res.json();
+
+                console.log('✅ raw sensor data:', rows);
+
+                const sensor = {};
+                rows.forEach(item => {
+                    if (!item.divice_name) return;
+                    sensor[item.divice_name.toLowerCase()] = parseFloat(item.datax_value);
+                });
+
+                console.log('✅ mapped sensor:', sensor);
+
+                setCardValue('ec', sensor.ec);
+                setCardValue('ph', sensor.ph);
+                setCardValue('temp', sensor.temp);
+                setCardValue('humidity', sensor.humidity ?? null);
+
+            } catch (err) {
+                console.error('❌ loadSensorData error:', err);
+            }
+        }
+
+        function setBadge(statusEl, text, type) {
+            const map = {
+                success: 'status px-2 py-0.5 rounded-full bg-green-100 text-green-600 text-[9px] font-bold uppercase',
+                warning: 'status px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-[9px] font-bold uppercase',
+                danger: 'status px-2 py-0.5 rounded-full bg-red-100 text-red-600 text-[9px] font-bold uppercase',
+                info: 'status px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[9px] font-bold uppercase',
+                na: 'status px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase',
+                orange: 'status px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[9px] font-bold uppercase',
+            };
+
+            statusEl.textContent = text;
+            statusEl.className = map[type] || map.na;
+        }
+
+        function getStatusByKey(key, v) {
+            // EC
+            if (key === 'ec') {
+                if (v >= 23000 && v <= 45000) return {
+                    text: 'เหมาะสม',
+                    type: 'success'
+                };
+                if (v < 23000) return {
+                    text: 'ต่ำ',
+                    type: 'info'
+                };
+                return {
+                    text: 'สูง',
+                    type: 'danger'
+                };
+            }
+
+            // pH
+            if (key === 'ph') {
+                if (v >= 7.0 && v <= 8.5) return {
+                    text: 'เหมาะสม',
+                    type: 'success'
+                };
+                if (v < 6.5) return {
+                    text: 'หายใจลำบาก',
+                    type: 'orange'
+                };
+                if (v > 9.0) return {
+                    text: 'อันตราย',
+                    type: 'danger'
+                };
+                return {
+                    text: 'ควรเฝ้าดู',
+                    type: 'warning'
+                };
+            }
+
+            // Temp
+            if (key === 'temp') {
+                if (v >= 28 && v <= 32) return {
+                    text: 'เหมาะสม',
+                    type: 'success'
+                };
+                if (v < 28) return {
+                    text: 'ต่ำ',
+                    type: 'info'
+                };
+                return {
+                    text: 'สูง',
+                    type: 'danger'
+                };
+            }
+
+            // Humidity
+            if (key === 'humidity') {
+                if (v >= 60 && v <= 80) return {
+                    text: 'เหมาะสม',
+                    type: 'success'
+                };
+                if (v < 60) return {
+                    text: 'แห้ง',
+                    type: 'warning'
+                };
+                return {
+                    text: 'ชื้นเกิน',
+                    type: 'danger'
+                };
+            }
+
+            return {
+                text: 'N/A',
+                type: 'na'
+            };
+        }
+
+        function setCardValue(key, value) {
+            const card = document.getElementById(`card-${key}`);
+            if (!card) return;
+
+            const valueEl = card.querySelector('.value');
+            const statusEl = card.querySelector('.status');
+
+            if (value === null || value === undefined || isNaN(value)) {
+                valueEl.textContent = '--';
+                setBadge(statusEl, 'N/A', 'na');
+                return;
+            }
+
+            const v = Number(value);
+
+            valueEl.textContent = v.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            });
+
+            const st = getStatusByKey(key, v);
+            setBadge(statusEl, st.text, st.type);
+
+            updateMetricBar(key, v);
+        }
+
+        const BAR_CONFIG = {
+            ec: {
+                min: 15000,
+                max: 50000,
+                leftLabel: '23K',
+                rightLabel: '45K',
+                leftColor: '#3B82F6',
+                rightColor: '#198754',
+            },
+            ph: {
+                min: 1,
+                max: 14,
+                leftLabel: '1',
+                rightLabel: '14',
+                leftColor: '#7F1D1D',
+                rightColor: '#581C87',
+            },
+            temp: {
+                min: 25,
+                max: 35,
+                leftLabel: '28°C',
+                rightLabel: '32°C',
+                leftColor: '#3B82F6',
+                rightColor: '#F97316',
+            },
+            humidity: {
+                min: 40,
+                max: 100,
+                leftLabel: '60%',
+                rightLabel: '80%',
+                leftColor: '#EAB308',
+                rightColor: '#22C55E',
+            },
+        };
+
+        function initMetricBars() {
+            document.querySelectorAll('.metric-range').forEach(wrap => {
+                const key = wrap.dataset.key;
+                const cfg = BAR_CONFIG[key];
+                if (!cfg) return;
+
+                wrap.classList.remove('hidden');
+
+                const left = wrap.querySelector('.label-left');
+                const right = wrap.querySelector('.label-right');
+                left.textContent = cfg.leftLabel || '';
+                right.textContent = cfg.rightLabel || '';
+                left.style.color = cfg.leftColor || '#C73434';
+                right.style.color = cfg.rightColor || '#198754';
+
+                const fill = wrap.querySelector('.fill');
+                if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
+            });
+        }
+
+        function updateMetricBar(key, value) {
+            const cfg = BAR_CONFIG[key];
+            if (!cfg) return;
+
+            const wrap = document.querySelector(`.metric-range[data-key="${key}"]`);
+            if (!wrap) return;
+
+            const fill = wrap.querySelector('.fill');
+
+            if (value === null || value === undefined || isNaN(value)) {
+                if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
+                return;
+            }
+
+            const v = Number(value);
+            const pct = ((v - cfg.min) / (cfg.max - cfg.min)) * 100;
+            const safePct = clamp(pct, 0, 100);
+
+            if (fill) {
+                fill.style.clipPath = `inset(0 ${100 - safePct}% 0 0)`;
+            }
+        }
+
+        function clamp(n, min, max) {
+            return Math.max(min, Math.min(max, n));
+        }
+
+        async function loadFeedingInfo() {
+            const mealsEl = document.getElementById('feeding-meals');
+            const increaseEl = document.getElementById('feeding-increase');
+            const totalEl = document.getElementById('feeding-total');
+
+            if (!mealsEl || !increaseEl || !totalEl) return;
+
+            mealsEl.textContent = '--';
+            increaseEl.textContent = '--';
+            totalEl.textContent = '--';
+
+            try {
+                const res = await fetch('/dashboard/api/food_preparation.php', {
+                    cache: 'no-store'
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const rows = await res.json();
+
+                if (!Array.isArray(rows) || rows.length === 0) {
+                    throw new Error('ไม่มีข้อมูล');
+                }
+
+                rows.forEach(item => {
+                    const label = (item.label || '').toLowerCase();
+                    const value = item.value || '--';
+
+                    if (label.includes('จำนวนมื้อ') || item.id == 10) {
+                        mealsEl.textContent = value;
+                    } else if (label.includes('เพิ่มต่อมื้อ') || item.id == 15) {
+                        increaseEl.textContent = value;
+                    } else if (label.includes('ปริมาณรวม') || item.id == 14) {
+                        totalEl.textContent = value;
+                    }
+                });
+
+            } catch (err) {
+                console.error('❌ loadFeedingInfo error:', err);
+                mealsEl.textContent = 'N/A';
+                increaseEl.textContent = 'N/A';
+                totalEl.textContent = 'N/A';
+            }
+        }
+
+        let resourceTimer = null;
+        let resourceIndex = 0;
+        let resourceTotal = 0;
+
+        async function loadResourceToday() {
+            const box = document.getElementById("resource-info");
+            if (!box) return;
+
+            box.classList.remove("grid", "grid-cols-2", "gap-2");
+            box.classList.add(
+                "flex",
+                "overflow-x-auto",
+                "snap-x",
+                "snap-mandatory",
+                "scroll-smooth",
+                "no-scrollbar"
+            );
+
+            if (typeof stopResourceAutoSlide === "function") stopResourceAutoSlide();
+
+            box.innerHTML = `
+                <div class="w-full shrink-0 snap-start flex items-center justify-center">
+                <span class="text-xs text-stone-400">กำลังโหลด...</span>
+                </div>
+            `;
+
+            try {
+                const res = await fetch("/dashboard/api/resource_to_day.php", {
+                    cache: "no-store"
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const data = await res.json();
+
+                const item = Array.isArray(data) ?
+                    data.find(x => String(x.id) === "1") :
+                    (String(data?.id) === "1" ? data : null);
+
+                if (!item) {
+                    box.innerHTML = `
+                    <div class="w-full shrink-0 snap-start flex items-center justify-center">
+                    <span class="text-xs text-stone-400">ไม่พบข้อมูล id=1</span>
+                    </div>
+                `;
+                    return;
+                }
+
+                box.innerHTML = `
+                <div class="w-full h-full shrink-0 snap-start">
+                    <div class="w-full h-full">
+                    ${renderResourceCard(item)}
+                    </div>
+                </div>
+                `;
+
+            } catch (err) {
+                console.error("❌ loadResourceToday error:", err);
+                box.innerHTML = `
+                <div class="w-full shrink-0 snap-start flex items-center justify-center">
+                    <span class="text-xs text-red-500 font-semibold">โหลดข้อมูลไม่สำเร็จ</span>
+                </div>
+                `;
+            }
+        }
+
+        function stopResourceAutoSlide() {
+            const box = document.getElementById("resource-info");
+            if (box) box.removeEventListener("scroll", onResourceScroll);
+
+            if (resourceTimer) {
+                clearInterval(resourceTimer);
+                resourceTimer = null;
+            }
+        }
+
+        function onResourceScroll() {
+            const box = document.getElementById("resource-info");
+            if (!box) return;
+
+            const w = box.clientWidth || 1;
+            const idx = Math.round(box.scrollLeft / w);
+            if (Number.isFinite(idx)) resourceIndex = clamp(idx, 0, Math.max(0, resourceTotal - 1));
+        }
+
+        function renderResourceCard(item) {
+            const id = item.id ?? "-";
+            const water = toNumber(item.water_value);
+            const waterUnit = item.water_unit ?? "m3";
+            const elec = toNumber(item.electric_value);
+            const elecUnit = item.electric_unit ?? "kWh";
+            const status = String(item.status ?? "NORMAL").toUpperCase();
+            const updated = item.updated_at ?? "";
+
+            return `
+                <div class=" ">
+                <div class="flex flex-row-reverse mb-2">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="rounded-lg bg-gray-100 border border-stone-200 p-2">
+                    <div class="text-[10px] text-stone-500 font-semibold text-center">ค่าน้ำประปา</div>
+                    <div class="text-sm text-center font-extrabold ${water === 0 ? "text-stone-400" : "text-stone-800"}">
+                        ${formatNumber(water)} <span class="text-[10px] font-bold text-stone-500">${escapeHtml(waterUnit)}</span>
+                    </div>
+                    </div>
+
+                    <div class="rounded-lg bg-gray-100 border border-stone-200 p-2">
+                    <div class="text-[10px] text-stone-500 font-semibold text-center">ค่าไฟฟ้า</div>
+                    <div class="text-sm text-center font-extrabold ${elec === 0 ? "text-stone-400" : "text-stone-800"}">
+                        ${formatNumber(elec)} <span class="text-[10px] font-bold text-stone-500">${escapeHtml(elecUnit)}</span>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 text-[9px] text-stone-400 font-semibold text-end">
+                    อัปเดต: ${escapeHtml(updated)}
+                </div>
+                </div>
+            `;
+        }
+
+        function toNumber(v) {
+            const n = parseFloat(v);
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        function formatNumber(n) {
+            return (Number.isFinite(n) ? n : 0).toFixed(1);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        let doChart = null;
+
+        async function loadDoTrendData() {
+            const loading = document.getElementById('do-loading');
+
+            try {
+                const res = await fetch('/dashboard/api/monitor_trend.php', {
+                    cache: 'no-store'
+                });
+                const data = await res.json();
+
+                console.log('📊 DO Trend API Response:', data);
+
+                const doData = data.find(item => item.device_id === 2);
+
+                if (!doData || !doData.points || doData.points.length === 0) {
+                    console.warn('⚠️ ไม่มีข้อมูล DO');
+                    renderDoChart([], []);
+                    return;
+                }
+
+                const labels = doData.points.map(p => {
+                    const d = new Date(p.time);
+                    return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+                });
+
+                const values = doData.points.map(p => parseFloat(p.value));
+
+                renderDoChart(labels, values);
+
+            } catch (err) {
+                console.error('❌ loadDoTrendData error:', err);
+                renderDoChart([], []);
+            } finally {
+                if (loading) loading.classList.add('hidden');
+            }
+        }
+
+        function renderDoChart(labels, values) {
+            const ctx = document.getElementById('doTrendChart');
+            if (!ctx) return;
+
+            if (doChart) {
+                doChart.destroy();
+            }
+
+            doChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'DO (mg/L)',
+                        data: values,
+                        borderColor: '#ff8021',
+                        backgroundColor: 'rgba(255,128,33,0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 2,
+                        pointBackgroundColor: '#ff8021'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.parsed.y.toFixed(2)} mg/L`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 9
+                                },
+                                color: '#78716c',
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 8
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                font: {
+                                    size: 9
+                                },
+                                color: '#78716c',
+                                callback: v => v.toFixed(1)
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function loadMarketPriceTrend() {
+            const loading = document.getElementById('price-loading');
+
+            try {
+                const res = await fetch('/dashboard/api/market_price_Tred.php', {
+                    cache: 'no-store'
+                });
+                const raw = await res.json();
+
+                console.log('📈 price trend raw:', raw);
+
+                if (!Array.isArray(raw) || raw.length === 0) return;
+
+                const labels = raw.map(r => r.event_month);
+
+                const price50 = raw
+                    .filter(r => r.data_table_id === "19")
+                    .map(r => Number(r.event_price));
+
+                const price70 = raw
+                    .filter(r => r.data_table_id === "20")
+                    .map(r => Number(r.event_price));
+
+                renderMarketPriceChart(labels, price50, price70);
+
+            } catch (err) {
+                console.error('❌ price trend error:', err);
+            } finally {
+                if (loading) loading.classList.add('hidden');
+            }
+        }
+
+        let marketPriceChart;
+
+        function renderMarketPriceChart(labels, price50, price70) {
+            const ctx = document.getElementById('marketPriceChart');
+            if (!ctx) return;
+
+            if (marketPriceChart) {
+                marketPriceChart.destroy();
+            }
+
+            marketPriceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                            label: '50 ตัว/กก.',
+                            data: price50,
+                            borderColor: '#ff8021',
+                            backgroundColor: 'rgba(255,128,33,0.15)',
+                            tension: 0.35,
+                            fill: true,
+                            pointRadius: 2.5
+                        },
+                        {
+                            label: '70 ตัว/กก.',
+                            data: price70,
+                            borderColor: 'rgba(255,128,33,0.4)',
+                            backgroundColor: 'rgba(255,128,33,0.08)',
+                            tension: 0.35,
+                            fill: true,
+                            pointRadius: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.raw} บาท/กก.`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                color: '#78716c'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                color: '#78716c',
+                                callback: v => v + ' ฿'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initMetricBars();
+            loadMarketPriceTrend();
+        });
+    </script>
+</body>
+
+</html>

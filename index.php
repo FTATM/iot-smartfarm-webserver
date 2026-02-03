@@ -1,4 +1,4 @@
 <?php
-  header("Location: login.php");
+  header("Location:/dashboard/page/shrimp-dashboard.php");
   die();
 ?>
