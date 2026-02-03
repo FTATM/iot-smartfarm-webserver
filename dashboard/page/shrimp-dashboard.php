@@ -440,61 +440,102 @@ $metricTitles = [
 
                 <!-- BOTTOM ROW: Sensor Metrics -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 2xl:gap-8" id="metrics-cards">
+                    <!-- DO Card -->
+                    <div class="bg-white rounded-2xl 2xl:rounded-3xl p-4 2xl:p-8 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-do">
+                        <div class="flex justify-between items-center mb-3 2xl:mb-6">
+                            <span class="metric-card-title text-sm 2xl:text-xl font-bold text-stone-500 uppercase tracking-widest">ค่า DO</span>
+                            <span class="status px-2 2xl:px-4 py-1 2xl:py-2 rounded-full bg-stone-100 text-stone-500 text-xs 2xl:text-lg font-bold uppercase">--</span>
+                        </div>
+                        <div class="flex-1 flex items-center justify-center py-4 2xl:py-8">
+                            <div class="flex items-baseline gap-2 2xl:gap-4">
+                                <span class="metric-value text-2xl 2xl:text-6xl font-black text-black value">--</span>
+                                <span class="metric-unit text-lg 2xl:text-3xl font-bold text-stone-400">mg/L</span>
+                            </div>
+                        </div>
+                        <div class="metric-range mt-3 2xl:mt-6 hidden" data-key="do">
+                            <div class="flex justify-between text-xs 2xl:text-lg font-bold leading-none mb-2 2xl:mb-3">
+                                <span class="label-left"></span>
+                                <span class="label-right"></span>
+                            </div>
+                            <div class="relative h-2 2xl:h-4 rounded-full bar">
+                                <div class="fill"></div>
+                            </div>
+                            <p class="text-xs 2xl:text-base text-stone-500 font-medium mt-3 2xl:mt-4 text-center">ควรอยู่ระหว่าง 3.0-7.0 mg/L</p>
+                        </div>
+                    </div>
 
-                    <?php foreach ($metricTitles as $m): ?>
-    <div class="bg-white rounded-2xl 2xl:rounded-3xl p-4 2xl:p-8
-                border border-stone-200 shadow-sm flex flex-col
-                hover:ring-2 hover:ring-orange-400 transition-all duration-200"
-         id="card-<?= $m['title'] ?>">
+                    <!-- PH Card -->
+                    <div class="bg-white rounded-2xl 2xl:rounded-3xl p-4 2xl:p-8 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-ph">
+                        <div class="flex justify-between items-center mb-3 2xl:mb-6">
+                            <span class="metric-card-title text-sm 2xl:text-xl font-bold text-stone-500 uppercase tracking-widest">กรด-ด่าง</span>
+                            <span class="status px-2 2xl:px-4 py-1 2xl:py-2 rounded-full bg-stone-100 text-stone-500 text-xs 2xl:text-lg font-bold uppercase">--</span>
+                        </div>
+                        <div class="flex-1 flex items-center justify-center py-4 2xl:py-8">
+                            <div class="flex items-baseline gap-2 2xl:gap-4">
+                                <span class="metric-value text-2xl 2xl:text-6xl font-black text-black value">--</span>
+                                <span class="metric-unit text-lg 2xl:text-3xl font-bold text-stone-400">pH</span>
+                            </div>
+                        </div>
+                        <div class="metric-range mt-3 2xl:mt-6 hidden" data-key="ph">
+                            <div class="flex justify-between text-xs 2xl:text-lg font-bold leading-none mb-2 2xl:mb-3">
+                                <span class="label-left"></span>
+                                <span class="label-right"></span>
+                            </div>
+                            <div class="relative h-2 2xl:h-4 rounded-full bar">
+                                <div class="fill"></div>
+                            </div>
+                            <p class="text-xs 2xl:text-base text-stone-500 font-medium mt-3 2xl:mt-4 text-center">ควรอยู่ระหว่าง 7.0-8.5</p>
+                        </div>
+                    </div>
 
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-3 2xl:mb-6">
-            <span class="metric-card-title text-sm 2xl:text-xl font-bold
-                         text-stone-500 uppercase tracking-widest">
-                <?= $m['value'] ?>
-            </span>
+                    <!-- EC Card -->
+                    <div class="bg-white rounded-2xl 2xl:rounded-3xl p-4 2xl:p-8 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-ec">
+                        <div class="flex justify-between items-center mb-3 2xl:mb-6">
+                            <span class="metric-card-title text-sm 2xl:text-xl font-bold text-stone-500 uppercase tracking-widest">ความนำไฟฟ้า</span>
+                            <span class="status px-2 2xl:px-4 py-1 2xl:py-2 rounded-full bg-stone-100 text-stone-500 text-xs 2xl:text-lg font-bold uppercase">--</span>
+                        </div>
+                        <div class="flex-1 flex items-center justify-center py-4 2xl:py-8">
+                            <div class="flex items-baseline gap-2 2xl:gap-4">
+                                <span class="metric-value text-2xl 2xl:text-6xl font-black text-black value">--</span>
+                                <span class="metric-unit text-base 2xl:text-3xl font-bold text-stone-400">μS/cm</span>
+                            </div>
+                        </div>
+                        <div class="metric-range mt-3 2xl:mt-6 hidden" data-key="ec">
+                            <div class="flex justify-between text-xs 2xl:text-lg font-bold leading-none mb-2 2xl:mb-3">
+                                <span class="label-left"></span>
+                                <span class="label-right"></span>
+                            </div>
+                            <div class="relative h-2 2xl:h-4 rounded-full bar">
+                                <div class="fill"></div>
+                            </div>
+                            <p class="text-xs 2xl:text-base text-stone-500 font-medium mt-3 2xl:mt-4 text-center">ควรอยู่ระหว่าง 23K-45K μS/cm</p>
+                        </div>
+                    </div>
 
-            <span class="status px-2 2xl:px-4 py-1 2xl:py-2
-                         rounded-full bg-stone-100 text-stone-500
-                         text-xs 2xl:text-lg font-bold uppercase">
-                --
-            </span>
-        </div>
-
-        <!-- Value -->
-        <div class="flex-1 flex items-center justify-center py-4 2xl:py-8">
-            <div class="flex items-baseline gap-2 2xl:gap-4">
-                <span class="metric-value text-2xl 2xl:text-6xl
-                             font-black text-black value">
-                    --
-                </span>
-                <span class="metric-unit text-lg 2xl:text-3xl
-                             font-bold text-stone-400">
-                    <?= $m['unit'] ?>
-                </span>
-            </div>
-        </div>
-
-        <!-- Range -->
-        <div class="metric-range mt-3 2xl:mt-6 hidden"
-             data-key="<?= $m['key'] ?>">
-            <div class="flex justify-between text-xs 2xl:text-lg
-                        font-bold leading-none mb-2 2xl:mb-3">
-                <span class="label-left"></span>
-                <span class="label-right"></span>
-            </div>
-
-            <div class="relative h-2 2xl:h-4 rounded-full bar">
-                <div class="fill"></div>
-            </div>
-
-            <p class="text-xs 2xl:text-base text-stone-500
-                      font-medium mt-3 2xl:mt-4 text-center">
-                ควรอยู่ระหว่าง <?= $m['range'] ?>
-            </p>
-        </div>
-    </div>
-<?php endforeach; ?>
+                    <!-- Temp Card -->
+                    <div class="bg-white rounded-2xl 2xl:rounded-3xl p-4 2xl:p-8 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-temp">
+                        <div class="flex justify-between items-center mb-3 2xl:mb-6">
+                            <span class="metric-card-title text-sm 2xl:text-xl font-bold text-stone-500 uppercase tracking-widest">อุณหภูมิ</span>
+                            <span class="status px-2 2xl:px-4 py-1 2xl:py-2 rounded-full bg-stone-100 text-stone-500 text-xs 2xl:text-lg font-bold uppercase">--</span>
+                        </div>
+                        <div class="flex-1 flex items-center justify-center py-4 2xl:py-8">
+                            <div class="flex items-baseline gap-2 2xl:gap-4">
+                                <span class="metric-value text-2xl 2xl:text-6xl font-black text-black value">--</span>
+                                <span class="metric-unit text-lg 2xl:text-3xl font-bold text-stone-400">°C</span>
+                            </div>
+                        </div>
+                        <div class="metric-range mt-3 2xl:mt-6 hidden" data-key="temp">
+                            <div class="flex justify-between text-xs 2xl:text-lg font-bold leading-none mb-2 2xl:mb-3">
+                                <span class="label-left"></span>
+                                <span class="label-right"></span>
+                            </div>
+                            <div class="relative h-2 2xl:h-4 rounded-full bar">
+                                <div class="fill"></div>
+                            </div>
+                            <p class="text-xs 2xl:text-base text-stone-500 font-medium mt-3 2xl:mt-4 text-center">ควรอยู่ระหว่าง 28-32 °C</p>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

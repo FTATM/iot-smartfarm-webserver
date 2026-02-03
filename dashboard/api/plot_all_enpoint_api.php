@@ -5,7 +5,7 @@ header("Content-Type: application/json; charset=utf-8");
 // echo "check path file ===> : ". __DIR__ ."/../../../../includes/fn/config.php" ;
 
 require_once __DIR__ . "/../../includes/fn/pg_connect.php";
-include_once("../includes/fn/pg_connect.php");
+// include_once("../includes/fn/pg_connect.php");
 
 
 $db = pg_connect("$host $port $dbname $credentials");
