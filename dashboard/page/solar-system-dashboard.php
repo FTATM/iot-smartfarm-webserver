@@ -6,26 +6,21 @@ $currentTime = date('H:i:s');
 
 $metricTitles = [
     [
-        "title" => "ค่าออกซิเจนละลายน้ำ",
-        "value" => "(DO)",
-        "unit"  => "mg/L"
+        "title" => "แรงดันไฟฟ้า",
+        "value" => "(Voltage Solar Supply)",
+        "unit"  => "V"
     ],
     [
-        "title" => "กรด - ด่าง",
-        "value" => "(PH)",
-        "unit"  => "pH"
+        "title" => "กระแสไฟฟ้า",
+        "value" => "(Current Solar Supply)",
+        "unit"  => "mA"
     ],
     [
-        "title" => "ความนำไฟฟ้า",
-        "value"=> "(EC)",
-        "unit"  => "μS/cm"
+        "title" => "กำลังไฟฟ้า",
+        "value"=> "(Power Solar Supply)",
+        "unit"  => "W"
     ],
-    [
-        "title" => "อุณหภูมิ",
-        "value" => "(Temperature)",
-        "unit"  => "°C"
-    ],
-];
+]
 ?>
 
 <!DOCTYPE html>
@@ -554,7 +549,7 @@ $metricTitles = [
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
-                <div class="grid grid-cols-4 gap-4 shrink-0" id="metrics-cards">
+                <div class="grid grid-cols-3 gap-4 shrink-0" id="metrics-cards">
                     <?php
                     $keys = ['do', 'ph', 'ec', 'temp'];
                     $warnings = [

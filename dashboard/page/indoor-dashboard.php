@@ -6,6 +6,11 @@ $currentTime = date('H:i:s');
 
 $metricTitles = [
     [
+        'title'=> 'ความชื้นในดิน',
+        'value'=> '(Soil Moisture)',
+        'unit'=> '%RH',
+    ],
+    [
         "title" => "ค่าความนำไฟฟ้า",
         "value" => "(EC)",
         "unit"  => "μS/cm"
@@ -559,7 +564,7 @@ $metricTitles = [
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
-                <div class="grid grid-cols-4 gap-4 shrink-0" id="metrics-cards">
+                <div class="grid grid-cols-5 gap-4 shrink-0" id="metrics-cards">
                     <?php
                     $keys = ['ec', 'ph', 'temp', 'humidity'];
                     $warnings = [

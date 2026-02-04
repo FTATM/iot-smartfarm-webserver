@@ -11,8 +11,8 @@ $metricTitles = [
         "unit"  => "∘"
     ],
     [
-        "title" => "ดัชนีคุณภาพอากาศ (Air Quality)",
-        "value" => "(AQI)",
+        "title" => "ดัชนีคุณภาพอากาศ",
+        "value" => "(Air Quality)",
         "unit"  => "ug/m3"
     ],
     [

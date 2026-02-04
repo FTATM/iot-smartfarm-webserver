@@ -465,7 +465,7 @@ $metricTitles = [
                 <span class="emojione-monotone--shrimp text-2xl text-[#ff8021]"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-lg font-bold leading-none">สถานะบ่อเลี้ยงกุ้ง (วันนี้)</h1>
+                <h1 class="text-[#1d130c] text-lg font-bold leading-none">Shrimp Dashboard</h1>
                 <p class="text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-1">Shrimp Farm Intelligence Dashboard</p>
             </div>
         </div>
