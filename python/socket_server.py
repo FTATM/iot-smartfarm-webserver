@@ -125,12 +125,11 @@ async def db_service():
                 # 5️⃣ update สถานะ
                 await conn.execute(
                     """
-                    UPDATE dashboard_main
+                    UPDATE home_branch
                     SET value = $1
-                    WHERE name = $2
+                    WHERE home_row_id = 2
                     """,
                     current_time,
-                    "date_now",
                 )
         except Exception as e:
             print(f"[DB ERROR] {e}")
