@@ -8,7 +8,7 @@ $metricTitles = [
     [
         "title" => "ค่าความนำไฟฟ้า",
         "value" => "(EC)",
-        "unit"  => "𝜇S/cm"
+        "unit"  => "μS/cm"
     ],
     [
         "title" => "ค่าความเป็นกรด-ด่าง",
@@ -72,6 +72,7 @@ $metricTitles = [
                 font-family: 'Inter', 'Noto Sans Thai', sans-serif;
             }
         }
+        
         .fluent--door-arrow-left-20-regular {
             display: inline-block;
             width: 25px;
@@ -126,13 +127,13 @@ $metricTitles = [
         }
 
         /* Gradient สำหรับแต่ละ sensor */
-        .metric-range[data-key="do"] .fill {
+        .metric-range[data-key="ec"] .fill {
             background: linear-gradient(90deg,
-                #FF0000 0%,
-                #F97316 25%,
-                #EAB308 50%,
-                #22C55E 75%,
-                #16A34A 100%
+                #3B82F6 0%,
+                #60A5FA 22.86%,
+                #22C55E 45.71%,
+                #16A34A 68.57%,
+                #F97316 100%
             );
         }
 
@@ -154,16 +155,6 @@ $metricTitles = [
             );
         }
 
-        .metric-range[data-key="ec"] .fill {
-            background: linear-gradient(90deg,
-                #3B82F6 0%,
-                #60A5FA 22.86%,
-                #22C55E 45.71%,
-                #16A34A 68.57%,
-                #F97316 100%
-            );
-        }
-
         .metric-range[data-key="temp"] .fill {
             background: linear-gradient(90deg,
                 #3B82F6 0%,
@@ -171,6 +162,16 @@ $metricTitles = [
                 #22C55E 50%,
                 #EAB308 70%,
                 #F97316 100%
+            );
+        }
+
+        .metric-range[data-key="humidity"] .fill {
+            background: linear-gradient(90deg,
+                #EAB308 0%,
+                #FACC15 25%,
+                #22C55E 50%,
+                #16A34A 75%,
+                #06B6D4 100%
             );
         }
 
@@ -182,6 +183,7 @@ $metricTitles = [
             transform: translateX(-50%);
             background: rgba(255,255,255,0.75);
         }
+        
         .ion--water-sharp {
             display: inline-block;
             width: 20px;
@@ -195,6 +197,7 @@ $metricTitles = [
             -webkit-mask-size: 100% 100%;
             mask-size: 100% 100%;
         }
+        
         .mdi--lightning-bolt {
             display: inline-block;
             width: 20px;
@@ -208,6 +211,7 @@ $metricTitles = [
             -webkit-mask-size: 100% 100%;
             mask-size: 100% 100%;
         }
+        
         .mdi--temperature-celsius {
             display: inline-block;
             width: 20px;
@@ -221,115 +225,341 @@ $metricTitles = [
             -webkit-mask-size: 100% 100%;
             mask-size: 100% 100%;
         }
+
+        /* ========== RESPONSIVE FOR 75" TV (4K - 3840x2160) ========== */
+        @media (min-width: 3840px) {
+            body {
+                font-size: 28px;
+            }
+            
+            .fluent--door-arrow-left-20-regular {
+                width: 50px;
+                height: 50px;
+            }
+            
+            /* Header scaling */
+            header h1 {
+                font-size: 3rem !important;
+            }
+            
+            header p {
+                font-size: 1.25rem !important;
+            }
+            
+            header .text-sm {
+                font-size: 1.75rem !important;
+            }
+            
+            header .text-xs {
+                font-size: 1.5rem !important;
+            }
+            
+            header .text-\[10px\] {
+                font-size: 1.25rem !important;
+            }
+            
+            header .size-9 {
+                width: 5rem !important;
+                height: 5rem !important;
+            }
+            
+            /* Metric cards */
+            .metric-card-value {
+                font-size: 4rem !important;
+            }
+            
+            #metrics-cards .text-lg {
+                font-size: 4rem !important;
+            }
+            
+            #metrics-cards .text-sm {
+                font-size: 2rem !important;
+            }
+            
+            #metrics-cards .text-\[9px\] {
+                font-size: 1.5rem !important;
+            }
+            
+            #metrics-cards .text-\[8px\] {
+                font-size: 1.25rem !important;
+            }
+            
+            #metrics-cards .text-\[7px\] {
+                font-size: 1rem !important;
+            }
+            
+            #metrics-cards > div {
+                height: 18rem !important;
+            }
+            
+            /* Chart titles and text */
+            .text-\[11px\] {
+                font-size: 1.75rem !important;
+            }
+            
+            .text-\[10px\] {
+                font-size: 1.5rem !important;
+            }
+            
+            .text-\[9px\] {
+                font-size: 1.25rem !important;
+            }
+            
+            .text-\[8px\] {
+                font-size: 1rem !important;
+            }
+            
+            .text-\[7px\] {
+                font-size: 0.875rem !important;
+            }
+            
+            /* Material icons */
+            .material-symbols-outlined {
+                font-size: 3rem !important;
+            }
+            
+            /* Right sidebar cards */
+            .col-span-2 h3 {
+                font-size: 1.75rem !important;
+            }
+            
+            /* Buttons and badges */
+            button {
+                font-size: 1.25rem !important;
+                padding: 0.75rem 1.5rem !important;
+            }
+            
+            .status {
+                font-size: 1.5rem !important;
+                padding: 0.75rem 1.5rem !important;
+            }
+            
+            /* Border radius scaling */
+            .rounded-2xl {
+                border-radius: 2rem !important;
+            }
+            
+            .rounded-xl {
+                border-radius: 1.5rem !important;
+            }
+            
+            .rounded-lg {
+                border-radius: 1rem !important;
+            }
+            
+            /* Spacing */
+            .gap-4 {
+                gap: 2rem !important;
+            }
+            
+            .gap-3 {
+                gap: 1.5rem !important;
+            }
+            
+            .gap-2 {
+                gap: 1rem !important;
+            }
+            
+            .p-4 {
+                padding: 2rem !important;
+            }
+            
+            .p-3 {
+                padding: 1.5rem !important;
+            }
+            
+            .px-6 {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+            }
+            
+            .py-3 {
+                padding-top: 1.5rem !important;
+                padding-bottom: 1.5rem !important;
+            }
+            
+            /* Loading dots */
+            .loading-dot {
+                width: 1rem !important;
+                height: 1rem !important;
+            }
+            
+            /* Range bar */
+            .metric-range .bar {
+                height: 0.75rem !important;
+            }
+            
+            /* Footer */
+            footer {
+                padding: 1.5rem 3rem !important;
+            }
+        }
+
+        /* ========== RESPONSIVE FOR LARGE DISPLAYS (1920x1080 - 2560x1440) ========== */
+        @media (min-width: 1920px) and (max-width: 3839px) {
+            body {
+                font-size: 18px;
+            }
+            
+            .fluent--door-arrow-left-20-regular {
+                width: 35px;
+                height: 35px;
+            }
+            
+            header h1 {
+                font-size: 2rem !important;
+            }
+            
+            header .text-\[10px\] {
+                font-size: 0.875rem !important;
+            }
+            
+            header .size-9 {
+                width: 3.5rem !important;
+                height: 3.5rem !important;
+            }
+            
+            #metrics-cards .text-lg {
+                font-size: 2.5rem !important;
+            }
+            
+            #metrics-cards .text-sm {
+                font-size: 1.25rem !important;
+            }
+            
+            #metrics-cards .text-\[9px\] {
+                font-size: 1rem !important;
+            }
+            
+            #metrics-cards > div {
+                height: 12rem !important;
+            }
+            
+            .text-\[11px\] {
+                font-size: 1.125rem !important;
+            }
+            
+            .text-\[10px\] {
+                font-size: 1rem !important;
+            }
+            
+            .text-\[9px\] {
+                font-size: 0.875rem !important;
+            }
+            
+            .material-symbols-outlined {
+                font-size: 2rem !important;
+            }
+            
+            .status {
+                font-size: 1rem !important;
+            }
+        }
     </style>
 
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body>
 
     <!-- Header -->
-    <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-6 py-3 border-b border-stone-200 bg-white shrink-0 gap-3 sm:gap-0">
-        <div class="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+    <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
+        <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
-            <div class="size-8 sm:size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20 shrink-0">
-                <span class="fluent--door-arrow-left-20-regular text-xl sm:text-2xl text-[#ff8021]"></span>
+            <div class="size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+                <span class="fluent--door-arrow-left-20-regular text-2xl text-[#ff8021]"> </span>
             </div>
-            <div class="flex-1 min-w-0">
-                <h1 class="text-sm sm:text-lg font-bold leading-tight text-[#1d130c] truncate">Indoor System</h1>
-                <p class="text-[9px] sm:text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Indoor Dashboard</p>
+            <div>
+                <h1 class="text-[#1d130c] text-lg font-bold leading-none">Indoor System</h1>
+                <p class="text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-1">Indoor Dashboard</p>
             </div>
         </div>
-        
-        <div class="flex items-center justify-end gap-2 sm:gap-6 w-full sm:w-auto flex-nowrap">
-            <!-- ส่วนแสดงอัปเดตล่าสุด -->
-            <div class="flex items-center gap-6 w-auto">
-                <div class="flex flex-col items-end border-l border-stone-200 pl-3 sm:pl-6">
-                    <span class="text-[9px] sm:text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1 whitespace-nowrap">
-                        อัปเดตล่าสุด
-                    </span>
-                    <span class="text-xs sm:text-sm font-bold text-stone-800 whitespace-nowrap" id="last-update">
-                        <?php echo $currentTime; ?>
-                    </span>
-                </div>
+        <div class="flex items-center gap-6">
+            <div class="flex flex-col items-end border-l border-stone-200 pl-6">
+                <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
+                <span class="text-sm font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 p-2 sm:p-4 overflow-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
+    <main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
+        <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
+        <div class="grid grid-cols-12 gap-4 h-full">
 
-            <!-- LEFT SECTION (Main Content) -->
-            <div class="lg:col-span-10 flex flex-col gap-3 sm:gap-4">
+            <!-- ========== LEFT SECTION (10 columns) ========== -->
+            <div class="col-span-10 flex flex-col gap-4">
 
-                <!-- TOP ROW: รูปภาพ + กราฟ (Desktop: รูปซ้ายยาวลงมา) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-3 sm:gap-4">
+                <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
+                <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
-                    <!-- รูปภาพ (Mobile/Tablet: แสดงปกติ, Desktop: ยาวลงมา 2 rows) -->
-                    <div class="sm:col-span-2 lg:col-span-4 lg:row-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center min-h-[200px] sm:min-h-[250px] lg:min-h-full hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    <!-- รูปภาพ 2 ส่วน (กลาง) -->
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                         <div class="text-center text-stone-400">
-                            <span class="material-symbols-outlined" style="font-size: 3rem; sm:font-size: 5rem;">image</span>
+                            <span class="material-symbols-outlined" style="font-size: 5rem;">image</span>
                             <p class="text-xs mt-2 font-medium">พื้นที่รูปภาพขยาย</p>
                             <p class="text-[10px] mt-1 text-stone-400">เครื่องมือ/อุปกรณ์</p>
                         </div>
                     </div>
 
-                    <!-- กราฟ DO (Desktop: อยู่ด้านบนขวา) -->
-                    <div class="sm:col-span-2 lg:col-span-6 bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col min-h-[200px] hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2 shrink-0">
-                            <div class="flex-1 min-w-0">
-                                <h2 class="text-[10px] sm:text-[11px] font-bold text-stone-800 flex items-center gap-2">
-                                    <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
-                                    <span class="truncate">แนวโน้มค่าออกซิเจนละลายน้ำ</span>
-                                </h2>
-                                <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5 mobile-hide">
-                                    Historical DO Data (24H)
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200 shrink-0">
-                                <button id="btnDoDay" class="px-2 py-0.5 text-[8px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
-                                <button id="btnDoMonth" class="px-2 py-0.5 text-[8px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
-                            </div>
-                        </div>
-                        <div class="flex-1 relative border-l border-b border-stone-200 rounded-md min-h-[150px]">
-                            <div id="do-loading" class="absolute inset-0 flex items-center justify-center z-10">
-                                <div class="flex gap-1">
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                    <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
+                    <div class="col-span-2 flex flex-col gap-4 min-h-0">
+                        <!-- กราฟที่ 1: DO Trend Chart -->
+                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            <div class="flex justify-between items-center mb-2 shrink-0">
+                                <div>
+                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                        <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
+                                        แนวโน้มค่าออกซิเจนละลายน้ำ
+                                    </h2>
+                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                        Historical DO Data (24H)
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
+                                    <button id="btnDoDay" class="px-2 py-0.5 text-[8px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
+                                    <button id="btnDoMonth" class="px-2 py-0.5 text-[8px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
                                 </div>
                             </div>
-                            <canvas id="doTrendChart" class="absolute inset-0"></canvas>
+                            <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md">
+                                <div id="do-loading" class="absolute inset-0 flex items-center justify-center z-10">
+                                    <div class="flex gap-1">
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    </div>
+                                </div>
+                                <canvas id="doTrendChart" class="absolute inset-0"></canvas>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- กราฟ Price (Desktop: อยู่ด้านล่างขวา) -->
-                    <div class="sm:col-span-2 lg:col-span-6 bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col min-h-[200px] hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-                        <div class="flex justify-between items-center mb-2 shrink-0">
-                            <div>
-                                <h2 class="text-[10px] sm:text-[11px] font-bold text-stone-800 flex items-center gap-2">
-                                    <span class="w-1 h-3 bg-primary rounded-full"></span>
-                                    <span class="truncate">แนวโน้มราคาตลาด</span>
-                                </h2>
-                                <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5 mobile-hide">Market Price Trend</p>
-                            </div>
-                        </div>
-                        <div class="flex-1 relative border-l border-b border-stone-100 bg-white min-h-[150px]">
-                            <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
-                                <div class="flex gap-1">
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                    <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                        <!-- กราฟที่ 2: Price Trend Chart -->
+                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            <div class="flex justify-between items-center mb-2 shrink-0">
+                                <div>
+                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                        <span class="w-1 h-3 bg-primary rounded-full"></span>
+                                        แนวโน้มราคาตลาด
+                                    </h2>
+                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
                                 </div>
                             </div>
-                            <canvas id="marketPriceChart" class="absolute inset-0"></canvas>
+                            <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
+                                <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
+                                    <div class="flex gap-1">
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+                                    </div>
+                                </div>
+                                <canvas id="marketPriceChart" class="absolute inset-0"></canvas>
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- BOTTOM ROW: Sensor Metrics -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4" id="metrics-cards">
+                <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
+                <div class="grid grid-cols-4 gap-4 shrink-0" id="metrics-cards">
                     <?php
                     $keys = ['ec', 'ph', 'temp', 'humidity'];
                     $warnings = [
@@ -340,73 +570,94 @@ $metricTitles = [
                     ];
 
                     for ($i = 0; $i < count($metricTitles); $i++): ?>
-                        <div class="bg-white rounded-2xl p-3 sm:p-4 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200" id="card-<?= $keys[$i] ?>">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[8px] sm:text-[9px] font-bold text-stone-500 uppercase tracking-widest"><?= $metricTitles[$i]['title'] ?></span>
-                                <span class="px-1.5 sm:px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[8px] sm:text-[9px] font-bold uppercase status">--</span>
+                        <div class="bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0" id="card-<?= $keys[$i] ?>">
+                            <div class="w-full flex justify-between items-center">
+                                <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
+                                    <?= $metricTitles[$i]['title'] ?>
+                                </span>
+                                <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase status" id="card-<?= $keys[$i] ?>">
+                                    --
+                                </span>
                             </div>
-                            <div class="flex-1 flex items-center justify-center py-2">
+                            <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
+                                    <?= $metricTitles[$i]['value'] ?>
+                                </span>
+
+                            <div class="flex-1 flex items-center justify-center">
                                 <div class="flex items-baseline gap-1">
-                                    <span class="text-base sm:text-lg font-black text-black value">--</span>
-                                    <span class="text-xs sm:text-sm font-bold text-stone-400"><?= $metricTitles[$i]['unit'] ?></span>
+                                    <span class="text-lg font-black text-black value">--</span>
+                                    <span class="text-sm font-bold text-stone-400">
+                                        <?= $metricTitles[$i]['unit'] ?>
+                                    </span>
                                 </div>
                             </div>
+
+                            <!-- Range Bar with Fixed Gradient -->
                             <div class="metric-range mt-2 hidden" data-key="<?= $keys[$i] ?>">
                                 <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
                                     <span class="label-left"></span>
                                     <span class="label-right"></span>
                                 </div>
+
                                 <div class="relative h-1.5 rounded-full bar">
                                     <div class="fill"></div>
                                 </div>
-                                <p class="text-[7px] text-stone-500 font-medium mt-2 text-center"><?= $warnings[$keys[$i]] ?></p>
+
+                                <!-- Warning text -->
+                                <p class="text-[7px] text-stone-500 font-medium mt-3 text-center">
+                                    <?= $warnings[$keys[$i]] ?>
+                                </p>
                             </div>
+
                         </div>
                     <?php endfor; ?>
                 </div>
 
             </div>
 
-            <!-- RIGHT SECTION (Sidebar Cards) -->
-            <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+            <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
+            <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: การให้อาหารวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-sm">restaurant</span>
                         <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2" id="feeding-info">
-                        <div class="bg-stone-50 rounded-lg p-1.5">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase block">จำนวนมื้อ</span>
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
                             <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase block">เพิ่มต่อมื้อ</span>
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
                             <span class="text-[9px] font-black text-primary" id="feeding-increase">--</span>
                         </div>
                         <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวม</span>
+                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
                             <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: ต้นทุนทรัพยากร -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                <!-- Card 2: ต้นทุนทรัพยากรวันนี้ -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-sm">analytics</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากร</h3>
+                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
+                        <div class="ml-auto w-5 h-5 rounded-full bg-stone-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors duration-200">
+                            <div class="ion--water-sharp text-orange-300 group-hover:text-[#ff8021] transition-colors duration-200" style="width: 12px; height: 12px;"></div>
+                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2" id="resource-info">
-                        <div class="col-span-2 flex items-center justify-center py-2">
+                        <div class="col-span-2 flex items-center justify-center">
                             <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: คุณภาพน้ำ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 hidden sm:block">
+                <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-sm">waves</span>
                         <h3 class="text-[10px] font-bold text-stone-700">คุณภาพน้ำที่เหมาะสม</h3>
@@ -436,7 +687,7 @@ $metricTitles = [
                 </div>
 
                 <!-- Card 4: การปรับอาหาร -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 hidden sm:block">
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-sm">rule</span>
                         <h3 class="text-[10px] font-bold text-stone-700">การปรับอาหาร</h3>
@@ -463,13 +714,13 @@ $metricTitles = [
     </main>
 
     <!-- Footer -->
-    <footer class="px-3 sm:px-6 py-2 border-t border-stone-200 bg-white flex items-center gap-2 shrink-0">
-    <div class="flex items-center gap-2 ml-auto">
-        <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 1.0</span>
-        <div class="h-3 w-px bg-stone-200"></div>
-        <span class="text-[9px] font-bold text-primary uppercase">Smart Farm</span>
-    </div>
-</footer>
+    <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
+        <div class="flex flex-center gap-2">
+            <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 2.0</span>
+            <div class="h-3 w-px bg-stone-200"></div>
+            <span class="text-[9px] font-bold text-primary uppercase">smart farm system</span>
+        </div>
+    </footer>
 
     <!-- JavaScript -->
     <script>
@@ -533,76 +784,34 @@ $metricTitles = [
         function getStatusByKey(key, v) {
             // EC
             if (key === 'ec') {
-                if (v >= 23000 && v <= 45000) return {
-                    text: 'เหมาะสม',
-                    type: 'success'
-                };
-                if (v < 23000) return {
-                    text: 'ต่ำ',
-                    type: 'info'
-                };
-                return {
-                    text: 'สูง',
-                    type: 'danger'
-                };
+                if (v >= 23000 && v <= 45000) return {text: 'เหมาะสม', type: 'success'};
+                if (v < 23000) return {text: 'ต่ำ', type: 'info'};
+                return {text: 'สูง', type: 'danger'};
             }
 
             // pH
             if (key === 'ph') {
-                if (v >= 7.0 && v <= 8.5) return {
-                    text: 'เหมาะสม',
-                    type: 'success'
-                };
-                if (v < 6.5) return {
-                    text: 'หายใจลำบาก',
-                    type: 'orange'
-                };
-                if (v > 9.0) return {
-                    text: 'อันตราย',
-                    type: 'danger'
-                };
-                return {
-                    text: 'ควรเฝ้าดู',
-                    type: 'warning'
-                };
+                if (v >= 7.0 && v <= 8.5) return {text: 'เหมาะสม', type: 'success'};
+                if (v < 6.5) return {text: 'หายใจลำบาก', type: 'orange'};
+                if (v > 9.0) return {text: 'อันตราย', type: 'danger'};
+                return {text: 'ควรเฝ้าดู', type: 'warning'};
             }
 
             // Temp
             if (key === 'temp') {
-                if (v >= 28 && v <= 32) return {
-                    text: 'เหมาะสม',
-                    type: 'success'
-                };
-                if (v < 28) return {
-                    text: 'ต่ำ',
-                    type: 'info'
-                };
-                return {
-                    text: 'สูง',
-                    type: 'danger'
-                };
+                if (v >= 28 && v <= 32) return {text: 'เหมาะสม', type: 'success'};
+                if (v < 28) return {text: 'ต่ำ', type: 'info'};
+                return {text: 'สูง', type: 'danger'};
             }
 
             // Humidity
             if (key === 'humidity') {
-                if (v >= 60 && v <= 80) return {
-                    text: 'เหมาะสม',
-                    type: 'success'
-                };
-                if (v < 60) return {
-                    text: 'แห้ง',
-                    type: 'warning'
-                };
-                return {
-                    text: 'ชื้นเกิน',
-                    type: 'danger'
-                };
+                if (v >= 60 && v <= 80) return {text: 'เหมาะสม', type: 'success'};
+                if (v < 60) return {text: 'แห้ง', type: 'warning'};
+                return {text: 'ชื้นเกิน', type: 'danger'};
             }
 
-            return {
-                text: 'N/A',
-                type: 'na'
-            };
+            return {text: 'N/A', type: 'na'};
         }
 
         function setCardValue(key, value) {
@@ -940,6 +1149,12 @@ $metricTitles = [
                 doChart.destroy();
             }
 
+            // Adjust font sizes based on screen width
+            const screenWidth = window.innerWidth;
+            let fontSize = 9;
+            if (screenWidth >= 3840) fontSize = 18;
+            else if (screenWidth >= 1920) fontSize = 12;
+
             doChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -951,7 +1166,7 @@ $metricTitles = [
                         backgroundColor: 'rgba(255,128,33,0.1)',
                         tension: 0.4,
                         fill: true,
-                        pointRadius: 2,
+                        pointRadius: screenWidth >= 3840 ? 4 : 2,
                         pointBackgroundColor: '#ff8021'
                     }]
                 },
@@ -975,7 +1190,7 @@ $metricTitles = [
                             },
                             ticks: {
                                 font: {
-                                    size: 9
+                                    size: fontSize
                                 },
                                 color: '#78716c',
                                 maxRotation: 0,
@@ -988,7 +1203,7 @@ $metricTitles = [
                             max: 10,
                             ticks: {
                                 font: {
-                                    size: 9
+                                    size: fontSize
                                 },
                                 color: '#78716c',
                                 callback: v => v.toFixed(1)
@@ -1044,6 +1259,12 @@ $metricTitles = [
                 marketPriceChart.destroy();
             }
 
+            // Adjust font sizes based on screen width
+            const screenWidth = window.innerWidth;
+            let fontSize = 10;
+            if (screenWidth >= 3840) fontSize = 20;
+            else if (screenWidth >= 1920) fontSize = 14;
+
             marketPriceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1055,7 +1276,7 @@ $metricTitles = [
                             backgroundColor: 'rgba(255,128,33,0.15)',
                             tension: 0.35,
                             fill: true,
-                            pointRadius: 2.5
+                            pointRadius: screenWidth >= 3840 ? 5 : 2.5
                         },
                         {
                             label: '70 ตัว/กก.',
@@ -1064,7 +1285,7 @@ $metricTitles = [
                             backgroundColor: 'rgba(255,128,33,0.08)',
                             tension: 0.35,
                             fill: true,
-                            pointRadius: 2
+                            pointRadius: screenWidth >= 3840 ? 4 : 2
                         }
                     ]
                 },
@@ -1088,7 +1309,7 @@ $metricTitles = [
                             },
                             ticks: {
                                 font: {
-                                    size: 10
+                                    size: fontSize
                                 },
                                 color: '#78716c'
                             }
@@ -1096,7 +1317,7 @@ $metricTitles = [
                         y: {
                             ticks: {
                                 font: {
-                                    size: 10
+                                    size: fontSize
                                 },
                                 color: '#78716c',
                                 callback: v => v + ' ฿'
