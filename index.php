@@ -1,4 +1,4 @@
 <?php
-  header("Location:/dashboard/page/shrimp-dashboard.php");
+  header("Location:/iotsf/dashboard/page/shrimp-dashboard.php");
   die();
 ?>
