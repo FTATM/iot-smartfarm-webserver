@@ -211,81 +211,96 @@ $metricTitles = [
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-            <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
+<div class="col-span-2 grid grid-rows-4 gap-3 h-full" id="stats-sidebar">
 
-                <!-- Card 1: การให้อาหารวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm fluent--food-20-regular"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2" id="feeding-info">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
-                            <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
-                        </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-increase">--</span>
-                        </div>
-                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2: ความชื้นและแสงสว่างที่เหมาะสม -->
-                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm mage--light-bulb"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ความชื้นและแสงสว่างที่เหมาะสม</h3>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2" id="resource-info">
-                        <div class="col-span-2 flex items-center justify-center">
-                            <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
-                        </div>
-                    </div>
-
-                    
-                </div>
-
-                <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2" id="resource-info">
-                        <div class="col-span-2 flex items-center justify-center">
-                            <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4: ต้นทุนรวมทัั้งหมด -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm emojione-monotone--money-bag"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <div class="flex items-center justify-between px-2 py-1 bg-success/5 border border-success/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-success uppercase">หมดเกลี้ยง</span>
-                            <span class="text-[9px] font-normal text-stone-700">+5 ถึง +10%</span>
-                        </div>
-                        <div class="flex items-center justify-between px-2 py-1 bg-warning/5 border border-warning/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-warning uppercase">เหลือเล็กน้อย</span>
-                            <span class="text-[9px] font-normal text-stone-700">คงที่ / -5%</span>
-                        </div>
-                        <div class="flex items-center justify-between px-2 py-1 bg-danger/5 border border-danger/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-danger uppercase">เหลือเยอะ</span>
-                            <span class="text-[9px] font-normal text-stone-700">งด / -50%</span>
-                        </div>
-                    </div>
-                </div>
-
+    <!-- Card 1: การให้อาหารวันนี้ -->
+    <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary text-sm fluent--food-20-regular"></span>
+            <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
+                <span class="text-[10px] font-black text-stone-800" id="meals-count">-</span>
             </div>
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
+                <span class="text-[9px] font-black text-primary" id="grams-per-meal">-</span>
+            </div>
+            <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
+                <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
+                <span class="text-[9px] font-black text-primary" id="total-food">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: ความชื้นและแสงสว่างที่เหมาะสม -->
+    <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary text-sm mage--light-bulb"></span>
+            <h3 class="text-[10px] font-bold text-stone-700">ความชื้นและแสงสว่างที่เหมาะสม</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">ความชื้น</span>
+                <span class="text-[10px] font-black text-stone-800" id="humidity">-</span>
+            </div>
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">เวลาให้แสง</span>
+                <span class="text-[9px] font-black text-primary" id="light-time">-</span>
+            </div>
+            <div class="col-span-2 bg-red-50 rounded-lg p-1.5 border border-red-200">
+                <p class="text-[9px] text-red-600 font-medium text-center" id="humidity-warning">-</p>
+            </div>
+            <div class="col-span-2 bg-stone-50 rounded-lg p-1.5 flex justify-between items-center">
+                <span class="text-[9px] text-stone-500 uppercase">ชั่วโมงรวมวันนี้</span>
+                <span class="text-[9px] font-black text-stone-800" id="total-hours">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
+    <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
+            <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
+                <span class="text-[10px] font-black text-stone-800" id="water-usage">-</span>
+            </div>
+            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
+                <span class="text-[10px] font-black text-stone-800" id="electricity-usage">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4: ต้นทุนรวมทั้งหมด -->
+    <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary text-sm emojione-monotone--money-bag"></span>
+            <h3 class="text-[10px] font-bold text-stone-700">สรุปต้นทุนรวมทั้งหมด</h3>
+        </div>
+        <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between px-2 py-1 bg-stone-50 border border-stone-200 rounded-lg">
+                <span class="text-[9px] font-bold text-stone-600 uppercase">อาหารวันนี้</span>
+                <span class="text-[9px] font-black text-stone-700" id="food-cost">-</span>
+            </div>
+            <div class="flex items-center justify-between px-2 py-1 bg-stone-50 border border-stone-200 rounded-lg">
+                <span class="text-[9px] font-bold text-stone-600 uppercase">ค่าน้ำ/ค่าไฟวันนี้</span>
+                <span class="text-[9px] font-black text-stone-700" id="utilities-cost">-</span>
+            </div>
+            <div class="flex items-center justify-between px-2 py-1 bg-primary/10 border border-primary/20 rounded-lg">
+                <span class="text-[9px] font-bold text-primary uppercase">รวมทั้งหมด</span>
+                <span class="text-[10px] font-black text-primary" id="total-cost">-</span>
+            </div>
+        </div>
+    </div>
+
+</div>
 
         </div>
     </main>
