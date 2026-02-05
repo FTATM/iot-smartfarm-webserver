@@ -55,8 +55,8 @@ $metricTitles = [
     <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
-            <div class="size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="arcticons--weathercan text-2xl text-[#ff8021]"> </span>
+            <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+                <span class="arcticons--weathercan text-2xl text-white"> </span>
             </div>
             <div>
                 <h1 class="text-[#1d130c] text-lg font-bold leading-none">Weather Dashboard</h1>
@@ -64,6 +64,11 @@ $metricTitles = [
             </div>
         </div>
         <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                </div>
+            </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
                 <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
                 <span class="text-sm font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>

@@ -7,17 +7,32 @@ $currentTime = date('H:i:s');
 $metricTitles = [
     [
         "title" => "แรงดันไฟฟ้า",
-        "value" => "(Voltage Solar Supply)",
+        "value" => "Voltage (Supply)",
         "unit"  => "V"
     ],
     [
         "title" => "กระแสไฟฟ้า",
-        "value" => "(Current Solar Supply)",
+        "value" => "Current (Supply)",
         "unit"  => "mA"
     ],
     [
         "title" => "กำลังไฟฟ้า",
-        "value"=> "(Power Solar Supply)",
+        "value"=> "Power (Supply)",
+        "unit"  => "W"
+    ],
+    [
+        "title" => "แรงดันไฟฟ้า",
+        "value"=> "Voltage (Load)",
+        "unit"  => "V"
+    ],
+    [
+        "title" => "กระแสไฟฟ้า",
+        "value"=> "Current (Load)",
+        "unit"  => "mA"
+    ],
+    [
+        "title" => "กำลังไฟฟ้า",
+        "value"=> "Power (Load)",
         "unit"  => "W"
     ],
 ]
@@ -39,8 +54,8 @@ $metricTitles = [
     <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
-            <div class="size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="ph--solar-panel-duotone text-2xl text-[#ff8021]"> </span>
+            <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+                <span class="ph--solar-panel-duotone text-2xl text-white"> </span>
             </div>
             <div>
                 <h1 class="text-[#1d130c] text-lg font-bold leading-none">Solar System Dashboard</h1>
@@ -50,8 +65,6 @@ $metricTitles = [
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm font-bold text-primary leading-none" id="shrimp-age">อายุกุ้งปัจจุบัน: -- วัน</span>
-                    <div class="w-px h-3 bg-stone-300"></div>
                     <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
@@ -139,8 +152,8 @@ $metricTitles = [
 
                 </div>
 
-                <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
-                <div class="grid grid-cols-3 gap-4 shrink-0" id="metrics-cards">
+                <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->
+                <div class="grid grid-cols-6 gap-4 shrink-0" id="metrics-cards">
                     <?php
                     $keys = ['do', 'ph', 'ec', 'temp'];
                     $warnings = [
@@ -199,11 +212,11 @@ $metricTitles = [
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
-                <!-- Card 1: การให้อาหารวันนี้ -->
+                <!-- Card 1: Power Meter -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm">restaurant</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
+                        <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2" id="feeding-info">
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
@@ -221,14 +234,11 @@ $metricTitles = [
                     </div>
                 </div>
 
-                <!-- Card 2: ต้นทุนทรัพยากรวันนี้ -->
+                <!-- Card 2: Solar Supply/Load -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm">analytics</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
-                        <div class="ml-auto w-5 h-5 rounded-full bg-stone-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors duration-200">
-                            <div class="ion--water-sharp text-orange-300 group-hover:text-[#ff8021] transition-colors duration-200" style="width: 12px; height: 12px;"></div>
-                        </div>
+                        <span class="material-symbols-outlined text-primary text-sm cbi--solar-battery "></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">Solar Supply/Load</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2" id="resource-info">
                         <div class="col-span-2 flex items-center justify-center">
@@ -237,11 +247,11 @@ $metricTitles = [
                     </div>
                 </div>
 
-                <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
+                <!-- Card 3: เงินคืนทุน -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm">waves</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">คุณภาพน้ำที่เหมาะสม</h3>
+                        <span class="material-symbols-outlined text-primary text-sm solar--hand-money-linear"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
                     </div>
                     <div>
                         <table class="w-full">
@@ -267,11 +277,11 @@ $metricTitles = [
                     </div>
                 </div>
 
-                <!-- Card 4: การปรับอาหาร -->
+                <!-- Card 4: ต้นทุนรวมทั้งหมด -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm">rule</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การปรับอาหาร</h3>
+                        <span class="material-symbols-outlined text-primary text-sm streamline-cyber--money-bag-1"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
                     </div>
                     <div class="flex flex-col gap-1">
                         <div class="flex items-center justify-between px-2 py-1 bg-success/5 border border-success/10 rounded-lg">

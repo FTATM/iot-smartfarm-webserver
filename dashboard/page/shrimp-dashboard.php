@@ -43,8 +43,8 @@ $metricTitles = [
     <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
-            <div class="size-9 bg-[#FFD7B6] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="emojione-monotone--shrimp text-2xl text-[#ff8021]"> </span>
+            <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+                <span class="emojione-monotone--shrimp text-2xl text-white"> </span>
             </div>
             <div>
                 <h1 class="text-[#1d130c] text-lg font-bold leading-none">Shrimp Dashboard</h1>
