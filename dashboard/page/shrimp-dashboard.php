@@ -193,16 +193,13 @@ $metricTitles = [
                                     <?= $warnings[$keys[$i]] ?>
                                 </p>
                             </div>
-
                         </div>
                     <?php endfor; ?>
                 </div>
-
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
-
                 <!-- Card 1: การให้อาหารวันนี้ -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
@@ -292,9 +289,7 @@ $metricTitles = [
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </main>
 
