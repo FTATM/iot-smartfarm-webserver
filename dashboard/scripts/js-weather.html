@@ -3,6 +3,7 @@
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
     const today = new Date();
     const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+    document.getElementById('start-date').textContent = formattedDate;
 
     document.addEventListener('DOMContentLoaded', () => {
         loadSensorData();

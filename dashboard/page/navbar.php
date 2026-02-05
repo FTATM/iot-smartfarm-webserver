@@ -11,7 +11,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     }
 
     /* Hamburger Button - แสดงเฉพาะปุ่ม 3 ขีด */
-    /* 🍔 Hamburger Button - Responsive จนถึงทีวี 75" */
+    /* Hamburger Button - Responsive จนถึงทีวี 75" */
     .hamburger-btn {
         width: 40px;
         height: 40px;
@@ -265,8 +265,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     /* 4K / TV 75" (3840px+) */
     @media screen and (min-width: 3840px) {
         .close-btn {
-            width: 88px;
-            height: 88px;
+            width: 100px;
+            height: 100px;
             font-size: 3.5rem;
         }
     }
