@@ -78,3 +78,5 @@ echo json_encode([
 exit;
 
 pg_close($db);
+
+

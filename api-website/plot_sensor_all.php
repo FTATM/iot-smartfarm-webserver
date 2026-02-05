@@ -14,7 +14,7 @@ try {
     // if (!isset($input["sensors"])) {
     //     throw new Exception ("sensor is required");
     // }
-  
+
     $sensors = $input["sensors"];
     $sql = " 
     WITH input_ids AS (
@@ -29,10 +29,6 @@ try {
         $conn, 
         $sql,  ['{' .implode(',', $sensors). '}']
     );
-
-    // echo json_encode([
-    //     "chickeType" => is_object($result)
-    // ]);
 
     if(!$result) {
         throw new Expection (pg_last_error($conn));
