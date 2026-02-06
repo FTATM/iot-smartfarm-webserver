@@ -222,50 +222,114 @@ $metricTitles = [
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
-                <!-- Card 1: การให้อาหารวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                <!-- Card 1: พยากรณ์อุณหภูมิ -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+                    <div class="flex items-center gap-2 mb-4">
                         <span class="carbon--temperature-hot text-[#ff8021] text-sm"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">พยากรณ์อุณหภูมิ</h3>
-
+                        <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์อุณหภูมิ</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-cyan-50/50 p-3 rounded-xl text-center border border-cyan-100">
+                            <p class="text-[10px] text-cyan-600 font-bold uppercase mb-1">ต่ำสุด (°C)</p>
+                            <p class="text-2xl font-bold text-slate-800" id="temp-min">
+                                <span class="inline-block animate-pulse">--</span>
+                            </p>
+                        </div>
+                        <div class="bg-orange-50/50 p-3 rounded-xl text-center border border-orange-100">
+                            <p class="text-[10px] text-orange-600 font-bold uppercase mb-1">สูงสุด (°C)</p>
+                            <p class="text-2xl font-bold text-slate-800" id="temp-max">
+                                <span class="inline-block animate-pulse">--</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-
-
-                <!-- Card 2: ต้นทุนทรัพยากรวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                <!-- Card 2: พยากรณ์ลมรายชั่วโมง (ws10m) -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+                    <div class="flex items-center gap-2 mb-4">
                         <span class="solar--wind-bold-duotone text-sm text-[#ff8021]"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">พยากรณ์ลมรายชัวโมง (ws10m)</h3>
+                        <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์ลมรายชั่วโมง (ws10m)</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2" id="feeding-info">
-
+                    <div class="grid grid-cols-4 gap-2 text-center" id="wind-forecast">
+                        <!-- Loading state -->
+                        <div class="bg-orange-50 p-2 rounded-lg border border-orange-100">
+                            <p class="text-[9px] text-[#ff8021] font-bold mb-1">ตอนนี้</p>
+                            <p class="text-xs font-bold text-slate-800">--</p>
+                            <p class="text-[9px] text-slate-400">(--)</p>
+                        </div>
+                        <div class="p-2">
+                            <p class="text-[9px] text-slate-400 font-bold mb-1">1 ชม.</p>
+                            <p class="text-xs font-bold text-slate-600">--</p>
+                            <p class="text-[9px] text-slate-300">(--)</p>
+                        </div>
+                        <div class="p-2">
+                            <p class="text-[9px] text-slate-400 font-bold mb-1">2 ชม.</p>
+                            <p class="text-xs font-bold text-slate-600">--</p>
+                            <p class="text-[9px] text-slate-300">(--)</p>
+                        </div>
+                        <div class="p-2">
+                            <p class="text-[9px] text-slate-400 font-bold mb-1">3 ชม.</p>
+                            <p class="text-xs font-bold text-slate-600">--</p>
+                            <p class="text-[9px] text-slate-300">(--)</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
+                <!-- Card 3: พยากรณ์ความชื้นสัมพัทธ์ (rh) -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="wi--humidity text-sm text-[#ff8021]"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">พยากรณ์ความชื้นสัมพัทธ์ (rh)</h3>
+                        <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์ความชื้นสัมพัทธ์ (rh)</h3>
                     </div>
-                    <div>
-
+                    <div class="text-center py-2">
+                        <span class="text-xl font-black text-slate-800" id="humidity-current">
+                            <span class="inline-block animate-pulse">--%</span>
+                        </span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full mb-4 overflow-hidden">
+                        <div class="bg-[#ff8021] h-full rounded-full transition-all duration-500" id="humidity-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 text-[10px] text-center font-bold" id="humidity-forecast">
+                        <div class="text-slate-400">1 ชม.<br/><span class="text-slate-700">--</span></div>
+                        <div class="text-slate-400">2 ชม.<br/><span class="text-slate-700">--</span></div>
+                        <div class="text-slate-400">3 ชม.<br/><span class="text-slate-700">--</span></div>
+                        <div class="text-slate-400">4 ชม.<br/><span class="text-slate-700">--</span></div>
                     </div>
                 </div>
 
-                <!-- Card 4: การปรับอาหาร -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="emojione-monotone--sun-behind-rain-cloud text-[#ff8021] text-sm"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">พยากรณ์สภาพอากาศรายชั่วโมง</h3>
-                    </div>
-                    <div class="flex flex-col gap-1">
-
-
-                    </div>
-                </div>
+                <!-- Card 4: พยากรณ์สภาพอากาศรายชั่วโมง -->
+        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">    <div class="flex items-center gap-2 mb-4">
+        <span class="emojione-monotone--sun-behind-rain-cloud text-[#ff8021] text-sm"></span>
+        <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์สภาพอากาศรายชั่วโมง</h3>
+    </div>
+    
+    <!-- สภาพอากาศปัจจุบัน -->
+    <div class="flex items-center justify-between mb-2 bg-stone-50 p-3 rounded-xl border border-stone-100" id="current-weather">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-yellow-500 text-2xl" id="current-icon">wb_sunny</span>
+            <div>
+                <p class="text-[9px] font-bold text-slate-400 uppercase">ตอนนี้</p>
+                <p class="font-bold text-xs text-slate-800" id="current-condition">--</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-[9px] font-bold text-slate-400 uppercase">ปริมาณฝน</p>
+            <p class="font-bold text-xs text-[#ff8021]" id="current-rain">-- mm/hr</p>
+        </div>
+    </div>
+    
+    <!-- พยากรณ์รายวัน -->
+    <div class="space-y-3 pt-2" id="daily-forecast">
+        <!-- Loading state -->
+        <div class="flex justify-between items-center text-xs font-medium">
+            <span class="text-slate-500">กำลังโหลด...</span>
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-slate-300 text-base">cloud_queue</span>
+                <span class="text-slate-700">-- mm/hr</span>
+            </div>
+        </div>
+    </div>
+</div>
 
             </div>
 

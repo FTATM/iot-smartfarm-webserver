@@ -213,26 +213,47 @@ $metricTitles = [
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: Power Meter -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2" id="feeding-info">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
-                            <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
-                        </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-increase">--</span>
-                        </div>
-                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
-                        </div>
-                    </div>
-                </div>
+<div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+    <div class="flex items-center gap-2 mb-2">
+        <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
+        <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
+    </div>
+    
+    <div class="grid grid-cols-1 gap-1">
+        <!-- Feed Cycles -->
+        <div class="flex justify-between items-center bg-stone-50 p-2 rounded-xl border border-stone-100">
+            <div>
+                <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Feed Cycles</p>
+                <p class="text-xs font-bold text-slate-800" id="feed-cycles">
+                    <span class="animate-pulse">--</span> 
+                    <span class="text-xs font-normal text-slate-400">Total</span>
+                </p>
+            </div>
+            <div class="text-right">
+                <p class="text-[7px] text-[#ff8021] font-bold uppercase tracking-wider">Status</p>
+                <p class="text-xs font-bold text-slate-800" id="feed-status">--</p>
+            </div>
+        </div>
+        
+        <!-- Grid 2 Columns -->
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Inc. per Meal</p>
+                <p class="text-xs font-bold" id="inc-per-meal">
+                    <span class="animate-pulse">--</span> 
+                    <span class="text-xs font-normal text-slate-400">kW</span>
+                </p>
+            </div>
+            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Total Intake</p>
+                <p class="text-xs font-bold" id="total-intake">
+                    <span class="animate-pulse">--</span> 
+                    <span class="text-xs font-normal text-slate-400">kWh</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Card 2: Solar Supply/Load -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
@@ -240,64 +261,153 @@ $metricTitles = [
                         <span class="material-symbols-outlined text-primary text-sm cbi--solar-battery "></span>
                         <h3 class="text-[10px] font-bold text-stone-700">Solar Supply/Load</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2" id="resource-info">
-                        <div class="col-span-2 flex items-center justify-center">
-                            <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
+                    <div class="space-y-2">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between text-[7px] font-bold text-slate-400 uppercase tracking-wider px-1">
+                        <span>Metrics</span>
+                        <div class="flex gap-3">
+                            <span class="w-10 text-center text-[#ff8021]">1h</span>
+                            <span class="w-10 text-center text-[#ff8021]">3h</span>
+                            <span class="w-10 text-center text-[#ff8021]">12h</span>
                         </div>
                     </div>
+                    
+                    <!-- Supply Row -->
+                    <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-green-600 text-sm">arrow_upward</span>
+                            <span class="text-[9px] font-bold text-slate-700">Supply</span>
+                        </div>
+                        <div class="flex gap-3 text-[10px] font-bold">
+                            <span class="w-10 text-center text-slate-800" id="supply-1h">--</span>
+                            <span class="w-10 text-center text-slate-800" id="supply-3h">--</span>
+                            <span class="w-10 text-center text-slate-800" id="supply-12h">--</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Load Row -->
+                    <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-red-600 text-sm">arrow_downward</span>
+                            <span class="text-[9px] font-bold text-slate-700">Load</span>
+                        </div>
+                        <div class="flex gap-3 text-[10px] font-bold">
+                            <span class="w-10 text-center text-slate-800" id="load-1h">--</span>
+                            <span class="w-10 text-center text-slate-800" id="load-3h">--</span>
+                            <span class="w-10 text-center text-slate-800" id="load-12h">--</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Balance Row -->
+                    <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[#ff8021] text-sm">balance</span>
+                            <span class="text-[9px] font-bold text-slate-700">Balance</span>
+                        </div>
+                        <div class="flex gap-3 text-[10px] font-bold">
+                            <span class="w-10 text-center text-[#ff8021]" id="balance-1h">--</span>
+                            <span class="w-10 text-center text-[#ff8021]" id="balance-3h">--</span>
+                            <span class="w-10 text-center text-[#ff8021]" id="balance-12h">--</span>
+                        </div>
+                    </div>
+                </div>
                 </div>
 
                 <!-- Card 3: เงินคืนทุน -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm solar--hand-money-linear"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
-                    </div>
-                    <div>
-                        <table class="w-full">
-                            <tbody class="text-[9px] divide-y divide-stone-50">
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">DO</td>
-                                    <td class="py-0.5 text-right font-bold text-success">3.0-7.0 mg/L</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">pH</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">7.5 - 8.5</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">EC</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">23K-45K μS/cm</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">Temp</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">28-32 °C</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    <div class="flex items-center gap-1.5 mb-2">
+        <span class="material-symbols-outlined text-primary text-xs solar--hand-money-linear"></span>
+        <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
+    </div>
+    
+    <div class="space-y-1">
+        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+            <span class="text-[9px] font-bold text-slate-700">ทุนเริ่มต้น</span>
+            <div class="flex gap-2 text-[9px] font-medium">
+                <span class="w-12 text-center" id="initial-capital">-</span>
+            </div>
+        </div>
+        
+        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+            <span class="text-[9px] font-bold text-slate-700">คืนแล้ว</span>
+            <div class="flex gap-2 text-[9px] font-medium">
+                <span class="w-12 text-center text-green-600" id="refunded">-</span>
+            </div>
+        </div>
+        
+        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+            <span class="text-[9px] font-bold text-slate-700">คงเหลือ</span>
+            <div class="flex gap-2 text-[9px] font-medium">
+                <span class="w-12 text-center text-orange-600" id="remaining">-</span>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Card 4: ต้นทุนรวมทั้งหมด -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm streamline-cyber--money-bag-1"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <div class="flex items-center justify-between px-2 py-1 bg-success/5 border border-success/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-success uppercase">หมดเกลี้ยง</span>
-                            <span class="text-[9px] font-normal text-stone-700">+5 ถึง +10%</span>
-                        </div>
-                        <div class="flex items-center justify-between px-2 py-1 bg-warning/5 border border-warning/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-warning uppercase">เหลือเล็กน้อย</span>
-                            <span class="text-[9px] font-normal text-stone-700">คงที่ / -5%</span>
-                        </div>
-                        <div class="flex items-center justify-between px-2 py-1 bg-danger/5 border border-danger/10 rounded-lg">
-                            <span class="text-[9px] font-bold text-danger uppercase">เหลือเยอะ</span>
-                            <span class="text-[9px] font-normal text-stone-700">งด / -50%</span>
-                        </div>
-                    </div>
-                </div>
+<div x-data="{ 
+    hardware: null, 
+    infrastructure: null, 
+    miscellaneous: null,
+    total: null,
+    async init() {
+        try {
+            const res = await fetch('YOUR_API_URL/expenses');
+            const data = await res.json();
+            this.hardware = data.hardware;
+            this.infrastructure = data.infrastructure;
+            this.miscellaneous = data.miscellaneous;
+            this.total = data.total;
+        } catch(e) {
+            console.error(e);
+        }
+    },
+    format(num) {
+        return num ? '฿ ' + new Intl.NumberFormat('th-TH').format(num) : '-';
+    }
+}" class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    
+    <div class="flex items-center gap-1.5 mb-2">
+        <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
+        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
+    </div>
+    
+    <div class="space-y-2">
+    <!-- Hardware -->
+    <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+        <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
+            <span class="text-[7px] font-bold text-green-700 uppercase">Hardware</span>
+        </div>
+        <span class="text-[7px] font-bold text-green-700" x-text="format(hardware)">-</span>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+        <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
+            <span class="text-[7px] font-bold text-yellow-700 uppercase">Infrastructure</span>
+        </div>
+        <span class="text-[7px] font-bold text-yellow-700" x-text="format(infrastructure)">-</span>
+    </div>
+
+    <!-- Miscellaneous -->
+    <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+        <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
+            <span class="text-[7px] font-bold text-red-700 uppercase">Miscellaneous</span>
+        </div>
+        <span class="text-[7px] font-bold text-red-700" x-text="format(miscellaneous)">-</span>
+    </div>
+
+    <!-- Total -->
+    <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+        <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
+        <span class="font-bold text-[11px] text-primary" x-text="format(total)">-</span>
+    </div>
+</div>
+
+</div>
 
             </div>
 
