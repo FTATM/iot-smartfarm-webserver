@@ -12,6 +12,4 @@ $db_config = [
     'pass' => $_ENV['DB_PASS'],
 ];
 
-$cameras = [
-    $_ENV["CAMERA_1_NAME"] => $_ENV["CAMERA_1_RTSP"]
-];
+
