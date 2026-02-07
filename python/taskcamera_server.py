@@ -19,7 +19,7 @@ WS_URI = "ws://localhost:8765"
 
 cam_list = CAMERAS
 
-FRAME_INTERVAL = 0.3
+FRAME_INTERVAL = 0.03
 JPEG_QUALITY = 30
 RESIZE_W = 640
 RESIZE_H = 360
@@ -32,53 +32,61 @@ SCALE = 0.16
 OFFSET = 0
 
 latest_frames = {}  # {cam_name: frame}
+ws_lock = asyncio.Lock()
 
 
 # ======================
 # CAMERA GRABBER + THERMAL MAP
 # ======================
+
 async def grabber(ws, cam_name, rtsp_url):
-    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
-    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-    if not cap.isOpened():
-        print(f"{cam_name} cannot open stream")
-        return
-
-    print(f"{cam_name} grabber started")
+    cap = None
 
     while True:
+
+        # -------------------
+        # CONNECT
+        # -------------------
+        if cap is None or not cap.isOpened():
+            print(f"{cam_name} connecting...")
+            cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG,
+            [
+                cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 5000,
+                cv2.CAP_PROP_READ_TIMEOUT_MSEC, 5000,
+            ],
+            )
+            cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+            if not cap.isOpened():
+                print(f"{cam_name} cannot open stream → retry in 5 sec")
+                await asyncio.sleep(5)
+                print()
+                continue
+
+            payload = {
+                "type": "setCamera",
+                "data": cam_list
+            }
+
+            async with ws_lock:
+                await ws.send(json.dumps(payload))
+            print(f"{cam_name} connected.")
+
+        # -------------------
+        # READ FRAME
+        # -------------------
         ret, frame = cap.read()
+
         if not ret:
             print(f"{cam_name} read failed → reconnecting")
             cap.release()
+            cap = None
             await asyncio.sleep(1)
-            cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
-            cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
             continue
 
-        # ---------- IR → Thermal ----------
         frame = cv2.resize(frame, (RESIZE_W, RESIZE_H))
-
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) if len(frame.shape) == 3 else frame
-        # temp = gray.astype(np.float32) * SCALE + OFFSET
-        # temp_norm = cv2.normalize(temp, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
-        # thermal_map = cv2.applyColorMap(temp_norm, cv2.COLORMAP_JET)
-
-        latest_frames[cam_name] = frame  # เก็บ frame ล่าสุด
-
-        # # ---------- SEND WS ----------
-        # ok, buf = cv2.imencode(".jpg", thermal_map, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
-        # if ok:
-        #     payload = {
-        #         "type": "image",
-        #         "room": cam_name,
-        #         "data": base64.b64encode(buf).decode("utf-8"),
-        #     }
-        #     try:
-        #         await ws.send(json.dumps(payload))
-        #     except:
-        #         pass
+        latest_frames[cam_name] = frame
 
         await asyncio.sleep(0)
 
@@ -90,13 +98,6 @@ async def infer_and_send(ws, cam_name):
     loop = asyncio.get_running_loop()
     last_send = 0
     print(f"{cam_name} infer task started")
-
-    payload = {
-        "type": "setCamera",
-        "data": cam_list
-    }
-
-    await ws.send(json.dumps(payload))
     
     while True:
         frame = latest_frames.get(cam_name)
@@ -179,7 +180,8 @@ async def infer_and_send(ws, cam_name):
                     "crops": crops_data,
                 }
                 try:
-                    await ws.send(json.dumps(payload))
+                    async with ws_lock:
+                        await ws.send(json.dumps(payload))
                 except:
                     pass
 
@@ -200,12 +202,25 @@ async def main():
             await ws.send(json.dumps({"type": "joinroom", "data": cam}))
             print(f"Joined room {cam}")
 
+        payload = {
+            "type": "setCamera",
+            "data": cam_list
+        }
+
+        async with ws_lock:
+            await ws.send(json.dumps(payload))
+
         tasks = []
         for cam_name, rtsp_url in cam_list.items():
+            print(f"====== start {cam_name} ========")
+            print(f"{cam_name} : {rtsp_url}")
+            print("\n\n")
             tasks.append(asyncio.create_task(grabber(ws, cam_name, rtsp_url)))
             tasks.append(asyncio.create_task(infer_and_send(ws, cam_name)))
-
+            
         await asyncio.gather(*tasks)
+
+    print("ws : disconnected")
 
 
 # ======================
