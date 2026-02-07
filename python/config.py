@@ -11,6 +11,16 @@ DB_CONFIG = {
     "password": os.getenv("DB_PASS"),
 }
 
-CAMERAS = {
-    os.getenv("CAMERA_1_NAME") : os.getenv("CAMERA_1_RTSP"),
-}
+def load_cameras():
+    cams = {}
+    raw = os.getenv("CAMERAS")
+
+    if raw:
+        pairs = raw.split(";")
+        for pair in pairs:
+            name, url = pair.split(",")
+            cams[name.strip()] = url.strip()
+
+    return cams
+
+CAMERAS = load_cameras()
