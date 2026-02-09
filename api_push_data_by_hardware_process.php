@@ -137,7 +137,15 @@ if ($data_sim_type == '1') {
     $rs_sql_insert_log = execute($sql_insert_log, $db);
 
     if ($rs_sql_update) {
-      $sql_select = "SELECT monitor_id, is_min, is_max, min_value, max_value, is_email, input_email, is_line, input_line FROM page_data_manage_monitor WHERE (is_min = 1 OR is_max = 1) ORDER BY monitor_id ASC";
+      $sql_select = "SELECT m.*,b.*,g.*,d.*,x.*
+      FROM page_data_manage_monitor m
+      LEFT JOIN branch_info b ON m.branch_id = b.branch_id
+      LEFT JOIN page_data_manage_group g ON m.group_id = g.group_id
+      LEFT JOIN page_data_manage_device d ON m.device_id = d.device_id
+      LEFT JOIN page_data_manage_datax x ON m.datax_id = x.datax_id
+      WHERE (m.is_min = 1 OR m.is_max = 1) 
+      ORDER BY m.monitor_id ASC";
+
       $result = pg_query($db, $sql_select);
 
       if (!$result) {
@@ -151,9 +159,14 @@ if ($data_sim_type == '1') {
       while ($row = pg_fetch_assoc($result)) {
 
         $monitorId    = $row['monitor_id'];
-        $currentValue = $data_value;
+        $monitorName  = $row['monitor_name'];
+        $branchName   = $row['branch_name'];
+        $groupName   = $row['group_name'];
+        $deviceName   = $row['divice_name'];
+        $dataxName   = $row['datax_name'];
         $minValue     = (float)$row['min_value'];
         $maxValue     = (float)$row['max_value'];
+        $currentValue = $data_value;
 
         $isMin   = $row['is_min'] == '1';
         $isMax   = $row['is_max'] == '1';
@@ -161,36 +174,44 @@ if ($data_sim_type == '1') {
         $isLine  = $row['is_line'] == '1';
 
         $alert = false;
-        $msg = "📊 Monitor ID: {$monitorId}\n";
-        $msg .= "Current Value: {$currentValue}\n";
+        $msg = "";
 
         // 🔽 ต่ำกว่า MIN
         if ($isMin && $currentValue <= $minValue) {
           $alert = true;
-          $msg .= "🔥 ALERT: ต่ำกว่าค่าต่ำสุด\n";
-          $msg .= "MIN: {$minValue}\n";
+          $msg .= "ค่าต่ำกว่าที่กำหนด!!\n";
+          $msg .= "MIN : {$minValue}\n";
         }
 
         // 🔼 สูงกว่า MAX
         if ($isMax && $currentValue >= $maxValue) {
           $alert = true;
-          $msg .= "🚨 ALERT: สูงกว่าค่าสูงสุด\n";
-          $msg .= "MAX: {$maxValue}\n";
+          $msg .= "ค่าสูงกว่าที่กำหนด!!\n";
+          $msg .= "MAX : {$maxValue}\n";
         }
 
+        $msg .= "ข้อมูลที่วัดได้: {$currentValue}\n";
+        $msg .= "\n";
+        $msg .= "============================\n";
+        $msg .= "ตำแหน่ง Sensor : \n";
+        $msg .= " - ที่ตั้ง : $branchName \n";
+        $msg .= " - โรงเรือน : $groupName \n";
+        $msg .= " - อุปกรณ์ : $deviceName \n";
+        $msg .= " - ช่องข้อมูล : $dataxName \n";
+        $msg .= "============================\n";
         // ❌ ไม่เข้าเงื่อนไข → ข้าม
         if (!$alert) {
           continue;
         }
 
         // -------------------------
-        // 🔔 แจ้งเตือน
+        //       🔔 แจ้งเตือน
         // -------------------------
 
         if ($isEmail && !empty($row['input_email'])) {
           sendEmail(
             $row['input_email'],
-            "Monitor Alert #{$monitorId}",
+            "Monitor Alert #{$monitorName}",
             $msg
           );
         }
