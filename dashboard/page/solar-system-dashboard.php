@@ -213,7 +213,7 @@ $metricTitles = [
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: Power Meter -->
-<div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+<div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
     <div class="flex items-center gap-2 mb-2">
         <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
         <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>

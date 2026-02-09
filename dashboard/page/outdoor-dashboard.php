@@ -206,56 +206,127 @@ $metricTitles = [
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-            <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
-
-                <!-- Card 1: สิ่งที่ต้องทำวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm ic--round-list"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
-                    </div>
-                    <div id="tasks-container" class="flex-1 flex flex-col gap-2 overflow-y-auto custom-scrollbar">
-                        <!-- ข้อมูลจะแสดงที่นี่ -->
-                    </div>
-                </div>
-
-                <!-- Card 2: การให้น้ำและปุ๋ย -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm game-icons--fertilizer-bag"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
-                    </div>
-                    <div id="watering-container" class="flex-1 flex flex-col gap-2">
-                        <!-- ข้อมูลจะแสดงที่นี่ -->
-                    </div>
-                </div>
-
-                <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
-                    </div>
-                    <div id="resource-cost-container" class="flex-1 flex flex-col gap-2">
-                        <!-- ข้อมูลจะแสดงที่นี่ -->
-                    </div>
-                </div>
-
-                <!-- Card 4: ต้นทุนรวมวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-sm emojione-monotone--money-bag"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
-                    </div>
-                    <div id="total-cost-container" class="flex-1 flex flex-col gap-2">
-                        <!-- ข้อมูลจะแสดงที่นี่ -->
-                    </div>
-                </div>
-
-            </div>
-
+<div class="col-span-2 grid grid-rows-4 gap-3 h-full">
+  
+  <!-- Card 1: สิ่งที่ต้องทำวันนี้ -->
+  <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="material-symbols-outlined text-primary text-xs">checklist</span>
+      <h3 class="text-[10px] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
+    </div>
+    <div id="tasks-container" class="space-y-2">
+      <!-- สิ่งที่ต้องทำ -->
+      <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+        <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">สิ่งที่ต้องทำ</p>
+        <p class="font-medium text-[9px] text-slate-800" id="task-todo">-</p>
+      </div>
+      
+      <!-- ดินที่ควรจะเป็น -->
+      <div class="flex items-center justify-between bg-stone-50 p-1.5 rounded-lg border border-stone-100">
+        <div>
+          <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">ดินที่ควรจะเป็น</p>
+          <p class="text-[9px] font-bold text-orange-600" id="soil-moisture">-</p>
         </div>
-    </main>
+        <div class="text-right">
+          <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">pH Level</p>
+          <p class="text-[9px] font-bold text-slate-700" id="soil-ph">-</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: การให้น้ำและปุ๋ย -->
+  <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="material-symbols-outlined text-primary text-xs">water_drop</span>
+      <h3 class="text-[10px] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
+    </div>
+    <div id="watering-container" class="space-y-2">
+      <!-- Grid 2 Columns -->
+      <div class="grid grid-cols-2 gap-1">
+        <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
+          <p class="text-[7px] text-blue-500 font-bold uppercase mb-0.5">การให้น้ำ</p>
+          <p class="text-[9px] font-bold text-blue-600" id="watering-schedule">-</p>
+        </div>
+        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+          <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">การใส่ปุ๋ย</p>
+          <p class="text-[9px] font-bold text-slate-800" id="fertilizer-schedule">-</p>
+        </div>
+      </div>
+      
+      <!-- โรค/ศัตรูพืช -->
+      <div class="bg-red-50 p-2 rounded-lg border border-red-100">
+        <p class="text-[7px] text-red-500 font-bold uppercase tracking-wider mb-0.5">โรค/ศัตรูพืชที่ต้องระวัง</p>
+        <p class="text-[9px] font-bold text-red-600" id="pest-warning">-</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
+  <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="material-symbols-outlined text-primary text-xs">analytics</span>
+      <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
+    </div>
+    <div id="resource-cost-container" class="space-y-1">
+      <!-- Grid 2 Columns -->
+      <div class="grid grid-cols-2 gap-1">
+        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+          <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ค่าน้ำประปา</p>
+          <p class="text-[10px] font-bold text-slate-800">
+            <span id="water-usage">-</span> 
+            <span class="text-[8px] font-normal text-slate-400">m³</span>
+          </p>
+        </div>
+        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+          <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ค่าไฟฟ้า</p>
+          <p class="text-[10px] font-bold text-slate-800">
+            <span id="electricity-usage">-</span> 
+            <span class="text-[8px] font-normal text-slate-400">kWh</span>
+          </p>
+        </div>
+      </div>
+      
+      <!-- เป้าหมาย -->
+      <div class="text-[8px] text-slate-400 text-center">
+        <span>เป้าหมายวันนี้: <span id="resource-target">-</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: ต้นทุนรวมวันนี้ -->
+  <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="material-symbols-outlined text-primary text-xs">payments</span>
+      <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
+    </div>
+    <div id="total-cost-container" class="space-y-1">
+      <!-- รายการค่าใช้จ่าย -->
+      <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+        <span class="text-[7px] font-bold text-green-700 uppercase">ค่าของใช้วันนี้</span>
+        <span class="text-[7px] font-bold text-green-700" id="daily-supplies">-</span>
+      </div>
+
+      <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+        <span class="text-[7px] font-bold text-yellow-700 uppercase">ค่าน้ำ/ค่าไฟ</span>
+        <span class="text-[7px] font-bold text-yellow-700" id="utility-cost">-</span>
+      </div>
+
+      <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+        <span class="text-[7px] font-bold text-red-700 uppercase">อื่นๆ</span>
+        <span class="text-[7px] font-bold text-red-700" id="other-cost">-</span>
+      </div>
+
+      <!-- Total -->
+      <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+        <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">รวม</span>
+        <span class="font-bold text-[11px] text-primary" id="total-cost">-</span>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </main>
 
     <!-- Footer -->
     <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
