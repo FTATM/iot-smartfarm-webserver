@@ -223,7 +223,7 @@ $metricTitles = [
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: พยากรณ์อุณหภูมิ -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="carbon--temperature-hot text-[#ff8021] text-sm"></span>
                         <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์อุณหภูมิ</h3>
@@ -245,7 +245,7 @@ $metricTitles = [
                 </div>
 
                 <!-- Card 2: พยากรณ์ลมรายชั่วโมง (ws10m) -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-200">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="solar--wind-bold-duotone text-sm text-[#ff8021]"></span>
                         <h3 class="text-[10px] font-bold text-slate-700">พยากรณ์ลมรายชั่วโมง (ws10m)</h3>
