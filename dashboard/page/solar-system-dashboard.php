@@ -87,13 +87,11 @@ $metricTitles = [
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <div class="text-center text-stone-400">
-                            <span class="material-symbols-outlined" style="font-size: 5rem;">image</span>
-                            <p class="text-xs mt-2 font-medium">พื้นที่รูปภาพขยาย</p>
-                            <p class="text-[10px] mt-1 text-stone-400">เครื่องมือ/อุปกรณ์</p>
-                        </div>
-                    </div>
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+    <img src="images/Solar.jpeg" 
+         alt="เครื่องมือ/อุปกรณ์" 
+         class="w-full h-full object-cover rounded-xl">
+</div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">

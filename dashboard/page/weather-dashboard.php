@@ -89,11 +89,63 @@ $metricTitles = [
 
                     <!-- รูปภาพ 1 ส่วน (ซ้ายสุด) -->
                     <div class="col-span-1 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <div class="text-center text-stone-400">
-                            <span class="material-symbols-outlined" style="font-size: 5rem;">image</span>
-                            <p class="text-xs mt-2 font-medium">รูปภาพ 1</p>
-                            <p class="text-[10px] mt-1 text-stone-400">เครื่องมือ/อุปกรณ์</p>
-                        </div>
+                        <!-- Weather Widget Component -->
+
+<div class="bg-white rounded-2xl border border-stone-200 shadow-sm p-3 flex flex-col h-full hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+    
+    <!-- Wind Chill -->
+    <div class="mb-2 pb-2 border-b border-dashed border-stone-200">
+        <h3 class="text-stone-600 text-[9px] font-bold mb-1.5 uppercase tracking-wider">Wind Chill</h3>
+        <div class="flex items-center gap-2">
+            <span id="widget-windChill" class="text-orange-500 text-xl font-light">--°F</span>
+            <div class="flex gap-0.5">
+                <span class="material-symbols-outlined text-stone-400" style="font-size: 1.2rem;">thermostat</span>
+                <span class="material-symbols-outlined text-stone-400" style="font-size: 1.2rem;">air</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Humidex -->
+    <div class="mb-2 pb-2 border-b border-dashed border-stone-200">
+        <h3 class="text-stone-600 text-[9px] font-bold mb-1.5 uppercase tracking-wider">Humidex</h3>
+        <div class="flex items-center gap-2">
+            <span id="widget-humidex" class="text-orange-500 text-xl font-light">--°F</span>
+            <div class="flex gap-0.5">
+                <span class="material-symbols-outlined text-stone-400" style="font-size: 1.2rem;">wb_sunny</span>
+                <span class="material-symbols-outlined text-stone-400" style="font-size: 1.2rem;">water_drop</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Thermometer Display -->
+    <div class="flex-1 flex flex-col items-center justify-center pt-1">
+        <div class="relative mb-2" style="width: 50px; height: 196px;">
+            <!-- Thermometer Body -->
+            <div class="absolute right-0 top-0 w-4 bg-stone-300 rounded-t-full" style="height: 188px;"></div>
+            
+            <!-- Mercury -->
+            <div id="widget-mercury" class="absolute right-0 w-4 bg-orange-500 rounded-t-full transition-all duration-700 ease-in-out" style="bottom: 32px; height: 0%;"></div>
+            
+            <!-- Bulb -->
+            <div class="absolute right-[-8px] bottom-0 w-8 h-8 bg-orange-500 rounded-full"></div>
+            
+            <!-- Scale - aligned with bulb center at bottom -->
+            <div class="absolute left-0 top-0 flex flex-col justify-between text-[8px] text-stone-500 pr-1.5 font-medium" style="height: 192px;">
+                <span>140</span>
+                <span>100</span>
+                <span>60</span>
+                <span>20</span>
+                <span>-20</span>
+                <span>-60</span>
+            </div>
+        </div>
+        
+        <!-- Temperature Reading with Icon -->
+        <div class="text-center flex items-center gap-2">
+            <span id="widget-currentTemp" class="text-orange-500 text-2xl font-light">--°F</span>
+        </div>
+    </div>
+</div>
                     </div>
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
