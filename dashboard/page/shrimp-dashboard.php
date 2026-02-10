@@ -202,36 +202,38 @@ $metricTitles = [
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
                 <!-- Card 1: การให้อาหารวันนี้ -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm">restaurant</span>
                         <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2" id="feeding-info">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                    <div class="2xl:px-8">
+                    <div class="grid grid-cols-2 gap-2 2xl:gap-4" id="feeding-info">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
                             <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-increase">--</span>
+                            <span class="text-[10px] font-black text-primary" id="feeding-increase">--</span>
                         </div>
-                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
+                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 2xl:py-8 border border-primary/10 flex justify-between items-center">
                             <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
                             <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
                 <!-- Card 2: ต้นทุนทรัพยากรวันนี้ -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm">analytics</span>
                         <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
                         <div class="ml-auto w-5 h-5 rounded-full bg-stone-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors duration-200">
                             <div class="ion--water-sharp text-orange-300 group-hover:text-[#ff8021] transition-colors duration-200" style="width: 12px; height: 12px;"></div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2" id="resource-info">
+                    <div class="grid grid-cols-2 gap-2 2xl:p-8" id="resource-info">
                         <div class="col-span-2 flex items-center justify-center">
                             <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
                         </div>
@@ -240,41 +242,43 @@ $metricTitles = [
 
                 <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm">waves</span>
                         <h3 class="text-[10px] font-bold text-stone-700">คุณภาพน้ำที่เหมาะสม</h3>
                     </div>
                     <div>
-                        <table class="w-full">
-                            <tbody class="text-[9px] divide-y divide-stone-50">
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">DO</td>
-                                    <td class="py-0.5 text-right font-bold text-success">3.0-7.0 mg/L</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">pH</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">7.5 - 8.5</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">EC</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">23K-45K μS/cm</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-0.5 text-stone-500 font-medium">Temp</td>
-                                    <td class="py-0.5 text-right font-bold text-stone-700">28-32 °C</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="2xl:px-8">
+                            <table class="w-full">
+                                <tbody class="text-[9px] 2xl:text-sm divide-y divide-stone-50">
+                                    <tr class="2xl:h-16">
+                                        <td class="py-0.5 2xl:py-3 text-stone-500 font-medium">DO</td>
+                                        <td class="py-0.5 2xl:py-3 text-right font-bold text-stone-700">3.0-7.0 mg/L</td>
+                                    </tr>
+                                    <tr class="2xl:h-16">
+                                        <td class="py-0.5 2xl:py-3 text-stone-500 font-medium">pH</td>
+                                        <td class="py-0.5 2xl:py-3 text-right font-bold text-stone-700">7.5 - 8.5</td>
+                                    </tr>
+                                    <tr class="2xl:h-16">
+                                        <td class="py-0.5 2xl:py-3 text-stone-500 font-medium">EC</td>
+                                        <td class="py-0.5 2xl:py-3 text-right font-bold text-stone-700">23K-45K μS/cm</td>
+                                    </tr>
+                                    <tr class="2xl:h-16">
+                                        <td class="py-0.5 2xl:py-3 text-stone-500 font-medium">Temp</td>
+                                        <td class="py-0.5 2xl:py-3 text-right font-bold text-stone-700">28-32 °C</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Card 4: การปรับอาหาร -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm">rule</span>
                         <h3 class="text-[10px] font-bold text-stone-700">การปรับอาหาร</h3>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 2xl:px-8 2xl:space-y-4">
                         <div class="flex items-center justify-between px-2 py-1 bg-success/5 border border-success/10 rounded-lg">
                             <span class="text-[9px] font-bold text-success uppercase">หมดเกลี้ยง</span>
                             <span class="text-[9px] font-normal text-stone-700">+5 ถึง +10%</span>

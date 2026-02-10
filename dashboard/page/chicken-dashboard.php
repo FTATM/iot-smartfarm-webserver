@@ -211,15 +211,15 @@ $metricTitles = [
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-<div class="col-span-2 grid grid-rows-4 gap-3 h-full" id="stats-sidebar">
+            <div class="col-span-2 grid grid-rows-4 gap-4 h-full" id="stats-sidebar">
 
     <!-- Card 1: การให้อาหารวันนี้ -->
     <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:p-8">
             <span class="material-symbols-outlined text-primary text-sm fluent--food-20-regular"></span>
             <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
         </div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-2 2xl:px-8 2xl:gap-4">
             <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                 <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
                 <span class="text-[10px] font-black text-stone-800" id="meals-count">-</span>
@@ -237,11 +237,11 @@ $metricTitles = [
 
     <!-- Card 2: ความชื้นและแสงสว่างที่เหมาะสม -->
     <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:px-8 2xl:py-4">
             <span class="material-symbols-outlined text-primary text-sm mage--light-bulb"></span>
             <h3 class="text-[10px] font-bold text-stone-700">ความชื้นและแสงสว่างที่เหมาะสม</h3>
         </div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-1 2xl:gap-2 2xl:px-8">
             <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                 <span class="text-[9px] text-stone-400 font-bold uppercase">ความชื้น</span>
                 <span class="text-[10px] font-black text-stone-800" id="humidity">-</span>
@@ -262,11 +262,11 @@ $metricTitles = [
 
     <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
     <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:p-8">
             <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
             <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
         </div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:px-8">
             <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                 <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
                 <span class="text-[10px] font-black text-stone-800" id="water-usage">-</span>
@@ -280,11 +280,11 @@ $metricTitles = [
 
     <!-- Card 4: ต้นทุนรวมทั้งหมด -->
     <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:p-4">
             <span class="material-symbols-outlined text-primary text-sm emojione-monotone--money-bag"></span>
             <h3 class="text-[10px] font-bold text-stone-700">สรุปต้นทุนรวมทั้งหมด</h3>
         </div>
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 2xl:gap-4 2xl:px-8">
             <div class="flex items-center justify-between px-2 py-1 bg-stone-50 border border-stone-200 rounded-lg">
                 <span class="text-[9px] font-bold text-stone-600 uppercase">อาหารวันนี้</span>
                 <span class="text-[9px] font-black text-stone-700" id="food-cost">-</span>
@@ -293,13 +293,12 @@ $metricTitles = [
                 <span class="text-[9px] font-bold text-stone-600 uppercase">ค่าน้ำ/ค่าไฟวันนี้</span>
                 <span class="text-[9px] font-black text-stone-700" id="utilities-cost">-</span>
             </div>
-            <div class="flex items-center justify-between px-2 py-1 bg-primary/10 border border-primary/20 rounded-lg">
+            <div class="flex items-center justify-between px-2 py-1 2xl:px-8 bg-primary/10 border border-primary/20 rounded-lg">
                 <span class="text-[9px] font-bold text-primary uppercase">รวมทั้งหมด</span>
                 <span class="text-[10px] font-black text-primary" id="total-cost">-</span>
             </div>
         </div>
     </div>
-
 </div>
 
         </div>

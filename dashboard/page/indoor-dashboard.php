@@ -208,14 +208,14 @@ $metricTitles = [
 
     <!-- Card 1: สิ่งที่ต้องทำวันนี้ -->
     <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:p-8">
             <span class="material-symbols-outlined text-primary text-xs">assignment</span>
             <h3 class="text-[10px] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
         </div>
         
-        <div class="grid grid-cols-1 gap-1">
+        <div class="grid grid-cols-1 gap-1 2xl:p-8">
             <!-- งานหลัก -->
-            <div class="flex justify-between items-center bg-stone-50 p-2 rounded-lg border border-stone-100">
+            <div class="flex justify-between items-center bg-stone-50 p-2 2xl:p-8 rounded-lg border border-stone-100">
                 <div>
                     <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">งานหลัก</p>
                     <p class="text-[9px] font-bold text-slate-800" id="main-task">-</p>
@@ -230,26 +230,26 @@ $metricTitles = [
 
     <!-- Card 2: การให้น้ำและปุ๋ย -->
     <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:px-8">
             <span class="material-symbols-outlined text-primary text-xs">opacity</span>
             <h3 class="text-[10px] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-2 2xl:space-y-8 2xl:p-8">
             <!-- Grid 2 Columns -->
-            <div class="grid grid-cols-2 gap-1">
+            <div class="grid grid-cols-2 gap-1 2xl:gap-8">
                 <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
-                    <p class="text-[7px] text-blue-500 font-bold uppercase mb-0.5">ตารางเวลา</p>
-                    <p class="text-[9px] font-bold text-blue-600" id="watering-schedule">-</p>
+                    <p class="text-[7px] 2xl:text-2xl 2xl:px-8 text-blue-500 font-bold uppercase mb-0.5">ตารางเวลา</p>
+                    <p class="text-[9px] 2xl:text-2xl 2xl:px-8 font-bold text-blue-600" id="watering-schedule">-</p>
                 </div>
-                <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+                <div class="bg-stone-50 p-2 2xl:p-4 rounded-lg border border-stone-100 2xl:p-8">
                     <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ปุ๋ย</p>
                     <p class="text-[9px] font-bold text-red-400" id="fertilizer-status">-</p>
                 </div>
             </div>
             
             <!-- Alert Row -->
-            <div class="flex items-center justify-between bg-red-50 p-4 rounded-lg border border-red-100">
-                <div class="flex items-center gap-1">
+            <div class="flex items-center justify-between bg-red-50 p-4 2xl:p-8 rounded-lg border border-red-100">
+                <div class="flex items-center gap-1 2xl:gap-4">
                     <span class="material-symbols-outlined text-red-600 text-[10px]">warning</span>
                     <span class="text-[7px] font-bold text-red-700">ศัตรูพืช</span>
                 </div>
@@ -260,47 +260,48 @@ $metricTitles = [
 
     <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
     <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:py-8">
             <span class="material-symbols-outlined text-primary text-xs">analytics</span>
             <h3 class="text-[10px] font-bold text-stone-700">การใช้ทรัพยากร</h3>
         </div>
         
-        <div class="space-y-1">
+        <div class="space-y-1 2xl:px-8">
             <!-- Grid 2 Columns -->
-            <div class="grid grid-cols-2 gap-1">
+            <div class="grid grid-cols-2 gap-1 2xl:gap-8">
                 <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
                     <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">น้ำ</p>
-                    <p class="text-[9px] font-bold">
+                    <p class="text-[9px] font-bold flex justify-center">
                         <span id="water-usage">-</span> 
                         <span class="text-[8px] font-normal text-slate-400">m³</span>
                     </p>
                 </div>
                 <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
                     <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ไฟฟ้า</p>
-                    <p class="text-[9px] font-bold">
+                    <p class="text-[9px] font-bold flex justify-center">
                         <span id="electricity-usage">-</span> 
                         <span class="text-[8px] font-normal text-slate-400">kWh</span>
                     </p>
                 </div>
             </div>
-            
-            <div class="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-100">
+            <div class="2xl:py-8">
+            <div class="flex items-center justify-between p-4 2xl:p-8 bg-orange-50 rounded-lg border border-orange-100">
                 <span class="text-[7px] font-bold text-slate-700">ต้นกล้า + ดำเนินงาน</span>
                 <span class="text-[8px] font-bold text-[#ff8021]" id="seedling-ops-cost">-</span>
+            </div>
             </div>
         </div>
     </div>
 
     <!-- Card 4: สรุปรายวันทั้งหมด -->
     <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-        <div class="flex items-center gap-2 mb-2">
+        <div class="flex items-center gap-2 mb-2 2xl:p-8">
             <span class="material-symbols-outlined text-primary text-xs">payments</span>
             <h3 class="text-[10px] font-bold text-stone-700">สรุปรายวัน</h3>
         </div>
         
-        <div class="space-y-1">
+        <div class="space-y-1 2xl:px-8">
             <!-- ของใช้วันนี้ -->
-            <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+            <div class="flex items-center justify-between p-1 2xl:py-2 bg-green-50 rounded-md border border-green-100">
                 <div class="flex items-center gap-1">
                     <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
                     <span class="text-[7px] font-bold text-green-700 uppercase">ของใช้วันนี้</span>
@@ -309,7 +310,7 @@ $metricTitles = [
             </div>
 
             <!-- น้ำและไฟ -->
-            <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+            <div class="flex items-center justify-between p-1 2xl:py-2 bg-yellow-50 rounded-md border border-yellow-100">
                 <div class="flex items-center gap-1">
                     <span class="material-symbols-outlined text-yellow-600 text-[8px]">bolt</span>
                     <span class="text-[7px] font-bold text-yellow-700 uppercase">น้ำและไฟ</span>
@@ -318,7 +319,7 @@ $metricTitles = [
             </div>
 
             <!-- อื่นๆ -->
-            <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+            <div class="flex items-center justify-between p-1 2xl:py-2 bg-red-50 rounded-md border border-red-100">
                 <div class="flex items-center gap-1">
                     <span class="material-symbols-outlined text-red-600 text-[8px]">more_horiz</span>
                     <span class="text-[7px] font-bold text-red-700 uppercase">อื่นๆ</span>

@@ -194,7 +194,7 @@ $metricTitles = [
                                 </div>
 
                                 <!-- Warning text -->
-                                <p class="text-[7px] text-stone-500 font-medium mt-3 text-center">
+                                <p class="text-[6px] text-stone-500 font-medium mt-3 text-center">
                                     <?= $warnings[$keys[$i]] ?>
                                 </p>
                             </div>
@@ -210,19 +210,19 @@ $metricTitles = [
   
   <!-- Card 1: สิ่งที่ต้องทำวันนี้ -->
   <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    <div class="flex items-center gap-2 mb-2">
+    <div class="flex items-center gap-2 mb-2 2xl:px-8 2xl:py-4">
       <span class="material-symbols-outlined text-primary text-xs">checklist</span>
       <h3 class="text-[10px] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
     </div>
-    <div id="tasks-container" class="space-y-2">
+    <div id="tasks-container" class="space-y-2 2xl:space-y-8 2xl:gap-8 2xl:px-8">
       <!-- สิ่งที่ต้องทำ -->
-      <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+      <div class="bg-stone-50 p-2 rounded-lg border border-stone-100 2xl:px-8">
         <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">สิ่งที่ต้องทำ</p>
         <p class="font-medium text-[9px] text-slate-800" id="task-todo">-</p>
       </div>
       
       <!-- ดินที่ควรจะเป็น -->
-      <div class="flex items-center justify-between bg-stone-50 p-1.5 rounded-lg border border-stone-100">
+      <div class="flex items-center justify-between bg-stone-50 p-1.5 2xl:px-8 rounded-lg border border-stone-100">
         <div>
           <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">ดินที่ควรจะเป็น</p>
           <p class="text-[9px] font-bold text-orange-600" id="soil-moisture">-</p>
@@ -237,25 +237,25 @@ $metricTitles = [
 
   <!-- Card 2: การให้น้ำและปุ๋ย -->
   <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    <div class="flex items-center gap-2 mb-2">
+    <div class="flex items-center gap-2 mb-2 2xl:p-8">
       <span class="material-symbols-outlined text-primary text-xs">water_drop</span>
       <h3 class="text-[10px] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
     </div>
-    <div id="watering-container" class="space-y-2">
+    <div id="watering-container" class="space-y-2 2xl:px-8">
       <!-- Grid 2 Columns -->
-      <div class="grid grid-cols-2 gap-1">
-        <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
+      <div class="grid grid-cols-2 gap-1 2xl:gap-8 2xl:mb-8">
+        <div class="bg-blue-50 p-2 2xl:px-8 rounded-lg border border-blue-100">
           <p class="text-[7px] text-blue-500 font-bold uppercase mb-0.5">การให้น้ำ</p>
           <p class="text-[9px] font-bold text-blue-600" id="watering-schedule">-</p>
         </div>
-        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+        <div class="bg-stone-50 p-2 2xl:px-8 rounded-lg border border-stone-100">
           <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">การใส่ปุ๋ย</p>
           <p class="text-[9px] font-bold text-slate-800" id="fertilizer-schedule">-</p>
         </div>
       </div>
       
       <!-- โรค/ศัตรูพืช -->
-      <div class="bg-red-50 p-2 rounded-lg border border-red-100">
+      <div class="bg-red-50 p-2 2xl:px-8 rounded-lg border border-red-100">
         <p class="text-[7px] text-red-500 font-bold uppercase tracking-wider mb-0.5">โรค/ศัตรูพืชที่ต้องระวัง</p>
         <p class="text-[9px] font-bold text-red-600" id="pest-warning">-</p>
       </div>
@@ -264,23 +264,23 @@ $metricTitles = [
 
   <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
   <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    <div class="flex items-center gap-2 mb-2">
+    <div class="flex items-center gap-2 mb-2 2xl:p-8">
       <span class="material-symbols-outlined text-primary text-xs">analytics</span>
       <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
     </div>
     <div id="resource-cost-container" class="space-y-1">
       <!-- Grid 2 Columns -->
-      <div class="grid grid-cols-2 gap-1">
-        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+      <div class="grid grid-cols-2 gap-1 2xl:gap-8 2xl:p-8">
+        <div class="bg-stone-50 p-2 2xl:px-8 rounded-lg border border-stone-100">
           <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ค่าน้ำประปา</p>
-          <p class="text-[10px] font-bold text-slate-800">
+          <p class="text-[10px] font-bold text-slate-800 flex justify-center">
             <span id="water-usage">-</span> 
             <span class="text-[8px] font-normal text-slate-400">m³</span>
           </p>
         </div>
-        <div class="bg-stone-50 p-2 rounded-lg border border-stone-100">
+        <div class="bg-stone-50 p-2 2xl:px-8 rounded-lg border border-stone-100">
           <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ค่าไฟฟ้า</p>
-          <p class="text-[10px] font-bold text-slate-800">
+          <p class="text-[10px] font-bold text-slate-800 flex justify-center">
             <span id="electricity-usage">-</span> 
             <span class="text-[8px] font-normal text-slate-400">kWh</span>
           </p>
@@ -288,7 +288,7 @@ $metricTitles = [
       </div>
       
       <!-- เป้าหมาย -->
-      <div class="text-[8px] text-slate-400 text-center">
+      <div class="text-[8px] text-slate-400 text-start 2xl:px-8">
         <span>เป้าหมายวันนี้: <span id="resource-target">-</span></span>
       </div>
     </div>
@@ -296,29 +296,29 @@ $metricTitles = [
 
   <!-- Card 4: ต้นทุนรวมวันนี้ -->
   <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    <div class="flex items-center gap-2 mb-2">
+    <div class="flex items-center gap-2 mb-2 2xl:p-8">
       <span class="material-symbols-outlined text-primary text-xs">payments</span>
       <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
     </div>
-    <div id="total-cost-container" class="space-y-1">
+    <div id="total-cost-container" class="space-y-1 2xl:space-y-4 2xl:px-8">
       <!-- รายการค่าใช้จ่าย -->
-      <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+      <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
         <span class="text-[7px] font-bold text-green-700 uppercase">ค่าของใช้วันนี้</span>
         <span class="text-[7px] font-bold text-green-700" id="daily-supplies">-</span>
       </div>
 
-      <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+      <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
         <span class="text-[7px] font-bold text-yellow-700 uppercase">ค่าน้ำ/ค่าไฟ</span>
         <span class="text-[7px] font-bold text-yellow-700" id="utility-cost">-</span>
       </div>
 
-      <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+      <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
         <span class="text-[7px] font-bold text-red-700 uppercase">อื่นๆ</span>
         <span class="text-[7px] font-bold text-red-700" id="other-cost">-</span>
       </div>
 
       <!-- Total -->
-      <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+      <div class="pt-1.5 mt-0.75 2xl:px-4 border-t border-slate-200 flex justify-between items-center">
         <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">รวม</span>
         <span class="font-bold text-[11px] text-primary" id="total-cost">-</span>
       </div>
