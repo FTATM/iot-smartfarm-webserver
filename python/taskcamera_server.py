@@ -59,7 +59,7 @@ async def grabber(ws, cam_name, rtsp_url):
             cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
             if not cap.isOpened():
-                print(f"{cam_name} cannot open stream → retry in 5 sec")
+                print(f"{cam_name} cannot open stream -> retry in 5 sec")
                 await asyncio.sleep(5)
                 print()
                 continue

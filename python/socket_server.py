@@ -80,7 +80,7 @@ async def handler(ws):
         if ws == camera_owner:
             camera_data = None
             camera_owner = None
-            print("Camera owner disconnected → cleared camera_data")
+            print("Camera owner disconnected -> cleared camera_data")
 
 
 async def db_service():
