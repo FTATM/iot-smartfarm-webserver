@@ -1,0 +1,209 @@
+<!-- JavaScript -->
+<script>
+    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const today = new Date();
+    const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+    document.getElementById('start-date').textContent = formattedDate;
+
+
+    function getStatusByKey(key, v, min, max) {
+        if (v >= min && v <= max) return { text: 'ดีที่สุด', type: 'success' };
+        if (v > max) return { text: 'เหมาะสม', type: 'success' };
+        if (v >= min && v <= max) return { text: 'ไม่ดี', type: 'warning' };
+        return { text: 'อันตราย', type: 'danger' };
+
+    }
+
+    function setBadge(statusEl, text, type) {
+        const map = {
+            success: 'status px-2 py-0.5 rounded-full bg-green-100 text-green-600 text-[9px] font-bold uppercase',
+            warning: 'status px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-[9px] font-bold uppercase',
+            danger: 'status px-2 py-0.5 rounded-full bg-red-100 text-red-600 text-[9px] font-bold uppercase',
+            info: 'status px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[9px] font-bold uppercase',
+            na: 'status px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase',
+            orange: 'status px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[9px] font-bold uppercase',
+        };
+
+        statusEl.textContent = text;
+        statusEl.className = map[type] || map.na;
+    }
+
+    function setCardValue(key, value, min, max) {
+        const card = document.getElementById(`card-${key}`);
+        if (!card) return;
+
+        const valueEl = card.querySelector('.value');
+        const statusEl = card.querySelector('.status');
+
+
+        if (value === null || value === undefined || isNaN(value)) {
+            valueEl.textContent = '--';
+            setBadge(statusEl, 'N/A', 'na');
+            return;
+        }
+
+        const v = Number(value);
+
+
+        valueEl.textContent = v.toLocaleString('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+
+        const st = getStatusByKey(key, v, min, max);
+        setBadge(statusEl, st.text, st.type);
+
+        updateMetricBar(key, v);
+    }
+
+    //=============== Bar Process ==================
+
+    const BAR_CONFIG = {
+        DO: {
+            min: 0,
+            max: 7,
+            leftLabel: '3.0',
+            rightLabel: '7.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        PH: {
+            min: 1,
+            max: 14,
+            leftLabel: '1',
+            rightLabel: '14',
+            leftColor: '#7F1D1D',
+            rightColor: '#581C87',
+        },
+        EC: {
+            min: 15000,
+            max: 50000,
+            leftLabel: '23K',
+            rightLabel: '45K',
+            leftColor: '#3B82F6',
+            rightColor: '#198754',
+        },
+        Temp: {
+            min: 25,
+            max: 35,
+            leftLabel: '28°C',
+            rightLabel: '32°C',
+            leftColor: '#3B82F6',
+            rightColor: '#F97316',
+        },
+        Voltage_S: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        Voltage_L: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        Current_S: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        Current_L: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        Power_S: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+        Power_L: {
+            min: 200,
+            max: 230,
+            leftLabel: '210.0',
+            rightLabel: '220.0',
+            leftColor: '#C73434',
+            rightColor: '#198754',
+        },
+    };
+
+    function initMetricBars() {
+        document.querySelectorAll('.metric-range').forEach(wrap => {
+            const key = wrap.dataset.key;
+            const cfg = BAR_CONFIG[key];
+            if (!cfg) return;
+
+            wrap.classList.remove('hidden');
+
+            const left = wrap.querySelector('.label-left');
+            const right = wrap.querySelector('.label-right');
+            left.textContent = cfg.leftLabel || '';
+            right.textContent = cfg.rightLabel || '';
+            left.style.color = cfg.leftColor || '#C73434';
+            right.style.color = cfg.rightColor || '#198754';
+
+            const fill = wrap.querySelector('.fill');
+            if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
+        });
+    }
+
+    function updateMetricBar(key, value) {
+        const cfg = BAR_CONFIG[key];
+        if (!cfg) return;
+
+        const wrap = document.querySelector(`.metric-range[data-key="${key}"]`);
+        if (!wrap) return;
+
+        const fill = wrap.querySelector('.fill');
+
+        if (value === null || value === undefined || isNaN(value)) {
+            if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
+            return;
+        }
+
+        const v = Number(value);
+        const pct = ((v - cfg.min) / (cfg.max - cfg.min)) * 100;
+        const safePct = clamp(pct, 0, 100);
+
+        if (fill) {
+            fill.style.clipPath = `inset(0 ${100 - safePct}% 0 0)`;
+        }
+    }
+
+    //=============== Function Calc ==================
+    function clamp(n, min, max) {
+        return Math.max(min, Math.min(max, n));
+    }
+
+    function toNumber(v) {
+        const n = parseFloat(v);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    function formatNumber(n) {
+        return (Number.isFinite(n) ? n : 0).toFixed(1);
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+
+
+</script>
