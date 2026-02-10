@@ -292,44 +292,44 @@ $metricTitles = [
         </div>
     </div>
 
-    <!-- Card 4: สรุปรายวันทั้งหมด -->
+    <!-- Card 4: ต้นทุนรวมวันนี้ -->
     <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
         <div class="flex items-center gap-2 mb-2 2xl:p-8">
             <span class="material-symbols-outlined text-primary text-xs">payments</span>
-            <h3 class="text-[10px] font-bold text-stone-700">สรุปรายวัน</h3>
+            <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
         </div>
         
-        <div class="space-y-1 2xl:px-8">
+        <div class="space-y-1 2xl:px-8 2xl:space-y-2">
             <!-- ของใช้วันนี้ -->
             <div class="flex items-center justify-between p-1 2xl:py-2 bg-green-50 rounded-md border border-green-100">
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 2xl:px-1">
                     <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-                    <span class="text-[7px] font-bold text-green-700 uppercase">ของใช้วันนี้</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-green-700 uppercase">ของใช้วันนี้</span>
                 </div>
                 <span class="text-[7px] font-bold text-green-700" id="consumables-cost">-</span>
             </div>
 
             <!-- น้ำและไฟ -->
             <div class="flex items-center justify-between p-1 2xl:py-2 bg-yellow-50 rounded-md border border-yellow-100">
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 2xl:px-1">
                     <span class="material-symbols-outlined text-yellow-600 text-[8px]">bolt</span>
-                    <span class="text-[7px] font-bold text-yellow-700 uppercase">น้ำและไฟ</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-yellow-700 uppercase">น้ำและไฟ</span>
                 </div>
                 <span class="text-[7px] font-bold text-yellow-700" id="utilities-cost">-</span>
             </div>
 
             <!-- อื่นๆ -->
             <div class="flex items-center justify-between p-1 2xl:py-2 bg-red-50 rounded-md border border-red-100">
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 2xl:px-1">
                     <span class="material-symbols-outlined text-red-600 text-[8px]">more_horiz</span>
-                    <span class="text-[7px] font-bold text-red-700 uppercase">อื่นๆ</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-red-700 uppercase">อื่นๆ</span>
                 </div>
                 <span class="text-[7px] font-bold text-red-700" id="other-cost">-</span>
             </div>
 
             <!-- Total -->
             <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-                <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">ประมาณการรวม</span>
+                <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">รวม</span>
                 <span class="font-bold text-[11px] text-primary" id="total-estimate">-</span>
             </div>
         </div>

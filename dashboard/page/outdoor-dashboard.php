@@ -303,17 +303,26 @@ $metricTitles = [
     <div id="total-cost-container" class="space-y-1 2xl:space-y-4 2xl:px-8">
       <!-- รายการค่าใช้จ่าย -->
       <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
-        <span class="text-[7px] font-bold text-green-700 uppercase">ค่าของใช้วันนี้</span>
+        <div class="flex items-center gap-1 2xl:px-1">
+                    <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-green-700 uppercase">ของใช้วันนี้</span>
+                </div>
         <span class="text-[7px] font-bold text-green-700" id="daily-supplies">-</span>
       </div>
 
       <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
-        <span class="text-[7px] font-bold text-yellow-700 uppercase">ค่าน้ำ/ค่าไฟ</span>
+        <div class="flex items-center gap-1 2xl:px-1">
+                    <span class="material-symbols-outlined text-yellow-600 text-[8px]">bolt</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-yellow-700 uppercase">น้ำและไฟ</span>
+                </div>
         <span class="text-[7px] font-bold text-yellow-700" id="utility-cost">-</span>
       </div>
 
       <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
-        <span class="text-[7px] font-bold text-red-700 uppercase">อื่นๆ</span>
+        <div class="flex items-center gap-1 2xl:px-1">
+                    <span class="material-symbols-outlined text-red-600 text-[8px]">more_horiz</span>
+                    <span class="text-[7px] 2xl:px-4 font-bold text-red-700 uppercase">อื่นๆ</span>
+                </div>
         <span class="text-[7px] font-bold text-red-700" id="other-cost">-</span>
       </div>
 
