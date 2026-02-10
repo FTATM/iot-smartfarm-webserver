@@ -17,22 +17,22 @@ $metricTitles = [
     ],
     [
         "title" => "กำลังไฟฟ้า",
-        "value"=> "Power (Supply)",
+        "value" => "Power (Supply)",
         "unit"  => "W"
     ],
     [
         "title" => "แรงดันไฟฟ้า",
-        "value"=> "Voltage (Load)",
+        "value" => "Voltage (Load)",
         "unit"  => "V"
     ],
     [
         "title" => "กระแสไฟฟ้า",
-        "value"=> "Current (Load)",
+        "value" => "Current (Load)",
         "unit"  => "mA"
     ],
     [
         "title" => "กำลังไฟฟ้า",
-        "value"=> "Power (Load)",
+        "value" => "Power (Load)",
         "unit"  => "W"
     ],
 ]
@@ -88,10 +88,10 @@ $metricTitles = [
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-    <img src="images/Solar.jpeg" 
-         alt="เครื่องมือ/อุปกรณ์" 
-         class="w-full h-full object-cover rounded-xl">
-</div>
+                        <img src="images/Solar.jpeg"
+                            alt="เครื่องมือ/อุปกรณ์"
+                            class="w-full h-full object-cover rounded-xl">
+                    </div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
@@ -152,57 +152,6 @@ $metricTitles = [
 
                 <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->
                 <div class="grid grid-cols-6 gap-4 shrink-0" id="metrics-cards">
-                    <?php
-                    $keys = ['do', 'ph', 'ec', 'temp'];
-                    $warnings = [
-                        'do' => 'ควรอยู่ระหว่าง 3.0-7.0 mg/L',
-                        'ph' => 'ควรอยู่ระหว่าง 7.0-8.5',
-                        'ec' => 'ควรอยู่ระหว่าง 23K-45K μS/cm',
-                        'temp' => 'ควรอยู่ระหว่าง 28-32 °C'
-                    ];
-
-                    for ($i = 0; $i < count($metricTitles); $i++): ?>
-                        <div class="bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0" id="card-<?= $keys[$i] ?>">
-                            <div class="w-full flex justify-between items-center">
-                                <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
-                                    <?= $metricTitles[$i]['title'] ?>
-                                </span>
-                                <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase status" id="card-<?= $keys[$i] ?>">
-                                    --
-                                </span>
-                            </div>
-                            <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
-                                    <?= $metricTitles[$i]['value'] ?>
-                                </span>
-
-                            <div class="flex-1 flex items-center justify-center">
-                                <div class="flex items-baseline gap-1">
-                                    <span class="text-lg font-black text-black value">--</span>
-                                    <span class="text-sm font-bold text-stone-400">
-                                        <?= $metricTitles[$i]['unit'] ?>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Range Bar with Fixed Gradient -->
-                            <div class="metric-range mt-2 hidden" data-key="<?= $keys[$i] ?>">
-                                <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
-                                    <span class="label-left"></span>
-                                    <span class="label-right"></span>
-                                </div>
-
-                                <div class="relative h-1.5 rounded-full bar">
-                                    <div class="fill"></div>
-                                </div>
-
-                                <!-- Warning text -->
-                                <p class="text-[7px] text-stone-500 font-medium mt-3 text-center">
-                                    <?= $warnings[$keys[$i]] ?>
-                                </p>
-                            </div>
-
-                        </div>
-                    <?php endfor; ?>
                 </div>
 
             </div>
@@ -211,47 +160,47 @@ $metricTitles = [
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: Power Meter -->
-<div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
-    <div class="flex items-center gap-2 mb-2">
-        <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
-        <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
-    </div>
-    
-    <div class="grid grid-cols-1 gap-1">
-        <!-- Feed Cycles -->
-        <div class="flex justify-between items-center bg-stone-50 p-2 rounded-xl border border-stone-100">
-            <div>
-                <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Feed Cycles</p>
-                <p class="text-xs font-bold text-slate-800" id="feed-cycles">
-                    <span class="animate-pulse">--</span> 
-                    <span class="text-xs font-normal text-slate-400">Total</span>
-                </p>
-            </div>
-            <div class="text-right">
-                <p class="text-[7px] text-[#ff8021] font-bold uppercase tracking-wider">Status</p>
-                <p class="text-xs font-bold text-slate-800" id="feed-status">--</p>
-            </div>
-        </div>
-        
-        <!-- Grid 2 Columns -->
-        <div class="grid grid-cols-2 gap-2">
-            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
-                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Inc. per Meal</p>
-                <p class="text-xs font-bold" id="inc-per-meal">
-                    <span class="animate-pulse">--</span> 
-                    <span class="text-xs font-normal text-slate-400">kW</span>
-                </p>
-            </div>
-            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
-                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Total Intake</p>
-                <p class="text-xs font-bold" id="total-intake">
-                    <span class="animate-pulse">--</span> 
-                    <span class="text-xs font-normal text-slate-400">kWh</span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-1">
+                        <!-- Feed Cycles -->
+                        <div class="flex justify-between items-center bg-stone-50 p-2 rounded-xl border border-stone-100">
+                            <div>
+                                <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Feed Cycles</p>
+                                <p class="text-xs font-bold text-slate-800" id="feed-cycles">
+                                    <span class="animate-pulse">--</span>
+                                    <span class="text-xs font-normal text-slate-400">Total</span>
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[7px] text-[#ff8021] font-bold uppercase tracking-wider">Status</p>
+                                <p class="text-xs font-bold text-slate-800" id="feed-status">--</p>
+                            </div>
+                        </div>
+
+                        <!-- Grid 2 Columns -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Inc. per Meal</p>
+                                <p class="text-xs font-bold" id="inc-per-meal">
+                                    <span class="animate-pulse">--</span>
+                                    <span class="text-xs font-normal text-slate-400">kW</span>
+                                </p>
+                            </div>
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Total Intake</p>
+                                <p class="text-xs font-bold" id="total-intake">
+                                    <span class="animate-pulse">--</span>
+                                    <span class="text-xs font-normal text-slate-400">kWh</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Card 2: Solar Supply/Load -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
@@ -260,90 +209,90 @@ $metricTitles = [
                         <h3 class="text-[10px] font-bold text-stone-700">Solar Supply/Load</h3>
                     </div>
                     <div class="space-y-2">
-                    <!-- Header -->
-                    <div class="flex items-center justify-between text-[7px] font-bold text-slate-400 uppercase tracking-wider px-1">
-                        <span>Metrics</span>
-                        <div class="flex gap-3">
-                            <span class="w-10 text-center text-[#ff8021]">1h</span>
-                            <span class="w-10 text-center text-[#ff8021]">3h</span>
-                            <span class="w-10 text-center text-[#ff8021]">12h</span>
+                        <!-- Header -->
+                        <div class="flex items-center justify-between text-[7px] font-bold text-slate-400 uppercase tracking-wider px-1">
+                            <span>Metrics</span>
+                            <div class="flex gap-3">
+                                <span class="w-10 text-center text-[#ff8021]">1h</span>
+                                <span class="w-10 text-center text-[#ff8021]">3h</span>
+                                <span class="w-10 text-center text-[#ff8021]">12h</span>
+                            </div>
+                        </div>
+
+                        <!-- Supply Row -->
+                        <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-green-600 text-sm">arrow_upward</span>
+                                <span class="text-[9px] font-bold text-slate-700">Supply</span>
+                            </div>
+                            <div class="flex gap-3 text-[10px] font-bold">
+                                <span class="w-10 text-center text-slate-800" id="supply-1h">--</span>
+                                <span class="w-10 text-center text-slate-800" id="supply-3h">--</span>
+                                <span class="w-10 text-center text-slate-800" id="supply-12h">--</span>
+                            </div>
+                        </div>
+
+                        <!-- Load Row -->
+                        <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-red-600 text-sm">arrow_downward</span>
+                                <span class="text-[9px] font-bold text-slate-700">Load</span>
+                            </div>
+                            <div class="flex gap-3 text-[10px] font-bold">
+                                <span class="w-10 text-center text-slate-800" id="load-1h">--</span>
+                                <span class="w-10 text-center text-slate-800" id="load-3h">--</span>
+                                <span class="w-10 text-center text-slate-800" id="load-12h">--</span>
+                            </div>
+                        </div>
+
+                        <!-- Balance Row -->
+                        <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[#ff8021] text-sm">balance</span>
+                                <span class="text-[9px] font-bold text-slate-700">Balance</span>
+                            </div>
+                            <div class="flex gap-3 text-[10px] font-bold">
+                                <span class="w-10 text-center text-[#ff8021]" id="balance-1h">--</span>
+                                <span class="w-10 text-center text-[#ff8021]" id="balance-3h">--</span>
+                                <span class="w-10 text-center text-[#ff8021]" id="balance-12h">--</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Supply Row -->
-                    <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-green-600 text-sm">arrow_upward</span>
-                            <span class="text-[9px] font-bold text-slate-700">Supply</span>
-                        </div>
-                        <div class="flex gap-3 text-[10px] font-bold">
-                            <span class="w-10 text-center text-slate-800" id="supply-1h">--</span>
-                            <span class="w-10 text-center text-slate-800" id="supply-3h">--</span>
-                            <span class="w-10 text-center text-slate-800" id="supply-12h">--</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Load Row -->
-                    <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-red-600 text-sm">arrow_downward</span>
-                            <span class="text-[9px] font-bold text-slate-700">Load</span>
-                        </div>
-                        <div class="flex gap-3 text-[10px] font-bold">
-                            <span class="w-10 text-center text-slate-800" id="load-1h">--</span>
-                            <span class="w-10 text-center text-slate-800" id="load-3h">--</span>
-                            <span class="w-10 text-center text-slate-800" id="load-12h">--</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Balance Row -->
-                    <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-symbols-outlined text-[#ff8021] text-sm">balance</span>
-                            <span class="text-[9px] font-bold text-slate-700">Balance</span>
-                        </div>
-                        <div class="flex gap-3 text-[10px] font-bold">
-                            <span class="w-10 text-center text-[#ff8021]" id="balance-1h">--</span>
-                            <span class="w-10 text-center text-[#ff8021]" id="balance-3h">--</span>
-                            <span class="w-10 text-center text-[#ff8021]" id="balance-12h">--</span>
-                        </div>
-                    </div>
-                </div>
                 </div>
 
                 <!-- Card 3: เงินคืนทุน -->
-<div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    <div class="flex items-center gap-1.5 mb-2">
-        <span class="material-symbols-outlined text-primary text-xs solar--hand-money-linear"></span>
-        <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
-    </div>
-    
-    <div class="space-y-1">
-        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-            <span class="text-[9px] font-bold text-slate-700">ทุนเริ่มต้น</span>
-            <div class="flex gap-2 text-[9px] font-medium">
-                <span class="w-12 text-center" id="initial-capital">-</span>
-            </div>
-        </div>
-        
-        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-            <span class="text-[9px] font-bold text-slate-700">คืนแล้ว</span>
-            <div class="flex gap-2 text-[9px] font-medium">
-                <span class="w-12 text-center text-green-600" id="refunded">-</span>
-            </div>
-        </div>
-        
-        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-            <span class="text-[9px] font-bold text-slate-700">คงเหลือ</span>
-            <div class="flex gap-2 text-[9px] font-medium">
-                <span class="w-12 text-center text-orange-600" id="remaining">-</span>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                    <div class="flex items-center gap-1.5 mb-2">
+                        <span class="material-symbols-outlined text-primary text-xs solar--hand-money-linear"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[9px] font-bold text-slate-700">ทุนเริ่มต้น</span>
+                            <div class="flex gap-2 text-[9px] font-medium">
+                                <span class="w-12 text-center" id="initial-capital">-</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[9px] font-bold text-slate-700">คืนแล้ว</span>
+                            <div class="flex gap-2 text-[9px] font-medium">
+                                <span class="w-12 text-center text-green-600" id="refunded">-</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[9px] font-bold text-slate-700">คงเหลือ</span>
+                            <div class="flex gap-2 text-[9px] font-medium">
+                                <span class="w-12 text-center text-orange-600" id="remaining">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Card 4: ต้นทุนรวมทั้งหมด -->
-<div x-data="{ 
+                <div x-data="{ 
     hardware: null, 
     infrastructure: null, 
     miscellaneous: null,
@@ -364,48 +313,48 @@ $metricTitles = [
         return num ? '฿ ' + new Intl.NumberFormat('th-TH').format(num) : '-';
     }
 }" class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-    
-    <div class="flex items-center gap-1.5 mb-2">
-        <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
-        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
-    </div>
-    
-    <div class="space-y-2">
-    <!-- Hardware -->
-    <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
-        <div class="flex items-center gap-1">
-            <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-            <span class="text-[7px] font-bold text-green-700 uppercase">Hardware</span>
-        </div>
-        <span class="text-[7px] font-bold text-green-700" x-text="format(hardware)">-</span>
-    </div>
 
-    <!-- Infrastructure -->
-    <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
-        <div class="flex items-center gap-1">
-            <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
-            <span class="text-[7px] font-bold text-yellow-700 uppercase">Infrastructure</span>
-        </div>
-        <span class="text-[7px] font-bold text-yellow-700" x-text="format(infrastructure)">-</span>
-    </div>
+                    <div class="flex items-center gap-1.5 mb-2">
+                        <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
+                    </div>
 
-    <!-- Miscellaneous -->
-    <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
-        <div class="flex items-center gap-1">
-            <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
-            <span class="text-[7px] font-bold text-red-700 uppercase">Miscellaneous</span>
-        </div>
-        <span class="text-[7px] font-bold text-red-700" x-text="format(miscellaneous)">-</span>
-    </div>
+                    <div class="space-y-2">
+                        <!-- Hardware -->
+                        <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
+                                <span class="text-[7px] font-bold text-green-700 uppercase">Hardware</span>
+                            </div>
+                            <span class="text-[7px] font-bold text-green-700" x-text="format(hardware)">-</span>
+                        </div>
 
-    <!-- Total -->
-    <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-        <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
-        <span class="font-bold text-[11px] text-primary" x-text="format(total)">-</span>
-    </div>
-</div>
+                        <!-- Infrastructure -->
+                        <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
+                                <span class="text-[7px] font-bold text-yellow-700 uppercase">Infrastructure</span>
+                            </div>
+                            <span class="text-[7px] font-bold text-yellow-700" x-text="format(infrastructure)">-</span>
+                        </div>
 
-</div>
+                        <!-- Miscellaneous -->
+                        <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
+                                <span class="text-[7px] font-bold text-red-700 uppercase">Miscellaneous</span>
+                            </div>
+                            <span class="text-[7px] font-bold text-red-700" x-text="format(miscellaneous)">-</span>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
+                            <span class="font-bold text-[11px] text-primary" x-text="format(total)">-</span>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -421,6 +370,7 @@ $metricTitles = [
         </div>
     </footer>
 
+    <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-solar.html"; ?>
 </body>
 
