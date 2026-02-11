@@ -65,7 +65,7 @@ $currentTime = date('H:i:s');
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 shrink-0">
+                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 id="title-graph-sensor" class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
@@ -94,7 +94,7 @@ $currentTime = date('H:i:s');
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 shrink-0">
+                            <div class="flex justify-between items-center mb-2  2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-primary rounded-full"></span>
@@ -129,14 +129,14 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 1: Power Meter -->
                 <div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm temaki--power-meter"></span>
                         <h3 class="text-[10px] font-bold text-stone-700">Power Meter</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-1">
+                    <div class="grid grid-cols-1 gap-1 2xl:px-8">
                         <!-- Feed Cycles -->
-                        <div class="flex justify-between items-center bg-stone-50 p-2 rounded-xl border border-stone-100">
+                        <div class="flex justify-between items-center bg-stone-50 p-2 2xl:p-8 rounded-xl border border-stone-100">
                             <div>
                                 <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Feed Cycles</p>
                                 <p class="text-xs font-bold text-slate-800" id="feed-cycles">
@@ -151,15 +151,15 @@ $currentTime = date('H:i:s');
                         </div>
 
                         <!-- Grid 2 Columns -->
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                        <div class="grid grid-cols-2 gap-2 2xl:gap-8 2xl:mt-4">
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
                                 <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Inc. per Meal</p>
                                 <p class="text-xs font-bold" id="inc-per-meal">
                                     <span class="animate-pulse">--</span>
                                     <span class="text-xs font-normal text-slate-400">kW</span>
                                 </p>
                             </div>
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100">
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
                                 <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Total Intake</p>
                                 <p class="text-xs font-bold" id="total-intake">
                                     <span class="animate-pulse">--</span>
@@ -172,11 +172,11 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 2: Solar Supply/Load -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm cbi--solar-battery "></span>
                         <h3 class="text-[10px] font-bold text-stone-700">Solar Supply/Load</h3>
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
                         <!-- Header -->
                         <div class="flex items-center justify-between text-[7px] font-bold text-slate-400 uppercase tracking-wider px-1">
                             <span>Metrics</span>
@@ -190,7 +190,7 @@ $currentTime = date('H:i:s');
                         <!-- Supply Row -->
                         <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
                             <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-green-600 text-sm">arrow_upward</span>
+                                <span class="material-symbols-outlined text-green-600 text-sm 2xl:px-4">arrow_upward</span>
                                 <span class="text-[9px] font-bold text-slate-700">Supply</span>
                             </div>
                             <div class="flex gap-3 text-[10px] font-bold">
@@ -202,8 +202,8 @@ $currentTime = date('H:i:s');
 
                         <!-- Load Row -->
                         <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
-                            <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-red-600 text-sm">arrow_downward</span>
+                            <div class="flex items-center gap-1. 5">
+                                <span class="material-symbols-outlined text-red-600 text-sm 2xl:px-4">arrow_downward</span>
                                 <span class="text-[9px] font-bold text-slate-700">Load</span>
                             </div>
                             <div class="flex gap-3 text-[10px] font-bold">
@@ -216,7 +216,7 @@ $currentTime = date('H:i:s');
                         <!-- Balance Row -->
                         <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
                             <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-[#ff8021] text-sm">balance</span>
+                                <span class="material-symbols-outlined text-[#ff8021] text-sm 2xl:px-4">balance</span>
                                 <span class="text-[9px] font-bold text-slate-700">Balance</span>
                             </div>
                             <div class="flex gap-3 text-[10px] font-bold">
@@ -230,27 +230,27 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 3: เงินคืนทุน -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-1.5 mb-2">
+                    <div class="flex items-center gap-1.5 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-xs solar--hand-money-linear"></span>
                         <h3 class="text-[10px] font-bold text-stone-700">เงินคืนทุน</h3>
                     </div>
 
-                    <div class="space-y-1">
-                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                    <div class="space-y-1 2xl:space-y-4 2xl:px-8">
+                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">ทุนเริ่มต้น</span>
                             <div class="flex gap-2 text-[9px] font-medium">
                                 <span class="w-12 text-center" id="initial-capital">-</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">คืนแล้ว</span>
                             <div class="flex gap-2 text-[9px] font-medium">
                                 <span class="w-12 text-center text-green-600" id="refunded">-</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">คงเหลือ</span>
                             <div class="flex gap-2 text-[9px] font-medium">
                                 <span class="w-12 text-center text-orange-600" id="remaining">-</span>
@@ -282,41 +282,41 @@ $currentTime = date('H:i:s');
     }
 }" class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
 
-                    <div class="flex items-center gap-1.5 mb-2">
+                    <div class="flex items-center gap-1.5 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
                         <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
                         <!-- Hardware -->
-                        <div class="flex items-center justify-between p-1 bg-green-50 rounded-md border border-green-100">
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
                             <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-                                <span class="text-[7px] font-bold text-green-700 uppercase">Hardware</span>
+                                <span class="text-[7px] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
                             </div>
                             <span class="text-[7px] font-bold text-green-700" x-text="format(hardware)">-</span>
                         </div>
 
                         <!-- Infrastructure -->
-                        <div class="flex items-center justify-between p-1 bg-yellow-50 rounded-md border border-yellow-100">
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
                             <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
-                                <span class="text-[7px] font-bold text-yellow-700 uppercase">Infrastructure</span>
+                                <span class="text-[7px] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
                             </div>
                             <span class="text-[7px] font-bold text-yellow-700" x-text="format(infrastructure)">-</span>
                         </div>
 
                         <!-- Miscellaneous -->
-                        <div class="flex items-center justify-between p-1 bg-red-50 rounded-md border border-red-100">
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
                             <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
-                                <span class="text-[7px] font-bold text-red-700 uppercase">Miscellaneous</span>
+                                <span class="text-[7px] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
                             </div>
                             <span class="text-[7px] font-bold text-red-700" x-text="format(miscellaneous)">-</span>
                         </div>
 
                         <!-- Total -->
-                        <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+                        <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
                             <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
                             <span class="font-bold text-[11px] text-primary" x-text="format(total)">-</span>
                         </div>

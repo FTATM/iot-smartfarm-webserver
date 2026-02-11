@@ -198,7 +198,7 @@ $metricTitles = [
                         <!-- กราฟที่ 1: DO Trend Chart -->
                         <div
                             class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 shrink-0">
+                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
@@ -218,6 +218,7 @@ $metricTitles = [
                                         type="button">1 เดือน</button>
                                 </div>
                             </div>
+                            <div class="2xl:p-8">
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md">
                                 <div id="do-loading" class="absolute inset-0 flex items-center justify-center z-10">
                                     <div class="flex gap-1">
@@ -228,12 +229,13 @@ $metricTitles = [
                                 </div>
                                 <canvas id="doTrendChart" class="absolute inset-0"></canvas>
                             </div>
+                            </div>
                         </div>
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
                         <div
                             class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 shrink-0">
+                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-primary rounded-full"></span>
@@ -243,6 +245,7 @@ $metricTitles = [
                                         Market Price</p>
                                 </div>
                             </div>
+                            <div class="2xl:p-8">
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
                                 <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
                                     <div class="flex gap-1">
@@ -252,6 +255,7 @@ $metricTitles = [
                                     </div>
                                 </div>
                                 <canvas id="marketPriceChart" class="absolute inset-0"></canvas>
+                            </div>
                             </div>
                         </div>
                     </div>
