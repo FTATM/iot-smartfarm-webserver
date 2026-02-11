@@ -1,26 +1,31 @@
 <!-- JavaScript -->
 <script>
     let sensors = {};
-    let costs = {};
     let isLoading = true;
     let sensor_select = 0;
+
+
+    // Adjust font sizes based on screen width
+    const screenWidth = window.innerWidth;
     document.addEventListener('DOMContentLoaded', async () => {
 
         await loadSensorData();
+        await loadCostsData();
         await Card1(sensors);
         await Card2(sensors);
-        await Card3(costs);
-        await Card4(costs);
+        await Card3();
+        await Card4();
 
-        await loadGraphsensorById();
+        await loadGraphSensorById();
+        await loadGraphMarketById();
 
         isLoading = false;
         initMetricBars();
-        setInterval(async () => {
-            await loadSensorData();
-            await loadGraphsensorById();
-            initMetricBars();
-        }, 5000);
+        // setInterval(async () => {
+        //     await loadSensorData();
+        //     await loadGraphSensorById();
+        //     initMetricBars();
+        // }, 10000);
 
     });
 
@@ -47,6 +52,10 @@
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
+    }
+
+    async function loadCostsData() {
+
     }
 
     function Create_sensorCard(sensors) {
@@ -80,7 +89,7 @@
                 </div>
 
                 <!-- Range Bar with Fixed Gradient -->
-                <div class="metric-range mt-2 hidden" data-key="${key}">
+                <div class="metric-range mt-2 hidden" data-key="${key}" data-min="${min}" data-max="${max}">
                     <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
                         <span class="label-left"></span>
                         <span class="label-right"></span>
@@ -95,7 +104,7 @@
             div.onclick = () => {
                 console.log("Select sensor : " + row.monitor_id);
                 sensor_select = row.monitor_id;
-                loadGraphsensorById();
+                loadGraphSensorById();
             }
 
             metricsCards.appendChild(div);
@@ -110,17 +119,65 @@
     function Card2(sensors) {
         // code ...
     }
-    function Card3(costs) {
-        // code ...
+    async function Card3() {
+        try {
+            const res = await fetch('../../api-website/fetch_Costs.php?bid=1');
+            const raw = await res.json();
+            const costs = raw['data'];
+
+            const initialEl = document.getElementById('initial-capital');
+            const refundEl = document.getElementById('refunded');
+            const remainEl = document.getElementById('remaining');
+
+            const income = Number(costs[0]?.income) || 0;
+            const expense = Number(costs[0]?.expense) || 0;
+            const remain = income - expense;
+
+            console.log(income + "" + expense + "" + remain);
+
+
+            initialEl.textContent = expense;
+            refundEl.textContent = income;
+            remainEl.textContent = remain;
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
     }
-    function Card4(costs) {
-        // code ...
+    async function Card4() {
+        try {
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
+            console.log('✅ raw expense data:', expense);
+
+
+            const hardwareEl = document.getElementById('expense-hardware');
+            const infrastructureEl = document.getElementById('expense-infrastructure');
+            const miscellaneousEl = document.getElementById('expense-miscellaneous');
+            const totalEl = document.getElementById('expense-total');
+
+            hardware = Number(expense[0]?.hardware) || 0;
+            infrastructure = Number(expense[0]?.infrastructure) || 0;
+            miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+
+            hardwareEl.textContent = hardware;
+            infrastructureEl.textContent = infrastructure;
+            miscellaneousEl.textContent = miscellaneous;
+            totalEl.textContent = hardware + infrastructure + miscellaneous;
+
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
     }
 
 
-    let doChart = null;
+    let sensorChart = null;
+    let trendChart = null;
 
-    async function loadGraphsensorById() {
+    async function loadGraphSensorById() {
         const loading = document.getElementById('do-loading');
         const title = document.getElementById('title-graph-sensor');
         const Subtitle = document.getElementById('title-graph-sensor-sub');
@@ -133,7 +190,7 @@
             if (!data || !data.logs || data.logs.length === 0) {
                 console.warn('⚠️ ไม่มีข้อมูล ' + (data?.monitor_name ?? ''));
 
-                if (doChart) {
+                if (sensorChart) {
                     updateSensorChart([], []);
                 } else {
                     renderSensorChart([], []);
@@ -155,9 +212,9 @@
 
             min = min - (min * 0.05);
             max = max + (max * 0.05);
-            
+
             // 👇 จุดสำคัญ
-            if (!doChart) {
+            if (!sensorChart) {
                 renderSensorChart(labels, values, min, max);
             } else {
                 updateSensorChart(labels, values, min, max);
@@ -166,7 +223,7 @@
         } catch (err) {
             console.error('❌ loadDoTrendData error:', err);
 
-            if (doChart) {
+            if (sensorChart) {
                 updateSensorChart([], []);
             } else {
                 renderSensorChart([], []);
@@ -177,13 +234,12 @@
         }
     }
 
-
     function renderSensorChart(labels, values, min = 0, max = 1) {
         const ctx = document.getElementById('TrendChart');
         if (!ctx) return;
 
-        if (doChart) {
-            doChart.destroy();
+        if (sensorChart) {
+            sensorChart.destroy();
         }
 
         // Adjust font sizes based on screen width
@@ -192,7 +248,7 @@
         if (screenWidth >= 3840) fontSize = 18;
         else if (screenWidth >= 1920) fontSize = 12;
 
-        doChart = new Chart(ctx, {
+        sensorChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
@@ -256,39 +312,83 @@
     }
 
     function updateSensorChart(labels, values, min, max) {
-        doChart.data.labels = labels;
-        doChart.data.datasets[0].data = values;
-        doChart.options.scales.y.min = min
-        doChart.options.scales.y.max = max
-        doChart.update();
+        sensorChart.data.labels = labels;
+        sensorChart.data.datasets[0].data = values;
+        sensorChart.options.scales.y.min = min
+        sensorChart.options.scales.y.max = max
+        sensorChart.update();
     }
 
-
-
-    async function loadMarketPriceTrend() {
+    async function loadGraphMarketById() {
         const loading = document.getElementById('price-loading');
+        const label = document.getElementById('types-MarketChart');
 
         try {
-            const res = await fetch('/dashboard/api/market_price_Tred.php', {
-                cache: 'no-store'
-            });
+            const market_name = "solar";    //name market example => solar, shrimp, indoor, outdoor
+            const type = "demand,price";          //multi type example => demand,price
+
+            const res = await fetch('../../api-website/market_trades.php?market=' + market_name + '&type=' + type);
             const raw = await res.json();
+            const data = raw.data;
 
-            console.log('📈 price trend raw:', raw);
+            if (!data || typeof data !== 'object') {
+                console.warn('⚠️ ไม่มีข้อมูล');
+                renderMarketPriceChart([], []);
+                return;
+            }
 
-            if (!Array.isArray(raw) || raw.length === 0) return;
+            label.textContent = type;
+            const types = type.split(',');  // ["demand","price"]
 
-            const labels = raw.map(r => r.event_month);
+            // 1️⃣ รวมวันที่ทั้งหมด
+            let allDates = new Set();
 
-            const price50 = raw
-                .filter(r => r.data_table_id === "19")
-                .map(r => Number(r.event_price));
+            types.forEach(t => {
+                if (Array.isArray(data[t])) {
+                    data[t].forEach(r => allDates.add(r.trend_date));
+                }
+            });
 
-            const price70 = raw
-                .filter(r => r.data_table_id === "20")
-                .map(r => Number(r.event_price));
+            // 2️⃣ เรียงวันที่
+            const labels = Array.from(allDates).sort();
 
-            renderMarketPriceChart(labels, price50, price70);
+            // 3️⃣ สร้าง datasets
+            const datasets = types.map(t => {
+                const mapByDate = {};
+                if (Array.isArray(data[t])) {
+                    data[t].forEach(r => {
+                        mapByDate[r.trend_date] = Number(r.trend_value);
+                    });
+                }
+
+                return {
+                    label: t,
+                    data: labels.map(date => mapByDate[date] ?? null),
+                    borderWidth: 2,
+                    fill: false,
+                    spanGaps: true,
+                    tension: 0.3,
+                    borderColor: '#ff8021',
+                    backgroundColor: 'rgba(255,128,33,0.15)',
+                    pointRadius: screenWidth >= 3840 ? 5 : 2.5
+                };
+            });
+
+            // 4️⃣ คำนวณ min/max รวม
+            const allValues = datasets.flatMap(d => d.data).filter(v => v !== null);
+
+            let min = Math.min(...allValues);
+            let max = Math.max(...allValues);
+
+            min -= min * 0.05;
+            max += max * 0.05;
+
+            min = Number(min.toFixed(2));
+            max = Number(max.toFixed(2));
+
+            console.log(datasets);
+
+            renderMarketPriceChart(labels, datasets, min, max);
 
         } catch (err) {
             console.error('❌ price trend error:', err);
@@ -297,45 +397,23 @@
         }
     }
 
-    let marketPriceChart;
-
-    function renderMarketPriceChart(labels, price50, price70) {
+    function renderMarketPriceChart(labels, datasets, min = 0, max = 1) {
         const ctx = document.getElementById('marketPriceChart');
         if (!ctx) return;
 
-        if (marketPriceChart) {
-            marketPriceChart.destroy();
+        if (trendChart) {
+            trendChart.destroy();
         }
 
-        // Adjust font sizes based on screen width
-        const screenWidth = window.innerWidth;
         let fontSize = 10;
         if (screenWidth >= 3840) fontSize = 20;
         else if (screenWidth >= 1920) fontSize = 14;
 
-        marketPriceChart = new Chart(ctx, {
+        trendChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
-                datasets: [{
-                    label: '50 ตัว/กก.',
-                    data: price50,
-                    borderColor: '#ff8021',
-                    backgroundColor: 'rgba(255,128,33,0.15)',
-                    tension: 0.35,
-                    fill: true,
-                    pointRadius: screenWidth >= 3840 ? 5 : 2.5
-                },
-                {
-                    label: '70 ตัว/กก.',
-                    data: price70,
-                    borderColor: 'rgba(255,128,33,0.4)',
-                    backgroundColor: 'rgba(255,128,33,0.08)',
-                    tension: 0.35,
-                    fill: true,
-                    pointRadius: screenWidth >= 3840 ? 4 : 2
-                }
-                ]
+                datasets: datasets
             },
             options: {
                 responsive: true,
@@ -346,7 +424,7 @@
                     },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ${ctx.raw} บาท/กก.`
+                            label: ctx => ` ${ctx.raw}`
                         }
                     }
                 },
@@ -363,6 +441,8 @@
                         }
                     },
                     y: {
+                        max: max,
+                        min: min,
                         ticks: {
                             font: {
                                 size: fontSize
@@ -374,6 +454,14 @@
                 }
             }
         });
+    }
+    
+    function updateMarketPriceChart(labels, values, min = 0, max = 1) {
+        trendChart.data.labels = labels;
+        trendChart.data.datasets[0].data = values;
+        trendChart.options.scales.y.min = min
+        trendChart.options.scales.y.max = max
+        trendChart.update();
     }
 
 

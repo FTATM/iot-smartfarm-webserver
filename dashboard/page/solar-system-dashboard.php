@@ -102,6 +102,8 @@ $currentTime = date('H:i:s');
                                     </h2>
                                     <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
                                 </div>
+                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[10px] ">
+                                </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
                                 <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
@@ -239,48 +241,28 @@ $currentTime = date('H:i:s');
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">ทุนเริ่มต้น</span>
                             <div class="flex gap-2 text-[9px] font-medium">
-                                <span class="w-12 text-center" id="initial-capital">-</span>
+                                <span class="w-12 text-end" id="initial-capital">-</span>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">คืนแล้ว</span>
                             <div class="flex gap-2 text-[9px] font-medium">
-                                <span class="w-12 text-center text-green-600" id="refunded">-</span>
+                                <span class="w-12 text-end text-green-600" id="refunded">-</span>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
                             <span class="text-[9px] font-bold text-slate-700">คงเหลือ</span>
-                            <div class="flex gap-2 text-[9px] font-medium">
-                                <span class="w-12 text-center text-orange-600" id="remaining">-</span>
+                            <div class="flex gap-2 text-[12px] font-medium">
+                                <span class="w-12 text-end text-orange-600" id="remaining">-</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 4: ต้นทุนรวมทั้งหมด -->
-                <div x-data="{ 
-    hardware: null, 
-    infrastructure: null, 
-    miscellaneous: null,
-    total: null,
-    async init() {
-        try {
-            const res = await fetch('YOUR_API_URL/expenses');
-            const data = await res.json();
-            this.hardware = data.hardware;
-            this.infrastructure = data.infrastructure;
-            this.miscellaneous = data.miscellaneous;
-            this.total = data.total;
-        } catch(e) {
-            console.error(e);
-        }
-    },
-    format(num) {
-        return num ? '฿ ' + new Intl.NumberFormat('th-TH').format(num) : '-';
-    }
-}" class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
 
                     <div class="flex items-center gap-1.5 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
@@ -294,7 +276,7 @@ $currentTime = date('H:i:s');
                                 <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
                                 <span class="text-[7px] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
                             </div>
-                            <span class="text-[7px] font-bold text-green-700" x-text="format(hardware)">-</span>
+                            <span class="text-[7px] font-bold text-green-700" id="expense-hardware">-</span>
                         </div>
 
                         <!-- Infrastructure -->
@@ -303,7 +285,7 @@ $currentTime = date('H:i:s');
                                 <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
                                 <span class="text-[7px] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
                             </div>
-                            <span class="text-[7px] font-bold text-yellow-700" x-text="format(infrastructure)">-</span>
+                            <span class="text-[7px] font-bold text-yellow-700" id="expense-infrastructure">-</span>
                         </div>
 
                         <!-- Miscellaneous -->
@@ -312,13 +294,13 @@ $currentTime = date('H:i:s');
                                 <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
                                 <span class="text-[7px] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
                             </div>
-                            <span class="text-[7px] font-bold text-red-700" x-text="format(miscellaneous)">-</span>
+                            <span class="text-[7px] font-bold text-red-700" id="expense-miscellaneous">-</span>
                         </div>
 
                         <!-- Total -->
                         <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
                             <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
-                            <span class="font-bold text-[11px] text-primary" x-text="format(total)">-</span>
+                            <span class="font-bold text-[11px] text-primary" id="expense-total">-</span>
                         </div>
                     </div>
 

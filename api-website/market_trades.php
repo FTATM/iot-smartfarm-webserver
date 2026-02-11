@@ -16,31 +16,37 @@ if (!$conn) {
 }
 
 $market = $_GET['market'] ?? '';
+$types = $_GET['type'] ?? '';
 
-// $conn = pg_connect(...);  // สมมติว่าคุณต่อไว้แล้ว
+$typesArray = array_map('trim', explode(',', $types));
 
-$sql = "SELECT trend_date, trend_value
+$data = []; // ✅ ประกาศครั้งเดียว
+foreach ($typesArray as $type) {
+    $sql = "SELECT trend_date, trend_value
         FROM market_trends
         WHERE market_name = $1
-        AND trend_type = 'demand'
-        ORDER BY trend_date;
+        AND trend_type = $2
+        ORDER BY trend_date; 
         ";
 
-$result = pg_query_params($conn, $sql, [$market]);
+    $result = pg_query_params($conn, $sql, [$market, $type]);
 
-if (!$result) {
-    http_response_code(500);
-    echo json_encode(["Error" => pg_last_error($conn)], JSON_UNESCAPED_UNICODE);
-    exit();
+    if (!$result) {
+        http_response_code(500);
+        echo json_encode(["Error" => pg_last_error($conn)], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    $typedata = pg_fetch_all($result);
+
+    $data[$type] = $typedata;
 }
-
-$data = pg_fetch_all($result);
 
 if (count($data) > 0) {
     http_response_code(200);
     echo json_encode(["status" => "success", "data" => $data], JSON_UNESCAPED_UNICODE);
 } else {
-    echo json_encode(["status" => "error", "data" => [], "message" => "no data found for this branch id"]);
+    echo json_encode(["status" => "error", "data" => [], "message" => "no data found this keyword \"" . $market . "\""]);
 }
 
 // ✅ ปิดการเชื่อมต่อ
