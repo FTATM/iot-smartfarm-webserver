@@ -2,8 +2,10 @@
 <script>
     let sensors = {};
     let costs = {};
+    let isLoading = true;
     let sensor_select = 0;
     document.addEventListener('DOMContentLoaded', async () => {
+
         await loadSensorData();
         await Card1(sensors);
         await Card2(sensors);
@@ -12,10 +14,13 @@
 
         await loadGraphsensorById();
 
+        isLoading = false;
         initMetricBars();
         setInterval(async () => {
             await loadSensorData();
-        }, 30000);
+            await loadGraphsensorById();
+            initMetricBars();
+        }, 5000);
 
     });
 
@@ -32,11 +37,12 @@
             );
             const data = await res.json();
             sensors = data['sensors'];
-            console.log('✅ raw sensor data:', sensors);
+            // console.log('✅ raw sensor data:', sensors);
 
             Create_sensorCard(sensors);
             const firstKey = Object.keys(sensors)[0];
-            sensor_select = sensors[firstKey].monitor_id ?? 0;
+
+            sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -86,6 +92,12 @@
                 </div>
                 `;
 
+            div.onclick = () => {
+                console.log("Select sensor : " + row.monitor_id);
+                sensor_select = row.monitor_id;
+                loadGraphsensorById();
+            }
+
             metricsCards.appendChild(div);
 
             setCardValue(key, value, min, max);
@@ -110,22 +122,27 @@
 
     async function loadGraphsensorById() {
         const loading = document.getElementById('do-loading');
+        const title = document.getElementById('title-graph-sensor');
+        const Subtitle = document.getElementById('title-graph-sensor-sub');
 
         try {
             const data = Object.values(sensors).find(
                 s => s.monitor_id.toString() === sensor_select.toString()
             );
-            console.log(data);
-
-
-            console.log('📊 DO Trend API Response:', data);
-
 
             if (!data || !data.logs || data.logs.length === 0) {
-                console.warn('⚠️ ไม่มีข้อมูล ' + data.monitor_name);
-                renderDoChart([], []);
+                console.warn('⚠️ ไม่มีข้อมูล ' + (data?.monitor_name ?? ''));
+
+                if (doChart) {
+                    updateSensorChart([], []);
+                } else {
+                    renderSensorChart([], []);
+                }
                 return;
             }
+
+            title.textContent = "แนวโน้มค่า " + data.monitor_name;
+            Subtitle.textContent = "Historical " + data.monitor_name + " Data";
 
             const labels = data.logs.map(p => {
                 const d = new Date(p.createtime);
@@ -133,19 +150,36 @@
             });
 
             const values = data.logs.map(p => parseFloat(p.data_value));
+            let min = Math.min(...values);
+            let max = Math.max(...values);
 
-            renderDoChart(labels, values);
+            min = min - (min * 0.05);
+            max = max + (max * 0.05);
+            
+            // 👇 จุดสำคัญ
+            if (!doChart) {
+                renderSensorChart(labels, values, min, max);
+            } else {
+                updateSensorChart(labels, values, min, max);
+            }
 
         } catch (err) {
             console.error('❌ loadDoTrendData error:', err);
-            renderDoChart([], []);
+
+            if (doChart) {
+                updateSensorChart([], []);
+            } else {
+                renderSensorChart([], []);
+            }
+
         } finally {
             if (loading) loading.classList.add('hidden');
         }
     }
 
-    function renderDoChart(labels, values) {
-        const ctx = document.getElementById('doTrendChart');
+
+    function renderSensorChart(labels, values, min = 0, max = 1) {
+        const ctx = document.getElementById('TrendChart');
         if (!ctx) return;
 
         if (doChart) {
@@ -163,7 +197,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'DO (mg/L)',
+                    // label: 'DO (mg/L)',
                     data: values,
                     borderColor: '#ff8021',
                     backgroundColor: 'rgba(255,128,33,0.1)',
@@ -203,7 +237,8 @@
                     },
                     y: {
                         beginAtZero: true,
-                        // max: 10,
+                        min: min,
+                        max: max,
                         ticks: {
                             font: {
                                 size: fontSize
@@ -219,6 +254,16 @@
             }
         });
     }
+
+    function updateSensorChart(labels, values, min, max) {
+        doChart.data.labels = labels;
+        doChart.data.datasets[0].data = values;
+        doChart.options.scales.y.min = min
+        doChart.options.scales.y.max = max
+        doChart.update();
+    }
+
+
 
     async function loadMarketPriceTrend() {
         const loading = document.getElementById('price-loading');

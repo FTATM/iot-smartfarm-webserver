@@ -4,38 +4,6 @@ $currentDate = date('d M Y');
 date_default_timezone_set('Asia/Bangkok');
 $currentTime = date('H:i:s');
 
-$metricTitles = [
-    [
-        "title" => "แรงดันไฟฟ้า",
-        "value" => "Voltage (Supply)",
-        "unit"  => "V"
-    ],
-    [
-        "title" => "กระแสไฟฟ้า",
-        "value" => "Current (Supply)",
-        "unit"  => "mA"
-    ],
-    [
-        "title" => "กำลังไฟฟ้า",
-        "value" => "Power (Supply)",
-        "unit"  => "W"
-    ],
-    [
-        "title" => "แรงดันไฟฟ้า",
-        "value" => "Voltage (Load)",
-        "unit"  => "V"
-    ],
-    [
-        "title" => "กระแสไฟฟ้า",
-        "value" => "Current (Load)",
-        "unit"  => "mA"
-    ],
-    [
-        "title" => "กำลังไฟฟ้า",
-        "value" => "Power (Load)",
-        "unit"  => "W"
-    ],
-]
 ?>
 
 <!DOCTYPE html>
@@ -99,12 +67,12 @@ $metricTitles = [
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 shrink-0">
                                 <div>
-                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 id="title-graph-sensor" class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
-                                        แนวโน้มค่าออกซิเจนละลายน้ำ
+                                        กำลังโหลดข้อมูล...
                                     </h2>
-                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
-                                        Historical DO Data (24H)
+                                    <p id="title-graph-sensor-sub" class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                        Loading data...
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
@@ -120,7 +88,7 @@ $metricTitles = [
                                         <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
                                     </div>
                                 </div>
-                                <canvas id="doTrendChart" class="absolute inset-0"></canvas>
+                                <canvas id="TrendChart" class="absolute inset-0"></canvas>
                             </div>
                         </div>
 
