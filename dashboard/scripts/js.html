@@ -58,103 +58,21 @@
 
     //=============== Bar Process ==================
 
-    const BAR_CONFIG = {
-        DO: {
-            min: 0,
-            max: 7,
-            leftLabel: '3.0',
-            rightLabel: '7.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        PH: {
-            min: 1,
-            max: 14,
-            leftLabel: '1',
-            rightLabel: '14',
-            leftColor: '#7F1D1D',
-            rightColor: '#581C87',
-        },
-        EC: {
-            min: 15000,
-            max: 50000,
-            leftLabel: '23K',
-            rightLabel: '45K',
-            leftColor: '#3B82F6',
-            rightColor: '#198754',
-        },
-        Temp: {
-            min: 25,
-            max: 35,
-            leftLabel: '28°C',
-            rightLabel: '32°C',
-            leftColor: '#3B82F6',
-            rightColor: '#F97316',
-        },
-        Voltage_S: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        Voltage_L: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        Current_S: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        Current_L: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        Power_S: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        Power_L: {
-            min: 200,
-            max: 230,
-            leftLabel: '210.0',
-            rightLabel: '220.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-    };
-
     function initMetricBars() {
         document.querySelectorAll('.metric-range').forEach(wrap => {
             const key = wrap.dataset.key;
-            const cfg = BAR_CONFIG[key];
-            if (!cfg) return;
+            const min = wrap.dataset.min;
+            const max = wrap.dataset.max;
+            // const cfg = BAR_CONFIG[key];
 
             wrap.classList.remove('hidden');
 
             const left = wrap.querySelector('.label-left');
             const right = wrap.querySelector('.label-right');
-            left.textContent = cfg.leftLabel || '';
-            right.textContent = cfg.rightLabel || '';
-            left.style.color = cfg.leftColor || '#C73434';
-            right.style.color = cfg.rightColor || '#198754';
+            left.textContent = min || '';
+            right.textContent = max || '';
+            left.style.color = '#C73434';
+            right.style.color = '#198754';
 
             const fill = wrap.querySelector('.fill');
             if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
@@ -162,13 +80,20 @@
     }
 
     function updateMetricBar(key, value) {
-        const cfg = BAR_CONFIG[key];
-        if (!cfg) return;
+        // const cfg = BAR_CONFIG[key];
+        // if (!cfg) return;
 
         const wrap = document.querySelector(`.metric-range[data-key="${key}"]`);
         if (!wrap) return;
+        console.log(wrap);
+
+        const min = wrap.dataset.min;
+        const max = wrap.dataset.max;
 
         const fill = wrap.querySelector('.fill');
+
+        console.log(fill);
+        
 
         if (value === null || value === undefined || isNaN(value)) {
             if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
@@ -176,11 +101,12 @@
         }
 
         const v = Number(value);
-        const pct = ((v - cfg.min) / (cfg.max - cfg.min)) * 100;
+        const pct = ((v - min) / (max - min)) * 100;
         const safePct = clamp(pct, 0, 100);
 
         if (fill) {
-            fill.style.clipPath = `inset(0 ${100 - safePct}% 0 0)`;
+            // fill.style.clipPath = `inset(0 ${100 - safePct}% 0 0)`;
+            fill.style.clipPath = `inset(0 50% 0 0)`;
         }
     }
 
