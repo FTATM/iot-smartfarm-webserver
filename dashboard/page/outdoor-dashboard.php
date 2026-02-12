@@ -83,12 +83,43 @@ $metricTitles = [
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <img src="images/outdoor.jpeg"
-                            alt="เครื่องมือ/อุปกรณ์"
-                            class="w-full h-full object-cover rounded-xl">
-                    </div>
-
+<div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+    <div class="grid grid-cols-6 gap-4 w-full">
+        <!-- คอลัมน์ซ้าย (เว้นว่าง) -->
+        <div class="col-span-1"></div>
+        
+        <!-- คอลัมน์กลาง (รูปใหญ่ + แถวล่าง 5 กรอบ) -->
+        <div class="col-span-4 flex flex-col gap-4">
+            <!-- แถวบน 2 กรอบ (ตำแหน่ง 1, 3) -->
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-[4/3]">
+                </div>
+                <div class="col-span-1"></div>
+                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-[4/3]">
+                </div>
+                <div class="col-span-1"></div>
+            </div>
+            
+            <!-- รูปภาพกลางใหญ่ -->
+            <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all aspect-[16/9]">
+                <img src="images/outdoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+            </div>
+            
+            <!-- แถวล่าง 2 กรอบ (ตำแหน่ง 2, 4) -->
+            <div class="grid grid-cols-4 gap-4">
+                <div class="col-span-1"></div>
+                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-[4/3]">
+                </div>
+                <div class="col-span-1"></div>
+                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-[4/3]">
+                </div>
+            </div>
+        </div>
+        
+        <!-- คอลัมน์ขวา (เว้นว่าง) -->
+        <div class="col-span-1"></div>
+    </div>
+</div>
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
