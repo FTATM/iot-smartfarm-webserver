@@ -186,11 +186,54 @@ $metricTitles = [
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div
                         class="col-span-4 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <div class="text-center text-stone-400">
-                            <span class="material-symbols-outlined" style="font-size: 5rem;">image</span>
-                            <p class="text-xs mt-2 font-medium">รูปภาพ 2</p>
-                            <p class="text-[10px] mt-1 text-stone-400">พื้นที่ขยาย</p>
+                        <div class="grid grid-cols-9 gap-4 min-h-[500px] 2xl:min-h-[1400px]">
+
+                    <!-- คอลัมน์ซ้าย (4 กรอบ) -->
+                    <div class="col-span-1 flex flex-col gap-4">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
                         </div>
+                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        </div>
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                        </div>
+                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        </div>
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                        </div>
+                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        </div>
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                        </div>
+                    </div>
+
+                        <!-- คอลัมน์กลาง (รูปใหญ่) -->
+                        <div class="col-span-7 bg-white rounded-2xl flex items-center justify-center transition-all min-h-0">
+                                <img src="images/outdoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+                        </div>
+
+                        <!-- คอลัมน์ขวา (3 กรอบ) -->
+                        <div class="col-span-1 flex flex-col gap-4">
+                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                                <div class="text-center text-stone-400">
+                                    
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        </div>
+                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                                <div class="text-center text-stone-400">
+                                    
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        </div>
+                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                                <div class="text-center text-stone-400">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
