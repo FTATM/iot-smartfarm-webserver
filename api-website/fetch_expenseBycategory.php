@@ -19,6 +19,8 @@ if (!$conn) {
 
 
 $sql = "SELECT 
+    SUM(CASE WHEN category = 'electricity' THEN amount ELSE 0 END) AS electricity,
+    SUM(CASE WHEN category = 'water' THEN amount ELSE 0 END) AS water,
     SUM(CASE WHEN category = 'hardware' THEN amount ELSE 0 END) AS hardware,
     SUM(CASE WHEN category = 'infrastructure' THEN amount ELSE 0 END) AS infrastructure,
     SUM(CASE WHEN category = 'miscellaneous' THEN amount ELSE 0 END) AS miscellaneous
