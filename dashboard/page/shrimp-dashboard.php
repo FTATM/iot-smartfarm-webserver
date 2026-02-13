@@ -129,7 +129,7 @@ $metricTitles = [
 
             <!-- พื้นที่กลาง (ไดอะแกรม) -->
             <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                <img src="images/shrimp.png" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                <img src="images/shrimp.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
             </div>
 
             <!-- กรอบขวา 6 กรอบ -->

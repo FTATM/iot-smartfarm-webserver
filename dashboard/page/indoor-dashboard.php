@@ -82,7 +82,7 @@ $metricTitles = [
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <div class="grid grid-cols-6 gap-4 2xl:gap-8 min-h-[500px] 2xl:min-h-[1400px]">
+                        <div class="grid grid-cols-6 min-h-[500px] min-w-[500px] 2xl:min-h-[1400px] 2xl:min-w-[1400px]">
                             
                     <!-- คอลัมน์ซ้าย (3 กรอบ) -->
                     <div class="col-span-1 flex flex-col gap-4">
@@ -101,27 +101,27 @@ $metricTitles = [
                     </div>
 
                     <!-- คอลัมน์กลาง (รูปใหญ่ + แถวล่าง 5 กรอบ) -->
-                    <div class="col-span-4 flex flex-col gap-4">
+                    <div class="col-span-4 flex flex-col">
                         <!-- รูปภาพกลางใหญ่ -->
-                        <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all duration-200 flex-1">
                             <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
                         </div>
 
                         <!-- แถวล่าง 5 กรอบ -->
                         <div class="grid grid-cols-5 gap-4">
-                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-square">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
                             
                         </div>
-                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-square">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
                             
                         </div>
-                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-square">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
                             
                         </div>
-                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-square">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
                             
                         </div>
-                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 aspect-square">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
                             
                         </div>
                         </div>

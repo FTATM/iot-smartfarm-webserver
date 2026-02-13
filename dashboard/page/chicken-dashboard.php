@@ -88,100 +88,125 @@ $metricTitles = [
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        
-        <div class="grid grid-cols-12 gap-4 2xl:gap-8 2xl:min-h-[1500px]">
-            
-            <!-- กรอบซ้าย 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+<div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+    
+    <div class="grid grid-cols-12 gap-2 2xl:gap-4 w-full h-full max-h-[600px] 2xl:max-h-[1500px]">
+        
+        <!-- กรอบซ้าย 5 กรอบ -->
+        <div class="col-span-2 grid grid-cols-1 gap-2 2xl:gap-4 h-full">
+            <!-- กรอบที่ 1 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 2 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 3 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 4 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 5 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+        </div>
+
+        <!-- พื้นที่กลาง (แถวบน 4 กรอบ + รูปภาพ + แถวล่าง 4 กรอบ) -->
+        <div class="col-span-8 flex flex-col gap-2 2xl:gap-4 h-full min-h-0">
+            <!-- แถวบน 4 กรอบ -->
+            <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-
-                <!-- กรอบที่ 6 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-
-                <!-- กรอบที่ 7 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
             </div>
 
-            <!-- พื้นที่กลาง (ไดอะแกรม) -->
-            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                <img src="images/chicken.png" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+            <!-- รูปภาพกลาง -->
+            <div class="bg-white rounded-xl p-1 flex items-center justify-center transition-all h-[70%] min-h-0 overflow-hidden">
+                <img src="images/chicken.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-xl">
             </div>
 
-            <!-- กรอบขวา 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+            <!-- แถวล่าง 4 กรอบ -->
+            <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
-
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-
-                <!-- กรอบที่ 6 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
                     <div class="text-center text-white">
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- กรอบขวา 5 กรอบ -->
+        <div class="col-span-2 grid grid-cols-1 gap-2 2xl:gap-4 h-full">
+            <!-- กรอบที่ 1 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 2 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 3 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 4 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+
+            <!-- กรอบที่ 5 -->
+            <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
+                <div class="text-center text-white">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-                    </div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">

@@ -61,37 +61,25 @@ $currentTime = date('H:i:s');
                             <!-- กรอบซ้าย 6 กรอบ -->
                             <div class="col-span-2 grid grid-cols-1 gap-4">
                                 <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                 </div>
 
                                 <!-- กรอบที่ 2 -->
                                 <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
                                 </div>
 
                                 <!-- กรอบที่ 3 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                 </div>
 
                                 <!-- กรอบที่ 4 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                     <div class="text-center text-white">
                                     </div>
                                 </div>
 
                                 <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
-
-                                <!-- กรอบที่ 6 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                     <div class="text-center text-white">
                                     </div>
                                 </div>
@@ -99,15 +87,13 @@ $currentTime = date('H:i:s');
 
                             <!-- พื้นที่กลาง (ไดอะแกรม) -->
                             <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                                <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+                                <img src="images/solar.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
                             </div>
 
                             <!-- กรอบขวา 6 กรอบ -->
                             <div class="col-span-2 grid grid-cols-1 gap-4">
                                 <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                 </div>
 
                                 <!-- กรอบที่ 2 -->
@@ -129,9 +115,7 @@ $currentTime = date('H:i:s');
                                 </div>
 
                                 <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
+                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
                                 </div>
                             </div>
                         </div>

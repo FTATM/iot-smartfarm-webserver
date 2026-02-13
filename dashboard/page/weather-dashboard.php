@@ -192,23 +192,21 @@ $metricTitles = [
                     <div class="col-span-1 flex flex-col gap-4">
                         <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
                         </div>
-                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
+                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
                         </div>
                         <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
                         </div>
                         <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
                         </div>
-                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-                        </div>
                         <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
                         </div>
-                        <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                        <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
                         </div>
                     </div>
 
                         <!-- คอลัมน์กลาง (รูปใหญ่) -->
                         <div class="col-span-7 bg-white rounded-2xl flex items-center justify-center transition-all min-h-0">
-                                <img src="images/outdoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+                                <img src="images/weather.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
                         </div>
 
                         <!-- คอลัมน์ขวา (3 กรอบ) -->
@@ -218,6 +216,12 @@ $metricTitles = [
                                     
                                 </div>
                             </div>
+                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
+                                <div class="text-center text-stone-400">
+                                    
+                                </div>
+                            </div>
+                            
                             <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
                         </div>
                             <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
@@ -227,11 +231,6 @@ $metricTitles = [
                             </div>
                             <div class="bg-white rounded-2xl flex items-center justify-center transition-all flex-1">
                         </div>
-                            <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-                                <div class="text-center text-stone-400">
-                                    
-                                </div>
-                            </div>
                         </div>
                     </div>
                     </div>
