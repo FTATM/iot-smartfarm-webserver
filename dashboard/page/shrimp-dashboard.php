@@ -4,28 +4,6 @@ $currentDate = date('d M Y');
 date_default_timezone_set('Asia/Bangkok');
 $currentTime = date('H:i:s');
 
-$metricTitles = [
-    [
-        "title" => "ค่าออกซิเจนละลายน้ำ",
-        "value" => "(DO)",
-        "unit"  => "mg/L"
-    ],
-    [
-        "title" => "กรด - ด่าง",
-        "value" => "(PH)",
-        "unit"  => "pH"
-    ],
-    [
-        "title" => "ความนำไฟฟ้า",
-        "value" => "(EC)",
-        "unit"  => "μS/cm"
-    ],
-    [
-        "title" => "อุณหภูมิ",
-        "value" => "(Temperature)",
-        "unit"  => "°C"
-    ],
-];
 ?>
 
 <!DOCTYPE html>

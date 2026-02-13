@@ -1,9 +1,23 @@
 <!-- JavaScript -->
 <script>
+    let diff = 0;
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
     const today = new Date();
     const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
     document.getElementById('start-date').textContent = formattedDate;
+    
+    const screenWidth = window.innerWidth;
+    let fontSize = 10;
+    if (screenWidth >= 3840) fontSize = 20;
+    else if (screenWidth >= 1920) fontSize = 14;
+    setAmountDay();
+
+    async function setAmountDay() {
+        const res = await fetch('../../api-website/fetch_amountDay.php?bid=1');
+        const data = await res.json();
+        diff = data['data'];
+        document.getElementById("day-age").textContent = diff.day;
+    }
 
 
     function getStatusByKey(key, v, min, max) {
