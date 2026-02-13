@@ -33,7 +33,7 @@ $currentTime = date('H:i:s');
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                    <span class=" text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
@@ -57,85 +57,85 @@ $currentTime = date('H:i:s');
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
                         <div class="grid grid-cols-12 gap-4 2xl:gap-8 2xl:min-h-[1500px]">
-            
-            <!-- กรอบซ้าย 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
 
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- กรอบซ้าย 6 กรอบ -->
+                            <div class="col-span-2 grid grid-cols-1 gap-4">
+                                <!-- กรอบที่ 1 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 2 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 3 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 4 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 6 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-            </div>
+                                <!-- กรอบที่ 5 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-            <!-- พื้นที่กลาง (ไดอะแกรม) -->
-            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
-            </div>
+                                <!-- กรอบที่ 6 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+                            </div>
 
-            <!-- กรอบขวา 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- พื้นที่กลาง (ไดอะแกรม) -->
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
+                                <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+                            </div>
 
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- กรอบขวา 6 กรอบ -->
+                            <div class="col-span-2 grid grid-cols-1 gap-4">
+                                <!-- กรอบที่ 1 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 2 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 3 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
+                                <!-- กรอบที่ 4 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+
+                                <!-- กรอบที่ 5 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-    </div>
-</div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
@@ -213,35 +213,37 @@ $currentTime = date('H:i:s');
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 2xl:px-8">
-                        <!-- Feed Cycles -->
-                        <div class="flex justify-between items-center bg-stone-50 p-2 2xl:p-8 rounded-xl border border-stone-100">
-                            <div>
-                                <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Feed Cycles</p>
-                                <p class="text-xs font-bold text-slate-800" id="feed-cycles">
-                                    <span class="animate-pulse">--</span>
-                                    <span class="text-xs font-normal text-slate-400">Total</span>
-                                </p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-[7px] text-[#ff8021] font-bold uppercase tracking-wider">Status</p>
-                                <p class="text-xs font-bold text-slate-800" id="feed-status">--</p>
-                            </div>
-                        </div>
-
                         <!-- Grid 2 Columns -->
                         <div class="grid grid-cols-2 gap-2 2xl:gap-8 2xl:mt-4">
                             <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Inc. per Meal</p>
-                                <p class="text-xs font-bold" id="inc-per-meal">
-                                    <span class="animate-pulse">--</span>
-                                    <span class="text-xs font-normal text-slate-400">kW</span>
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Voltage</p>
+                                <p class="text-[10px] font-bold">
+                                    <span class="animate-pulse" id="pwrm-voltage">--</span>
+                                    <span class="text-[5px] font-normal text-slate-400">V</span>
                                 </p>
                             </div>
                             <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Total Intake</p>
-                                <p class="text-xs font-bold" id="total-intake">
-                                    <span class="animate-pulse">--</span>
-                                    <span class="text-xs font-normal text-slate-400">kWh</span>
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Current</p>
+                                <p class="text-[10px] font-bold">
+                                    <span class="animate-pulse" id="pwrm-current">--</span>
+                                    <span class="text-[10px] font-normal text-slate-400">mA</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Grid 2 Columns -->
+                        <div class="grid grid-cols-2 gap-2 2xl:gap-8 2xl:mt-4">
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Power</p>
+                                <p class="text-[10px] font-bold">
+                                    <span class="animate-pulse" id="pwrm-power">--</span>
+                                    <span class="text-[10px] font-normal text-slate-400">kW</span>
+                                </p>
+                            </div>
+                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
+                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-1">Energy</p>
+                                <p class="text-[10px] font-bold">
+                                    <span class="animate-pulse" id="pwrm-energy">--</span>
+                                    <span class="text-[10px] font-normal text-slate-400">kWh</span>
                                 </p>
                             </div>
                         </div>
@@ -381,7 +383,6 @@ $currentTime = date('H:i:s');
                     </div>
 
                 </div>
-
             </div>
 
         </div>

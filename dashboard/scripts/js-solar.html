@@ -10,7 +10,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
 
         await loadSensorData();
-        await loadCostsData();
         await Card1(sensors);
         await Card2(sensors);
         await Card3();
@@ -30,23 +29,23 @@
     });
 
     async function loadSensorData() {
+        const Sensors = ["Voltage_S", "Current_S", "Power_S", "Voltage_L", "Current_L", "Power_L"];
         try {
             const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: ["Voltage_S", "Current_S", "Power_S", "Voltage_L", "Current_L", "Power_L"]
+                        sensorLog: Sensors
                     })
                 }
             );
             const data = await res.json();
             sensors = data['sensors'];
-            // console.log('✅ raw sensor data:', sensors);
 
-            Create_sensorCard(sensors);
+            Create_sensorCard(Sensors, sensors);
+
             const firstKey = Object.keys(sensors)[0];
-
             sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
 
         } catch (err) {
@@ -54,24 +53,21 @@
         }
     }
 
-    async function loadCostsData() {
-
-    }
-
-    function Create_sensorCard(sensors) {
+    function Create_sensorCard(sensors, values) {
         let metricsCards = document.getElementById('metrics-cards');
         metricsCards.innerHTML = "";
-        Object.entries(sensors).forEach(([key, row]) => {
-            const min = row['min'] ?? 0;
-            const max = row['max'] ?? 1;
+        Object.values(sensors).forEach((s) => {
+            const row = values[s];
+            const min = row['min'] || 0;
+            const max = row['max'] || 1;
             let value = row.logs.length > 0 ? row.logs[0].data_value : 0;
             let div = document.createElement('div');
-            div.id = `card-${key}`;
+            div.id = `card-${s}`;
             div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
                     <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
-                        ${key}
+                        ${s}
                     </span>
                     <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase status">
                         --
@@ -89,7 +85,7 @@
                 </div>
 
                 <!-- Range Bar with Fixed Gradient -->
-                <div class="metric-range mt-2 hidden" data-key="${key}" data-min="${min}" data-max="${max}">
+                <div class="metric-range mt-2 hidden" data-key="${s}" data-min="${min}" data-max="${max}">
                     <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
                         <span class="label-left"></span>
                         <span class="label-right"></span>
@@ -109,16 +105,136 @@
 
             metricsCards.appendChild(div);
 
-            setCardValue(key, value, min, max);
+            setCardValue(s, value, min, max);
         })
     }
 
-    function Card1(sensors) {
-        // code ...
+    function calculateEnergySummary(dataS, dataL) {
+
+        const now = new Date();
+
+        const ranges = {
+            "1hr": 1,
+            "3hr": 3,
+            "12hr": 12
+        };
+
+        const result = {
+            supply: {},
+            load: {},
+            balance: {}
+        };
+
+        function sumByHours(logs, hours) {
+            const pastTime = new Date(now.getTime() - hours * 60 * 60 * 1000);
+
+            return logs
+                .filter(log => new Date(log.createtime) >= pastTime)
+                .reduce((sum, log) => sum + parseFloat(log.data_value), 0);
+        }
+
+        Object.entries(ranges).forEach(([key, hours]) => {
+
+            const supplySum = sumByHours(dataS.logs || [], hours);
+            const loadSum = sumByHours(dataL.logs || [], hours);
+
+            result.supply[key] = supplySum;
+            result.load[key] = loadSum;
+            result.balance[key] = supplySum - loadSum;
+        });
+
+        return result;
     }
-    function Card2(sensors) {
-        // code ...
+
+function renderEnergySummary(summary) {
+
+    // helper แปลงเป็นทศนิยม 2 ตำแหน่ง
+    const format = (val) => {
+        if (isNaN(val)) return "--";
+        return parseFloat(val).toFixed(1);
+    };
+
+    // Supply
+    document.getElementById("supply-1h").textContent  = format(summary.supply["1hr"]);
+    document.getElementById("supply-3h").textContent  = format(summary.supply["3hr"]);
+    document.getElementById("supply-12h").textContent = format(summary.supply["12hr"]);
+
+    // Load
+    document.getElementById("load-1h").textContent  = format(summary.load["1hr"]);
+    document.getElementById("load-3h").textContent  = format(summary.load["3hr"]);
+    document.getElementById("load-12h").textContent = format(summary.load["12hr"]);
+
+    // Balance
+    document.getElementById("balance-1h").textContent  = format(summary.balance["1hr"]);
+    document.getElementById("balance-3h").textContent  = format(summary.balance["3hr"]);
+    document.getElementById("balance-12h").textContent = format(summary.balance["12hr"]);
+}
+
+    async function Card1() {
+        console.log("Card 1");
+        const pwrMeterSensor = ["Voltage", "Current", "Power", "Energy"];
+        try {
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: pwrMeterSensor
+                    })
+                }
+            );
+            const data = await res.json();
+            const pwrsensors = data['sensors'];
+
+            const voltageData = (pwrsensors.Voltage?.logs || []).map(log =>
+                parseFloat(log.data_value)
+            );
+            const currentData = (pwrsensors.Current?.logs || []).map(log =>
+                parseFloat(log.data_value)
+            );
+            const powerData = (pwrsensors.Power?.logs || []).map(log =>
+                parseFloat(log.data_value)
+            );
+            const energyData = (pwrsensors.Energy?.logs || []).map(log =>
+                parseFloat(log.data_value)
+            );
+
+            const v = Avg(voltageData);
+            const c = Avg(currentData);
+            const p = Avg(powerData);
+            const e = energyData[energyData.length - 1];
+
+            const voltageEl = document.getElementById('pwrm-voltage');
+            const currentEl = document.getElementById('pwrm-current');
+            const powerEl = document.getElementById('pwrm-power');
+            const energyEl = document.getElementById('pwrm-energy');
+
+            voltageEl.textContent = v;
+            currentEl.textContent = c;
+            powerEl.textContent = p;
+            energyEl.textContent = e;
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
+
     }
+    async function Card2(sensors) {
+        console.log("Card 2");
+        console.log(sensors);
+
+        const sensors_L = Object.fromEntries(
+            Object.entries(sensors).filter(([key]) => key.endsWith('_L'))
+        );
+
+        const sensors_S = Object.fromEntries(
+            Object.entries(sensors).filter(([key]) => key.endsWith('_S'))
+        );
+        const summary = calculateEnergySummary(sensors_S.Voltage_S, sensors_L.Voltage_L);
+
+        renderEnergySummary(summary);
+    }
+
     async function Card3() {
         try {
             const res = await fetch('../../api-website/fetch_Costs.php?bid=1');
@@ -132,9 +248,6 @@
             const income = Number(costs[0]?.income) || 0;
             const expense = Number(costs[0]?.expense) || 0;
             const remain = income - expense;
-
-            console.log(income + "" + expense + "" + remain);
-
 
             initialEl.textContent = expense;
             refundEl.textContent = income;
@@ -150,7 +263,6 @@
             const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
             const raw = await res.json();
             const expense = raw['data'];
-            console.log('✅ raw expense data:', expense);
 
 
             const hardwareEl = document.getElementById('expense-hardware');
@@ -386,8 +498,6 @@
             min = Number(min.toFixed(2));
             max = Number(max.toFixed(2));
 
-            console.log(datasets);
-
             renderMarketPriceChart(labels, datasets, min, max);
 
         } catch (err) {
@@ -455,7 +565,7 @@
             }
         });
     }
-    
+
     function updateMarketPriceChart(labels, values, min = 0, max = 1) {
         trendChart.data.labels = labels;
         trendChart.data.datasets[0].data = values;

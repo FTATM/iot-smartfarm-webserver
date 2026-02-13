@@ -85,15 +85,11 @@
 
         const wrap = document.querySelector(`.metric-range[data-key="${key}"]`);
         if (!wrap) return;
-        console.log(wrap);
 
         const min = wrap.dataset.min;
         const max = wrap.dataset.max;
 
         const fill = wrap.querySelector('.fill');
-
-        console.log(fill);
-        
 
         if (value === null || value === undefined || isNaN(value)) {
             if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
@@ -129,7 +125,31 @@
         div.textContent = text;
         return div.innerHTML;
     }
+    function Min(list) {
+        if (!Array.isArray(list)) return 0;
+        let min = Math.min(list);
+        return min;
+    }
 
+    function Max(list) {
+        if (!Array.isArray(list)) return 0;
+        let max = Math.max(list);
+        return max;
+    }
 
+    function Avg(list) {
+        if (!Array.isArray(list)) return 0;
+        const avg = (Sum(list) / list.length).toFixed(2);
+        return avg;
+    }
+
+    function Sum(list) {
+        if (!Array.isArray(list)) return 0;
+        let sum = 0;
+        list.forEach(v => {
+            sum += v;
+        });
+        return sum;
+    }
 
 </script>
