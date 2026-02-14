@@ -250,17 +250,17 @@ $currentTime = date('H:i:s');
                         <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2 2xl:px-8 2xl:gap-4">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
-                            <span class="text-[10px] font-black text-stone-800" id="meals-count">-</span>
+                            <span class="text-[10px] font-black text-stone-800" id="meals-count">--</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                            <span class="text-[9px] font-black text-primary" id="grams-per-meal">-</span>
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">ปริมาณ</span>
+                            <span class="text-[10px] font-black text-stone-800" id="volume-meal">-</span>
                         </div>
-                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 border border-primary/10 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
-                            <span class="text-[9px] font-black text-primary" id="total-food">-</span>
+                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 2xl:py-8 border border-primary/10 flex justify-between items-center">
+                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน(กรัม/วัน)</span>
+                            <span class="text-[10px] font-black text-primary" id="total-meal-per-day">-</span>
                         </div>
                     </div>
                 </div>
@@ -273,18 +273,18 @@ $currentTime = date('H:i:s');
                     </div>
                     <div class="grid grid-cols-2 gap-1 2xl:gap-2 2xl:px-8">
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">ความชื้น</span>
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">ความชื้นสูงสุด</span>
                             <span class="text-[10px] font-black text-stone-800" id="humidity">-</span>
                         </div>
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">เวลาให้แสง</span>
                             <span class="text-[9px] font-black text-primary" id="light-time">-</span>
                         </div>
-                        <div class="col-span-2 bg-red-50 rounded-lg p-1.5 border border-red-200">
-                            <p class="text-[9px] text-red-600 font-medium text-center" id="humidity-warning">-</p>
+                        <div class="col-span-2 bg-stone-50 rounded-lg p-1.5 border">
+                            <p class="text-[9px] text-black-600 font-bold text-center" id="light-recommentation">-</p>
                         </div>
                         <div class="col-span-2 bg-stone-50 rounded-lg p-1.5 flex justify-between items-center">
-                            <span class="text-[9px] text-stone-500 uppercase">ชั่วโมงรวมวันนี้</span>
+                            <span class="text-[9px] text-primary font-bold uppercase">ชั่วโมงรวมวันนี้</span>
                             <span class="text-[9px] font-black text-stone-800" id="total-hours">-</span>
                         </div>
                     </div>
