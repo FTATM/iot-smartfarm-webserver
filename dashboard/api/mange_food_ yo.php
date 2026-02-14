@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
 // query หลัก
 $result = pg_query($conn, "
     SELECT id, name
-    FROM names_table
+    FROM table_names
     WHERE id IN (16,17)
     ORDER BY id ASC
 ");
@@ -40,7 +40,7 @@ while ($row = pg_fetch_assoc($result)) {
         $conn,
         "
         SELECT *
-        FROM datas_table
+        FROM table_datas
         WHERE name_table_id = $1
         ORDER BY id ASC
         ",

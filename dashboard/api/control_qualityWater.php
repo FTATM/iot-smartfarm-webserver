@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
 
 $result = pg_query($conn, "
     SELECT id, name
-    FROM names_table
+    FROM table_names
     WHERE id IN (11,12)
 ");
 
@@ -37,7 +37,7 @@ while ($row = pg_fetch_assoc($result)) {
     // แทน prepare/execute ด้วย pg_query_params
     $result2 = pg_query_params(
         $conn,
-        "SELECT * FROM datas_table WHERE name_table_id = $1",
+        "SELECT * FROM table_datas WHERE name_table_id = $1",
         [$row['id']]
     );
 

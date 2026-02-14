@@ -1,496 +1,254 @@
 <!-- JavaScript -->
 <script>
-    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-    const today = new Date();
-    const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
-    document.getElementById('start-date').textContent = formattedDate;
+    let sensors = {};
+    let isLoading = true;
+    let sensor_select = 0;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        loadSensorData();
-        loadTasksData();
-        loadWateringData();
-        loadResourceCostData();
-        loadTotalCostData();
-        loadDoTrendData();
+    const Sensors_name = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
+    const market_name = "outdoor";    //name market example => solar, shrimp, indoor, outdoor
+    const type = "demand";             //multi type example => demand,price
 
-        setInterval(() => {
-            loadSensorData();
-            loadTasksData();
-            loadWateringData();
-            loadResourceCostData();
-            loadTotalCostData();
-            loadDoTrendData();
-        }, 30000);
+    // Adjust font sizes based on screen width
+    document.addEventListener('DOMContentLoaded', async () => {
+
+        await loadSensorData();
+        await Card1();
+        await Card2();
+        await Card3();
+        await Card4();
+
+        await loadGraphSensorById();
+        await loadGraphMarketById();
+        initMetricBars();
+        isLoading = false;
+        // setInterval(async () => {
+        //     await loadSensorData();
+        //     await loadGraphSensorById();
+        // }, 10000);
+
     });
 
-    // ==================== SENSOR DATA ====================
     async function loadSensorData() {
         try {
-            const res = await fetch('/dashboard/api/generate_sensor.php');
-            const rows = await res.json();
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: Sensors_name
+                    })
+                }
+            );
+            const data = await res.json();
+            sensors = data['sensors'];
 
-            console.log('✅ raw sensor data:', rows);
+            Create_sensorCard(Sensors_name, sensors);
 
-            const sensor = {};
-            rows.forEach(item => {
-                if (!item.divice_name) return;
-                sensor[item.divice_name.toLowerCase()] = parseFloat(item.datax_value);
-            });
-
-            console.log('✅ mapped sensor:', sensor);
-
-            setCardValue('do', sensor.do);
-            setCardValue('ph', sensor.ph);
-            setCardValue('ec', sensor.ec);
-            setCardValue('temp', sensor.temp);
-            setCardValue('nh3', sensor.nh3 ?? null);
+            const firstKey = Object.keys(sensors)[0];
+            sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
     }
 
-    function setBadge(statusEl, text, type) {
-        const map = {
-            success: 'status px-2 py-0.5 rounded-full bg-green-100 text-green-600 text-[9px] font-bold uppercase',
-            warning: 'status px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-[9px] font-bold uppercase',
-            danger: 'status px-2 py-0.5 rounded-full bg-red-100 text-red-600 text-[9px] font-bold uppercase',
-            info: 'status px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[9px] font-bold uppercase',
-            na: 'status px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase',
-            orange: 'status px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[9px] font-bold uppercase',
-        };
+    function Create_sensorCard(sensor_names, values) {
+        let metricsCards = document.getElementById('metrics-cards');
+        metricsCards.innerHTML = "";
+        Object.values(sensor_names).forEach((s) => {
+            const row = values[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
+            const min = row['min'] || 0;
+            const max = row['max'] || 1;
+            let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
+            let div = document.createElement('div');
+            div.id = `card-${s}`;
+            div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.innerHTML = `
+                <div class="w-full flex justify-between items-center">
+                    <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
+                        ${s}
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase status">
+                        --
+                    </span>
+                </div>
+                <div class="flex-1 flex items-center justify-center">
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-lg font-black text-black value">
+                            ${value}
+                        </span>
+                        <span class="text-sm font-bold text-stone-400">
+                            ${row.unit}
+                        </span>
+                    </div>
+                </div>
 
-        statusEl.textContent = text;
-        statusEl.className = map[type] || map.na;
+                <!-- Range Bar with Fixed Gradient -->
+                <div class="metric-range mt-2 hidden" data-key="${s}" data-min="${min}" data-max="${max}">
+                    <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
+                        <span class="label-left"></span>
+                        <span class="label-right"></span>
+                    </div>
+
+                    <div class="relative h-1.5 rounded-full bar">
+                        <div class="fill"></div>
+                    </div>
+                </div>
+                `;
+
+            if (row['unit'] !== "--") {
+                div.onclick = () => {
+                    console.log("Select sensor : " + row.monitor_name);
+                    sensor_select = row.monitor_id;
+                    loadGraphSensorById();
+                }
+            }
+
+            metricsCards.appendChild(div);
+
+            setCardValue(s, value, min, max);
+        })
     }
 
-    function getStatusByKey(key, v) {
-        if (key === 'do') {
-            if (v >= 5.0 && v <= 7.0) return {
-                text: 'ดีที่สุด',
-                type: 'success'
-            };
-            if (v > 4.0) return {
-                text: 'เหมาะสม',
-                type: 'success'
-            };
-            if (v >= 3.0 && v <= 4.0) return {
-                text: 'ไม่ดี',
-                type: 'warning'
-            };
-            return {
-                text: 'อันตราย',
-                type: 'danger'
-            };
-        }
-
-        if (key === 'ph') {
-            if (v >= 7.0 && v <= 8.5) return {
-                text: 'เหมาะสม',
-                type: 'success'
-            };
-            if (v < 6.5) return {
-                text: 'หายใจลำบาก',
-                type: 'orange'
-            };
-            if (v > 9.0) return {
-                text: 'อันตราย',
-                type: 'danger'
-            };
-            return {
-                text: 'ควรเฝ้าดู',
-                type: 'warning'
-            };
-        }
-
-        if (key === 'ec') {
-            if (v >= 23000 && v <= 45000) return {
-                text: 'เหมาะสม',
-                type: 'success'
-            };
-            if (v < 23000) return {
-                text: 'ต่ำ',
-                type: 'info'
-            };
-            return {
-                text: 'สูง',
-                type: 'danger'
-            };
-        }
-
-        if (key === 'temp') {
-            if (v >= 28 && v <= 32) return {
-                text: 'เหมาะสม',
-                type: 'success'
-            };
-            if (v < 28) return {
-                text: 'ต่ำ',
-                type: 'info'
-            };
-            return {
-                text: 'สูง',
-                type: 'danger'
-            };
-        }
-
-        return {
-            text: 'N/A',
-            type: 'na'
-        };
-    }
-
-    function setCardValue(key, value) {
-        const card = document.getElementById(`card-${key}`);
-        if (!card) return;
-
-        const valueEl = card.querySelector('.value');
-        const statusEl = card.querySelector('.status');
-
-        if (value === null || value === undefined || isNaN(value)) {
-            valueEl.textContent = '--';
-            setBadge(statusEl, 'N/A', 'na');
-            return;
-        }
-
-        const v = Number(value);
-
-        valueEl.textContent = v.toLocaleString('en-US', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        });
-
-        const st = getStatusByKey(key, v);
-        setBadge(statusEl, st.text, st.type);
-
-        updateMetricBar(key, v);
-    }
-
-    const BAR_CONFIG = {
-        do: {
-            min: 0,
-            max: 7,
-            leftLabel: '3.0',
-            rightLabel: '7.0',
-            leftColor: '#C73434',
-            rightColor: '#198754',
-        },
-        ph: {
-            min: 1,
-            max: 14,
-            leftLabel: '1',
-            rightLabel: '14',
-            leftColor: '#7F1D1D',
-            rightColor: '#581C87',
-        },
-        ec: {
-            min: 15000,
-            max: 50000,
-            leftLabel: '23K',
-            rightLabel: '45K',
-            leftColor: '#3B82F6',
-            rightColor: '#198754',
-        },
-        temp: {
-            min: 25,
-            max: 35,
-            leftLabel: '28°C',
-            rightLabel: '32°C',
-            leftColor: '#3B82F6',
-            rightColor: '#F97316',
-        },
-    };
-
-    function initMetricBars() {
-        document.querySelectorAll('.metric-range').forEach(wrap => {
-            const key = wrap.dataset.key;
-            const cfg = BAR_CONFIG[key];
-            if (!cfg) return;
-
-            wrap.classList.remove('hidden');
-
-            const left = wrap.querySelector('.label-left');
-            const right = wrap.querySelector('.label-right');
-            left.textContent = cfg.leftLabel || '';
-            right.textContent = cfg.rightLabel || '';
-            left.style.color = cfg.leftColor || '#C73434';
-            right.style.color = cfg.rightColor || '#198754';
-
-            const fill = wrap.querySelector('.fill');
-            if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
-        });
-    }
-
-    function updateMetricBar(key, value) {
-        const cfg = BAR_CONFIG[key];
-        if (!cfg) return;
-
-        const wrap = document.querySelector(`.metric-range[data-key="${key}"]`);
-        if (!wrap) return;
-
-        const fill = wrap.querySelector('.fill');
-
-        if (value === null || value === undefined || isNaN(value)) {
-            if (fill) fill.style.clipPath = 'inset(0 100% 0 0)';
-            return;
-        }
-
-        const v = Number(value);
-        const pct = ((v - cfg.min) / (cfg.max - cfg.min)) * 100;
-        const safePct = clamp(pct, 0, 100);
-
-        if (fill) {
-            fill.style.clipPath = `inset(0 ${100 - safePct}% 0 0)`;
-        }
-    }
-
-    function clamp(n, min, max) {
-        return Math.max(min, Math.min(max, n));
-    }
-
-    // ==================== CARD 1: สิ่งที่ต้องทำวันนี้ ====================
-    async function loadTasksData() {
+    async function Card1() {
+        console.log("Card 1");
         try {
-            const res = await fetch('/dashboard/api/daily_tasks.php');
-            const data = await res.json();
 
-            const container = document.getElementById('tasks-container');
-            container.innerHTML = '';
-
-            if (Array.isArray(data)) {
-                data.forEach(task => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-stone-50 rounded-lg p-2 border border-stone-100';
-                    div.innerHTML = `
-                            <div class="flex justify-between items-start gap-2">
-                                <div class="flex-1">
-                                    <div class="text-[10px] font-bold text-stone-800">${task.title || ''}</div>
-                                    ${task.subtitle ? `<div class="text-[9px] text-stone-500 mt-0.5">${task.subtitle}</div>` : ''}
-                                    ${task.details ? `<div class="text-[9px] text-stone-600 font-bold mt-1 whitespace-pre-line">${task.details}</div>` : ''}
-                                </div>
-                                ${task.ph ? `<div class="text-[9px] font-bold text-stone-800 whitespace-nowrap">${task.ph}</div>` : ''}
-                            </div>
-                        `;
-                    container.appendChild(div);
-                });
-            }
         } catch (err) {
-            console.error('❌ loadTasksData error:', err);
+            console.error('❌ loadSensorData error:', err);
         }
+
+
     }
 
-    // ==================== CARD 2: การให้น้ำและปุ๋ย ====================
-    async function loadWateringData() {
+    async function Card2() {
+        console.log("Card 2");
         try {
-            const res = await fetch('/dashboard/api/watering_schedule.php');
-            const data = await res.json();
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
 
-            const container = document.getElementById('watering-container');
-            container.innerHTML = '';
 
-            if (data.range) {
-                const rangeDiv = document.createElement('div');
-                rangeDiv.className = 'text-[9px] text-stone-500 text-right mb-1';
-                rangeDiv.textContent = data.range;
-                container.appendChild(rangeDiv);
+            const electricityEl = document.getElementById('electricity-usage');
+            const waterEl = document.getElementById('water-usage');
+
+            if (electricityEl) {
+                electricityEl.style.fontSize = (fontSize * 2) + "px";
+                electricity = Number(expense[0]?.electricity) || 0;
+                electricityEl.textContent = electricity;
+            }
+            if (waterEl) {
+                waterEl.style.fontSize = (fontSize * 2) + "px";
+                water = Number(expense[0]?.water) || 0;
+                waterEl.textContent = water;
             }
 
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'grid grid-cols-2 gap-2';
 
-            if (data.watering) {
-                gridDiv.innerHTML += `
-                        <div class="bg-stone-50 rounded-lg p-2 border border-stone-100">
-                            <div class="text-[9px] text-stone-500 mb-1">${data.watering.title || 'การให้น้ำ'}</div>
-                            <div class="text-[10px] font-bold text-stone-800">${data.watering.schedule || '-'}</div>
-                        </div>
-                    `;
-            }
-
-            if (data.fertilizer) {
-                gridDiv.innerHTML += `
-                        <div class="bg-stone-50 rounded-lg p-2 border border-stone-100">
-                            <div class="text-[9px] text-stone-500 mb-1">${data.fertilizer.title || 'การใส่ปุ๋ย'}</div>
-                            <div class="text-[10px] font-bold text-stone-800">${data.fertilizer.schedule || '-'}</div>
-                        </div>
-                    `;
-            }
-
-            container.appendChild(gridDiv);
-
-            if (data.alert) {
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'bg-red-50 rounded-lg p-2 border border-red-100 mt-2';
-                alertDiv.innerHTML = `
-                        <div class="text-[9px] text-red-600 font-bold mb-1">${data.alert.text || ''}</div>
-                        <div class="text-[9px] text-red-800">${data.alert.details || ''}</div>
-                    `;
-                container.appendChild(alertDiv);
-            }
         } catch (err) {
-            console.error('❌ loadWateringData error:', err);
+            console.error('❌ loadSensorData error:', err);
         }
+
     }
 
-    // ==================== CARD 3: ต้นทุนทรัพยากรวันนี้ ====================
-    async function loadResourceCostData() {
+    async function Card3() {
         try {
-            const res = await fetch('/dashboard/api/resource_to_day.php');
-            const data = await res.json();
-
-            const container = document.getElementById('resource-cost-container');
-            container.innerHTML = '';
-
-            if (data.range) {
-                const rangeDiv = document.createElement('div');
-                rangeDiv.className = 'text-[9px] text-stone-500 text-right mb-2';
-                rangeDiv.textContent = data.range;
-                container.appendChild(rangeDiv);
-            }
-
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'grid grid-cols-2 gap-2';
-
-            if (data.water) {
-                gridDiv.innerHTML += `
-                        <div class="bg-stone-50 rounded-lg p-2 border border-stone-100">
-                            <div class="text-[9px] text-stone-500 mb-1">ค่าน้ำประปา</div>
-                            <div class="text-lg font-black text-stone-800">
-                                ${data.water.value.toFixed(1)} 
-                                <span class="text-[9px] font-bold text-stone-500">${data.water.unit || 'm3'}</span>
-                            </div>
-                        </div>
-                    `;
-            }
-
-            if (data.electricity) {
-                gridDiv.innerHTML += `
-                        <div class="bg-stone-50 rounded-lg p-2 border border-stone-100">
-                            <div class="text-[9px] text-stone-500 mb-1">ค่าไฟฟ้า</div>
-                            <div class="text-lg font-black text-stone-800">
-                                ${data.electricity.value.toFixed(0)} 
-                                <span class="text-[9px] font-bold text-stone-500">${data.electricity.unit || 'kWh'}</span>
-                            </div>
-                        </div>
-                    `;
-            }
-
-            container.appendChild(gridDiv);
-
-            if (data.costs) {
-                const costDiv = document.createElement('div');
-                costDiv.className = 'bg-primary/5 rounded-lg p-2 border border-primary/10 mt-2';
-                costDiv.innerHTML = `
-                        <div class="text-[9px] text-primary font-bold mb-1">${data.costs.water || ''}</div>
-                        <div class="text-[10px] font-black text-primary">${data.costs.range || ''}</div>
-                    `;
-                container.appendChild(costDiv);
-            }
-
-            if (data.updated_at) {
-                const updateDiv = document.createElement('div');
-                updateDiv.className = 'text-[8px] text-stone-400 text-right mt-1';
-                updateDiv.textContent = `อัปเดต: ${data.updated_at}`;
-                container.appendChild(updateDiv);
-            }
         } catch (err) {
-            console.error('❌ loadResourceCostData error:', err);
+            console.error('❌ loadSensorData error:', err);
         }
+
     }
 
-    // ==================== CARD 4: ต้นทุนรวมวันนี้ ====================
-    async function loadTotalCostData() {
+    async function Card4() {
         try {
-            const res = await fetch('/dashboard/api/total_cost_today.php');
-            const data = await res.json();
 
-            const container = document.getElementById('total-cost-container');
-            container.innerHTML = '';
-
-            if (data.costs && Array.isArray(data.costs)) {
-                data.costs.forEach(cost => {
-                    const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center py-1 border-b border-stone-100';
-                    div.innerHTML = `
-                            <span class="text-[9px] text-stone-600">${cost.label || ''}</span>
-                            <span class="text-[9px] font-bold text-stone-800">${cost.amount || '-'}</span>
-                        `;
-                    container.appendChild(div);
-                });
-            }
-
-            if (data.total) {
-                const totalDiv = document.createElement('div');
-                totalDiv.className = 'flex justify-between items-center pt-2 border-t-2 border-primary/20';
-                const colorClass = data.total.color === 'orange' ? 'text-primary' : 'text-stone-800';
-                totalDiv.innerHTML = `
-                        <span class="text-[10px] font-bold ${colorClass}">${data.total.label || 'รวม'}</span>
-                        <span class="text-[11px] font-black ${colorClass}">${data.total.amount || '-'}</span>
-                    `;
-                container.appendChild(totalDiv);
-            }
         } catch (err) {
-            console.error('❌ loadTotalCostData error:', err);
+            console.error('❌ loadSensorData error:', err);
         }
     }
 
-    // ==================== DO TREND CHART ====================
-    let doChart = null;
 
-    async function loadDoTrendData() {
+    let sensorChart = null;
+    let trendChart = null;
+
+    async function loadGraphSensorById() {
         const loading = document.getElementById('do-loading');
+        const title = document.getElementById('title-graph-sensor');
+        const Subtitle = document.getElementById('title-graph-sensor-sub');
 
         try {
-            const res = await fetch('/dashboard/api/monitor_trend.php', {
-                cache: 'no-store'
-            });
-            const data = await res.json();
+            const data = Object.values(sensors).find(
+                s => s.monitor_id.toString() === sensor_select.toString()
+            );
 
-            console.log('📊 DO Trend API Response:', data);
+            if (!data || !data.logs || data.logs.length === 0) {
+                console.warn('⚠️ ไม่มีข้อมูล ' + (data?.monitor_name ?? ''));
 
-            const doData = data.find(item => item.device_id === 2);
-
-            if (!doData || !doData.points || doData.points.length === 0) {
-                console.warn('⚠️ ไม่มีข้อมูล DO');
-                renderDoChart([], []);
+                if (sensorChart) {
+                    updateSensorChart([], []);
+                } else {
+                    renderSensorChart([], []);
+                }
+                title.textContent = "กราฟแสดงข้อมูลของ " + data?.monitor_name ?? "";
+                Subtitle.textContent = "Historical " + data.monitor_name + " Data";
                 return;
             }
 
-            const labels = doData.points.map(p => {
-                const d = new Date(p.time);
+            title.textContent = "แนวโน้มค่า " + data.monitor_name;
+            Subtitle.textContent = "Historical " + data.monitor_name + " Data";
+
+            const labels = data.logs.map(p => {
+                const d = new Date(p.createtime);
                 return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
             });
 
-            const values = doData.points.map(p => parseFloat(p.value));
+            const values = data.logs.map(p => parseFloat(p.data_value));
+            let min = Math.min(...values);
+            let max = Math.max(...values);
 
-            renderDoChart(labels, values);
+            min = min - (min * 0.05);
+            max = max + (max * 0.05);
+
+            // 👇 จุดสำคัญ
+            if (!sensorChart) {
+                renderSensorChart(labels, values, min, max);
+            } else {
+                updateSensorChart(labels, values, min, max);
+            }
 
         } catch (err) {
             console.error('❌ loadDoTrendData error:', err);
-            renderDoChart([], []);
+
+            if (sensorChart) {
+                updateSensorChart([], []);
+            } else {
+                renderSensorChart([], []);
+            }
+
         } finally {
             if (loading) loading.classList.add('hidden');
         }
     }
 
-    function renderDoChart(labels, values) {
-        const ctx = document.getElementById('doTrendChart');
+    function renderSensorChart(labels, values, min = 0, max = 1) {
+        const ctx = document.getElementById('TrendChart');
         if (!ctx) return;
 
-        if (doChart) {
-            doChart.destroy();
+        if (sensorChart) {
+            sensorChart.destroy();
         }
 
+        // Adjust font sizes based on screen width
         const screenWidth = window.innerWidth;
         let fontSize = 9;
         if (screenWidth >= 3840) fontSize = 18;
         else if (screenWidth >= 1920) fontSize = 12;
 
-        doChart = new Chart(ctx, {
+        sensorChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'DO (mg/L)',
+                    // label: 'DO (mg/L)',
                     data: values,
                     borderColor: '#ff8021',
                     backgroundColor: 'rgba(255,128,33,0.1)',
@@ -530,7 +288,8 @@
                     },
                     y: {
                         beginAtZero: true,
-                        max: 10,
+                        min: min,
+                        max: max,
                         ticks: {
                             font: {
                                 size: fontSize
@@ -547,31 +306,80 @@
         });
     }
 
-    // ==================== MARKET PRICE TREND ====================
-    async function loadMarketPriceTrend() {
+    function updateSensorChart(labels, values, min, max) {
+        sensorChart.data.labels = labels;
+        sensorChart.data.datasets[0].data = values;
+        sensorChart.options.scales.y.min = min
+        sensorChart.options.scales.y.max = max
+        sensorChart.update();
+    }
+
+    async function loadGraphMarketById() {
         const loading = document.getElementById('price-loading');
+        const label = document.getElementById('types-MarketChart');
 
         try {
-            const res = await fetch('/dashboard/api/market_price_Tred.php', {
-                cache: 'no-store'
-            });
+
+            const res = await fetch('../../api-website/market_trades.php?market=' + market_name + '&type=' + type);
             const raw = await res.json();
+            const data = raw.data;
 
-            console.log('📈 price trend raw:', raw);
+            if (!data || typeof data !== 'object') {
+                console.warn('⚠️ ไม่มีข้อมูล');
+                renderMarketPriceChart([], []);
+                return;
+            }
 
-            if (!Array.isArray(raw) || raw.length === 0) return;
+            label.textContent = type;
+            const types = type.split(',');  // ["demand","price"]
 
-            const labels = raw.map(r => r.event_month);
+            // 1️⃣ รวมวันที่ทั้งหมด
+            let allDates = new Set();
 
-            const price50 = raw
-                .filter(r => r.data_table_id === "19")
-                .map(r => Number(r.event_price));
+            types.forEach(t => {
+                if (Array.isArray(data[t])) {
+                    data[t].forEach(r => allDates.add(r.trend_date));
+                }
+            });
 
-            const price70 = raw
-                .filter(r => r.data_table_id === "20")
-                .map(r => Number(r.event_price));
+            // 2️⃣ เรียงวันที่
+            const labels = Array.from(allDates).sort();
 
-            renderMarketPriceChart(labels, price50, price70);
+            // 3️⃣ สร้าง datasets
+            const datasets = types.map(t => {
+                const mapByDate = {};
+                if (Array.isArray(data[t])) {
+                    data[t].forEach(r => {
+                        mapByDate[r.trend_date] = Number(r.trend_value);
+                    });
+                }
+
+                return {
+                    label: t,
+                    data: labels.map(date => mapByDate[date] ?? null),
+                    borderWidth: 2,
+                    fill: false,
+                    spanGaps: true,
+                    tension: 0.3,
+                    borderColor: '#ff8021',
+                    backgroundColor: 'rgba(255,128,33,0.15)',
+                    pointRadius: screenWidth >= 3840 ? 5 : 2.5
+                };
+            });
+
+            // 4️⃣ คำนวณ min/max รวม
+            const allValues = datasets.flatMap(d => d.data).filter(v => v !== null);
+
+            let min = Math.min(...allValues);
+            let max = Math.max(...allValues);
+
+            min -= min * 0.05;
+            max += max * 0.05;
+
+            min = Number(min.toFixed(2));
+            max = Number(max.toFixed(2));
+
+            renderMarketPriceChart(labels, datasets, min, max);
 
         } catch (err) {
             console.error('❌ price trend error:', err);
@@ -580,44 +388,20 @@
         }
     }
 
-    let marketPriceChart;
-
-    function renderMarketPriceChart(labels, price50, price70) {
+    function renderMarketPriceChart(labels, datasets, min = 0, max = 1) {
         const ctx = document.getElementById('marketPriceChart');
         if (!ctx) return;
 
-        if (marketPriceChart) {
-            marketPriceChart.destroy();
+        if (trendChart) {
+            trendChart.destroy();
         }
 
-        const screenWidth = window.innerWidth;
-        let fontSize = 10;
-        if (screenWidth >= 3840) fontSize = 20;
-        else if (screenWidth >= 1920) fontSize = 14;
 
-        marketPriceChart = new Chart(ctx, {
+        trendChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
-                datasets: [{
-                    label: '50 ตัว/กก.',
-                    data: price50,
-                    borderColor: '#ff8021',
-                    backgroundColor: 'rgba(255,128,33,0.15)',
-                    tension: 0.35,
-                    fill: true,
-                    pointRadius: screenWidth >= 3840 ? 5 : 2.5
-                },
-                {
-                    label: '70 ตัว/กก.',
-                    data: price70,
-                    borderColor: 'rgba(255,128,33,0.4)',
-                    backgroundColor: 'rgba(255,128,33,0.08)',
-                    tension: 0.35,
-                    fill: true,
-                    pointRadius: screenWidth >= 3840 ? 4 : 2
-                }
-                ]
+                datasets: datasets
             },
             options: {
                 responsive: true,
@@ -628,7 +412,7 @@
                     },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ${ctx.raw} บาท/กก.`
+                            label: ctx => ` ${ctx.raw}`
                         }
                     }
                 },
@@ -645,6 +429,8 @@
                         }
                     },
                     y: {
+                        max: max,
+                        min: min,
                         ticks: {
                             font: {
                                 size: fontSize
@@ -658,9 +444,13 @@
         });
     }
 
-    // ==================== INIT ====================
-    document.addEventListener("DOMContentLoaded", () => {
-        initMetricBars();
-        loadMarketPriceTrend();
-    });
+    function updateMarketPriceChart(labels, values, min = 0, max = 1) {
+        trendChart.data.labels = labels;
+        trendChart.data.datasets[0].data = values;
+        trendChart.options.scales.y.min = min
+        trendChart.options.scales.y.max = max
+        trendChart.update();
+    }
+
+
 </script>

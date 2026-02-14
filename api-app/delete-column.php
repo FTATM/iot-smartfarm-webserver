@@ -31,7 +31,7 @@ try {
     $id = $data['id'];
 
     // 1️⃣ ลบ child rows ก่อน
-    $sql_child = "DELETE FROM datas_table WHERE name_table_id = $1";
+    $sql_child = "DELETE FROM table_datas WHERE name_table_id = $1";
     $res1 = pg_query_params($db, $sql_child, [$id]);
 
     if ($res1 === false) {
@@ -39,7 +39,7 @@ try {
     }
 
     // 2️⃣ ลบ parent table
-    $sql_parent = "DELETE FROM names_table WHERE id = $1";
+    $sql_parent = "DELETE FROM table_names WHERE id = $1";
     $res2 = pg_query_params($db, $sql_parent, [$id]);
 
     if ($res2 === false) {

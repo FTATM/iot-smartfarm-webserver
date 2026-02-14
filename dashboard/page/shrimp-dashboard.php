@@ -8,8 +8,8 @@ $currentTime = date('H:i:s');
 
 <!DOCTYPE html>
 <html class="light" lang="th">
-    <?php  include("../scripts/ref.html");?>
-    <?php  include("../styles/css-shrimp.html");?>
+<?php include("../scripts/ref.html"); ?>
+<?php include("../styles/css-default.html"); ?>
 
 <head>
     <title>สถานะบ่อเลี้ยงกุ้ง - Dashboard</title>
@@ -32,7 +32,9 @@ $currentTime = date('H:i:s');
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm font-bold text-primary leading-none" id="shrimp-age">อายุกุ้งปัจจุบัน: -- วัน</span>
+                    <span class="text-sm font-bold text-primary leading-none">อายุไก่ปัจจุบัน:</span>
+                    <span class="text-sm font-bold text-primary leading-none" id="day-age">--</span>
+                    <span class="text-sm font-bold text-primary leading-none">วัน</span>
                     <div class="w-px h-3 bg-stone-300"></div>
                     <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
@@ -57,112 +59,112 @@ $currentTime = date('H:i:s');
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-            
-        <div class="grid grid-cols-12 gap-4 2xl:gap-8 2xl:min-h-[1500px]">
-            
-            <!-- กรอบซ้าย 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
 
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                        <div class="grid grid-cols-12 gap-4 2xl:gap-8 2xl:min-h-[1500px]">
 
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- กรอบซ้าย 6 กรอบ -->
+                            <div class="col-span-2 grid grid-cols-1 gap-4">
+                                <!-- กรอบที่ 1 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 2 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 3 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 6 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 4 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 7 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
-            </div>
+                                <!-- กรอบที่ 5 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-            <!-- พื้นที่กลาง (ไดอะแกรม) -->
-            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                <img src="images/shrimp.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
-            </div>
+                                <!-- กรอบที่ 6 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-            <!-- กรอบขวา 6 กรอบ -->
-            <div class="col-span-2 grid grid-cols-1 gap-4">
-                <!-- กรอบที่ 1 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 7 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+                            </div>
 
-                <!-- กรอบที่ 2 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- พื้นที่กลาง (ไดอะแกรม) -->
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
+                                <img src="images/shrimp.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                            </div>
 
-                <!-- กรอบที่ 3 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                            <!-- กรอบขวา 6 กรอบ -->
+                            <div class="col-span-2 grid grid-cols-1 gap-4">
+                                <!-- กรอบที่ 1 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 4 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 2 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 5 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
-                    </div>
-                </div>
+                                <!-- กรอบที่ 3 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
 
-                <!-- กรอบที่ 6 -->
-                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                    <div class="text-center text-white">
+                                <!-- กรอบที่ 4 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+
+                                <!-- กรอบที่ 5 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+
+                                <!-- กรอบที่ 6 -->
+                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
+                                    <div class="text-center text-white">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-</div>
-</div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2  2xl:p-8 shrink-0">
+                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
-                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 id="title-graph-sensor" class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
-                                        แนวโน้มค่าออกซิเจนละลายน้ำ
+                                        กำลังโหลดข้อมูล...
                                     </h2>
-                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
-                                        Historical DO Data (24H)
+                                    <p id="title-graph-sensor-sub" class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                        Loading data...
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
@@ -178,7 +180,7 @@ $currentTime = date('H:i:s');
                                         <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
                                     </div>
                                 </div>
-                                <canvas id="doTrendChart" class="absolute inset-0"></canvas>
+                                <canvas id="TrendChart" class="absolute inset-0"></canvas>
                             </div>
                         </div>
 
@@ -191,6 +193,8 @@ $currentTime = date('H:i:s');
                                         แนวโน้มราคาตลาด
                                     </h2>
                                     <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
+                                </div>
+                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[10px] ">
                                 </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
@@ -209,62 +213,13 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
-                <div class="grid grid-cols-4 gap-4 shrink-0" id="metrics-cards">
-                    <?php
-                    $keys = ['do', 'ph', 'ec', 'temp'];
-                    $warnings = [
-                        'do' => 'ควรอยู่ระหว่าง 3.0-7.0 mg/L',
-                        'ph' => 'ควรอยู่ระหว่าง 7.0-8.5',
-                        'ec' => 'ควรอยู่ระหว่าง 23K-45K μS/cm',
-                        'temp' => 'ควรอยู่ระหว่าง 28-32 °C'
-                    ];
+                <div class="grid grid-cols-6 gap-4 shrink-0" id="metrics-cards">
 
-                    for ($i = 0; $i < count($metricTitles); $i++): ?>
-                        <div class="bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0" id="card-<?= $keys[$i] ?>">
-                            <div class="w-full flex justify-between items-center">
-                                <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
-                                    <?= $metricTitles[$i]['title'] ?>
-                                </span>
-                                <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[9px] font-bold uppercase status" id="card-<?= $keys[$i] ?>">
-                                    --
-                                </span>
-                            </div>
-                            <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">
-                                <?= $metricTitles[$i]['value'] ?>
-                            </span>
-
-                            <div class="flex-1 flex items-center justify-center">
-                                <div class="flex items-baseline gap-1">
-                                    <span class="text-lg font-black text-black value">--</span>
-                                    <span class="text-sm font-bold text-stone-400">
-                                        <?= $metricTitles[$i]['unit'] ?>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Range Bar with Fixed Gradient -->
-                            <div class="metric-range mt-2 hidden" data-key="<?= $keys[$i] ?>">
-                                <div class="flex justify-between text-[8px] font-bold leading-none mb-1">
-                                    <span class="label-left"></span>
-                                    <span class="label-right"></span>
-                                </div>
-
-                                <div class="relative h-1.5 rounded-full bar">
-                                    <div class="fill"></div>
-                                </div>
-
-                                <!-- Warning text -->
-                                <p class="text-[7px] text-stone-500 font-medium mt-3 text-center">
-                                    <?= $warnings[$keys[$i]] ?>
-                                </p>
-                            </div>
-                        </div>
-                    <?php endfor; ?>
                 </div>
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-            <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
+            <div class="col-span-2 grid grid-rows-4 gap-3">
                 <!-- Card 1: การให้อาหารวันนี้ -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2 2xl:p-8">
@@ -272,35 +227,37 @@ $currentTime = date('H:i:s');
                         <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
                     </div>
                     <div class="2xl:px-8">
-                    <div class="grid grid-cols-2 gap-2 2xl:gap-4" id="feeding-info">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
-                            <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
-                        </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                            <span class="text-[10px] font-black text-primary" id="feeding-increase">--</span>
-                        </div>
-                        <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 2xl:py-8 border border-primary/10 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
-                            <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
+                        <div class="grid grid-cols-2 gap-2 2xl:gap-4" id="feeding-info">
+                            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
+                                <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
+                                <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
+                            </div>
+                            <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
+                                <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
+                                <span class="text-[10px] font-black text-primary" id="feeding-increase">--</span>
+                            </div>
+                            <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 2xl:py-8 border border-primary/10 flex justify-between items-center">
+                                <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
+                                <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
                 <!-- Card 2: ต้นทุนทรัพยากรวันนี้ -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2 2xl:p-8">
-                        <span class="material-symbols-outlined text-primary text-sm">analytics</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรวันนี้</h3>
-                        <div class="ml-auto w-5 h-5 rounded-full bg-stone-100 group-hover:bg-orange-100 flex items-center justify-center transition-colors duration-200">
-                            <div class="ion--water-sharp text-orange-300 group-hover:text-[#ff8021] transition-colors duration-200" style="width: 12px; height: 12px;"></div>
-                        </div>
+                        <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 2xl:p-8" id="resource-info">
-                        <div class="col-span-2 flex items-center justify-center">
-                            <span class="text-[10px] text-stone-400">กำลังโหลด...</span>
+                    <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:px-8">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
+                            <span class="text-[15px] text-center font-black text-stone-800" id="water-usage">-</span>
+                        </div>
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
+                            <span class="text-[15px] text-center font-black text-stone-800" id="electricity-usage">-</span>
                         </div>
                     </div>
                 </div>
@@ -371,6 +328,7 @@ $currentTime = date('H:i:s');
         </div>
     </footer>
 
+    <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-shrimp.html"; ?>
 </body>
 
