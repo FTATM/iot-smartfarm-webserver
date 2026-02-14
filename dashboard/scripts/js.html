@@ -1,16 +1,19 @@
 <!-- JavaScript -->
 <script>
-    let diff = 0;
+    let diff = { 'day': 0 };
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
     const today = new Date();
     const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
     document.getElementById('start-date').textContent = formattedDate;
-    
+
     const screenWidth = window.innerWidth;
     let fontSize = 10;
     if (screenWidth >= 3840) fontSize = 20;
     else if (screenWidth >= 1920) fontSize = 14;
-    setAmountDay();
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await setAmountDay();
+    })
 
     async function setAmountDay() {
         const res = await fetch('../../api-website/fetch_amountDay.php?bid=1');
@@ -165,5 +168,25 @@
         });
         return sum;
     }
+
+    function SetValueInHTMLById(id, value) {
+        const div = document.getElementById(id);
+        if (!div) {
+            console.warn("SetValueInHTMLById \"id\" is wrong! (" + id + ")");
+            return;
+        }
+        if ('value' in div) {
+            div.value = value;
+        } else {
+            div.innerText = value;
+        }
+    }
+    function setCard(side, index, title = "-", value = "-", unit = "") {
+        const base = `card-${side}-${index}`;
+        SetValueInHTMLById(`${base}-title`, title);
+        SetValueInHTMLById(`${base}-value`, value);
+        SetValueInHTMLById(`${base}-unit`, unit);
+    }
+
 
 </script>

@@ -16,7 +16,6 @@ $currentTime = date('H:i:s');
 </head>
 
 <body>
-
     <!-- Header -->
     <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
@@ -65,44 +64,67 @@ $currentTime = date('H:i:s');
                             <!-- กรอบซ้าย 6 กรอบ -->
                             <div class="col-span-2 grid grid-cols-1 gap-4">
                                 <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-1-value" class="text-[13px] font-bold text-slate-800">64</span>
+                                        <span id="card-left-1-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 2 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-2-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-2-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 3 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-3-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-3-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 4 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-4-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-4-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-5" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-5-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-5-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-5-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 6 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-6" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-6-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-6-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-6-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 7 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-left-7" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-7-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-7-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-7-unit" class="text-[11px] text-slate-400"></span>
+                                    </div>
+                                </div>
+                                <!-- กรอบที่ 8 -->
+                                <div id="card-left-8" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-left-8-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-left-8-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-left-8-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
                             </div>
@@ -115,40 +137,54 @@ $currentTime = date('H:i:s');
                             <!-- กรอบขวา 6 กรอบ -->
                             <div class="col-span-2 grid grid-cols-1 gap-4">
                                 <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-right-8" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-8-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-8-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-8-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 2 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-right-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-2-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-2-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 3 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-right-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-3-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-3-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 4 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-right-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-4-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-4-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
-
                                 <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
+                                <div id="card-right-5" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-5-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-5-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-5-unit" class="text-[11px] text-slate-400"></span>
+                                    </div>
+                                </div>
+                                <!-- กรอบที่ 6 -->
+                                <div id="card-right-6" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-6-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                    <div class="text-center">
+                                        <span id="card-right-6-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-6-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
 
-                                <!-- กรอบที่ 6 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,15 +266,15 @@ $currentTime = date('H:i:s');
                         <div class="grid grid-cols-2 gap-2 2xl:gap-4" id="feeding-info">
                             <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
                                 <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
-                                <span class="text-[10px] font-black text-stone-800" id="feeding-meals">--</span>
+                                <span class="text-[10px] font-black text-stone-800" id="meals-count">--</span>
                             </div>
                             <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
-                                <span class="text-[9px] text-stone-400 font-bold uppercase">เพิ่มต่อมื้อ</span>
-                                <span class="text-[10px] font-black text-primary" id="feeding-increase">--</span>
+                                <span class="text-[9px] text-stone-400 font-bold uppercase">ปริมาณ(กรัม)</span>
+                                <span class="text-[10px] font-black text-stone-800" id="volume-meal">-</span>
                             </div>
                             <div class="col-span-2 bg-primary/5 rounded-lg p-1.5 2xl:py-8 border border-primary/10 flex justify-between items-center">
-                                <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน</span>
-                                <span class="text-[9px] font-black text-primary" id="feeding-total">--</span>
+                                <span class="text-[9px] text-primary font-bold uppercase">ปริมาณรวมที่ต้องกิน(กรัม)</span>
+                                <span class="text-[10px] font-black text-primary" id="total-meal-per-day">--</span>
                             </div>
                         </div>
                     </div>
@@ -253,11 +289,11 @@ $currentTime = date('H:i:s');
                     <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:px-8">
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="water-usage">-</span>
+                            <span class="text-[13px] text-center font-black text-stone-800" id="water-usage">-</span>
                         </div>
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="electricity-usage">-</span>
+                            <span class="text-[13px] text-center font-black text-stone-800" id="electricity-usage">-</span>
                         </div>
                     </div>
                 </div>

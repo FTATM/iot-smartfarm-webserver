@@ -110,18 +110,57 @@
 
     async function Card1() {
         console.log("Card 1");
+        const table_type = 1;     //Watch table id in 
         try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const table = Object.values(raw.data);
+            
+            const mealsCount = table[0].value;
+            const volumeMeal = table[0].children[0]['value'];
+            const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
+
+            SetValueInHTMLById('meals-count', mealsCount);
+            SetValueInHTMLById('volume-meal', volumeMeal);
+            SetValueInHTMLById('total-meal-per-day', totalMealperDay);
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function Card2() {
+        console.log("Card 2");
+        const table_type_humidity = 5;     //Watch table id in database
+        try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_humidity + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const humidityTable = Object.values(raw.data);
+            
+            const humidity = humidityTable[0].value;
+
+            SetValueInHTMLById('humidity', humidity+"%");
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
 
 
-    }
-
-    async function Card2() {
-        console.log("Card 2");
+        // =============== Light ==============
+        const table_type_light = 4;     //Watch table id in database
         try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_light + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const LuminanceTable = Object.values(raw.data);
+            console.log(LuminanceTable);
+            
+            const totalhours = LuminanceTable[0].value;
+            const lighttime  = LuminanceTable[0].children[0].value;
+            const luminance  = LuminanceTable[0].children[1].value;
+
+            SetValueInHTMLById('total-hours', totalhours);
+            SetValueInHTMLById('light-time', lighttime);
+            SetValueInHTMLById('light-recommentation', luminance);
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -470,6 +509,5 @@
         trendChart.options.scales.y.max = max
         trendChart.update();
     }
-
 
 </script>
