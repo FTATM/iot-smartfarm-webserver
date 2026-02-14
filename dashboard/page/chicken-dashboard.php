@@ -8,7 +8,7 @@ $currentTime = date('H:i:s');
 <!DOCTYPE html>
 <html class="light" lang="th">
 <?php include("../scripts/ref.html"); ?>
-<?php include("../styles/css-chicken.html"); ?>
+<?php include("../styles/css-default.html"); ?>
 
 <head>
     <title>สถานะฟาร์มเลี้ยงไก่ - Dashboard</title>
@@ -232,7 +232,6 @@ $currentTime = date('H:i:s');
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->

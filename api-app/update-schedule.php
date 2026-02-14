@@ -58,7 +58,7 @@ try {
             // INSERT แล้วรับ real id
             $insertParent = pg_query_params(
                 $db,
-                "INSERT INTO names_table (name, label, branch_id, child_of_table_id, is_deleted)
+                "INSERT INTO table_names (name, label, branch_id, child_of_table_id, is_deleted)
              VALUES ($1,$2,$3,$4,$5)
              RETURNING id",
                 [$name, $label, $branch_id, $child_of_table_id, $is_deleted]
@@ -74,7 +74,7 @@ try {
             // ---------- 🟢 ถ้ามี id จริง → update / insert ปกติ ----------
             $checkParent = pg_query_params(
                 $db,
-                "SELECT id FROM names_table WHERE id=$1",
+                "SELECT id FROM table_names WHERE id=$1",
                 [$id]
             );
 
@@ -82,7 +82,7 @@ try {
 
                 pg_query_params(
                     $db,
-                    "UPDATE names_table 
+                    "UPDATE table_names 
                  SET name=$1,label=$2,branch_id=$3,child_of_table_id=$4,is_deleted=$5
                  WHERE id=$6",
                     [$name, $label, $branch_id, $child_of_table_id, $is_deleted, $id]
@@ -91,7 +91,7 @@ try {
 
                 $insertParent = pg_query_params(
                     $db,
-                    "INSERT INTO names_table (name,label,branch_id,child_of_table_id,is_deleted)
+                    "INSERT INTO table_names (name,label,branch_id,child_of_table_id,is_deleted)
                  VALUES ($1,$2,$3,$4,$5)
                  RETURNING id",
                     [$name, $label, $branch_id, $child_of_table_id, $is_deleted]
@@ -134,7 +134,7 @@ try {
 
                     $checkRow = pg_query_params(
                         $db,
-                        "SELECT id FROM datas_table WHERE id=$1",
+                        "SELECT id FROM table_datas WHERE id=$1",
                         [$tempRowId]
                     );
 
@@ -142,7 +142,7 @@ try {
 
                         pg_query_params(
                             $db,
-                            "UPDATE datas_table
+                            "UPDATE table_datas
                      SET name_table_id=$1,
                          start_day=$2,
                          end_day=$3,
@@ -174,7 +174,7 @@ try {
                  */
                 $insertRow = pg_query_params(
                     $db,
-                    "INSERT INTO datas_table
+                    "INSERT INTO table_datas
              (name_table_id,start_day,end_day,value,second_label,row_parent_id)
              VALUES ($1,$2,$3,$4,$5,$6)
              RETURNING id",

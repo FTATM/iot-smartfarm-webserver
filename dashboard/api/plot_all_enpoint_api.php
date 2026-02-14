@@ -22,7 +22,7 @@ if (empty($parent_id)) {
 }
 
 /* ดึงตารางแม่ */
-$sql_parent = "SELECT * FROM names_table WHERE id = $1";
+$sql_parent = "SELECT * FROM table_names WHERE id = $1";
 $res_parent = pg_query_params($db, $sql_parent, [$parent_id]);
 $parent = pg_fetch_assoc($res_parent);
 
@@ -32,7 +32,7 @@ if (!$parent) {
 }
 
 /*  ดึง columns (ลูกของ parent) */
-$sql_cols = "SELECT * FROM names_table WHERE child_of_table_id = $1 ORDER BY id ASC";
+$sql_cols = "SELECT * FROM table_names WHERE child_of_table_id = $1 ORDER BY id ASC";
 $res_cols = pg_query_params($db, $sql_cols, [$parent_id]);
 
 $result = $parent;
@@ -44,7 +44,7 @@ while ($col = pg_fetch_assoc($res_cols)) {
   $result["columns"][] = $col;
 
   /*  ดึง logs ของแต่ละ column */
-  $sql_logs = "SELECT * FROM datas_table WHERE name_table_id = $1 ORDER BY id DESC";
+  $sql_logs = "SELECT * FROM table_datas WHERE name_table_id = $1 ORDER BY id DESC";
   $res_logs = pg_query_params($db, $sql_logs, [$col_id]);
   $logs = pg_fetch_all($res_logs) ?: [];
 

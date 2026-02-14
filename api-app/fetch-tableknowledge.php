@@ -37,8 +37,8 @@ $sql = "SELECT
     d.row_parent_id as d_row_parent_id,
     d.second_label as d_second_label
 
-FROM names_table AS n
-LEFT JOIN datas_table as d ON n.id = d.name_table_id
+FROM table_names AS n
+LEFT JOIN table_datas as d ON n.id = d.name_table_id
 WHERE n.branch_id = $1 AND is_deleted = 0
 ORDER BY d.id ASC
 

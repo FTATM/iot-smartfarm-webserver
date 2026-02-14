@@ -30,7 +30,7 @@ $id = $data['id'];
 pg_query($db, "BEGIN");
 
 try {
-    $sql_select_table_child = "SELECT id FROM names_table WHERE child_of_table_id = $1";
+    $sql_select_table_child = "SELECT id FROM table_names WHERE child_of_table_id = $1";
     $res_select = pg_query_params($db, $sql_select_table_child, [$id]);
 
     if (!$res_select) {
@@ -39,15 +39,15 @@ try {
 
     while ($row = pg_fetch_assoc($res_select)) {
 
-        $sql_delete_child = "DELETE FROM datas_table WHERE name_table_id = $1";
+        $sql_delete_child = "DELETE FROM table_datas WHERE name_table_id = $1";
         $res_child_of_table_child = pg_query_params($db, $sql_delete_child, [$row['id']]);
 
         if (!$res_child_of_table_child) {
             throw new Exception('Delete child of table child failed');
         }
 
-        // 2. ลบแม่ (names_table)
-        $sql_delete_child_of_parent = "DELETE FROM names_table WHERE id = $1";
+        // 2. ลบแม่ (table_names)
+        $sql_delete_child_of_parent = "DELETE FROM table_names WHERE id = $1";
         $res_child_of_parent = pg_query_params($db, $sql_delete_child_of_parent, [$row['id']]);
 
         if (!$res_child_of_parent) {
@@ -56,16 +56,16 @@ try {
     }
 
 
-    // 1. ลบลูกก่อน (datas_table)
-    $sql_delete_child = "DELETE FROM datas_table WHERE name_table_id = $1";
+    // 1. ลบลูกก่อน (table_datas)
+    $sql_delete_child = "DELETE FROM table_datas WHERE name_table_id = $1";
     $res_child = pg_query_params($db, $sql_delete_child, [$id]);
 
     if (!$res_child) {
         throw new Exception('Delete child failed');
     }
 
-    // 2. ลบแม่ (names_table)
-    $sql_delete_parent = "DELETE FROM names_table WHERE id = $1";
+    // 2. ลบแม่ (table_names)
+    $sql_delete_parent = "DELETE FROM table_names WHERE id = $1";
     $res_parent = pg_query_params($db, $sql_delete_parent, [$id]);
 
     if (!$res_parent) {

@@ -32,11 +32,11 @@ try {
 
     $id = $data['d_name_table_id'];
 
-    $sql_select_parent = "SELECT id FROM names_table WHERE id = $1 OR child_of_table_id = $2";
+    $sql_select_parent = "SELECT id FROM table_names WHERE id = $1 OR child_of_table_id = $2";
     $res1 = pg_query_params($db, $sql_select_parent, [$id, $id]);
 
     while ($row = pg_fetch_assoc($res1)) {
-        $sql_delete_data = "DELETE FROM datas_table WHERE name_table_id = $1 AND start_day = $2 AND end_day = $3";
+        $sql_delete_data = "DELETE FROM table_datas WHERE name_table_id = $1 AND start_day = $2 AND end_day = $3";
         $res2 = pg_query_params($db, $sql_delete_data, [$row['id'], $data['d_start_day'], $data['d_end_day']]);
 
         if ($res2 === false) {

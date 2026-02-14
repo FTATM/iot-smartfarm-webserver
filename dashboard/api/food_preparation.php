@@ -23,8 +23,8 @@ $sql = "
     n.name,
     n.label,
     d.value
-FROM names_table n
-LEFT JOIN datas_table d 
+FROM table_names n
+LEFT JOIN table_datas d 
     ON d.name_table_id = n.id
 WHERE n.id IN (10,14,16,15)
   AND d.name_table_id IN (10,14,15,16)
