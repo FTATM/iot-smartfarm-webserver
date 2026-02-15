@@ -55,72 +55,25 @@ $currentTime = date('H:i:s');
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-                        <div class="grid grid-cols-12 gap-4 2xl:gap-8 2xl:min-h-[1500px]">
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
+                        <!-- <div class="flex-row "> -->
 
-                            <!-- กรอบซ้าย 6 กรอบ -->
-                            <div class="col-span-2 grid grid-cols-1 gap-4">
-                                <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                </div>
+                        <!-- พื้นที่กลาง (รูปบน) -->
+                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
+                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Solar System with IoT App.</div>
+                            <img src="images/Solar.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        </div>
 
-                                <!-- กรอบที่ 2 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                </div>
+                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
+                            <?php include("../components/sensors_left.php"); ?>
 
-                                <!-- กรอบที่ 3 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                </div>
-
-                                <!-- กรอบที่ 4 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
-
-                                <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
+                                <img src="images/solar.png" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
                             </div>
+                            <?php include("../components/sensors_right.php"); ?>
 
-                            <!-- พื้นที่กลาง (ไดอะแกรม) -->
-                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all min-h-[500px]">
-                                <img src="images/solar.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
-                            </div>
-
-                            <!-- กรอบขวา 6 กรอบ -->
-                            <div class="col-span-2 grid grid-cols-1 gap-4">
-                                <!-- กรอบที่ 1 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                </div>
-
-                                <!-- กรอบที่ 2 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
-
-                                <!-- กรอบที่ 3 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
-
-                                <!-- กรอบที่ 4 -->
-                                <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-3 flex items-center justify-center transition-all duration-200">
-                                    <div class="text-center text-white">
-                                    </div>
-                                </div>
-
-                                <!-- กรอบที่ 5 -->
-                                <div class="bg-white rounded-xl p-3 flex items-center justify-center transition-all duration-200">
-                                </div>
-                            </div>
                         </div>
                     </div>
-
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
@@ -372,14 +325,7 @@ $currentTime = date('H:i:s');
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
-        <div class="flex flex-center gap-2">
-            <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 1.0</span>
-            <div class="h-3 w-px bg-stone-200"></div>
-            <span class="text-[9px] font-bold text-primary uppercase">smart farm system</span>
-        </div>
-    </footer>
+    <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-solar.html"; ?>

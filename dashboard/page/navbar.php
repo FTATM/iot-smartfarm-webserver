@@ -621,7 +621,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 <nav class="sidebar-menu flex flex-col" id="sidebarMenu">
 
     <!-- 🔝 Header ของ Sidebar -->
-    <div class="flex items-center justify-end p-3">
+    <div class="flex items-center justify-between p-3">
+        <div>
+            <img src="../../img/logo.png" alt="ฟิวด์เทค ออร์โตเมชั่น จำกัด" class="w-[5rem] object-cover rounded-md">
+            <!-- <p class="text-lg font-bold">FieldTech Automation Co.,ltd</p> -->
+        </div>
         <button
             id="closeBtn"
             title="ปิดเมนู"

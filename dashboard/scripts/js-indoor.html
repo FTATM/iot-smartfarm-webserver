@@ -1,10 +1,11 @@
 <!-- JavaScript -->
 <script>
-    let sensors = {};
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_name = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
+    const Sensors_realtime = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
+    const Sensors_name_left = [];
+    const Sensors_name_right = [];
     const market_name = "indoor";    //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -12,14 +13,15 @@
     document.addEventListener('DOMContentLoaded', async () => {
 
         await loadSensorData();
+        await SensorsLeft();
+        await SensorsRight();
         await Card1();
         await Card2();
         await Card3();
         await Card4();
 
-        await loadGraphSensorById();
         await loadGraphMarketById();
-        initMetricBars();
+
         isLoading = false;
         // setInterval(async () => {
         //     await loadSensorData();
@@ -35,28 +37,77 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors_name
+                        sensorLog: Sensors_realtime
                     })
                 }
             );
             const data = await res.json();
-            sensors = data['sensors'];
+            const sensors = data['sensors'];
 
-            Create_sensorCard(Sensors_name, sensors);
+            Create_sensorCard(Sensors_realtime, sensors);
 
-            const firstKey = Object.keys(sensors)[0];
+            const firstKey = Sensors_realtime[0];
             sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
+
+            await loadGraphSensorById(sensors);
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function SensorsLeft() {
+        try {
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: Sensors_name_left
+                    })
+                }
+            );
+            const data = await res.json();
+            const sensors = data['sensors'];
+
+            console.log("Left");
+            console.log(sensors);
+
+            SetCardsBynames(Sensors_name_left, sensors, 'left');
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
     }
 
-    function Create_sensorCard(sensor_names, values) {
+    async function SensorsRight() {
+        try {
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: Sensors_name_right
+                    })
+                }
+            );
+            const data = await res.json();
+            const sensors = data['sensors'];
+
+            console.log("right");
+            console.log(sensors);
+
+            SetCardsBynames(Sensors_name_right, sensors, 'right');
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    function Create_sensorCard(sensor_names, sensors) {
         let metricsCards = document.getElementById('metrics-cards');
         metricsCards.innerHTML = "";
         Object.values(sensor_names).forEach((s) => {
-            const row = values[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
+            const row = sensors[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
             const min = row['min'] || 0;
             const max = row['max'] || 1;
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
@@ -100,7 +151,7 @@
                 div.onclick = () => {
                     console.log("Select sensor : " + row.monitor_name);
                     sensor_select = row.monitor_id;
-                    loadGraphSensorById();
+                    loadGraphSensorById(sensors);
                 }
             }
 
@@ -112,37 +163,57 @@
 
     async function Card1() {
         console.log("Card 1");
+        const table_type = 1;     //Watch table id in 
         try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const table = Object.values(raw.data);
+
+            const mealsCount = table[0].value;
+            const volumeMeal = table[0].children[0]['value'];
+            const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
+
+            SetValueInHTMLById('meals-count', mealsCount);
+            SetValueInHTMLById('volume-meal', volumeMeal);
+            SetValueInHTMLById('total-meal-per-day', totalMealperDay);
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function Card2() {
+        console.log("Card 2");
+        const table_type_humidity = 5;     //Watch table id in database
+        try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_humidity + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const humidityTable = Object.values(raw.data);
+
+            const humidity = humidityTable[0].value;
+
+            SetValueInHTMLById('humidity', humidity + "%");
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
 
 
-    }
-
-    async function Card2() {
-        console.log("Card 2");
+        // =============== Light ==============
+        const table_type_light = 4;     //Watch table id in database
         try {
-            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_light + "&aDay=" + diff.day);
             const raw = await res.json();
-            const expense = raw['data'];
+            const LuminanceTable = Object.values(raw.data);
+            console.log(LuminanceTable);
 
+            const totalhours = LuminanceTable[0].value;
+            const lighttime = LuminanceTable[0].children[0].value;
+            const luminance = LuminanceTable[0].children[1].value;
 
-            const electricityEl = document.getElementById('electricity-usage');
-            const waterEl = document.getElementById('water-usage');
-
-            if (electricityEl) {
-                electricityEl.style.fontSize = (fontSize * 2) + "px";
-                electricity = Number(expense[0]?.electricity) || 0;
-                electricityEl.textContent = electricity;
-            }
-            if (waterEl) {
-                waterEl.style.fontSize = (fontSize * 2) + "px";
-                water = Number(expense[0]?.water) || 0;
-                waterEl.textContent = water;
-            }
-
+            SetValueInHTMLById('total-hours', totalhours);
+            SetValueInHTMLById('light-time', lighttime);
+            SetValueInHTMLById('light-recommentation', luminance);
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -152,6 +223,19 @@
 
     async function Card3() {
         try {
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
+
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+
+            const electricityEl = document.getElementById('electricity-usage');
+            const waterEl = document.getElementById('water-usage');
+
+            SetValueInHTMLById('electricity-usage', electricity);
+            SetValueInHTMLById('water-usage', water);
+
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
@@ -160,6 +244,22 @@
 
     async function Card4() {
         try {
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
+
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+            const hardware = Number(expense[0]?.hardware) || 0;
+            const infrastructure = Number(expense[0]?.infrastructure) || 0;
+            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+            const total = hardware + infrastructure + miscellaneous + electricity + water;
+
+            SetValueInHTMLById('expense-hardware', hardware);
+            SetValueInHTMLById('expense-infrastructure', infrastructure);
+            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
+            SetValueInHTMLById('expense-total', total);
+
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -170,7 +270,7 @@
     let sensorChart = null;
     let trendChart = null;
 
-    async function loadGraphSensorById() {
+    async function loadGraphSensorById(sensors) {
         const loading = document.getElementById('do-loading');
         const title = document.getElementById('title-graph-sensor');
         const Subtitle = document.getElementById('title-graph-sensor-sub');
@@ -451,6 +551,5 @@
         trendChart.options.scales.y.max = max
         trendChart.update();
     }
-
 
 </script>

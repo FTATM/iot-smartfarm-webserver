@@ -52,58 +52,25 @@ $currentTime = date('H:i:s');
 
                 <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
+
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
+                        <!-- <div class="flex-row "> -->
 
-                        <div class="grid grid-cols-6 gap-2 2xl:gap-4 w-full h-full max-h-[600px] 2xl:max-h-[1500px]">
+                        <!-- พื้นที่กลาง (รูปบน) -->
+                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
+                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Outdoor Farm with IoT App.</div>
+                            <img src="images/outdoor_main.png" alt="เครื่องมือ/อุปกรณ์" class="w-full max-h-[400px] object-cover rounded-xl">
+                        </div>
 
-                            <!-- พื้นที่กลาง (แถวบน 4 กรอบ + รูปภาพ + แถวล่าง 4 กรอบ) -->
-                            <div class="col-span-8 flex flex-col gap-2 2xl:gap-4 h-full min-h-0">
-                                <!-- แถวบน 4 กรอบ -->
-                                <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
-                                    <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
+                            <?php include("../components/sensors_left.php"); ?>
 
-                                <!-- รูปภาพกลาง -->
-                                <div class="bg-white rounded-xl p-1 flex items-center justify-center transition-all h-[70%] min-h-0 overflow-hidden">
-                                    <img src="images/Outdoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-xl">
-                                </div>
-
-                                <!-- แถวล่าง 4 กรอบ -->
-                                <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
-                                    <div class="bg-white rounded-xl p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl border border-stone-200 2xl:border-stone-800 shadow-sm p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-xl p-2 flex items-center justify-center transition-all duration-200 min-h-0">
-                                        <div class="text-center text-white">
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
+                            <img src="images/outdoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full max-h-[400px] object-cover rounded-xl">
                             </div>
+
+                            <?php include("../components/sensors_right.php"); ?>
                         </div>
                     </div>
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
@@ -288,14 +255,7 @@ $currentTime = date('H:i:s');
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
-        <div class="flex flex-center gap-2">
-            <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 1.0</span>
-            <div class="h-3 w-px bg-stone-200"></div>
-            <span class="text-[9px] font-bold text-primary uppercase">smart farm system</span>
-        </div>
-    </footer>
+    <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-outdoor.html"; ?>

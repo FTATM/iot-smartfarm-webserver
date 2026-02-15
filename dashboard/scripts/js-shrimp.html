@@ -3,10 +3,10 @@
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_name_bottom = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const Sensors_name_left = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const Sensors_name_right = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const market_name = "shrimp";    //name market example => solar, shrimp, indoor, outdoor
+    const Sensors_realtime = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
+    const Sensors_name_left = ["PumpO2#1", "PumpO2#2", "PumpO2#3", "PumpO2#4", "PumpW#1", "PumpW#2"];
+    const Sensors_name_right = ["Light", "Fog", "Fan", "O2", "O3", "skimRS2"];
+    const market_name = "shrimp";     //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
     // Adjust font sizes based on screen width
@@ -37,16 +37,16 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors_name_bottom
+                        sensorLog: Sensors_realtime
                     })
                 }
             );
             const data = await res.json();
             const sensors = data['sensors'];
 
-            Create_sensorCard(Sensors_name_bottom, sensors);
+            Create_sensorCard(Sensors_realtime, sensors);
 
-            const firstKey = Object.keys(sensors)[0];
+            const firstKey = Sensors_realtime[0];
             sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
 
             loadGraphSensorById(sensors);
@@ -191,22 +191,19 @@
             const raw = await res.json();
             const expense = raw['data'];
 
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+            const hardware = Number(expense[0]?.hardware) || 0;
+            const infrastructure = Number(expense[0]?.infrastructure) || 0;
+            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+            const total = hardware + infrastructure + miscellaneous + electricity + water;
 
-            const electricityEl = document.getElementById('electricity-usage');
-            const waterEl = document.getElementById('water-usage');
-
-            if (electricityEl) {
-                electricityEl.style.fontSize = (fontSize * 2) + "px";
-                electricity = Number(expense[0]?.electricity) || 0;
-                electricityEl.textContent = electricity;
-            }
-            if (waterEl) {
-                waterEl.style.fontSize = (fontSize * 2) + "px";
-                water = Number(expense[0]?.water) || 0;
-                waterEl.textContent = water;
-            }
-
-
+            SetValueInHTMLById('electricity-usage', electricity);
+            SetValueInHTMLById('water-usage', water);
+            SetValueInHTMLById('expense-hardware', hardware);
+            SetValueInHTMLById('expense-infrastructure', infrastructure);
+            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
+            SetValueInHTMLById('expense-total', total);
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }

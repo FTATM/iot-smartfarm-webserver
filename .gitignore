@@ -1,2 +1,4 @@
 .env
+.env.bat
+python/__pycache__
 python/logs/
