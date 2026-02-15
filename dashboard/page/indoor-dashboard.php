@@ -53,72 +53,23 @@ $currentTime = date('H:i:s');
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                        <div class="grid grid-cols-6 min-h-[500px] min-w-[500px] 2xl:min-h-[1400px] 2xl:min-w-[1400px]">
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
+                        <!-- <div class="flex-row "> -->
 
-                            <!-- คอลัมน์ซ้าย (3 กรอบ) -->
-                            <div class="col-span-1 flex flex-col gap-4">
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
+                        <!-- พื้นที่กลาง (รูปบน) -->
+                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
+                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Indoor Farm with IoT App.</div>
+                            <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
+                        </div>
+
+                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
+                            <?php include("../components/sensors_left.php"); ?>
+
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
+                            <img src="images/indoor_pieces.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
                             </div>
 
-                            <!-- คอลัมน์กลาง (รูปใหญ่ + แถวล่าง 5 กรอบ) -->
-                            <div class="col-span-4 flex flex-col">
-                                <!-- รูปภาพกลางใหญ่ -->
-                                <div class="bg-white rounded-2xl flex items-center justify-center transition-all duration-200 flex-1">
-                                    <img src="images/indoor.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-cover rounded-xl">
-                                </div>
-
-                                <!-- แถวล่าง 5 กรอบ -->
-                                <div class="grid grid-cols-5 gap-4">
-                                    <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
-
-                                    </div>
-                                    <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
-
-                                    </div>
-                                    <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
-
-                                    </div>
-                                    <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
-
-                                    </div>
-                                    <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm px-4 pb-4 flex items-center justify-center transition-all duration-200 aspect-square">
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- คอลัมน์ขวา (3 กรอบ) -->
-                            <div class="col-span-1 flex flex-col gap-4">
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
-
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
-
-                                <div class="bg-white rounded-2xl border border-stone-200 2xl:border-stone-800 shadow-sm p-4 flex items-center justify-center transition-all duration-200 flex-1">
-
-                                </div>
-                                <div class="bg-white rounded-2xl p-4 flex items-center justify-center transition-all flex-1">
-                                </div>
-                            </div>
+                            <?php include("../components/sensors_right.php"); ?>
                         </div>
                     </div>
 
@@ -267,38 +218,38 @@ $currentTime = date('H:i:s');
                         <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
                     </div>
 
-                    <div class="space-y-1 2xl:px-8 2xl:space-y-2">
-                        <!-- ของใช้วันนี้ -->
-                        <div class="flex items-center justify-between p-1 2xl:py-2 bg-green-50 rounded-md border border-green-100">
-                            <div class="flex items-center gap-1 2xl:px-1">
+                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
+                        <!-- Hardware -->
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
+                            <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-                                <span class="text-[7px] 2xl:px-4 font-bold text-green-700 uppercase">ของใช้วันนี้</span>
+                                <span class="text-[7px] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
                             </div>
-                            <span class="text-[7px] font-bold text-green-700" id="consumables-cost">-</span>
+                            <span class="text-[7px] font-bold text-green-700" id="expense-hardware">-</span>
                         </div>
 
-                        <!-- น้ำและไฟ -->
-                        <div class="flex items-center justify-between p-1 2xl:py-2 bg-yellow-50 rounded-md border border-yellow-100">
-                            <div class="flex items-center gap-1 2xl:px-1">
-                                <span class="material-symbols-outlined text-yellow-600 text-[8px]">bolt</span>
-                                <span class="text-[7px] 2xl:px-4 font-bold text-yellow-700 uppercase">น้ำและไฟ</span>
+                        <!-- Infrastructure -->
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
+                                <span class="text-[7px] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
                             </div>
-                            <span class="text-[7px] font-bold text-yellow-700" id="utilities-cost">-</span>
+                            <span class="text-[7px] font-bold text-yellow-700" id="expense-infrastructure">-</span>
                         </div>
 
-                        <!-- อื่นๆ -->
-                        <div class="flex items-center justify-between p-1 2xl:py-2 bg-red-50 rounded-md border border-red-100">
-                            <div class="flex items-center gap-1 2xl:px-1">
-                                <span class="material-symbols-outlined text-red-600 text-[8px]">more_horiz</span>
-                                <span class="text-[7px] 2xl:px-4 font-bold text-red-700 uppercase">อื่นๆ</span>
+                        <!-- Miscellaneous -->
+                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
+                                <span class="text-[7px] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
                             </div>
-                            <span class="text-[7px] font-bold text-red-700" id="other-cost">-</span>
+                            <span class="text-[7px] font-bold text-red-700" id="expense-miscellaneous">-</span>
                         </div>
 
                         <!-- Total -->
-                        <div class="pt-1.5 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">รวม</span>
-                            <span class="font-bold text-[11px] text-primary" id="total-estimate">-</span>
+                        <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
+                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
+                            <span class="font-bold text-[11px] text-primary" id="expense-total">-</span>
                         </div>
                     </div>
                 </div>
@@ -307,14 +258,7 @@ $currentTime = date('H:i:s');
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
-        <div class="flex flex-center gap-2">
-            <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 2.0</span>
-            <div class="h-3 w-px bg-stone-200"></div>
-            <span class="text-[9px] font-bold text-primary uppercase">smart farm system</span>
-        </div>
-    </footer>
+    <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-indoor.html"; ?>

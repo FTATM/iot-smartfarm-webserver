@@ -19,7 +19,12 @@
         const res = await fetch('../../api-website/fetch_amountDay.php?bid=1');
         const data = await res.json();
         diff = data['data'];
-        document.getElementById("day-age").textContent = diff.day;
+        const daydiff = document.getElementById("day-age");
+        if (!daydiff) {
+            console.warn("[warning] Not found Element id : day-age for set value");
+            return;
+        }
+        daydiff.textContent = diff.day;
     }
 
 
@@ -181,24 +186,25 @@
             div.innerText = value;
         }
     }
-    function setCard(side, index, title = "-", value = "-", unit = "") {
+    function setCard(side, index, title = "-", value = "-") {
         const base = `card-${side}-${index}`;
         SetValueInHTMLById(`${base}-title`, title);
         SetValueInHTMLById(`${base}-value`, value);
-        SetValueInHTMLById(`${base}-unit`, unit);
     }
 
     function SetCardsBynames(names, sensors, side) {
         Object.values(names).forEach((sensorName, index) => {
 
+            if (!sensors || !sensors[sensorName]) {
+                setCard(side, index + 1, sensorName, "-");
+                return;
+            }
             const sensor = sensors[sensorName];
-            if (!sensor) return;
 
             const latestValue = sensor.logs?.[0]?.data_value ?? "-";
-            const unit = sensor.unit ?? "";
-            console.log(latestValue);
+            const textValue = latestValue == 1 ? "ON" : "OFF";
 
-            setCard(side, index + 1, sensorName, latestValue, unit);
+            setCard(side, index + 1, sensorName, textValue);
         });
     }
 

@@ -57,171 +57,26 @@ $currentTime = date('H:i:s');
                 <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
+                        <!-- <div class="flex-row "> -->
 
-                        <div class="grid grid-cols-12 gap-2 2xl:gap-4 w-full h-full max-h-[600px] 2xl:max-h-[1500px]">
+                        <!-- พื้นที่กลาง (รูปบน) -->
+                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
+                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Smart chicken farming system with AI health monitoring cameras and IoT app.</div>
+                            <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        </div>
 
-                            <!-- กรอบซ้าย 5 กรอบ -->
-                            <div class="col-span-2 grid grid-cols-1 gap-2 2xl:gap-4 h-full">
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-left-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-left-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-left-1-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-left-1-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-left-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-left-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-left-2-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-left-2-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-left-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-left-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-left-3-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-left-3-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-left-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-left-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-left-4-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-left-4-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-left-5" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-left-5-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-left-5-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-left-5-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
+                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
+                            <?php include("../components/sensors_left.php"); ?>
+
+                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
+                                <img src="images/chicken.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
                             </div>
 
-                            <!-- พื้นที่กลาง (แถวบน 4 กรอบ + รูปภาพ + แถวล่าง 4 กรอบ) -->
-                            <div class="col-span-8 flex flex-col gap-2 2xl:gap-4 h-full min-h-0">
-                                <!-- แถวบน 4 กรอบ -->
-                                <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
-                                    <div id="card-top-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-top-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-top-1-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-top-1-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-top-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-top-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-top-2-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-top-2-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-top-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-top-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-top-3-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-top-3-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-top-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-top-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-top-4-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-top-4-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- รูปภาพกลาง -->
-                                <div class="bg-white rounded-xl p-1 flex items-center justify-center transition-all h-[70%] min-h-0 overflow-hidden">
-                                    <img src="images/chicken.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-xl">
-                                </div>
-
-                                <!-- แถวล่าง 4 กรอบ -->
-                                <div class="grid grid-cols-4 gap-2 2xl:gap-4 h-[15%]">
-                                    <div id="card-bottom-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-bottom-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-bottom-1-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-bottom-1-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-bottom-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-bottom-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-bottom-2-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-bottom-2-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-bottom-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-bottom-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-bottom-3-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-bottom-3-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                    <div id="card-bottom-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                        <div id="card-bottom-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                        <div class="text-center">
-                                            <span id="card-bottom-4-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                            <span id="card-bottom-4-unit" class="text-[11px] text-slate-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- กรอบขวา 5 กรอบ -->
-                            <div class="col-span-2 grid grid-cols-1 gap-2 2xl:gap-4 h-full">
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-right-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-right-1-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-right-1-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-right-2" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-2-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-right-2-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-right-2-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-right-3" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-3-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-right-3-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-right-3-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-right-4" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-4-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-right-4-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-right-4-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                                <!-- กรอบที่ 1 -->
-                                <div id="card-right-5" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-5-title" class="text-[11px] font-semibold text-slate-600">Title</div>
-                                    <div class="text-center">
-                                        <span id="card-right-5-value" class="text-[13px] font-bold text-slate-800">64</span>
-                                        <span id="card-right-5-unit" class="text-[11px] text-slate-400"></span>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php include("../components/sensors_right.php"); ?>
                         </div>
                     </div>
+
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
@@ -402,16 +257,11 @@ $currentTime = date('H:i:s');
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="px-6 py-2 border-t border-stone-200 bg-white flex justify-between flex-row-reverse shrink-0">
-        <div class="flex flex-center gap-2">
-            <span class="text-[9px] font-bold text-stone-300 uppercase tracking-widest">Version 2.0</span>
-            <div class="h-3 w-px bg-stone-200"></div>
-            <span class="text-[9px] font-bold text-primary uppercase">smart farm system</span>
-        </div>
-    </footer>
 
-    <?php include "../scripts/js.html"; ?>
+    <?php include "../components/footer.php"; ?>
+
+   <?php include "../scripts/js.html"; ?>
+
     <?php include "../scripts/js-chicken.html"; ?>
 </body>
 

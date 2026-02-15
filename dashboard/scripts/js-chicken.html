@@ -4,9 +4,8 @@
     let sensor_select = 0;
 
     const Sensors_realtime = ["Temp", "Humidity", "Ammonia", "Oxygen", "Co2", "Luminance"];
-    const Sensors_name_bottom = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const Sensors_name_left = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const Sensors_name_right = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
+    const Sensors_name_left = ["Fan#1", "Fan#2", "Fog#1", "Fog#2", "Light#1", "Light#2"];
+    const Sensors_name_right = ["P.Water#1", "P.Water#2", "P.Food#1", "P.Food#2"];
     const market_name = "chicken";    //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -14,7 +13,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
 
         await loadSensorData();
-        // await SensorsBottom();
         await SensorsLeft();
         await SensorsRight();
         await Card1();
@@ -48,7 +46,7 @@
 
             Create_sensorCard(Sensors_realtime, sensors);
 
-            const firstKey = Object.keys(sensors)[0];
+            const firstKey = Sensors_realtime[0];
             sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
 
             await loadGraphSensorById(sensors);
@@ -105,14 +103,14 @@
         }
     }
 
-    function Create_sensorCard(names, sensors) {
+    function Create_sensorCard(sensor_names, sensors) {
         let metricsCards = document.getElementById('metrics-cards');
         metricsCards.innerHTML = "";
-        Object.values(names).forEach((s) => {
-            const row = sensors[s];
+        Object.values(sensor_names).forEach((s) => {
+            const row = sensors[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
             const min = row['min'] || 0;
             const max = row['max'] || 1;
-            let value = row.logs.length > 0 ? row.logs[0].data_value : 0;
+            let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
             let div = document.createElement('div');
             div.id = `card-${s}`;
             div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-32 hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
@@ -149,10 +147,12 @@
                 </div>
                 `;
 
-            div.onclick = () => {
-                console.log("Select sensor : " + row.monitor_id);
-                sensor_select = row.monitor_id;
-                loadGraphSensorById(sensors);
+            if (row['unit'] !== "--") {
+                div.onclick = () => {
+                    console.log("Select sensor : " + row.monitor_name);
+                    sensor_select = row.monitor_id;
+                    loadGraphSensorById(sensors);
+                }
             }
 
             metricsCards.appendChild(div);
@@ -254,23 +254,19 @@
             const raw = await res.json();
             const expense = raw['data'];
 
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+            const hardware = Number(expense[0]?.hardware) || 0;
+            const infrastructure = Number(expense[0]?.infrastructure) || 0;
+            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+            const total = hardware + infrastructure + miscellaneous + electricity + water;
 
-            const hardwareEl = document.getElementById('expense-hardware');
-            const infrastructureEl = document.getElementById('expense-infrastructure');
-            const miscellaneousEl = document.getElementById('expense-miscellaneous');
-            const totalEl = document.getElementById('expense-total');
-
-            hardware = Number(expense[0]?.hardware) || 0;
-            infrastructure = Number(expense[0]?.infrastructure) || 0;
-            miscellaneous = Number(expense[0]?.miscellaneous) || 0;
-            electricity = Number(expense[0]?.electricity) || 0;
-            water = Number(expense[0]?.water) || 0;
-
-            hardwareEl.textContent = hardware;
-            infrastructureEl.textContent = infrastructure;
-            miscellaneousEl.textContent = miscellaneous;
-            totalEl.textContent = hardware + infrastructure + miscellaneous + electricity + water;
-
+            SetValueInHTMLById('electricity-usage', electricity);
+            SetValueInHTMLById('water-usage', water);
+            SetValueInHTMLById('expense-hardware', hardware);
+            SetValueInHTMLById('expense-infrastructure', infrastructure);
+            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
+            SetValueInHTMLById('expense-total', total);
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
