@@ -188,5 +188,19 @@
         SetValueInHTMLById(`${base}-unit`, unit);
     }
 
+    function SetCardsBynames(names, sensors, side) {
+        Object.values(names).forEach((sensorName, index) => {
+
+            const sensor = sensors[sensorName];
+            if (!sensor) return;
+
+            const latestValue = sensor.logs?.[0]?.data_value ?? "-";
+            const unit = sensor.unit ?? "";
+            console.log(latestValue);
+
+            setCard(side, index + 1, sensorName, latestValue, unit);
+        });
+    }
+
 
 </script>

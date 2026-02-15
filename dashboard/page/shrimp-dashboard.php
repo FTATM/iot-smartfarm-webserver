@@ -137,11 +137,11 @@ $currentTime = date('H:i:s');
                             <!-- กรอบขวา 6 กรอบ -->
                             <div class="col-span-2 grid grid-cols-1 gap-4">
                                 <!-- กรอบที่ 1 -->
-                                <div id="card-right-8" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
-                                    <div id="card-right-8-title" class="text-[11px] font-semibold text-slate-600">Title</div>
+                                <div id="card-right-1" class="bg-white rounded-xl border border-stone-200 shadow-sm p-5">
+                                    <div id="card-right-1-title" class="text-[11px] font-semibold text-slate-600">Title</div>
                                     <div class="text-center">
-                                        <span id="card-right-8-value" class="text-[13px] font-bold text-slate-800">--</span>
-                                        <span id="card-right-8-unit" class="text-[11px] text-slate-400"></span>
+                                        <span id="card-right-1-value" class="text-[13px] font-bold text-slate-800">--</span>
+                                        <span id="card-right-1-unit" class="text-[11px] text-slate-400"></span>
                                     </div>
                                 </div>
                                 <!-- กรอบที่ 2 -->

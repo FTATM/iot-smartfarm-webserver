@@ -1,9 +1,12 @@
 <!-- JavaScript -->
 <script>
-    let sensors = {};
     let isLoading = true;
     let sensor_select = 0;
 
+    const Sensors_realtime = ["Temp", "Humidity", "Ammonia", "Oxygen", "Co2", "Luminance"];
+    const Sensors_name_bottom = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
+    const Sensors_name_left = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
+    const Sensors_name_right = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
     const market_name = "chicken";    //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -11,12 +14,14 @@
     document.addEventListener('DOMContentLoaded', async () => {
 
         await loadSensorData();
+        // await SensorsBottom();
+        await SensorsLeft();
+        await SensorsRight();
         await Card1();
         await Card2();
         await Card3();
         await Card4();
 
-        await loadGraphSensorById();
         await loadGraphMarketById();
 
         isLoading = false;
@@ -28,35 +33,83 @@
     });
 
     async function loadSensorData() {
-        const Sensors = ["Temp", "Humidity", "Ammonia", "Oxygen", "Co2", "Luminance"];
         try {
             const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors
+                        sensorLog: Sensors_realtime
                     })
                 }
             );
             const data = await res.json();
-            sensors = data['sensors'];
+            const sensors = data['sensors'];
 
-            Create_sensorCard(Sensors, sensors);
+            Create_sensorCard(Sensors_realtime, sensors);
 
             const firstKey = Object.keys(sensors)[0];
             sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
+
+            await loadGraphSensorById(sensors);
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function SensorsLeft() {
+        try {
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: Sensors_name_left
+                    })
+                }
+            );
+            const data = await res.json();
+            const sensors = data['sensors'];
+
+            console.log("Left");
+            console.log(sensors);
+
+            SetCardsBynames(Sensors_name_left, sensors, 'left');
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
     }
 
-    function Create_sensorCard(sensors, values) {
+    async function SensorsRight() {
+        try {
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sensorLog: Sensors_name_right
+                    })
+                }
+            );
+            const data = await res.json();
+            const sensors = data['sensors'];
+
+            console.log("right");
+            console.log(sensors);
+
+            SetCardsBynames(Sensors_name_right, sensors, 'right');
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    function Create_sensorCard(names, sensors) {
         let metricsCards = document.getElementById('metrics-cards');
         metricsCards.innerHTML = "";
-        Object.values(sensors).forEach((s) => {
-            const row = values[s];
+        Object.values(names).forEach((s) => {
+            const row = sensors[s];
             const min = row['min'] || 0;
             const max = row['max'] || 1;
             let value = row.logs.length > 0 ? row.logs[0].data_value : 0;
@@ -99,7 +152,7 @@
             div.onclick = () => {
                 console.log("Select sensor : " + row.monitor_id);
                 sensor_select = row.monitor_id;
-                loadGraphSensorById();
+                loadGraphSensorById(sensors);
             }
 
             metricsCards.appendChild(div);
@@ -115,7 +168,7 @@
             const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + diff.day);
             const raw = await res.json();
             const table = Object.values(raw.data);
-            
+
             const mealsCount = table[0].value;
             const volumeMeal = table[0].children[0]['value'];
             const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
@@ -136,10 +189,10 @@
             const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_humidity + "&aDay=" + diff.day);
             const raw = await res.json();
             const humidityTable = Object.values(raw.data);
-            
+
             const humidity = humidityTable[0].value;
 
-            SetValueInHTMLById('humidity', humidity+"%");
+            SetValueInHTMLById('humidity', humidity + "%");
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -153,10 +206,10 @@
             const raw = await res.json();
             const LuminanceTable = Object.values(raw.data);
             console.log(LuminanceTable);
-            
+
             const totalhours = LuminanceTable[0].value;
-            const lighttime  = LuminanceTable[0].children[0].value;
-            const luminance  = LuminanceTable[0].children[1].value;
+            const lighttime = LuminanceTable[0].children[0].value;
+            const luminance = LuminanceTable[0].children[1].value;
 
             SetValueInHTMLById('total-hours', totalhours);
             SetValueInHTMLById('light-time', lighttime);
@@ -228,7 +281,7 @@
     let sensorChart = null;
     let trendChart = null;
 
-    async function loadGraphSensorById() {
+    async function loadGraphSensorById(sensors) {
         const loading = document.getElementById('do-loading');
         const title = document.getElementById('title-graph-sensor');
         const Subtitle = document.getElementById('title-graph-sensor-sub');
