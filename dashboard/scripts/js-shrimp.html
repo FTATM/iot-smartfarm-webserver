@@ -6,13 +6,13 @@
     const Sensors_name_bottom = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
     const Sensors_name_left = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
     const Sensors_name_right = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const market_name = "chicken";    //name market example => solar, shrimp, indoor, outdoor
+    const market_name = "shrimp";    //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
     // Adjust font sizes based on screen width
     document.addEventListener('DOMContentLoaded', async () => {
 
-        await SensorsBottom();
+        await loadSensorData();
         await SensorsLeft();
         await SensorsRight();
         await Card1();
@@ -30,7 +30,7 @@
 
     });
 
-    async function SensorsBottom() {
+    async function loadSensorData() {
         try {
             const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
@@ -73,21 +73,7 @@
             console.log("Left");
             console.log(sensors);
 
-            Object.values(Sensors_name_left).forEach((sensorName, index) => {
-
-                const sensor = sensors[sensorName];
-                if (!sensor) return;
-
-                const latestValue = sensor.logs?.[0]?.data_value ?? "-";
-                const unit = sensor.unit ?? "";
-                console.log(latestValue);
-
-
-                setCard("left", index + 1, sensorName, latestValue, unit);
-
-            });
-
-
+            SetCardsBynames(Sensors_name_left, sensors, 'left');
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -111,10 +97,13 @@
             console.log("right");
             console.log(sensors);
 
+            SetCardsBynames(Sensors_name_right, sensors, 'right');
+
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
     }
+
 
     function Create_sensorCard(sensor_names, sensors) {
         let metricsCards = document.getElementById('metrics-cards');
