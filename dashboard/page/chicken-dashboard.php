@@ -14,86 +14,89 @@ $currentTime = date('H:i:s');
     <title>สถานะฟาร์มเลี้ยงไก่ - Dashboard</title>
 </head>
 
-<body>
+<body class="h-screen overflow-hidden flex flex-col">
 
     <!-- Header -->
-    <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
-        <div class="flex items-center gap-4">
+    <header class="flex items-center justify-between px-4 py-2 border-b border-stone-200 bg-white shrink-0">
+        <div class="flex items-center gap-3">
             <?php include 'navbar.php'; ?>
             <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
                 <span class="emojione-monotone--chicken text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-lg font-bold leading-none">Chicken Dashboard</h1>
-                <p class="text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-1">Chicken Farm Intelligence Dashboard</p>
+                <h1 class="text-[#1d130c] text-base font-bold leading-none">Chicken Dashboard</h1>
+                <p class="text-[9px] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
             </div>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
-                <div class="flex items-center gap-3">
-                    <span class="text-sm font-bold text-primary leading-none">อายุไก่ปัจจุบัน:</span>
-                    <span class="text-sm font-bold text-primary leading-none" id="day-age">--</span>
-                    <span class="text-sm font-bold text-primary leading-none">วัน</span>
-                    <div class="w-px h-3 bg-stone-300"></div>
-                    <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 bg-stone-100 p-1 px-3 rounded-xl border border-stone-200">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-primary leading-none">อายุไก่ปัจจุบัน:</span>
+                    <span class="text-xs font-bold text-primary leading-none" id="day-age">--</span>
+                    <span class="text-xs font-bold text-primary leading-none">วัน</span>
+                    <div class="w-px h-2.5 bg-stone-300"></div>
+                    <span class="text-[10px] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
-            <div class="flex flex-col items-end border-l border-stone-200 pl-6">
-                <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-sm font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+            <div class="flex flex-col items-end border-l border-stone-200 pl-4">
+                <span class="text-[9px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-0.5 2xl:mb-4">อัปเดตล่าสุด</span>
+                <span class="text-xs font-bold text-stone-800 text-center" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
+    <main class="flex-1 flex flex-col p-3 gap-3 overflow-hidden min-h-0">
         <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
-        <div class="grid grid-cols-12 gap-4 h-full">
+        <div class="grid grid-cols-12 gap-3 h-full min-h-0">
 
             <!-- ========== LEFT SECTION (10 columns) ========== -->
-            <div class="col-span-10 flex flex-col gap-4">
+            <div class="col-span-10 flex flex-col gap-3 min-h-0">
 
                 <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
-                <div class="grid grid-cols-4 gap-4 flex-1 min-h-0">
+                <div class="grid grid-cols-4 gap-3 2xl:gap-3 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
-                        <!-- <div class="flex-row "> -->
+                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-2 2xl:p-3 flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0 overflow-hidden">
 
                         <!-- พื้นที่กลาง (รูปบน) -->
-                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
-                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Smart chicken farming system with AI health monitoring cameras and IoT app.</div>
-                            <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        <div class="bg-white rounded-xl p-1 2xl:p-2 flex flex-col items-center justify-center flex-shrink-0">
+                            <div class="p-1 2xl:p-1.5 bg-stone-100 rounded-lg font-bold mb-1 2xl:mb-1.5 text-[8px] 2xl:text-[10px] text-center w-full">Smart chicken farming system with AI health monitoring cameras and IoT app.</div>
+                            <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-auto max-h-[140px] 2xl:max-h-[600px] object-contain rounded-lg">
                         </div>
 
-                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
-                            <?php include("../components/sensors_left.php"); ?>
-
-                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
-                                <img src="images/chicken.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        <div class="grid grid-cols-12 gap-1.5 2xl:gap-1 flex-1 min-h-0 mt-1.5 2xl:mt-2">
+                            <div class="col-span-2 flex flex-col gap-1.5 2xl:gap-1 2xl:h-full">
+                                <?php include("../components/sensors_left.php"); ?>
                             </div>
 
-                            <?php include("../components/sensors_right.php"); ?>
+                            <div class="col-span-8 bg-white rounded-lg p-0.5 flex items-center justify-center 2xl:h-full">
+                                <img src="images/chicken.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-md">
+                            </div>
+
+                            <div class="col-span-2 flex flex-col gap-1.5 2xl:gap-1 2xl:h-full">
+                                <?php include("../components/sensors_right.php"); ?>
+                            </div>
                         </div>
                     </div>
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
-                    <div class="col-span-2 flex flex-col gap-4 min-h-0">
+                    <div class="col-span-2 flex flex-col gap-3 2xl:gap-8 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            <div class="flex justify-between items-center mb-1 shrink-0 2xl:p-8">
                                 <div>
-                                    <h2 id="title-graph-sensor" class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
-                                        <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
+                                    <h2 id="title-graph-sensor" class="text-[9px] font-bold text-stone-800 flex items-center gap-1.5">
+                                        <span class="w-1 h-2 2xl:h-6 2xl:w-3 bg-orange-500 rounded-full"></span>
                                         กำลังโหลดข้อมูล...
                                     </h2>
-                                    <p id="title-graph-sensor-sub" class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                    <p id="title-graph-sensor-sub" class="text-[6px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
                                         Loading data...
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
-                                    <button id="btnDoDay" class="px-2 py-0.5 text-[8px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
-                                    <button id="btnDoMonth" class="px-2 py-0.5 text-[8px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
+                                    <button id="btnDoDay" class="px-1.5 py-0.5 text-[7px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
+                                    <button id="btnDoMonth" class="px-1.5 py-0.5 text-[7px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
                                 </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md">
@@ -109,16 +112,16 @@ $currentTime = date('H:i:s');
                         </div>
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            <div class="flex justify-between items-center mb-1 shrink-0 2xl:p-8">
                                 <div>
-                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
-                                        <span class="w-1 h-3 bg-primary rounded-full"></span>
+                                    <h2 class="text-[9px] font-bold text-stone-800 flex items-center gap-1.5">
+                                        <span class="w-1 h-2 2xl:h-6 2xl:w-3 bg-primary rounded-full"></span>
                                         แนวโน้มราคาตลาด
                                     </h2>
-                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
+                                    <p class="text-[6px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
                                 </div>
-                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[10px] ">
+                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-1.5 py-0.5 text-[8px]">
                                 </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
@@ -136,26 +139,26 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->
-                <div class="grid grid-cols-6 gap-4 shrink-0" id="metrics-cards">
+                <div class="grid grid-cols-6 gap-3 shrink-0 h-[120px] 2xl:h-[140px]" id="metrics-cards">
                 </div>
 
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-            <div class="col-span-2 grid grid-rows-4 gap-4 h-full" id="stats-sidebar">
+            <div class="col-span-2 grid grid-rows-4 gap-3 min-h-0">
 
                 <!-- Card 1: การให้อาหารวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-2">
                         <span class="material-symbols-outlined text-primary text-sm fluent--food-20-regular"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การให้อาหารวันนี้</h3>
+                        <h3 class="text-[10px] font-bold text-stone-700 2xl:pl-4">การให้อาหารวันนี้</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 2xl:px-8 2xl:gap-4">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-8 h-full">
+                    <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:mt-4">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:p-2 h-full">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">จำนวนมื้อ</span>
                             <span class="text-[10px] font-black text-stone-800" id="meals-count">--</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-8 h-full">
+                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center 2xl:px-2 h-full">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">ปริมาณ</span>
                             <span class="text-[10px] font-black text-stone-800" id="volume-meal">-</span>
                         </div>
@@ -167,88 +170,91 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- Card 2: ความชื้นและแสงสว่างที่เหมาะสม -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2 2xl:px-8 2xl:py-4">
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-2">
                         <span class="material-symbols-outlined text-primary text-sm mage--light-bulb"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ความชื้นและแสงสว่างที่เหมาะสม</h3>
+                        <h3 class="text-[10px] font-bold text-stone-700 2xl:pl-4">ความชื้นและแสงสว่างที่เหมาะสม</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-1 2xl:gap-2 2xl:px-8">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                    
+                    <div class="grid grid-cols-2 gap-1.5 2xl:gap-2 mb-1">
+                        <div class="bg-stone-50 rounded-lg p-1 flex flex-col justify-center">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">ความชื้นสูงสุด</span>
                             <span class="text-[10px] font-black text-stone-800" id="humidity">-</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
+                        <div class="bg-stone-50 rounded-lg p-1 flex flex-col justify-center">
                             <span class="text-[9px] text-stone-400 font-bold uppercase">เวลาให้แสง</span>
                             <span class="text-[9px] font-black text-primary" id="light-time">-</span>
                         </div>
-                        <div class="col-span-2 bg-stone-50 rounded-lg p-1.5 border">
-                            <p class="text-[9px] text-black-600 font-bold text-center" id="light-recommentation">-</p>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="bg-stone-50 rounded-lg p-0.5 border">
+                            <p class="text-[8px] text-black-600 font-bold text-center" id="light-recommentation">-</p>
                         </div>
-                        <div class="col-span-2 bg-stone-50 rounded-lg p-1.5 flex justify-between items-center">
-                            <span class="text-[9px] text-primary font-bold uppercase">ชั่วโมงรวมวันนี้</span>
-                            <span class="text-[9px] font-black text-stone-800" id="total-hours">-</span>
+                        <div class="bg-stone-50 rounded-lg p-1 flex justify-between items-center">
+                            <span class="text-[8px] text-primary font-bold uppercase">ชั่วโมงรวมวันนี้</span>
+                            <span class="text-[8px] font-black text-stone-800" id="total-hours">-</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
-                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-2">
                         <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
+                        <h3 class="text-[10px] font-bold text-stone-700 2xl:pl-4">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:px-8">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="water-usage">-</span>
+                    <div class="grid grid-cols-2 gap-1.5 mb-1.5 2xl:mt-4">
+                        <div class="bg-stone-50 rounded-lg p-1 flex flex-col justify-center">
+                            <span class="text-[8px] text-stone-400 font-bold uppercase leading-tight">ค่าน้ำประปา</span>
+                            <span class="text-[11px] text-center font-black text-stone-800 leading-tight" id="water-usage">-</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="electricity-usage">-</span>
+                        <div class="bg-stone-50 rounded-lg p-1 flex flex-col justify-center">
+                            <span class="text-[8px] text-stone-400 font-bold uppercase leading-tight">ค่าไฟฟ้า</span>
+                            <span class="text-[11px] text-center font-black text-stone-800 leading-tight" id="electricity-usage">-</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 4: ต้นทุนรวมทั้งหมด -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-
-                    <div class="flex items-center gap-1.5 mb-2 2xl:p-8">
-                        <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
+                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-2 mb-2 2xl:p-2">
+                        <span class="material-symbols-outlined text-primary text-xs emojione-monotone--money-bag"></span>
+                        <h3 class="text-[10px] font-bold text-stone-700 2xl:pl-4">ต้นทุนรวมทั้งหมด</h3>
                     </div>
 
-                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
+                    <div class="space-y-1.5 2xl:space-y-5 2xl:mt-4">
                         <!-- Hardware -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-                                <span class="text-[7px] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
+                        <div class="flex items-center justify-between px-1.5 py-0.5 bg-green-50 rounded-md border border-green-100">
+                            <div class="flex items-center gap-0.5 2xl:p-1">
+                                <span class="material-symbols-outlined text-green-600 text-[8px] 2xl:pr-2">check_circle</span>
+                                <span class="text-[6px] font-bold text-green-700 uppercase">Hardware</span>
                             </div>
-                            <span class="text-[7px] font-bold text-green-700" id="expense-hardware">-</span>
+                            <span class="text-[7px] font-bold text-green-700 2xl:pr-4" id="expense-hardware">-</span>
                         </div>
 
                         <!-- Infrastructure -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
-                                <span class="text-[7px] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
+                        <div class="flex items-center justify-between px-1.5 py-0.5 bg-yellow-50 rounded-md border border-yellow-100">
+                            <div class="flex items-center gap-0.5 2xl:p-1">
+                                <span class="material-symbols-outlined text-yellow-600 text-[6px] 2xl:pr-2">warning</span>
+                                <span class="text-[6px] font-bold text-yellow-700 uppercase">Infrastructure</span>
                             </div>
-                            <span class="text-[7px] font-bold text-yellow-700" id="expense-infrastructure">-</span>
+                            <span class="text-[7px] font-bold text-yellow-700 2xl:pr-4" id="expense-infrastructure">-</span>
                         </div>
 
                         <!-- Miscellaneous -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
-                                <span class="text-[7px] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
+                        <div class="flex items-center justify-between px-1.5 py-0.5 bg-red-50 rounded-md border border-red-100">
+                            <div class="flex items-center gap-0.5 2xl:p-1">
+                                <span class="material-symbols-outlined text-red-600 text-[8px] 2xl:pr-2">error</span>
+                                <span class="text-[6px] font-bold text-red-700 uppercase">Miscellaneous</span>
                             </div>
-                            <span class="text-[7px] font-bold text-red-700" id="expense-miscellaneous">-</span>
+                            <span class="text-[7px] font-bold text-red-700 2xl:pr-4" id="expense-miscellaneous">-</span>
                         </div>
 
                         <!-- Total -->
-                        <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
-                            <span class="font-bold text-[11px] text-primary" id="expense-total">-</span>
+                        <div class="pt-1 mt-0.5 border-t border-slate-200 flex justify-between items-center">
+                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider 2xl:pr-2">Total</span>
+                            <span class="font-bold text-[10px] text-primary 2xl:pr-4 pr-2" id="expense-total">-</span>
                         </div>
                     </div>
                 </div>
