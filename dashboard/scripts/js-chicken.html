@@ -3,9 +3,9 @@
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_realtime = ["Temp", "Humidity", "Ammonia", "Oxygen", "Co2", "Luminance"];
-    const Sensors_name_left = ["Fan#1", "Fan#2", "Fog#1", "Fog#2", "Light#1", "Light#2"];
-    const Sensors_name_right = ["P.Water#1", "P.Water#2", "P.Food#1", "P.Food#2"];
+    const Sensors_realtime = ["Tempurature", "PH", "Ammonia", "Oxygen", "Co2", "Lux"];
+    const Sensors_name_left = ["manual/Auto","SW.FAN", "SW.FOG"];
+    const Sensors_name_right = ["SW.CH1", "SW.CH2", "SW.WaaT"];
     const market_name = "chicken";    //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -42,14 +42,14 @@
                 }
             );
             const data = await res.json();
+            console.log("===== load sensors realtime =======");
             const sensors = data['sensors'];
+            console.log(sensors);
 
             Create_sensorCard(Sensors_realtime, sensors);
 
-            const firstKey = Sensors_realtime[0];
-            sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
-
             await loadGraphSensorById(sensors);
+
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }

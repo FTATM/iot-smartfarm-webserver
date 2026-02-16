@@ -3,9 +3,9 @@
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_realtime = ["DO", "PH", "EC", "Temp", "Salinity", "Turbidity"];
-    const Sensors_name_left = ["PumpO2#1", "PumpO2#2", "PumpO2#3", "PumpO2#4", "PumpW#1", "PumpW#2"];
-    const Sensors_name_right = ["Light", "Fog", "Fan", "O2", "O3", "skimRS2"];
+    const Sensors_realtime = ["DO", "PH", "EC", "Temperature", "Salinity", "Turbidity"];
+    const Sensors_name_left = ["manual/Auto","SW.RAS1", "SW.RAS2"];
+    const Sensors_name_right = ["Fog", "Fan", "O2", "O3", "Light"];
     const market_name = "shrimp";     //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -47,7 +47,7 @@
             Create_sensorCard(Sensors_realtime, sensors);
 
             const firstKey = Sensors_realtime[0];
-            sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
+            sensor_select = isLoading ? sensors[firstKey].monitor_id || 0 : sensor_select;
 
             loadGraphSensorById(sensors);
 
