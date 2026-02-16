@@ -9,6 +9,7 @@ $currentTime = date('H:i:s');
 <!DOCTYPE html>
 <html class="light" lang="th">
 <?php include("../scripts/ref.html"); ?>
+<?php include("../styles/css-icon.html"); ?>
 <?php include("../styles/css-weather.html"); ?>
 
 <head>
@@ -27,21 +28,21 @@ $currentTime = date('H:i:s');
                 <span class="arcticons--weathercan text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[3rem] text-lg font-bold leading-none">Weather Dashboard</h1>
-                <p class="text-[1.5rem] text-stone-500 font-medium uppercase tracking-wider mt-1">Weather Dashboard Farm
+                <h1 class="text-[#1d130c] text-[1.75vw] text-lg font-bold leading-none">Weather Dashboard</h1>
+                <p class="text-[1vw] text-stone-500 font-medium uppercase tracking-wider mt-1">Weather Dashboard Farm
                     Intelligence</p>
             </div>
         </div>
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-[1.5rem] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                    <span class="text-[1vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
                 <span
-                    class="text-[1.5rem] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-[1.5rem] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+                    class="text-[1vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
+                <span class="text-[1vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
@@ -52,7 +53,7 @@ $currentTime = date('H:i:s');
         <div class="grid grid-cols-12 gap-4 h-full">
 
             <!-- ========== LEFT SECTION (10 columns) ========== -->
-            <div class="col-span-10 flex flex-col gap-4">
+            <div class="col-span-10 grid grid-rows-8 gap-3 min-h-0">
 
                 <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
                 <div class="grid grid-cols-8 gap-4 flex-1 min-h-0">
@@ -171,21 +172,21 @@ $currentTime = date('H:i:s');
                             class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
-                                    <h2 class="text-[1.75rem] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
                                         แนวโน้มค่า DO
                                     </h2>
-                                    <p class="text-[1.25rem] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                    <p class="text-[0.75vw] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
                                         24H Data
                                     </p>
                                 </div>
                                 <div
                                     class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
                                     <button id="btnDoDay"
-                                        class="px-2 py-0.5 text-[1.5rem] font-bold rounded-md bg-white shadow-sm text-orange-600"
+                                        class="px-2 py-0.5 text-[1vw] font-bold rounded-md bg-white shadow-sm text-orange-600"
                                         type="button">1 วัน</button>
                                     <button id="btnDoMonth"
-                                        class="px-2 py-0.5 text-[1.5rem] font-bold rounded-md text-stone-500 hover:bg-white/50"
+                                        class="px-2 py-0.5 text-[1vw] font-bold rounded-md text-stone-500 hover:bg-white/50"
                                         type="button">1 เดือน</button>
                                 </div>
                             </div>
@@ -208,11 +209,11 @@ $currentTime = date('H:i:s');
                             class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
-                                    <h2 class="text-[1.75rem] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-primary rounded-full"></span>
                                         ราคาตลาด
                                     </h2>
-                                    <p class="text-[1.25rem] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                    <p class="text-[0.75vw] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
                                         Market Price</p>
                                 </div>
                             </div>
@@ -234,7 +235,7 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (4 columns) -->
-                <div class="grid grid-cols-6 gap-4 h-50 shrink-0" id="metrics-cards">
+                <div class="grid grid-cols-6 gap-1 h-50 shrink-0" id="metrics-cards">
                 </div>
             </div>
 
@@ -244,15 +245,15 @@ $currentTime = date('H:i:s');
                 <!-- Card 1: พยากรณ์อุณหภูมิ -->
                 <div
                     class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
-                    <div class="flex items-center gap-2 mb-4 2xl:p-8">
+                    <div class="flex items-center gap-2 mb-4">
                         <span class="carbon--temperature-hot text-[#ff8021] text-sm"></span>
-                        <h3 class="text-[1.5rem] 2xl:text-xl font-bold text-slate-700">พยากรณ์อุณหภูมิ</h3>
+                        <h3 class="text-[1vw] 2xl:text-xl font-bold text-slate-700">พยากรณ์อุณหภูมิ</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-3 2xl:px-8">
                         <!-- ต่ำสุด -->
                         <div
                             class="bg-cyan-50/50 p-3 rounded-xl text-center border border-cyan-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
-                            <p class="text-[1.5rem] text-cyan-600 font-bold uppercase mb-1">
+                            <p class="text-[1vw] text-cyan-600 font-bold uppercase mb-1">
                                 ต่ำสุด (°C)
                             </p>
                             <p class="text-2xl font-bold text-slate-800" id="temp-min">
@@ -263,7 +264,7 @@ $currentTime = date('H:i:s');
                         <!-- สูงสุด -->
                         <div
                             class="bg-orange-50/50 p-3 rounded-xl text-center border border-orange-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
-                            <p class="text-[1.5rem] text-orange-600 font-bold uppercase mb-1">
+                            <p class="text-[1vw] text-orange-600 font-bold uppercase mb-1">
                                 สูงสุด (°C)
                             </p>
                             <p class="text-2xl font-bold text-slate-800" id="temp-max">
@@ -276,42 +277,42 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 2: พยากรณ์ลมรายชั่วโมง (ws10m) -->
                 <div
-                    class="bg-white p-3 2xl:p-14 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
-                    <div class="flex items-center gap-2 mb-4 2xl:p-8">
+                    class="bg-white p-3 4 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                    <div class="flex items-center gap-2 mb-4">
                         <span class="solar--wind-bold-duotone text-sm text-[#ff8021]"></span>
-                        <h3 class="text-[1.5rem] font-bold text-slate-700">พยากรณ์ลมรายชั่วโมง (ws10m)</h3>
+                        <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์ลมรายชั่วโมง (ws10m)</h3>
                     </div>
-                    <div class="grid grid-cols-4 gap-2 text-center 2xl:p-8" id="wind-forecast">
+                    <div class="grid grid-cols-4 gap-2 text-center" id="wind-forecast">
                         <!-- Loading state -->
                         <div class="bg-orange-50 p-2 rounded-lg border border-orange-100">
-                            <p class="text-[1.5rem] text-[#ff8021] font-bold mb-1">ตอนนี้</p>
+                            <p class="text-[1vw] text-[#ff8021] font-bold mb-1">ตอนนี้</p>
                             <p class="text-xs font-bold text-slate-800">--</p>
-                            <p class="text-[1.5rem] text-slate-400">(--)</p>
+                            <p class="text-[1vw] text-slate-400">(--)</p>
                         </div>
                         <div class="p-2">
-                            <p class="text-[1.5rem] text-slate-400 font-bold mb-1">1 ชม.</p>
+                            <p class="text-[1vw] text-slate-400 font-bold mb-1">1 ชม.</p>
                             <p class="text-xs font-bold text-slate-600">--</p>
-                            <p class="text-[1.5rem] text-slate-300">(--)</p>
+                            <p class="text-[1vw] text-slate-300">(--)</p>
                         </div>
                         <div class="p-2">
-                            <p class="text-[1.5rem] text-slate-400 font-bold mb-1">2 ชม.</p>
+                            <p class="text-[1vw] text-slate-400 font-bold mb-1">2 ชม.</p>
                             <p class="text-xs font-bold text-slate-600">--</p>
-                            <p class="text-[1.5rem] text-slate-300">(--)</p>
+                            <p class="text-[1vw] text-slate-300">(--)</p>
                         </div>
                         <div class="p-2">
-                            <p class="text-[1.5rem] text-slate-400 font-bold mb-1">3 ชม.</p>
+                            <p class="text-[1vw] text-slate-400 font-bold mb-1">3 ชม.</p>
                             <p class="text-xs font-bold text-slate-600">--</p>
-                            <p class="text-[1.5rem] text-slate-300">(--)</p>
+                            <p class="text-[1vw] text-slate-300">(--)</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 3: พยากรณ์ความชื้นสัมพัทธ์ (rh) -->
                 <div
-                    class="bg-white border border-stone-200 rounded-2xl p-3 2xl:p-14 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-2 2xl:p-8">
+                    class="bg-white border border-stone-200 rounded-2xl p-3 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                    <div class="flex items-center gap-2 mb-2">
                         <span class="wi--humidity text-sm text-[#ff8021]"></span>
-                        <h3 class="text-[1.5rem] font-bold text-slate-700">พยากรณ์ความชื้นสัมพัทธ์ (rh)</h3>
+                        <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์ความชื้นสัมพัทธ์ (rh)</h3>
                     </div>
                     <div class="text-center py-2">
                         <span class="text-xl 2xl:text-xl font-black text-slate-800" id="humidity-current">
@@ -322,7 +323,7 @@ $currentTime = date('H:i:s');
                         <div class="bg-[#ff8021] h-full rounded-full transition-all duration-500" id="humidity-bar"
                             style="width: 0%"></div>
                     </div>
-                    <div class="grid grid-cols-4 gap-2 text-[1.5rem] text-center font-bold" id="humidity-forecast">
+                    <div class="grid grid-cols-4 gap-2 text-[1vw] text-center font-bold" id="humidity-forecast">
                         <div class="text-slate-400">1 ชม.<br /><span class="text-slate-700">--</span></div>
                         <div class="text-slate-400">2 ชม.<br /><span class="text-slate-700">--</span></div>
                         <div class="text-slate-400">3 ชม.<br /><span class="text-slate-700">--</span></div>
@@ -332,31 +333,31 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 4: พยากรณ์สภาพอากาศรายชั่วโมง -->
                 <div
-                    class="bg-white border border-stone-200 rounded-2xl p-3 2xl:p-14 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-                    <div class="flex items-center gap-2 mb-4 2xl:p-8">
+                    class="bg-white border border-stone-200 rounded-2xl p-3 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                    <div class="flex items-center gap-2 mb-4">
                         <span class="emojione-monotone--sun-behind-rain-cloud text-[#ff8021] text-sm"></span>
-                        <h3 class="text-[1.5rem] font-bold text-slate-700">พยากรณ์สภาพอากาศรายชั่วโมง</h3>
+                        <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์สภาพอากาศรายชั่วโมง</h3>
                     </div>
 
                     <!-- สภาพอากาศปัจจุบัน -->
                     <div class="flex items-center justify-between mb-2 bg-stone-50 p-3 2xl:p-8 rounded-xl border border-stone-100"
                         id="current-weather">
-                        <div class="flex items-center gap-3 2xl:p-8">
+                        <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-yellow-500 text-2xl"
                                 id="current-icon">wb_sunny</span>
                             <div>
-                                <p class="text-[1.5rem] 2xl:text-[1.75rem] font-bold text-slate-400 uppercase">ตอนนี้</p>
+                                <p class="text-[1vw] 2xl:text-[1vw] font-bold text-slate-400 uppercase">ตอนนี้</p>
                                 <p class="font-bold text-xs text-slate-800" id="current-condition">--</p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-[1.5rem] 2xl:text-[1.75rem] font-bold text-slate-400 uppercase">ปริมาณฝน</p>
+                            <p class="text-[1vw] 2xl:text-[1vw] font-bold text-slate-400 uppercase">ปริมาณฝน</p>
                             <p class="font-bold text-xs text-[#ff8021]" id="current-rain">-- mm/hr</p>
                         </div>
                     </div>
 
                     <!-- พยากรณ์รายวัน -->
-                    <div class="space-y-3 pt-2 2xl:p-8" id="daily-forecast">
+                    <div class="space-y-3 pt-2" id="daily-forecast">
                         <!-- Loading state -->
                         <div class="flex justify-between items-center text-xs font-medium">
                             <span class="text-slate-500">กำลังโหลด...</span>
