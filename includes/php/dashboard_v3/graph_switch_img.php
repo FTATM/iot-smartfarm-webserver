@@ -84,7 +84,7 @@
             xl:min-h-[309px] 
             bg-white rounded-lg 
             text-[#333333] shadow dark:bg-gray-800 m-3 float-left justify-center">
-      <div class="justify-center text-center min-[320px]:text-[10px] text-[#777777] xl:text-[20px]">
+      <div class="justify-center text-center min-[320px]:text-[1.5rem] text-[#777777] xl:text-[20px]">
         <!-- <div><p>S.W.</?php echo $btn_id;?></p></div>
         <div><b>(S.W.</?php echo $btn_id;?>)</b></div> -->
         <div><p><?php echo $item_name;?><?php echo $branch_name;?></p></div>
@@ -101,7 +101,7 @@
       </div>
     
     <div class="flex justify-center min-[320px]:mt-[-11px] xl:mt-[15px] text-[#555555] xl:mt-[25px] text-center">
-      <div class="min-[320px]:text-[10px] xl:text-[20px]"><p id="status_sent_sw_<?php echo $dashboard_id;?>"><?php echo $status_display;?></p></div>
+      <div class="min-[320px]:text-[1.5rem] xl:text-[20px]"><p id="status_sent_sw_<?php echo $dashboard_id;?>"><?php echo $status_display;?></p></div>
     </div>
 </div>
 <?php
