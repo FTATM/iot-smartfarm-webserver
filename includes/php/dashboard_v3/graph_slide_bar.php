@@ -103,7 +103,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
     </label>
     <br>
     <input type="range" id="input_slide_<?php echo $monitor_id;?>" class="w-[100%] h-10 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 m-auto" name="input_slide_<?php echo $monitor_id;?>" min="0" max="100" step="1" value="<?php echo $temp_value;?>" oninput="update_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" onchange="change_slidebar_val_<?php echo $monitor_id;?>('<?php echo $monitor_id;?>');" >
-    <div class="xl:text-sm min-[320px]:text-[1.5rem] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 100 </div>
+    <div class="xl:text-sm min-[320px]:text-[1vw] font-medium text-gray-900 dark:text-gray-300 justify-center text-center"> Range 0 to 100 </div>
 </div>
 
 

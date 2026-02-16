@@ -106,7 +106,7 @@
             xl:w-44 2xl:w-[11.5%] 
             xl:min-h-[309px] 
             bg-white rounded-lg shadow dark:bg-gray-800 m-3 float-left justify-center">
-    <div class="justify-center text-center min-[320px]:text-[1.5rem] text-[#777777] xl:text-[20px]">
+    <div class="justify-center text-center min-[320px]:text-[1vw] text-[#777777] xl:text-[20px]">
       <div><p>efan<?php echo $btn_id;?></p></div>
       <div><b>(sensor<?php echo $btn_id;?>)</b></div>
     </div>
@@ -119,7 +119,7 @@
       </svg>
     </label>
     <div class="flex justify-center min-[320px]:mt-[1px] mt-[1px] text-[#555555] xl:mt-[20px]">
-      <div class="min-[320px]:mt-[2px] min-[320px]:text-[1.5rem] xl:text-[20px]"><p><?php echo $status_display;?></p></div>
+      <div class="min-[320px]:mt-[2px] min-[320px]:text-[1vw] xl:text-[20px]"><p><?php echo $status_display;?></p></div>
     </div>
 </div>
 

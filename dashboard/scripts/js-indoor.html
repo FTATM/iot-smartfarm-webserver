@@ -110,22 +110,22 @@
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col h-[10rem] hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[1.5rem] font-bold text-stone-500 uppercase tracking-widest">
+                    <span class="text-[1vw] font-bold text-stone-500 uppercase tracking-widest">
                         ${s}
                     </span>
-                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[1.5rem] font-bold uppercase status">
+                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[1vw] font-bold uppercase status">
                         --
                     </span>
                 </div>
                 <div class="flex-1 flex items-center justify-center">
                     <div class="flex items-baseline gap-1">
-                        <span class="text-[2rem] font-black text-black value">
+                        <span class="text-[1.5vw] font-black text-black value">
                             ${value}
                         </span>
-                        <span class="text-[1.5rem] font-bold text-stone-400">
+                        <span class="text-[1vw] font-bold text-stone-400">
                             ${row.unit}
                         </span>
                     </div>
@@ -133,7 +133,7 @@
 
                 <!-- Range Bar with Fixed Gradient -->
                 <div class="metric-range mt-2 hidden" data-key="${s}" data-min="${min}" data-max="${max}">
-                    <div class="flex justify-between text-[1.5rem] font-bold leading-none mb-1">
+                    <div class="flex justify-between text-[1vw] font-bold leading-none mb-1">
                         <span class="label-left"></span>
                         <span class="label-right"></span>
                     </div>
