@@ -55,12 +55,10 @@ foreach ($parents as $p) {
   $typesId = $p['type_id'];
   $dataxId = $p['datax_id'];
 
-  $sql_logs = "
-    SELECT data_value, createtime
+  $sql_logs = "SELECT data_value, createtime
     FROM data_log
     WHERE group_id = $1 AND device_id = $2 AND type_id = $3 AND datax_id = $4
-    ORDER BY createtime DESC
-  ";
+    ORDER BY createtime DESC LIMIT 30";
   $res_logs = pg_query_params(
     $db,
     $sql_logs,
