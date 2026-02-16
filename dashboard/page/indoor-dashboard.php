@@ -17,26 +17,26 @@ $currentTime = date('H:i:s');
 <body>
 
     <!-- Header -->
-    <header class="flex items-center justify-between px-6 py-3 border-b border-stone-200 bg-white shrink-0">
+    <header class="flex items-center justify-between p-4 border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
-            <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+            <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
                 <span class="fluent--door-arrow-left-20-regular text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-lg font-bold leading-none">Indoor System</h1>
-                <p class="text-[10px] text-stone-500 font-medium uppercase tracking-wider mt-1">Indoor Dashboard</p>
+                <h1 class="text-[#1d130c] text-[3rem] text-lg font-bold leading-none">Indoor System</h1>
+                <p class="text-[1.5rem] text-stone-500 font-medium uppercase tracking-wider mt-1">Indoor Dashboard</p>
             </div>
         </div>
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                    <span class="text-[1.5rem] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
-                <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-sm font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+                <span class="text-[1.5rem] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
+                <span class="text-[1.5rem] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
@@ -79,17 +79,17 @@ $currentTime = date('H:i:s');
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
-                                    <h2 id="title-graph-sensor" class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 id="title-graph-sensor" class="text-[1.75rem] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
                                         กำลังโหลดข้อมูล...
                                     </h2>
-                                    <p id="title-graph-sensor-sub" class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+                                    <p id="title-graph-sensor-sub" class="text-[1.25rem] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
                                         Loading data...
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
-                                    <button id="btnDoDay" class="px-2 py-0.5 text-[8px] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
-                                    <button id="btnDoMonth" class="px-2 py-0.5 text-[8px] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
+                                    <button id="btnDoDay" class="px-2 py-0.5 text-[1.5rem] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
+                                    <button id="btnDoMonth" class="px-2 py-0.5 text-[1.5rem] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
                                 </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md">
@@ -108,13 +108,13 @@ $currentTime = date('H:i:s');
                         <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
-                                    <h2 class="text-[11px] font-bold text-stone-800 flex items-center gap-2">
+                                    <h2 class="text-[1.75rem] font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-3 bg-primary rounded-full"></span>
                                         แนวโน้มราคาตลาด
                                     </h2>
-                                    <p class="text-[7px] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
+                                    <p class="text-[1.25rem] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
                                 </div>
-                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[10px] ">
+                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[1.5rem] ">
                                 </div>
                             </div>
                             <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
@@ -145,19 +145,19 @@ $currentTime = date('H:i:s');
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-xs">assignment</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
+                        <h3 class="text-[1.5rem] font-bold text-stone-700">สิ่งที่ต้องทำวันนี้</h3>
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 2xl:p-8">
                         <!-- งานหลัก -->
                         <div class="flex justify-between items-center bg-stone-50 p-2 2xl:p-8 rounded-lg border border-stone-100">
                             <div>
-                                <p class="text-[7px] text-slate-500 font-bold uppercase tracking-wider">งานหลัก</p>
-                                <p class="text-[9px] font-bold text-slate-800" id="main-task">-</p>
+                                <p class="text-[1.25rem] text-slate-500 font-bold uppercase tracking-wider">งานหลัก</p>
+                                <p class="text-[1.5rem] font-bold text-slate-800" id="main-task">-</p>
                             </div>
                             <div class="text-right">
-                                <p class="text-[7px] text-[#ff8021] font-bold uppercase tracking-wider">ดินที่แนะนำ</p>
-                                <p class="text-[9px] font-bold text-slate-800" id="recommended-soil">-</p>
+                                <p class="text-[1.25rem] text-[#ff8021] font-bold uppercase tracking-wider">ดินที่แนะนำ</p>
+                                <p class="text-[1.5rem] font-bold text-slate-800" id="recommended-soil">-</p>
                             </div>
                         </div>
                     </div>
@@ -167,28 +167,28 @@ $currentTime = date('H:i:s');
                 <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2 2xl:px-8">
                         <span class="material-symbols-outlined text-primary text-xs">opacity</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
+                        <h3 class="text-[1.5rem] font-bold text-stone-700">การให้น้ำและปุ๋ย</h3>
                     </div>
                     <div class="space-y-2 2xl:space-y-8 2xl:p-8">
                         <!-- Grid 2 Columns -->
                         <div class="grid grid-cols-2 gap-1 2xl:gap-8">
                             <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
-                                <p class="text-[7px] 2xl:text-2xl 2xl:px-8 text-blue-500 font-bold uppercase mb-0.5">ตารางเวลา</p>
-                                <p class="text-[9px] 2xl:text-2xl 2xl:px-8 font-bold text-blue-600" id="watering-schedule">-</p>
+                                <p class="text-[1.25rem] 2xl:text-2xl 2xl:px-8 text-blue-500 font-bold uppercase mb-0.5">ตารางเวลา</p>
+                                <p class="text-[1.5rem] 2xl:text-2xl 2xl:px-8 font-bold text-blue-600" id="watering-schedule">-</p>
                             </div>
                             <div class="bg-stone-50 p-2 2xl:p-4 rounded-lg border border-stone-100 2xl:p-8">
-                                <p class="text-[7px] text-slate-500 font-bold uppercase mb-0.5">ปุ๋ย</p>
-                                <p class="text-[9px] font-bold text-red-400" id="fertilizer-status">-</p>
+                                <p class="text-[1.25rem] text-slate-500 font-bold uppercase mb-0.5">ปุ๋ย</p>
+                                <p class="text-[1.5rem] font-bold text-red-400" id="fertilizer-status">-</p>
                             </div>
                         </div>
 
                         <!-- Alert Row -->
                         <div class="flex items-center justify-between bg-red-50 p-4 2xl:p-8 rounded-lg border border-red-100">
                             <div class="flex items-center gap-1 2xl:gap-4">
-                                <span class="material-symbols-outlined text-red-600 text-[10px]">warning</span>
-                                <span class="text-[7px] font-bold text-red-700">ศัตรูพืช</span>
+                                <span class="material-symbols-outlined text-red-600 text-[1.5rem]">warning</span>
+                                <span class="text-[1.25rem] font-bold text-red-700">ศัตรูพืช</span>
                             </div>
-                            <span class="text-[7px] font-medium text-red-600" id="pest-alert">-</span>
+                            <span class="text-[1.25rem] font-medium text-red-600" id="pest-alert">-</span>
                         </div>
                     </div>
                 </div>
@@ -197,16 +197,16 @@ $currentTime = date('H:i:s');
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-sm clarity--coin-bag-line"></span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
+                        <h3 class="text-[1.5rem] font-bold text-stone-700">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2 2xl:gap-4 2xl:px-8">
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="water-usage">-</span>
+                            <span class="text-[1.5rem] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
+                            <span class="text-[2rem] text-center font-black text-stone-800" id="water-usage">-</span>
                         </div>
                         <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[9px] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
-                            <span class="text-[15px] text-center font-black text-stone-800" id="electricity-usage">-</span>
+                            <span class="text-[1.5rem] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
+                            <span class="text-[2rem] text-center font-black text-stone-800" id="electricity-usage">-</span>
                         </div>
                     </div>
                 </div>
@@ -215,41 +215,41 @@ $currentTime = date('H:i:s');
                 <div class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2 2xl:p-8">
                         <span class="material-symbols-outlined text-primary text-xs">payments</span>
-                        <h3 class="text-[10px] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
+                        <h3 class="text-[1.5rem] font-bold text-stone-700">ต้นทุนรวมวันนี้</h3>
                     </div>
 
                     <div class="space-y-2 2xl:px-8 2xl:space-y-4">
                         <!-- Hardware -->
                         <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-green-600 text-[8px]">check_circle</span>
-                                <span class="text-[7px] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
+                                <span class="material-symbols-outlined text-green-600 text-[1.5rem]">check_circle</span>
+                                <span class="text-[1.25rem] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
                             </div>
-                            <span class="text-[7px] font-bold text-green-700" id="expense-hardware">-</span>
+                            <span class="text-[1.25rem] font-bold text-green-700" id="expense-hardware">-</span>
                         </div>
 
                         <!-- Infrastructure -->
                         <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-yellow-600 text-[8px]">warning</span>
-                                <span class="text-[7px] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
+                                <span class="material-symbols-outlined text-yellow-600 text-[1.5rem]">warning</span>
+                                <span class="text-[1.25rem] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
                             </div>
-                            <span class="text-[7px] font-bold text-yellow-700" id="expense-infrastructure">-</span>
+                            <span class="text-[1.25rem] font-bold text-yellow-700" id="expense-infrastructure">-</span>
                         </div>
 
                         <!-- Miscellaneous -->
                         <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-red-600 text-[8px]">error</span>
-                                <span class="text-[7px] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
+                                <span class="material-symbols-outlined text-red-600 text-[1.5rem]">error</span>
+                                <span class="text-[1.25rem] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
                             </div>
-                            <span class="text-[7px] font-bold text-red-700" id="expense-miscellaneous">-</span>
+                            <span class="text-[1.25rem] font-bold text-red-700" id="expense-miscellaneous">-</span>
                         </div>
 
                         <!-- Total -->
                         <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-                            <span class="font-bold text-slate-800 uppercase text-[6px] tracking-wider">Total</span>
-                            <span class="font-bold text-[11px] text-primary" id="expense-total">-</span>
+                            <span class="font-bold text-slate-800 uppercase text-[1.15rem] tracking-wider">Total</span>
+                            <span class="font-bold text-[1.75rem] text-primary" id="expense-total">-</span>
                         </div>
                     </div>
                 </div>
