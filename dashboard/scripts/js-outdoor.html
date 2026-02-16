@@ -46,9 +46,6 @@
 
             Create_sensorCard(Sensors_realtime, sensors);
 
-            const firstKey = Sensors_realtime[0];
-            sensor_select = isLoading ? sensors[firstKey].monitor_id ?? 0 : sensor_select;
-
             loadGraphSensorById(sensors);
 
         } catch (err) {
@@ -160,6 +157,9 @@
             metricsCards.appendChild(div);
 
             setCardValue(s, value, min, max);
+            if (sensor_select == 0 && row.monitor_id) {
+                sensor_select = row.monitor_id;
+            }
         })
     }
 

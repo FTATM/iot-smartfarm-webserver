@@ -4,7 +4,7 @@
     let sensor_select = 0;
 
     const Sensors_realtime = ["DO", "PH", "EC", "Temperature", "Salinity", "Turbidity"];
-    const Sensors_name_left = ["manual/Auto","SW.RAS1", "SW.RAS2"];
+    const Sensors_name_left = ["manual/Auto", "SW.RAS1", "SW.RAS2"];
     const Sensors_name_right = ["Fog", "Fan", "O2", "O3", "Light"];
     const market_name = "shrimp";     //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
@@ -45,9 +45,6 @@
             const sensors = data['sensors'];
 
             Create_sensorCard(Sensors_realtime, sensors);
-
-            const firstKey = Sensors_realtime[0];
-            sensor_select = isLoading ? sensors[firstKey].monitor_id || 0 : sensor_select;
 
             loadGraphSensorById(sensors);
 
@@ -160,6 +157,10 @@
             metricsCards.appendChild(div);
 
             setCardValue(s, value, min, max);
+
+            if (sensor_select == 0 && row.monitor_id) {
+                sensor_select = row.monitor_id;
+            }
         })
     }
 
