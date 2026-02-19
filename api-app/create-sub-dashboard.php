@@ -58,7 +58,7 @@ if (!empty($decode->type_dashboard_id) && in_array($decode->type_dashboard_id, [
 
 
 if ($result) {
-    echo json_encode(["status" => "success", "message" => "create success"]);
+    echo json_encode(["status" => "success", "message" => "Create Success"]);
 } else {
     echo json_encode(["status" => "error", "message" => pg_last_error($db)]);
 }

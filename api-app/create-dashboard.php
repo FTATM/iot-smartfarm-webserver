@@ -48,7 +48,7 @@ if ($result) {
     $row = pg_fetch_assoc($result);
     $lastId = $row['id'];
 
-    echo json_encode(["status" => "success", "message" => "create success", "id" => $lastId]);
+    echo json_encode(["status" => "success", "message" => "Create Success", "id" => $lastId]);
 } else {
     echo json_encode(["status" => "error", "message" => pg_last_error($db)]);
 }

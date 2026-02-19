@@ -24,8 +24,8 @@ $currentTime = date('H:i:s');
                 <span class="emojione-monotone--chicken text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.75vw] font-bold leading-none">Chicken Dashboard</h1>
-                <p class="text-[1vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
+                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Chicken Dashboard</h1>
+                <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
@@ -213,7 +213,7 @@ $currentTime = date('H:i:s');
                 <!-- Card 4: ต้นทุนรวมทั้งหมด -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2 2xl:p-2">
-                        <span class="material-symbols-outlined text-primary text-[2rem] emojione-monotone--money-bag"></span>
+                        <span class="material-symbols-outlined text-primary text-[1vw] emojione-monotone--money-bag"></span>
                         <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">ต้นทุนรวมทั้งหมด</h3>
                     </div>
 

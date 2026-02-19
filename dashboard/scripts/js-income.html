@@ -1,0 +1,181 @@
+<!-- JavaScript -->
+<script>
+    let isLoading = true;
+    let sensor_select = 0;
+
+    const datas = {};
+
+    const Sensors_realtime = ["Tempurature", "PH", "Ammonia", "Oxygen", "Co2", "Lux"];
+    const Sensors_name_left = ["manual/Auto", "SW.FAN", "SW.FOG"];
+    const Sensors_name_right = ["SW.CH1", "SW.CH2", "SW.WaaT"];
+    const market_name = "";    //name market example => solar, shrimp, indoor, outdoor
+    const type = "price";             //multi type example => demand,price
+
+    // Adjust font sizes based on screen width
+    document.addEventListener('DOMContentLoaded', async () => {
+
+        await initLoadData();
+        // await Card1();
+        // await Card2();
+        // await Card3();
+        // await Card4();
+
+        isLoading = false;
+        // setInterval(async () => {
+        // }, 10000);
+
+    });
+
+    async function Card1() {
+        console.log("Card 1");
+        const table_type = 1;     //Watch table id in 
+        try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const table = Object.values(raw.data);
+
+            const mealsCount = table[0].value;
+            const volumeMeal = table[0].children[0]['value'];
+            const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
+
+            SetValueInHTMLById('meals-count', mealsCount);
+            SetValueInHTMLById('volume-meal', volumeMeal);
+            SetValueInHTMLById('total-meal-per-day', totalMealperDay);
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function Card2() {
+        console.log("Card 2");
+        const table_type_humidity = 5;     //Watch table id in database
+        try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_humidity + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const humidityTable = Object.values(raw.data);
+
+            const humidity = humidityTable[0].value;
+
+            SetValueInHTMLById('humidity', humidity + "%");
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
+
+        // =============== Light ==============
+        const table_type_light = 4;     //Watch table id in database
+        try {
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type_light + "&aDay=" + diff.day);
+            const raw = await res.json();
+            const LuminanceTable = Object.values(raw.data);
+            console.log(LuminanceTable);
+
+            const totalhours = LuminanceTable[0].value;
+            const lighttime = LuminanceTable[0].children[0].value;
+            const luminance = LuminanceTable[0].children[1].value;
+
+            SetValueInHTMLById('total-hours', totalhours);
+            SetValueInHTMLById('light-time', lighttime);
+            SetValueInHTMLById('light-recommentation', luminance);
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
+    }
+
+    async function Card3() {
+        console.log("Card 3");
+        try {
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
+
+
+            const electricityEl = document.getElementById('electricity-usage');
+            const waterEl = document.getElementById('water-usage');
+
+            if (electricityEl) {
+                electricityEl.style.fontSize = (fontSize * 2) + "px";
+                electricity = Number(expense[0]?.electricity) || 0;
+                electricityEl.textContent = electricity;
+            }
+            if (waterEl) {
+                waterEl.style.fontSize = (fontSize * 2) + "px";
+                water = Number(expense[0]?.water) || 0;
+                waterEl.textContent = water;
+            }
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
+    }
+
+    async function Card4() {
+        console.log("Card 4");
+        try {
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const raw = await res.json();
+            const expense = raw['data'];
+
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+            const hardware = Number(expense[0]?.hardware) || 0;
+            const infrastructure = Number(expense[0]?.infrastructure) || 0;
+            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+            const total = hardware + infrastructure + miscellaneous + electricity + water;
+
+            SetValueInHTMLById('electricity-usage', electricity);
+            SetValueInHTMLById('water-usage', water);
+            SetValueInHTMLById('expense-hardware', hardware);
+            SetValueInHTMLById('expense-infrastructure', infrastructure);
+            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
+            SetValueInHTMLById('expense-total', total);
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function saveIncome(id) {
+        const addPopup = document.getElementById(id);
+        if (!addPopup) {
+            console.warn("ไม่พบ ID : " + id);
+            return;
+        }
+        const branch = addPopup.querySelector("#select-branch");
+        const amount = addPopup.querySelector("#amount");
+        const category = addPopup.querySelector("#select-category");
+        const start = addPopup.querySelector("#start-date");
+        const description = addPopup.querySelector("#description");
+
+        try {
+            const response = await fetch("../../api-website/create-income.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    'branch_id': branch.value || 1,
+                    'amount': amount.value || 0,
+                    'category': category.value || 'unknown',
+                    'description': description.value || 1,
+                    'start': start.value || null,
+                    'end': start.value || null,
+                }),
+            });
+            const result = await response.json();
+            console.log(result);
+
+        } catch (err) {
+            console.error("Error:", err);
+        }
+
+        hidePopup(id);
+    }
+
+
+
+</script>
+

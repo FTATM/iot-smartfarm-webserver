@@ -24,8 +24,8 @@ $currentTime = date('H:i:s');
                 <span class="emojione-monotone--shrimp text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.75vw] font-bold leading-none">Shrimp Dashboard</h1>
-                <p class="text-[1vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Shrimp Farm Intelligence Dashboard</p>
+                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Shrimp Dashboard</h1>
+                <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Shrimp Farm Intelligence Dashboard</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
