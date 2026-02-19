@@ -43,7 +43,7 @@ $params = [
 $result = pg_query_params($db, $sql, $params);
 
 if ($result) {
-    echo json_encode(["status" => "success", "message" => "create success"]);
+    echo json_encode(["status" => "success", "message" => "Create Success"]);
 } else {
     echo json_encode(["status" => "error", "message" => pg_last_error($db)]);
 }

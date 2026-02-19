@@ -28,8 +28,8 @@ $currentTime = date('H:i:s');
                 <span class="arcticons--weathercan text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.75vw] text-lg font-bold leading-none">Weather Dashboard</h1>
-                <p class="text-[1vw] text-stone-500 font-medium uppercase tracking-wider mt-1">Weather Dashboard Farm
+                <h1 class="text-[#1d130c] text-[1.5vw] text-lg font-bold leading-none">Weather Dashboard</h1>
+                <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-1">Weather Dashboard Farm
                     Intelligence</p>
             </div>
         </div>
