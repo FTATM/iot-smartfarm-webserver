@@ -71,51 +71,17 @@ $currentTime = date('H:i:s');
                     </div>
                     <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                            <table id="table-view" class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">ID</th>
-                                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Branch ID</th>
                                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Amount (฿)</th>
                                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Category</th>
                                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Description</th>
-                                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Date Range</th>
+                                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-center">Date Range</th>
                                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">#0012</td>
-                                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">BR-KORAT-01</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400">12,500.00</td>
-                                        <td class="px-6 py-4">
-                                            <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">Sales</span>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 truncate max-w-xs">Bulk chicken meat sale - Lot A42</td>
-                                        <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">15/02 - 18/02</td>
-                                        <td class="px-6 py-4 text-center">
-                                            <div class="flex justify-center gap-2">
-                                                <button class="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">edit</span></button>
-                                                <button class="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">delete</span></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                        <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">#0011</td>
-                                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">BR-KORAT-01</td>
-                                        <td class="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400">8,200.00</td>
-                                        <td class="px-6 py-4">
-                                            <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-md bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">Eggs</span>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400 truncate max-w-xs">Egg collection - Week 7</td>
-                                        <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">10/02 - 17/02</td>
-                                        <td class="px-6 py-4 text-center">
-                                            <div class="flex justify-center gap-2">
-                                                <button class="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">edit</span></button>
-                                                <button class="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">delete</span></button>
-                                            </div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -207,7 +173,7 @@ $currentTime = date('H:i:s');
                         <label class="text-sm font-semibold text-slate-700 dark:text-slate-300 font-display">สาขา (Branch)</label>
                         <div class="relative">
                             <select id="select-branch" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
-                                <option selected value="0">-- เลือกฟาร์ม --</option>
+                                <option value="0">-- เลือกฟาร์ม --</option>
                             </select>
                             <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
                         </div>
@@ -215,7 +181,7 @@ $currentTime = date('H:i:s');
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-slate-700 dark:text-slate-300 font-display">จำนวนเงิน (Amount)</label>
                         <div class="relative">
-                            <input id="amount" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="0.00"  type="text" />
+                            <input id="amount" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="0.00" type="text" />
                             <!-- <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">THB</span> -->
                         </div>
                     </div>
@@ -223,6 +189,7 @@ $currentTime = date('H:i:s');
                         <label class="text-sm font-semibold text-slate-700 dark:text-slate-300 font-display">หมวดหมู่ (Category)</label>
                         <div class="relative">
                             <select id="select-category" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
+                                <option value="0">-- เลือกหมวดหมู่ --</option>
                             </select>
                             <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
                         </div>

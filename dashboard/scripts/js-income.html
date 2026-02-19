@@ -2,9 +2,14 @@
 <script>
     let isLoading = true;
     let sensor_select = 0;
+    let select_category_type_id = 0;
+    let select_catagory_group = 'none';
+    let datas = [];
+    let branchs = [];
+    let categories = [];
 
-    const datas = {};
-
+    let branch_id = 1;
+    const category_type = 'income';
     const Sensors_realtime = ["Tempurature", "PH", "Ammonia", "Oxygen", "Co2", "Lux"];
     const Sensors_name_left = ["manual/Auto", "SW.FAN", "SW.FOG"];
     const Sensors_name_right = ["SW.CH1", "SW.CH2", "SW.WaaT"];
@@ -15,6 +20,9 @@
     document.addEventListener('DOMContentLoaded', async () => {
 
         await initLoadData();
+        await setDataInHTML();
+        filteredByCategoryType(datas);
+
         // await Card1();
         // await Card2();
         // await Card3();
@@ -25,6 +33,113 @@
         // }, 10000);
 
     });
+
+    async function initLoadData() {
+        try {
+            const resin = await fetch('../../api-website/fetch-incomes.php?bid=' + branch_id);
+            const rawin = await resin.json();
+            datas = rawin['data'];
+
+            const resca = await fetch('../../api-website/fetch-categories.php?type=' + category_type);
+            const rawca = await resca.json();
+            categories = rawca['data'];
+
+            const resbr = await fetch('../../api-website/fetch-branch.php');
+            const rawbr = await resbr.json();
+            branchs = rawbr['data'];
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+    async function setDataInHTML() {
+        await setPopupAdd('add-popup');
+
+    }
+
+    function setPopupAdd(id) {
+        const addPopup = document.getElementById(id);
+        if (!addPopup) {
+            console.warn("ไม่พบ ID : " + id);
+            return;
+        }
+        const branchEl = addPopup.querySelector("#select-branch");
+
+        const branchArray = Array.isArray(branchs)
+            ? branchs
+            : Object.values(branchs || {});
+
+        branchArray.forEach((b) => {
+            console.log(b);
+            
+            if (!b || !b.branch_id) return;
+            const option = document.createElement('option');
+
+            option.value = b.branch_id;
+            option.textContent = b.branch_name ?? 'ไม่พบชื่อสาขา';
+            option.selected = Number(b.id) === Number(branch_id);
+
+            branchEl.appendChild(option);
+        });
+
+        const categoryEl = addPopup.querySelector("#select-category")
+
+        const categoryArray = Array.isArray(categories)
+            ? categories
+            : Object.values(categories || {});
+
+        categoryArray.forEach((c) => {
+            if (!c || !c.id) return;
+            const option = document.createElement('option');
+
+            option.value = c.id;
+            option.textContent = c.name ?? 'ไม่พบชื่อหมวดหมู่';
+
+            categoryEl.appendChild(option);
+        });
+
+
+    }
+
+    function filteredByCategoryType(datas) {
+
+        SetDatainTables(datas);
+    }
+
+    function SetDatainTables(filtered) {
+        let tableView = document.getElementById('table-view');
+        if (!tableView) {
+            console.warn("ไม่พบ Table ID : table-view");
+            return;
+        }
+
+        Object.values(filtered).map((f, index) => {
+            const categoryName = categories.find((c) => { return c['id'] == f['category_id'] })?.name || '--';
+            const date = new Date(f['start_income_date']);
+            const month = date.getMonth();
+            const day = date.getDate();
+
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-3 py-2 text-[0.75vw] font-bold text-emerald-600 dark:text-emerald-400">${f['amount'] ?? "-.--"}</td>
+                <td class="px-3 py-2">
+                    <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">${categoryName}</span>
+                </td>
+                <td class="px-3 py-2 text-[0.75vw] text-slate-500 dark:text-slate-400 truncate max-w-xs">${f['description'] ?? ""}</td>
+                <td class="px-3 py-2 text-[0.75vw] text-slate-500 dark:text-slate-400 text-center">${month}/${day}</td>
+                <td class="px-3 py-2 text-center">
+                    <div class="flex justify-center gap-2">
+                        <button class="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">edit</span></button>
+                        <button class="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors"><span class="material-icons-round text-lg">delete</span></button>
+                    </div>
+                </td>
+            `;
+
+            tableView.querySelector('tbody').appendChild(row);
+        });
+
+    }
 
     async function Card1() {
         console.log("Card 1");
@@ -178,4 +293,3 @@
 
 
 </script>
-

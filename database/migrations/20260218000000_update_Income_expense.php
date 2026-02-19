@@ -92,18 +92,6 @@ return new class {
         }
 
 
-        /* 4️⃣ insert default category (id = 1) */
-        $result7 = pg_query($conn, "
-            INSERT INTO public.categories (name, type)
-            VALUES ('General', 'expense')
-            ON CONFLICT (id) DO NOTHING;
-        ");
-
-        if (!$result7) {
-            pg_query($conn, "ROLLBACK");
-            throw new Exception(pg_last_error($conn));
-        }
-
         pg_query($conn, "COMMIT");
     }
 
