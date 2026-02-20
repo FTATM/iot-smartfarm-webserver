@@ -11,19 +11,10 @@ if (!$db) {
     exit;
 }
 
-// ✅ รับค่าจาก Flutter หรือ Postman
-$branch_id = $_POST['bid'] ?? '';
-// ✅ ตรวจสอบว่ามีค่ามาครบไหม
-if (empty($branch_id)) {
-    echo json_encode(["status" => "error", "message" => "please input branch id"]);
-    pg_close($db);
-    exit;
-}
-
 // // ✅ เขียน SQL (ใช้ pg_query_params เพื่อป้องกัน SQL Injection)
-$sql = "SELECT * FROM income ORDER BY id DESC";
+$sql = "SELECT * FROM branch_info ORDER BY branch_id ASC";
 
-$result = pg_query_params($db, $sql, []);
+$result = pg_query($db, $sql);
 
 if (!$result) {
     echo json_encode(["status" => "error", "message" => "Query failed"]);

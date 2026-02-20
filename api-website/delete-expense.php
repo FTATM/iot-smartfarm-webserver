@@ -25,27 +25,20 @@ $decode = json_decode($json);
 
 
 // ✅ เตรียมคำสั่ง SQL INSERT
-$sql = "INSERT INTO income ( branch_id, amount, category_id, description, start_income_date, end_income_date, created_at, updated_at ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)";
+$sql = "DELETE FROM expense WHERE expense_id = $1";
 
 $now = date('Y-m-d H:i:s'); // แปลงเป็น string
 
 // ✅ เตรียมค่าพารามิเตอร์
 $params = [
-    $decode->branch_id ?? 1,
-    $decode->amount ?? 0,
-    $decode->category_id ?? '0',
-    $decode->description ?? "",
-    $decode->start ?? $now,
-    $decode->end ?? $now,
-    $now,
-    $now
+    $decode->id ?? 0,
 ];
 
 // ✅ รันคำสั่ง SQL
 $result = pg_query_params($db, $sql, $params);
 
 if ($result) {
-    echo json_encode(["status" => "success", "message" => "Create Success"]);
+    echo json_encode(["status" => "success", "message" => "Deleted Success"]);
 } else {
     echo json_encode(["status" => "error", "message" => pg_last_error($db)]);
 }

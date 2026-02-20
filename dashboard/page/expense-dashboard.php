@@ -11,7 +11,7 @@ $currentTime = date('H:i:s');
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>รายรับ - Dashboard</title>
+    <title>รายจ่าย - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col">
@@ -24,7 +24,7 @@ $currentTime = date('H:i:s');
                 <span class="emojione-monotone--chicken text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Income Dashboard</h1>
+                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Expense Dashboard</h1>
                 <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
             </div>
         </div>
@@ -95,14 +95,14 @@ $currentTime = date('H:i:s');
                                     Previous
                                 </button>
                                 <div class="flex items-center gap-1">
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.75vw] font-bold bg-primary text-white shadow-sm transition-all">1</button>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.75vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">2</button>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.75vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">3</button>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.75vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">4</button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.5vw] font-bold bg-primary text-white shadow-sm transition-all">1</button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.5vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">2</button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.5vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">3</button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.5vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">4</button>
                                     <span class="px-2 text-slate-400">...</span>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.75vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">10</button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-[0.5vw] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">10</button>
                                 </div>
-                                <button class="px-3 py-1.5 text-[0.75vw] font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+                                <button class="px-3 py-1.5 text-[0.5vw] font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
                                     Next
                                 </button>
                             </div>
@@ -126,7 +126,7 @@ $currentTime = date('H:i:s');
                         <span class="text-[0.5vw] text-slate-500 font-medium">THB</span>
                     </div>
                     <p class="text-[0.75vw] text-emerald-500 mt-2 font-medium flex items-center gap-1">
-                        <span class="material-icons-round text-[0.5vw]">trending_up</span> +12% from yesterday
+                        <span class="material-icons-round text-sm">trending_up</span> +12% from yesterday
                     </p>
                 </div>
 
@@ -187,7 +187,7 @@ $currentTime = date('H:i:s');
     <?php include "../components/popup.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
-    <?php include "../scripts/js-income.html"; ?>
+    <?php include "../scripts/js-expense.html"; ?>
 </body>
 
 </html>

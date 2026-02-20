@@ -13,7 +13,7 @@
     let globalData = [];
 
     const branch_id = 1;
-    const category_type = 'income';
+    const category_type = 'expense';
     const market_name = "";           //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
 
@@ -40,7 +40,7 @@
 
     async function initLoadData() {
         try {
-            const resdata = await fetch('../../api-website/fetch_incomes.php');
+            const resdata = await fetch('../../api-website/fetch_expenses.php');
             const raw1 = await resdata.json();
             datas = raw1['data'];
             const resbr = await fetch('../../api-website/fetch_branch.php');
@@ -197,10 +197,10 @@
 
         paginatedData.forEach((f) => {
 
-            let date = new Date(f['start_income_date']);
+            let date = new Date(f['start_expense_date']);
             let month = date.getMonth() + 1;
             let day = date.getDate();
-            const id = f['income_id'] || 0;
+            const id = f['expense_id'] || 0;
 
             let categoryName = categories.find(c => c['id'].toString() == f['category_id'].toString())?.name || "--";
             let branchName = branchs.find(b => b['branch_id'].toString() == branch_id.toString())?.branch_name || "--";
@@ -287,6 +287,9 @@
         container.appendChild(nextBtn);
     }
 
+
+
+
     function setPopupAdd(id) {
         const addPopup = document.getElementById(id);
         if (!addPopup) {
@@ -332,7 +335,7 @@
         const description = addPopup.querySelector("#description");
 
         try {
-            const response = await fetch("../../api-website/create-income.php", {
+            const response = await fetch("../../api-website/create-expense.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -370,7 +373,7 @@
         }
 
         try {
-            const response = await fetch("../../api-website/delete-income.php", {
+            const response = await fetch("../../api-website/delete-expense.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -391,6 +394,7 @@
             console.error("Error:", err);
         }
 
+        button.disabled = false;
         hidePopup(id);
     }
 

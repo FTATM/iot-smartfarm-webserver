@@ -25,7 +25,7 @@ $decode = json_decode($json);
 
 
 // ✅ เตรียมคำสั่ง SQL INSERT
-$sql = "INSERT INTO income ( branch_id, amount, category_id, description, start_income_date, end_income_date, created_at, updated_at ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)";
+$sql = "INSERT INTO expense ( branch_id, amount, category_id, description, start_expense_date, end_expense_date, created_at, updated_at ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)";
 
 $now = date('Y-m-d H:i:s'); // แปลงเป็น string
 
