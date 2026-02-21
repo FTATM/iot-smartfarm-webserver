@@ -101,7 +101,7 @@
             }
 
             SetValueInHTMLById('card-1-total', currentTotal.toLocaleString('th-TH'));
-            SetValueInHTMLById('card-1-percent', percent + '%');
+            SetValueInHTMLById('card-1-percent', percent.toFixed(2) + '%');
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
@@ -110,7 +110,49 @@
 
     async function Card2() {
         console.log("Card 2");
+        try {
+            if (!Array.isArray(diffDatas) || diffDatas.length === 0) {
 
+            }
+
+            // 🔹 group ยอดตามเดือน (format: YYYY-MM)
+            const monthlyTotals = diffDatas.reduce((acc, item) => {
+                if (!item.start_expense_date || !item.amount) return acc;
+
+                const date = new Date(item.start_expense_date);
+                if (isNaN(date)) return acc;
+
+                const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+                acc[key] = (acc[key] || 0) + parseFloat(item.amount);
+                return acc;
+            }, {});
+
+            const now = new Date();
+            const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+            const prevDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+            const previousKey = `${prevDate.getFullYear()}-${String(prevDate.getMonth() + 1).padStart(2, '0')}`;
+
+            const currentTotal = monthlyTotals[currentKey] || 0;
+            const previousTotal = monthlyTotals[previousKey] || 0;
+
+            let percent = 0;
+
+            if (previousTotal > 0) {
+                percent = ((currentTotal) / previousTotal) * 100;
+            }
+
+            const barProcess = document.getElementById('card-2-bar-process');
+            barProcess.style.width = percent.toFixed(1) + "%";
+
+            SetValueInHTMLById('card-2-total', currentTotal.toLocaleString('th-TH'));
+            SetValueInHTMLById('card-2-percent', percent.toFixed(2) + '%');
+            SetValueInHTMLById('card-2-lastMonth', '฿' + previousTotal.toLocaleString('th-TH'));
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
     }
 
     function Card3(income_data, expense_data) {
@@ -159,6 +201,7 @@
             const weekIndex = Math.floor((day - 1) / 7);
             weeks[weekIndex] -= Number(item.amount);
         });
+                console.log(weeks);
 
         const maxValue = Math.max(...weeks.map(w => Math.abs(w)), 1);
 
