@@ -147,18 +147,21 @@ $currentTime = date('H:i:s');
                     </div>
 
                     <div class="flex items-baseline gap-2">
-                        <span class="text-[1.5vw] font-bold font-display text-slate-900 dark:text-white">42,300</span>
+                        <span id="card-2-total" class="text-[1.5vw] font-bold font-display text-slate-900 dark:text-white">0</span>
                         <span class="text-[0.75vw] text-slate-500 font-medium">THB</span>
                     </div>
                     <div class="space-y-[1vh]">
                         <div class="flex justify-between items-center text-[0.75vw] font-bold uppercase text-slate-500">
                             <span>การใช้จ่ายงบประมาณ (Budget)</span>
-                            <span class="text-slate-700 dark:text-slate-300">62%</span>
+                            <span id="card-2-percent" class="text-slate-700 dark:text-slate-300">0%</span>
                         </div>
                         <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                            <div class="bg-orange-500 h-full w-[62%] rounded-full shadow-[0_0_8px_rgba(249,115,22,0.3)]"></div>
+                            <div id="card-2-bar-process" class="bg-orange-500 h-full rounded-full shadow-[0_0_8px_rgba(249,115,22,0.3)]"></div>
                         </div>
-                        <p class="text-[0.75vw] text-slate-400 text-right">งบประมาณรายเดือน: ฿68,000</p>
+                        <div class="text-right">
+                            <span class="text-[0.75vw] text-slate-400">งบประมาณเดือนที่แล้ว: </span>
+                            <span id="card-2-lastMonth" class="text-[0.75vw] text-slate-400">0</span>
+                        </div>
                     </div>
                 </div>
 
