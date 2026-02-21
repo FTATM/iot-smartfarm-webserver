@@ -601,6 +601,26 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         mask-image: var(--svg);
     }
 
+    .hugeicons--bitcoin-down-01 {
+        display: inline-block;
+        width: 2vw;
+        height: 2vw;
+        --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'%3E%3Cpath d='M12 2a6.5 6.5 0 1 0 0 13a6.5 6.5 0 0 0 0-13M9.5 19.5c.492.506 1.8 2.5 2.5 2.5m2.5-2.5c-.492.506-1.8 2.5-2.5 2.5m0 0v-4.5'/%3E%3Cpath d='M10.438 11.167V5.833m1.562 0V4.5m0 8v-1.333M10.438 8.5h3.124m0 0c.518 0 .938.448.938 1v.667c0 .552-.42 1-.937 1H9.5M13.563 8.5c.517 0 .937-.448.937-1v-.667c0-.552-.42-1-.937-1H9.5'/%3E%3C/g%3E%3C/svg%3E");
+        background-color: currentColor;
+        -webkit-mask-image: var(--svg);
+        mask-image: var(--svg);
+    }
+
+    .hugeicons--bitcoin-up-01 {
+        display: inline-block;
+        width: 2vw;
+        height: 2vw;
+        --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'%3E%3Cpath d='M12 9a6.5 6.5 0 1 0 0 13a6.5 6.5 0 0 0 0-13m2.5-4.5C14.008 3.994 12.7 2 12 2M9.5 4.5C9.992 3.994 11.3 2 12 2m0 0v4.5'/%3E%3Cpath d='M10.438 18.167v-5.334m1.562 0V11.5m0 8v-1.333M10.438 15.5h3.124m0 0c.518 0 .938.448.938 1v.667c0 .552-.42 1-.937 1H9.5m4.063-2.667c.517 0 .937-.448.937-1v-.667c0-.552-.42-1-.937-1H9.5'/%3E%3C/g%3E%3C/svg%3E");
+        background-color: currentColor;
+        -webkit-mask-image: var(--svg);
+        mask-image: var(--svg);
+    }
+
     /* ป้องกัน scroll เมื่อเมนูเปิด */
     body.menu-open {
         overflow: hidden;
@@ -639,6 +659,9 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     </div>
 
     <ul class="nav-list flex-1">
+        <div class="pt-6 pb-2 px-6">
+            <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Menu pages</h3>
+        </div>
         <li>
             <a href="shrimp-dashboard.php" class="<?php echo ($current_page == 'shrimp-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon emojione-monotone--shrimp"></span>Shrimp Dashboard
@@ -667,6 +690,22 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <li>
             <a href="solar-system-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon ph--solar-panel-duotone"></span>Solar System Dashboard
+            </a>
+        </li>
+        <!-- </br> -->
+        <!-- <div class="text-center text-[1.25vw] font-bold">Income and expense</div> -->
+        <!-- <hr> -->
+        <div class="pt-6 pb-2 px-6">
+            <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Managements</h3>
+        </div>
+        <li>
+            <a href="income-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon hugeicons--bitcoin-down-01"></span>Income management
+            </a>
+        </li>
+        <li>
+            <a href="expense-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon hugeicons--bitcoin-up-01"></span>Expense management
             </a>
         </li>
     </ul>
