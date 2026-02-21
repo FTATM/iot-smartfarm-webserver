@@ -139,8 +139,12 @@
         return Number.isFinite(n) ? n : 0;
     }
 
-    function formatNumber(n) {
-        return (Number.isFinite(n) ? n : 0).toFixed(1);
+    // function formatNumber(n) {
+    //     return (Number.isFinite(n) ? n : 0).toFixed(1);
+    // }
+
+    function formatNumber(num) {
+        return new Intl.NumberFormat('en-US').format(num);
     }
 
     function escapeHtml(text) {
