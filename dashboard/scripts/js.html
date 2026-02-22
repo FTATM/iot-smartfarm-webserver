@@ -1,5 +1,7 @@
 <!-- JavaScript -->
 <script>
+    const electric_unit = 4;
+    const water_unit = 10.20;
     let diff = { 'day': 0 };
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
     const today = new Date();
@@ -152,6 +154,7 @@
         div.textContent = text;
         return div.innerHTML;
     }
+
     function Min(list) {
         if (!Array.isArray(list)) return 0;
         let min = Math.min(list);
@@ -191,6 +194,7 @@
             div.innerText = value;
         }
     }
+
     function setCard(side, index, title = "-", value = "-") {
         const base = `card-${side}-${index}`;
         SetValueInHTMLById(`${base}-title`, title);
@@ -213,7 +217,6 @@
         });
     }
 
-
     function showPopup(id) {
         const div = document.getElementById(id);
         if (!div) return console.warn("ไม่พบ ID : " + id);
@@ -227,6 +230,47 @@
 
         div.classList.add('hidden');
     }
+    // ====================== water and electric ==========================
+
+    async function calculateElectricityAndWater(CardId) {
+        let sensor_Name = '';
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day} 00:00:00`;
+
+        try {
+            sensor_Name = 'electricity';
+            const resel = await fetch('../../api-website/fetch_specifiedByName.php?name=' + sensor_Name + "&start_time=" + formattedDate);
+            const rawel = await resel.json();
+            const datael = rawel['data'];
+            const elecUnit = parseFloat(datael[0]['diff'].toString()) ?? 0;
+
+            const electric = elecUnit * electric_unit;
+
+            SetValueInHTMLById(CardId + '-electricity-usage', electric.toFixed(2));
+
+
+            sensor_Name = 'water';
+            const reswa = await fetch('../../api-website/fetch_specifiedByName.php?name=' + sensor_Name + "&start_time=" + formattedDate);
+            const rawwa = await reswa.json();
+            const datawa = rawwa['data'];
+            const waterUnit = parseFloat(datawa[0]['diff'].toString()) ?? 0;
+
+            const water = elecUnit * water_unit;
+
+            SetValueInHTMLById(CardId + '-water-usage', water.toFixed(2));
+
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+    }
+
+
+
+
+
 
 
 

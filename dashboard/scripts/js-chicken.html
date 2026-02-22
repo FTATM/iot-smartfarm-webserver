@@ -227,54 +227,89 @@
     }
 
     async function Card3() {
-        try {
-            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
-            const raw = await res.json();
-            const expense = raw['data'];
-
-
-            const electricityEl = document.getElementById('electricity-usage');
-            const waterEl = document.getElementById('water-usage');
-
-            if (electricityEl) {
-                electricityEl.style.fontSize = (fontSize * 2) + "px";
-                electricity = Number(expense[0]?.electricity) || 0;
-                electricityEl.textContent = electricity;
-            }
-            if (waterEl) {
-                waterEl.style.fontSize = (fontSize * 2) + "px";
-                water = Number(expense[0]?.water) || 0;
-                waterEl.textContent = water;
-            }
-
-        } catch (err) {
-            console.error('❌ loadSensorData error:', err);
-        }
-
+        calculateElectricityAndWater('card-3');
     }
 
     async function Card4() {
+        let expense = [];
+        let categories = [];
+        const category_type = 'expense';
         try {
-            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
+            const res = await fetch('../../api-website/fetch_expenses.php');
             const raw = await res.json();
-            const expense = raw['data'];
+            expense = raw['data'];
 
-            const electricity = Number(expense[0]?.electricity) || 0;
-            const water = Number(expense[0]?.water) || 0;
-            const hardware = Number(expense[0]?.hardware) || 0;
-            const infrastructure = Number(expense[0]?.infrastructure) || 0;
-            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
-            const total = hardware + infrastructure + miscellaneous + electricity + water;
+            const resincome = await fetch('../../api-website/fetch_incomes.php');
+            const rawincome = await resincome.json();
+            income = rawincome['data'];
 
-            SetValueInHTMLById('electricity-usage', electricity);
-            SetValueInHTMLById('water-usage', water);
-            SetValueInHTMLById('expense-hardware', hardware);
-            SetValueInHTMLById('expense-infrastructure', infrastructure);
-            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
-            SetValueInHTMLById('expense-total', total);
+            const rescat = await fetch('../../api-website/fetch_categories.php?type=' + category_type);
+            const raw3 = await rescat.json();
+            categories = raw3['data'];
 
         } catch (err) {
-            console.error('❌ loadSensorData error:', err);
+            console.error('❌ fetch expenses error:', err);
+
         }
+
+        const categoryMapex = {};
+        const categoryMapin = {};
+
+        expense.forEach(item => {
+            if (!categoryMapex[item.category_id]) {
+                categoryMapex[item.category_id] = 0;
+            }
+            categoryMapex[item.category_id] += Number(item.amount);
+        });
+        income.forEach(item => {
+            if (!categoryMapin[item.category_id]) {
+                categoryMapin[item.category_id] = 0;
+            }
+            categoryMapin[item.category_id] += Number(item.amount);
+        });
+
+        const sortedex = Object.entries(categoryMapex)
+            .sort((a, b) => b[1] - a[1]);
+
+        const totalin = Object.values(categoryMapin)
+            .reduce((sum, value) => sum + value, 0);
+
+        const totalex = sortedex.reduce((sum, c) => sum + c[1], 0);
+        const top3ex = sortedex.slice(0, 3);
+
+        SetValueInHTMLById('card-4-expense', '฿' + totalex);
+        SetValueInHTMLById('card-4-income', '฿' + totalin);
+        SetValueInHTMLById('card-4-remain', '฿' + (totalin - totalex));
+
+        const listEl = document.getElementById("card-4-list");
+
+        listEl.innerHTML = "";
+
+        top3ex.forEach((item, index) => {
+
+            const categoryId = item[0];
+            const amount = item[1];
+            const percent = ((amount / totalex) * 100).toFixed(1);
+
+            let categoryName = categories.find(c => c['id'].toString() == categoryId.toString())?.name || "--";
+
+            listEl.innerHTML += `
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-[1.5vw] h-[1.5vw] rounded-full bg-blue-100 flex items-center justify-center font-bold text-[0.5vw]">
+                        #${index + 1}
+                    </div>
+                    <div>
+                        <p class="text-[0.75vw] font-semibold">${categoryName}</p>
+                        <p class="text-[0.5vw] text-slate-400">ID: ${categoryId}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[0.75vw] font-bold">฿${formatNumber(amount)}</p>
+                    <p class="text-[0.5vw] text-slate-400">${percent}%</p>
+                </div>
+            </div>
+            `;
+        });
     }
 </script>
