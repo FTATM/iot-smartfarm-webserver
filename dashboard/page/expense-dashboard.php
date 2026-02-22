@@ -24,7 +24,7 @@ $currentTime = date('H:i:s');
                 <span class="emojione-monotone--chicken text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Expense Dashboard</h1>
+                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Expense Management</h1>
                 <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
             </div>
         </div>

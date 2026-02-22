@@ -24,7 +24,7 @@ $currentTime = date('H:i:s');
                 <span class="emojione-monotone--chicken text-2xl text-white"> </span>
             </div>
             <div>
-                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Income Dashboard</h1>
+                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Income Management</h1>
                 <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
             </div>
         </div>
@@ -206,7 +206,7 @@ $currentTime = date('H:i:s');
 
                     <div id="card4-list" class="space-y-4"></div>
 
-                    <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <div class="mt-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                         <div id="card4-progress" class="flex h-2.5 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800"></div>
 
                         <div class="flex justify-between mt-2 text-[1vw] text-slate-400 font-medium">
