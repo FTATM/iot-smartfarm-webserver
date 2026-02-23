@@ -2,11 +2,16 @@
 <script>
     const electric_unit = 4;
     const water_unit = 10.20;
-    let diff = { 'day': 0 };
+    let data = { 'day': 0 };
+    const colors = [
+        '#f97316', '#14b8a6', '#f59e0b', '#3b82f6', '#8b5cf6',
+        '#ec4899', '#22c55e', '#ef4444', '#06b6d4', '#eab308',
+        '#6366f1', '#10b981', '#f43f5e', '#0ea5e9', '#a855f7',
+        '#84cc16', '#f97316', '#64748b', '#d946ef', '#0284c7',
+        '#16a34a', '#dc2626', '#9333ea', '#0891b2', '#ca8a04'
+    ];
+
     const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-    const today = new Date();
-    const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
-    document.getElementById('start-date').textContent = formattedDate;
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
@@ -15,21 +20,27 @@
     else if (screenWidth >= 1920) fontSize = 14;
 
     document.addEventListener('DOMContentLoaded', async () => {
-        await setAmountDay();
+        await setHeaderInit();
     })
 
-    async function setAmountDay() {
-        const res = await fetch('../../api-website/fetch_homeBybid.php?bid=1');
-        const data = await res.json();
-        diff = data['data'];
-        const daydiff = document.getElementById("day-age");
-        if (!daydiff) {
-            console.warn("[warning] Not found Element id : day-age for set value");
+    async function setHeaderInit() {
+        const today = new Date();
+        const formattedDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+        document.getElementById('start-date').textContent = formattedDate;
+
+        try {
+            const res = await fetch('../../api-website/fetch_homeBybid.php?bid=1');
+            const raw = await res.json();
+            data = raw['data'];
+            const remain = data['value'].find((v) => v.home_row_id == '5')?.value || 0;
+
+            SetValueInHTMLById('day-age', data.day);
+            SetValueInHTMLById('remain-live', remain);
+        } catch (err) {
+            console.warn("error : " + err);
             return;
         }
-        daydiff.textContent = diff.day;
     }
-
 
     function getStatusByKey(key, v, min, max) {
         if (v >= min && v <= max) return { text: 'ดีที่สุด', type: 'success' };

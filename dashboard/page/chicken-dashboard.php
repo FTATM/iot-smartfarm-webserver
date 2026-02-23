@@ -62,19 +62,18 @@ $currentTime = date('H:i:s');
                 <div class="row-span-7 grid grid-cols-4 gap-3 2xl:gap-3 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 grid grid-rows-5 bg-white rounded-2xl border border-stone-200 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0 overflow-hidden">
+                    <div class="col-span-2 grid grid-rows-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0 overflow-hidden">
 
                         <!-- พื้นที่กลาง (รูปบน) -->
-                        <div class="row-span-2 bg-red rounded-xl p-4 flex flex-col items-center justify-center flex-shrink-0">
+                        <div class="row-span-1 bg-red rounded-xl p-[0.5vw] flex flex-col items-center justify-center overflow-hidden">
                             <div class="p-1.5 bg-stone-100 rounded-lg font-bold mb-1 text-[0.9vw] text-center w-full">Smart chicken farming system with AI health monitoring cameras and IoT app.</div>
-                            <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-lg">
+                            <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="max-w-full max-h-full object-contain rounded-lg" />
                         </div>
 
-                        <div class="row-span-3 grid grid-cols-12 gap-1.5 flex-1 p-[0.5vw]">
+                        <div class="row-span-1 grid grid-cols-12 gap-1.5 flex-1 p-[0.5vw] min-h-0">
                             <?php include("../components/sensors_left.php"); ?>
-
-                            <div class="col-span-8 bg-white rounded-lg p-0.5 flex items-center justify-center 2xl:h-full">
-                                <img src="images/chicken.png" alt="เครื่องมือ/อุปกรณ์" class="w-full h-full object-contain rounded-md">
+                            <div class="col-span-8 bg-white rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
+                                <img src="images/chicken.png" alt="เครื่องมือ/อุปกรณ์" class="max-w-full max-h-full object-contain rounded-md">
                             </div>
 
                             <?php include("../components/sensors_right.php"); ?>
@@ -92,11 +91,11 @@ $currentTime = date('H:i:s');
                                 <div>
                                     <h2 class="text-sm 2xl:text-base font-bold text-stone-800 flex items-center gap-2">
                                         <span class="w-1 h-4 2xl:h-6 bg-orange-500 rounded-full"></span>
-                                        <div id="title-graph-sensor">แนวโน้มค่า PH</div>
+                                        <div id="title-graph-sensor">แนวโน้ม</div>
                                     </h2>
                                     <p id="title-graph-sensor-sub"
                                         class="text-xs text-stone-400 font-medium uppercase tracking-wider mt-1">
-                                        Historical PH Data
+                                        Historical Data
                                     </p>
                                 </div>
                             </div>
@@ -136,15 +135,14 @@ $currentTime = date('H:i:s');
                             <!-- ช่องขวา (2 ส่วน) -->
                             <div class="col-span-2 bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col min-h-0">
                                 <div>
-                                    <h3 class="text-lg font-bold font-display text-slate-900 dark:text-white">สัดส่วนรายได้และรายจ่าย</h3>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Income vs Expense Distribution</p>
+                                    <h3 class="text-lg font-bold font-display text-slate-900 dark:text-white">สัดส่วนรายจ่าย</h3>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Expense Distribution</p>
                                 </div>
                                 <div class="flex flex-col items-center justify-center flex-grow">
-                                    <div class="relative w-48 h-48 shadow-xl">
-                                        <canvas id="pieChart" class="absolute inset-0"></canvas>
+                                    <div id="donut" class="relative w-48 h-48 donut-chart shadow-xl">
                                         <div class="absolute inset-4 bg-white dark:bg-slate-900 rounded-full flex flex-col items-center justify-center text-center">
                                             <p class="text-[10px] font-bold text-slate-400 uppercase">Net Profit</p>
-                                            <p class="text-2xl font-bold font-display text-slate-900 dark:text-white leading-none">86,150</p>
+                                            <p id="card-4-total" class="text-2xl font-bold font-display text-slate-900 dark:text-white leading-none">0</p>
                                             <p class="text-[10px] font-bold text-teal-500 mt-1">THB</p>
                                         </div>
                                     </div>
@@ -249,11 +247,15 @@ $currentTime = date('H:i:s');
                     </div>
                     <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
                     <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รวมต้นทุน (Total Cost)</span>
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รวมต้นทุน</span>
                         <span id="card-4-expense" class="text-[0.65vw] font-bold text-slate-900 dark:text-white">฿0</span>
                     </div>
+                    <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รายได้คาดการณ์</span>
+                        <span id="card-4-forecast" class="text-[0.65vw] font-bold text-slate-900 dark:text-white">฿0</span>
+                    </div>
                     <div class="flex justify-between items-center py-[0.5vh]">
-                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รายรับทั้งหมด (Total Revenue)</span>
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รายได้ทั้งหมด</span>
                         <span id="card-4-income" class="text-[0.65vw] font-bold text-emerald-600 dark:text-emerald-400">฿0</span>
                     </div>
                     <div class="bg-orange-50 dark:bg-orange-900/20 p-[0.5vw] rounded-xl border border-orange-100 dark:border-orange-900/30">
