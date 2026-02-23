@@ -8,7 +8,7 @@
         </div>
         <div class="p-8 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
+                <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">สาขา (Branch)</label>
                     <div class="relative">
                         <select id="select-branch" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
@@ -16,14 +16,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">จำนวนเงิน (Amount)</label>
                     <div class="relative">
                         <input id="amount" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="0.00" type="text" />
                         <!-- <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">THB</span> -->
                     </div>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">หมวดหมู่ (Category)</label>
                     <div class="relative">
                         <select id="select-category" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
@@ -31,7 +31,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">วันที่ทำรายการ (Income Date)</label>
                     <div class="relative">
                         <input id="start-date" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all " type="date" />
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-1">
                 <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">รายละเอียด (Description)</label>
                 <textarea id="description" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" placeholder="ระบุรายละเอียดเพิ่มเติม..." rows="3"></textarea>
             </div>

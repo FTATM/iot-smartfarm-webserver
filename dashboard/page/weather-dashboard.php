@@ -20,7 +20,7 @@ $currentTime = date('H:i:s');
 <body>
 
     <!-- Header -->
-    <header class="flex items-center justify-between p-4 border-b border-stone-200 bg-white shrink-0">
+    <header class="flex items-center justify-between p-[0.5vw] border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
             <div
@@ -36,13 +36,13 @@ $currentTime = date('H:i:s');
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-[1vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                    <span class="text-[0.75vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
                 <span
                     class="text-[1vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-[1vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+                <span class="text-[0.75vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
@@ -61,7 +61,7 @@ $currentTime = date('H:i:s');
                     <!-- รูปภาพ 1 ส่วน (ซ้ายสุด) -->
                     <div class="col-span-1 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
 
-                        <div class="bg-white rounded-2xl p-4 flex flex-col h-full transition-all duration-200">
+                        <div class="bg-white rounded-2xl p-[0.5vw] flex flex-col h-full transition-all duration-200">
 
                             <!-- Wind Chill -->
                             <div class="mb-2 pb-2 border-b border-dashed border-stone-200 2xl:mb-16 2xl:pb-8 2xl:border-b-8">
@@ -169,7 +169,7 @@ $currentTime = date('H:i:s');
                     <div class="col-span-3 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
                         <div
-                            class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -206,7 +206,7 @@ $currentTime = date('H:i:s');
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
                         <div
-                            class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                            class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -244,7 +244,7 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 1: พยากรณ์อุณหภูมิ -->
                 <div
-                    class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                    class="bg-white p-[0.5vw] rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="carbon--temperature-hot text-[#ff8021] text-sm"></span>
                         <h3 class="text-[1vw] 2xl:text-xl font-bold text-slate-700">พยากรณ์อุณหภูมิ</h3>
@@ -252,7 +252,7 @@ $currentTime = date('H:i:s');
                     <div class="grid grid-cols-2 gap-3 2xl:px-8">
                         <!-- ต่ำสุด -->
                         <div
-                            class="bg-cyan-50/50 p-3 rounded-xl text-center border border-cyan-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
+                            class="bg-cyan-50/50 p-[0.5vw] rounded-xl text-center border border-cyan-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
                             <p class="text-[1vw] text-cyan-600 font-bold uppercase mb-1">
                                 ต่ำสุด (°C)
                             </p>
@@ -263,7 +263,7 @@ $currentTime = date('H:i:s');
 
                         <!-- สูงสุด -->
                         <div
-                            class="bg-orange-50/50 p-3 rounded-xl text-center border border-orange-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
+                            class="bg-orange-50/50 p-[0.5vw] rounded-xl text-center border border-orange-100 flex flex-col justify-center 2xl:w-full 2xl:h-32">
                             <p class="text-[1vw] text-orange-600 font-bold uppercase mb-1">
                                 สูงสุด (°C)
                             </p>
@@ -277,7 +277,7 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 2: พยากรณ์ลมรายชั่วโมง (ws10m) -->
                 <div
-                    class="bg-white p-3 4 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                    class="bg-white p-[0.5vw] 4 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="solar--wind-bold-duotone text-sm text-[#ff8021]"></span>
                         <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์ลมรายชั่วโมง (ws10m)</h3>
@@ -309,7 +309,7 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 3: พยากรณ์ความชื้นสัมพัทธ์ (rh) -->
                 <div
-                    class="bg-white border border-stone-200 rounded-2xl p-3 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                    class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="wi--humidity text-sm text-[#ff8021]"></span>
                         <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์ความชื้นสัมพัทธ์ (rh)</h3>
@@ -333,14 +333,14 @@ $currentTime = date('H:i:s');
 
                 <!-- Card 4: พยากรณ์สภาพอากาศรายชั่วโมง -->
                 <div
-                    class="bg-white border border-stone-200 rounded-2xl p-3 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                    class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] 4 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="emojione-monotone--sun-behind-rain-cloud text-[#ff8021] text-sm"></span>
                         <h3 class="text-[1vw] font-bold text-slate-700">พยากรณ์สภาพอากาศรายชั่วโมง</h3>
                     </div>
 
                     <!-- สภาพอากาศปัจจุบัน -->
-                    <div class="flex items-center justify-between mb-2 bg-stone-50 p-3 2xl:p-8 rounded-xl border border-stone-100"
+                    <div class="flex items-center justify-between mb-2 bg-stone-50 p-[0.5vw] 2xl:p-8 rounded-xl border border-stone-100"
                         id="current-weather">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-yellow-500 text-2xl"

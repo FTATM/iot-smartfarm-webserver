@@ -110,13 +110,13 @@
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white rounded-2xl p-[0.5vw] border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[1vw] font-bold text-stone-500 uppercase tracking-widest">
+                    <span class="text-[0.75vw] font-bold text-stone-500 uppercase tracking-widest">
                         ${s}
                     </span>
-                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[1vw] font-bold uppercase status">
+                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
                         --
                     </span>
                 </div>
@@ -125,8 +125,8 @@
                         <span class="text-[1.5vw] font-black text-black value">
                             ${value}
                         </span>
-                        <span class="text-[1vw] font-bold text-stone-400">
-                            ${row.unit}
+                        <span class="text-[0.75vw] font-bold text-stone-400">
+                            ${row.unit ?? ''}
                         </span>
                     </div>
                 </div>

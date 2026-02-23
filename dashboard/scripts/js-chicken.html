@@ -21,6 +21,7 @@
         await Card4();
 
         await loadGraphMarketById();
+        await loadPieGraph();
 
         isLoading = false;
         // setInterval(async () => {
@@ -113,13 +114,13 @@
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white rounded-2xl p-[0.5vw] border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[1vw] font-bold text-stone-500 uppercase tracking-widest">
+                    <span class="text-[0.75vw] font-bold text-stone-500 uppercase tracking-widest">
                         ${s}
                     </span>
-                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[1vw] font-bold uppercase status">
+                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
                         --
                     </span>
                 </div>
@@ -128,8 +129,8 @@
                         <span class="text-[1.5vw] font-black text-black value">
                             ${value}
                         </span>
-                        <span class="text-[1vw] font-bold text-stone-400">
-                            ${row.unit}
+                        <span class="text-[0.75vw] font-bold text-stone-400">
+                            ${row.unit ?? ''}
                         </span>
                     </div>
                 </div>
@@ -275,7 +276,8 @@
             .reduce((sum, value) => sum + value, 0);
 
         const totalex = sortedex.reduce((sum, c) => sum + c[1], 0);
-        const top3ex = sortedex.slice(0, 3);
+        const top5ex = sortedex;
+        // const top5ex = sortedex.slice(0, 5);
 
         SetValueInHTMLById('card-4-expense', '฿' + totalex);
         SetValueInHTMLById('card-4-income', '฿' + totalin);
@@ -285,7 +287,7 @@
 
         listEl.innerHTML = "";
 
-        top3ex.forEach((item, index) => {
+        top5ex.forEach((item, index) => {
 
             const categoryId = item[0];
             const amount = item[1];
@@ -300,16 +302,20 @@
                         #${index + 1}
                     </div>
                     <div>
-                        <p class="text-[0.75vw] font-semibold">${categoryName}</p>
-                        <p class="text-[0.5vw] text-slate-400">ID: ${categoryId}</p>
+                        <p class="text-[0.65vw] font-semibold">${categoryName}</p>
+                        <p class="text-[0.4vw] text-slate-400">ID: ${categoryId}</p>
                     </div>
                 </div>
                 <div class="text-right">
-                    <p class="text-[0.75vw] font-bold">฿${formatNumber(amount)}</p>
-                    <p class="text-[0.5vw] text-slate-400">${percent}%</p>
+                    <p class="text-[0.65vw] font-bold">${formatNumber(amount)}</p>
+                    <p class="text-[0.4vw] text-slate-400">${percent}%</p>
                 </div>
             </div>
             `;
         });
+    }
+
+    function loadPieGraph() {
+        
     }
 </script>
