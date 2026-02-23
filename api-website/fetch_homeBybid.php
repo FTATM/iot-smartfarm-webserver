@@ -31,7 +31,7 @@ while ($row = pg_fetch_assoc($result)) {
 
 if ($data) {
 
-    $db_time = strtotime($data['3']['value']);  // แปลงวันที่เป็น timestamp
+    $db_time = strtotime($data['2']['value']);  // แปลงวันที่เป็น timestamp
     $diff = $now - $db_time;              // ต่างกันกี่วินาที
 
     // คำนวณวัน ชั่วโมง นาที
