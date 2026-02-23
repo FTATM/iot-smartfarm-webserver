@@ -18,18 +18,20 @@ if (!$conn) {
 }
 $now = time();
 
-$sql = "SELECT value
+$sql = "SELECT value, home_row_id
         FROM home_branch
-        WHERE branch_id = $1 
-        AND home_row_id = 3 
-        LIMIT 1";
+        WHERE branch_id = $1 ORDER BY home_row_id ASC";
 
 $result = pg_query_params($conn, $sql, [$bid]);
-$data = pg_fetch_assoc($result);
+$data = [];
+
+while ($row = pg_fetch_assoc($result)) {
+    $data[] = $row;
+}
 
 if ($data) {
 
-    $db_time = strtotime($data['value']);  // แปลงวันที่เป็น timestamp
+    $db_time = strtotime($data['3']['value']);  // แปลงวันที่เป็น timestamp
     $diff = $now - $db_time;              // ต่างกันกี่วินาที
 
     // คำนวณวัน ชั่วโมง นาที
@@ -43,7 +45,8 @@ if ($data) {
         "data" => [
             "day" => $days,
             "hour" => $hours,
-            "min" => $minutes
+            "min" => $minutes,
+            'value' => $data
         ]
     ], JSON_UNESCAPED_UNICODE);
 } else {

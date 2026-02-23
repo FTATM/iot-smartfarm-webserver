@@ -19,7 +19,7 @@ $currentTime = date('H:i:s');
 <body>
 
     <!-- Header -->
-    <header class="flex items-center justify-between p-4 border-b border-stone-200 bg-white shrink-0">
+    <header class="flex items-center justify-between p-[0.5vw] border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
             <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
@@ -33,12 +33,12 @@ $currentTime = date('H:i:s');
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-3">
-                    <span class="text-[1vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
+                    <span class="text-[0.75vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
-                <span class="text-[1vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-[1vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+                <span class="text-[0.75vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
+                <span class="text-[0.75vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
@@ -77,7 +77,7 @@ $currentTime = date('H:i:s');
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 id="title-graph-sensor" class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -106,7 +106,7 @@ $currentTime = date('H:i:s');
                         </div>
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -196,19 +196,19 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
+                <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] clarity--coin-bag-line"></span>
                         <h3 class="text-[1vw] font-bold text-stone-700">ต้นทุนทรัพยากรไฟฟ้าและน้ำทั้งหมด</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2  2xl:px-8">
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[1vw] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
-                            <span class="text-[1vw] text-center font-black text-stone-800" id="water-usage">-</span>
+                        <div class="bg-stone-50 rounded-lg p-[0.25vw] flex flex-col justify-center">
+                            <span class="text-[0.75vw] text-stone-400 font-bold uppercase">ค่าน้ำประปา</span>
+                            <span class="text-[0.75vw] text-center font-black text-stone-800" id="water-usage">-</span>
                         </div>
-                        <div class="bg-stone-50 rounded-lg p-1.5 flex flex-col justify-center">
-                            <span class="text-[1vw] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
-                            <span class="text-[1vw] text-center font-black text-stone-800" id="electricity-usage">-</span>
+                        <div class="bg-stone-50 rounded-lg p-[0.25vw] flex flex-col justify-center">
+                            <span class="text-[0.75vw] text-stone-400 font-bold uppercase">ค่าไฟฟ้า</span>
+                            <span class="text-[0.75vw] text-center font-black text-stone-800" id="electricity-usage">-</span>
                         </div>
                     </div>
                 </div>

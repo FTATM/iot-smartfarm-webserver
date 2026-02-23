@@ -20,7 +20,7 @@ $currentTime = date('H:i:s');
 <body>
 
     <!-- Header -->
-    <header class="flex items-center justify-between p-4 border-b border-stone-200 bg-white shrink-0">
+    <header class="flex items-center justify-between p-[0.5vw] border-b border-stone-200 bg-white shrink-0">
         <div class="flex items-center gap-4">
             <?php include 'navbar.php'; ?>
             <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
@@ -38,8 +38,8 @@ $currentTime = date('H:i:s');
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-6">
-                <span class="text-[1vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-[1vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
+                <span class="text-[0.75vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
+                <span class="text-[0.75vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
             </div>
         </div>
     </header>
@@ -78,7 +78,7 @@ $currentTime = date('H:i:s');
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col gap-4 min-h-0">
                         <!-- กราฟที่ 1: DO Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
                                 <div>
                                     <h2 id="title-graph-sensor" class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -107,7 +107,7 @@ $currentTime = date('H:i:s');
                         </div>
 
                         <!-- กราฟที่ 2: Price Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
+                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
                             <div class="flex justify-between items-center mb-2  2xl:p-8 shrink-0">
                                 <div>
                                     <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
@@ -144,7 +144,7 @@ $currentTime = date('H:i:s');
             <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
 
                 <!-- Card 1: Power Meter -->
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                <div class="bg-white p-[0.5vw] rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] temaki--power-meter"></span>
                         <h3 class="text-[1vw] font-bold text-stone-700">Power Meter</h3>
@@ -164,7 +164,7 @@ $currentTime = date('H:i:s');
                                 <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Current</p>
                                 <p class="text-[1vw] font-bold">
                                     <span class="animate-pulse" id="pwrm-current">--</span>
-                                    <span class="text-[1vw] font-normal text-slate-400">mA</span>
+                                    <span class="text-[0.75vw] font-normal text-slate-400">mA</span>
                                 </p>
                             </div>
                         </div>
@@ -174,14 +174,14 @@ $currentTime = date('H:i:s');
                                 <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Power</p>
                                 <p class="text-[1vw] font-bold">
                                     <span class="animate-pulse" id="pwrm-power">--</span>
-                                    <span class="text-[1vw] font-normal text-slate-400">kW</span>
+                                    <span class="text-[0.75vw] font-normal text-slate-400">kW</span>
                                 </p>
                             </div>
                             <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
                                 <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Energy</p>
                                 <p class="text-[1vw] font-bold">
                                     <span class="animate-pulse" id="pwrm-energy">--</span>
-                                    <span class="text-[1vw] font-normal text-slate-400">kWh</span>
+                                    <span class="text-[0.75vw] font-normal text-slate-400">kWh</span>
                                 </p>
                             </div>
                         </div>
@@ -189,7 +189,7 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- Card 2: Solar Supply/Load -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
+                <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] cbi--solar-battery "></span>
                         <h3 class="text-[1vw] font-bold text-stone-700">Solar Supply/Load</h3>
@@ -209,7 +209,7 @@ $currentTime = date('H:i:s');
                         <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
                             <div class="flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-green-600 text-sm 2xl:px-4">arrow_upward</span>
-                                <span class="text-[1vw] font-bold text-slate-700">Supply</span>
+                                <span class="text-[0.75vw] font-bold text-slate-700">Supply</span>
                             </div>
                             <div class="flex gap-3 text-[1vw] font-bold">
                                 <span class="w-10 text-center text-slate-800" id="supply-1h">--</span>
@@ -222,7 +222,7 @@ $currentTime = date('H:i:s');
                         <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
                             <div class="flex items-center gap-1. 5">
                                 <span class="material-symbols-outlined text-red-600 text-sm 2xl:px-4">arrow_downward</span>
-                                <span class="text-[1vw] font-bold text-slate-700">Load</span>
+                                <span class="text-[0.75vw] font-bold text-slate-700">Load</span>
                             </div>
                             <div class="flex gap-3 text-[1vw] font-bold">
                                 <span class="w-10 text-center text-slate-800" id="load-1h">--</span>
@@ -235,7 +235,7 @@ $currentTime = date('H:i:s');
                         <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
                             <div class="flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-[#ff8021] text-sm 2xl:px-4">balance</span>
-                                <span class="text-[1vw] font-bold text-slate-700">Balance</span>
+                                <span class="text-[0.75vw] font-bold text-slate-700">Balance</span>
                             </div>
                             <div class="flex gap-3 text-[1vw] font-bold">
                                 <span class="w-10 text-center text-[#ff8021]" id="balance-1h">--</span>
@@ -255,21 +255,21 @@ $currentTime = date('H:i:s');
 
                     <div class="space-y-1 2xl:space-y-4 2xl:px-8">
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[1vw] font-bold text-slate-700">ทุนเริ่มต้น</span>
+                            <span class="text-[0.75vw] font-bold text-slate-700">ทุนเริ่มต้น</span>
                             <div class="flex gap-2 text-[1vw] font-medium">
                                 <span class="w-12 text-end" id="initial-capital">-</span>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[1vw] font-bold text-slate-700">คืนแล้ว</span>
+                            <span class="text-[0.75vw] font-bold text-slate-700">คืนแล้ว</span>
                             <div class="flex gap-2 text-[1vw] font-medium">
                                 <span class="w-12 text-end text-green-600" id="refunded">-</span>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[1vw] font-bold text-slate-700">คงเหลือ</span>
+                            <span class="text-[0.75vw] font-bold text-slate-700">คงเหลือ</span>
                             <div class="flex gap-2 text-[1vw] font-medium">
                                 <span class="w-12 text-end text-orange-600" id="remaining">-</span>
                             </div>
