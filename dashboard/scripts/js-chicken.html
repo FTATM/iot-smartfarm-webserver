@@ -12,6 +12,17 @@
     // Adjust font sizes based on screen width
     document.addEventListener('DOMContentLoaded', async () => {
 
+        await process();
+
+        isLoading = false;
+
+        setInterval(async () => {
+            await process();
+        }, 10000);
+
+    });
+
+    async function process() {
         await loadSensorData();
         await SensorsLeft();
         await SensorsRight();
@@ -22,14 +33,7 @@
 
         await loadGraphMarketById();
         await loadPieGraph();
-
-        isLoading = false;
-        // setInterval(async () => {
-        //     await loadSensorData();
-        //     await loadGraphSensorById();
-        // }, 10000);
-
-    });
+    }
 
     async function loadSensorData() {
         try {
@@ -228,12 +232,16 @@
     }
 
     async function Card3() {
+        console.log("Card 3");
         calculateElectricityAndWater('card-3');
     }
 
     async function Card4() {
+        console.log("Card 4");
+        let table = [];
         let expense = [];
         let categories = [];
+        const table_type = 6;
         const category_type = 'expense';
         try {
             const res = await fetch('../../api-website/fetch_expenses.php');
@@ -247,6 +255,11 @@
             const rescat = await fetch('../../api-website/fetch_categories.php?type=' + category_type);
             const raw3 = await rescat.json();
             categories = raw3['data'];
+
+            const res4 = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + data.day);
+            const raw4 = await res4.json();
+            table = raw4['data'];
+
 
         } catch (err) {
             console.error('❌ fetch expenses error:', err);
@@ -336,13 +349,10 @@
 
         let current = 0;
 
-        console.log(sorted);
-
         const gradient = sorted.map((item, index) => {
             const categoryId = item[0];
             const amount = item[1];
             const percent = parseFloat(((amount / total) * 100).toFixed(1));
-            console.log(percent);
 
             const start = current;
             const end = current + percent;

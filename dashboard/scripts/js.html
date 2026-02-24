@@ -257,8 +257,7 @@
             const rawel = await resel.json();
             const datael = rawel['data'];
             const elecUnit = parseFloat(datael[0]['diff']?.toString()) ?? 0;
-
-            const electric = elecUnit * electric_unit;
+            const electric = isNaN(elecUnit) ? 0 : elecUnit * electric_unit;
 
             SetValueInHTMLById(CardId + '-electricity-usage', electric.toFixed(2));
 
@@ -269,7 +268,7 @@
             const datawa = rawwa['data'];
             const waterUnit = parseFloat(datawa[0]['diff']?.toString()) ?? 0;
 
-            const water = elecUnit * water_unit;
+            const water = isNaN(waterUnit) ? 0 : waterUnit * water_unit;
 
             SetValueInHTMLById(CardId + '-water-usage', water.toFixed(2));
 
@@ -291,6 +290,9 @@
     // ============================= Graph ============================
     let sensorChart = null;
     let trendChart = null;
+    let fullDatasets = [];
+    let selectedTypes = new Set();
+    let filterInitialized = false; // 👈 เพิ่มตัวนี้
 
     async function loadGraphSensorById(sensors) {
         const loading = document.getElementById('do-loading');
@@ -437,71 +439,93 @@
     }
 
     async function loadGraphMarketById() {
+
+        const table_type = 6;
         const loading = document.getElementById('price-loading');
-        const label = document.getElementById('types-MarketChart');
+        const typeContainer = document.getElementById('types-MarketChart');
 
         try {
 
-            const res = await fetch('../../api-website/market_trades.php?market=' + market_name + '&type=' + type);
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type);
             const raw = await res.json();
-            const data = raw.data;
+            const tables = raw.data;
 
-            if (!data || typeof data !== 'object') {
-                console.warn('⚠️ ไม่มีข้อมูล');
+            if (!tables || typeof tables !== 'object') {
                 renderMarketPriceChart([], []);
                 return;
             }
 
-            label.textContent = type;
-            const types = type.split(',');  // ["demand","price"]
+            // 1️⃣ หา table หลัก
+            const mainTable = Object.values(tables).find(t => !t.child_of_table_id);
+            if (!mainTable) return;
 
-            // 1️⃣ รวมวันที่ทั้งหมด
-            let allDates = new Set();
+            // 2️⃣ เรียง X-axis แบบ numeric
+            const labels = mainTable.children
+                .map(row => row.end_day)
+                .sort((a, b) => Number(a) - Number(b));
 
-            types.forEach(t => {
-                if (Array.isArray(data[t])) {
-                    data[t].forEach(r => allDates.add(r.trend_date));
-                }
-            });
+            // 3️⃣ หา table ลูก
+            const childTables = Object.values(tables)
+                .filter(t => t.child_of_table_id === mainTable.id);
 
-            // 2️⃣ เรียงวันที่
-            const labels = Array.from(allDates).sort();
+            // 4️⃣ สร้าง full dataset
+            fullDatasets = childTables.map((table, index) => {
 
-            // 3️⃣ สร้าง datasets
-            const datasets = types.map(t => {
-                const mapByDate = {};
-                if (Array.isArray(data[t])) {
-                    data[t].forEach(r => {
-                        mapByDate[r.trend_date] = Number(r.trend_value);
-                    });
-                }
+                const dataMap = {};
+                table.children.forEach(row => {
+                    dataMap[row.end_day] = Number(row.value);
+                });
 
                 return {
-                    label: t,
-                    data: labels.map(date => mapByDate[date] ?? null),
+                    label: table.label,
+                    data: labels.map(day => dataMap[day] ?? null),
                     borderWidth: 2,
                     fill: false,
                     spanGaps: true,
                     tension: 0.3,
-                    borderColor: '#ff8021',
-                    backgroundColor: 'rgba(255,128,33,0.15)',
-                    pointRadius: screenWidth >= 3840 ? 5 : 2.5
+                    pointRadius: screenWidth >= 3840 ? 5 : 2
                 };
             });
 
-            // 4️⃣ คำนวณ min/max รวม
-            const allValues = datasets.flatMap(d => d.data).filter(v => v !== null);
 
-            let min = Math.min(...allValues);
-            let max = Math.max(...allValues);
+            // 5️⃣ สร้างปุ่มเฉพาะครั้งแรกเท่านั้น
+            if (!filterInitialized) {
 
-            min -= min * 0.05;
-            max += max * 0.05;
+                typeContainer.innerHTML = "";
 
-            min = Number(min.toFixed(2));
-            max = Number(max.toFixed(2));
+                childTables.forEach((table) => {
 
-            renderMarketPriceChart(labels, datasets, min, max);
+                    const btn = document.createElement('button');
+                    btn.textContent = table.label;
+
+                    btn.className = `
+            px-3 py-1 rounded-lg border text-xs font-medium
+            border-stone-300 bg-white text-stone-600
+            hover:bg-orange-50 hover:border-orange-400
+            transition-all duration-200
+        `;
+
+                    btn.addEventListener('click', () => {
+
+                        if (selectedTypes.has(table.label)) {
+                            selectedTypes.delete(table.label);
+                            btn.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+                        } else {
+                            selectedTypes.add(table.label);
+                            btn.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+                        }
+
+                        updateChart(labels);
+                    });
+
+                    typeContainer.appendChild(btn);
+                });
+
+                filterInitialized = true;
+            }
+
+            // 6️⃣ update chart (ใช้ selectedTypes เดิม)
+            updateChart(labels);
 
         } catch (err) {
             console.error('❌ price trend error:', err);
@@ -510,55 +534,74 @@
         }
     }
 
-    function renderMarketPriceChart(labels, datasets, min = 0, max = 1) {
-        const ctx = document.getElementById('marketPriceChart');
-        if (!ctx) return;
+    function updateChart(labels) {
 
-        if (trendChart) {
-            trendChart.destroy();
+        let filtered;
+
+        if (selectedTypes.size === 0) {
+            filtered = fullDatasets;
+        } else {
+            filtered = fullDatasets.filter(d =>
+                selectedTypes.has(d.label)
+            );
         }
 
+        const allValues = filtered.flatMap(d => d.data).filter(v => v !== null);
+
+        let min = Math.min(...allValues);
+        let max = Math.max(...allValues);
+
+        min -= min * 0.05;
+        max += max * 0.05;
+
+        if (!trendChart) {
+            renderMarketPriceChart(labels, filtered, min, max);
+        } else {
+            trendChart.data.labels = labels;
+            trendChart.data.datasets = filtered;
+            trendChart.options.scales.y.min = min;
+            trendChart.options.scales.y.max = max;
+            trendChart.update('none');
+        }
+    }
+
+    function renderMarketPriceChart(labels, datasets, min = 0, max = 1) {
+
+        const ctx = document.getElementById('marketPriceChart');
+        if (!ctx) return;
 
         trendChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels,
-                datasets: datasets
+                datasets
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ${ctx.raw}`
+                            label: ctx => ` ${ctx.raw} ฿`
                         }
                     }
                 },
                 scales: {
                     x: {
-                        grid: {
-                            display: false
-                        },
+                        grid: { display: false },
                         ticks: {
-                            font: {
-                                size: fontSize
-                            },
+                            font: { size: fontSize },
                             color: '#78716c'
                         }
                     },
                     y: {
-                        max: max,
-                        min: min,
+                        min,
+                        max,
                         ticks: {
-                            font: {
-                                size: fontSize
-                            },
+                            font: { size: fontSize },
                             color: '#78716c',
-                            callback: v => v + ' ฿'
+                            callback: v => Number(v).toFixed(1) + ' ฿'
                         }
                     }
                 }
@@ -566,11 +609,5 @@
         });
     }
 
-    function updateMarketPriceChart(labels, values, min = 0, max = 1) {
-        trendChart.data.labels = labels;
-        trendChart.data.datasets[0].data = values;
-        trendChart.options.scales.y.min = min
-        trendChart.options.scales.y.max = max
-        trendChart.update();
-    }
+
 </script>

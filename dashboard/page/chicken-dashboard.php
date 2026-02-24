@@ -22,7 +22,7 @@ $currentTime = date('H:i:s');
         <div class="flex items-center gap-3">
             <?php include 'navbar.php'; ?>
             <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="emojione-monotone--chicken text-2xl text-white"> </span>
+                <span class="emojione-monotone--chicken text-2xl text-white"></span>
             </div>
             <div>
                 <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Chicken Dashboard</h1>
@@ -30,7 +30,7 @@ $currentTime = date('H:i:s');
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2 bg-stone-100 p-1 px-3 rounded-xl border border-stone-200">
+            <div class="flex flex-col items-center gap-2 bg-stone-100 p-1 px-3 rounded-xl border border-stone-200">
                 <div class="flex items-center gap-2">
                     <span class="text-[0.75vw] font-bold text-primary leading-none">อายุไก่ปัจจุบัน:</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none" id="day-age">--</span>
@@ -39,6 +39,16 @@ $currentTime = date('H:i:s');
                     <span class="text-[0.75vw] font-bold text-stone-600 leading-none">เหลือ</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 leading-none" id="remain-live">-</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 leading-none">ตัว</span>
+                </div>
+                <div class="h-px w-full bg-stone-300"></div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[0.75vw] font-bold text-primary leading-none">คาดการณ์รายได้:</span>
+                    <span class="text-[0.75vw] font-bold text-primary leading-none" id="forecast-income">--</span>
+                    <span class="text-[0.75vw] font-bold text-primary leading-none">บาท</span>
+                    <div class="w-px h-2.5 bg-stone-300"></div>
+                    <span class="text-[0.75vw] font-bold text-stone-600 leading-none">น้ำหนัก</span>
+                    <span class="text-[0.75vw] font-bold text-stone-600 leading-none" id="kilogram">-</span>
+                    <span class="text-[0.75vw] font-bold text-stone-600 leading-none">กิโล/ตัว</span>
                 </div>
             </div>
             <div class="flex flex-col items-end border-l border-stone-200 pl-4">
@@ -70,13 +80,21 @@ $currentTime = date('H:i:s');
                             <img src="images/chicken_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="max-w-full max-h-full object-contain rounded-lg" />
                         </div>
 
-                        <div class="row-span-1 grid grid-cols-12 gap-1.5 flex-1 p-[0.5vw] min-h-0">
-                            <?php include("../components/sensors_left.php"); ?>
-                            <div class="col-span-8 bg-white rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
+                        <!-- <div class="row-span-1 grid grid-cols-12 gap-1.5 flex-1 p-[0.5vw] min-h-0"> -->
+                        <div class="row-span-1 flex justify-between gap-1.5 flex-1 p-[0.5vw] min-h-0">
+                            <!-- <div class="col-span-2 grid grid-col-1 gap-1"> -->
+                            <div class="flex flex-col justify-between">
+                                <?php include("../components/sensors_left.php"); ?>
+                            </div>
+                            <!-- <div class="col-span-8 bg-white rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0"> -->
+                            <div class="bg-white rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
                                 <img src="images/chicken.png" alt="เครื่องมือ/อุปกรณ์" class="max-w-full max-h-full object-contain rounded-md">
                             </div>
 
-                            <?php include("../components/sensors_right.php"); ?>
+                            <!-- <div class="col-span-2 grid grid-col-1 gap-1"> -->
+                            <div class="flex flex-col justify-between">
+                                <?php include("../components/sensors_right.php"); ?>
+                            </div>
                         </div>
                     </div>
 
@@ -123,8 +141,7 @@ $currentTime = date('H:i:s');
                                     </div>
 
                                     <div id="types-MarketChart"
-                                        class="flex items-center gap-1 bg-stone-100 px-2 py-1 rounded-md border border-stone-200 text-sm">
-                                        price
+                                        class="flex items-center gap-2 flex-wrap">
                                     </div>
                                 </div>
                                 <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md overflow-hidden">
