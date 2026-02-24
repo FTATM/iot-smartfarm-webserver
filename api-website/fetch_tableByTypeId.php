@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
 }
 
 $typeId = $_GET['typeId'] ?? 1;
-$amountDay = $_GET['aDay'] ?? 0;
+$amountDay = $_GET['aDay'] ?? 'all';
 
 $conn = pg_connect("$host $port $dbname $credentials");
 if (!$conn) {
@@ -18,12 +18,38 @@ if (!$conn) {
     exit();
 }
 $now = time();
+$data = [];
 
-$sql = "SELECT 
-            p.id   AS parent_id,
+if ($amountDay == 'all') {
+    $sql_1 = "SELECT * FROM table_names WHERE table_type_id = $1 LIMIT 1";
+    $result1 = pg_query_params($conn, $sql_1, [$typeId]);
+
+    $table = pg_fetch_assoc($result1);
+
+    $sql_1_1 = "SELECT * FROM table_datas WHERE name_table_id = $1";
+    $result1_1 = pg_query_params($conn, $sql_1_1, [$table['id']]);
+
+    $data[$table['id']] = $table;
+    $data[$table['id']]['children'] = pg_fetch_all($result1_1);
+    // $data[$table['id']] = pg_fetch_all($result1_1);
+
+    $sql_2 = "SELECT * FROM table_names WHERE child_of_table_id = $1";
+    $result2 = pg_query_params($conn, $sql_2, [$table['id']]);
+
+
+    while ($row = pg_fetch_assoc($result2)) {
+        $sql_3 = "SELECT * FROM table_datas WHERE name_table_id = $1 ORDER BY id ASC";
+        $result3 = pg_query_params($conn, $sql_3, [$row['id']]);
+
+        $data[$row['id']] = $row;
+        $data[$row['id']]['children'] = pg_fetch_all($result3);
+    }
+} else {
+    $sql = "SELECT 
+            p.id AS parent_id,
             p.name AS parent_name,
             p.label AS parent_label,
-            c.id   AS child_id,
+            c.id AS child_id,
             c.label AS child_label,
             s.start_day AS parent_start_day,
             s.end_day AS parent_end_day,
@@ -36,37 +62,37 @@ $sql = "SELECT
         LEFT JOIN table_datas d ON d.name_table_id = c.id AND d.start_day <= $2 AND d.end_day >= $2
         LEFT JOIN table_datas s ON s.name_table_id = p.id AND s.start_day <= $2 AND s.end_day >= $2
         WHERE p.table_type_id = $1
-        ORDER BY p.id ,c.id;
-";
+        ORDER BY p.id ,c.id;";
 
-$result = pg_query_params($conn, $sql, [$typeId, $amountDay]);
+    $result = pg_query_params($conn, $sql, [$typeId, $amountDay]);
 
-$data = [];
-while ($row = pg_fetch_assoc($result)) {
-    $pid = $row['parent_id'];
+    while ($row = pg_fetch_assoc($result)) {
+        $pid = $row['parent_id'];
 
-    if (!isset($data[$pid])) {
-        $data[$pid] = [
-            'id' => $pid,
-            'name' => $row['parent_name'],
-            'label' => $row['parent_label'],
-            'start' => $row['parent_start_day'],
-            'end' => $row['parent_end_day'],
-            'value' => $row['parent_value'],
-            'children' => []
-        ];
-    }
+        if (!isset($data[$pid])) {
+            $data[$pid] = [
+                'id' => $pid,
+                'name' => $row['parent_name'],
+                'label' => $row['parent_label'],
+                'start' => $row['parent_start_day'],
+                'end' => $row['parent_end_day'],
+                'value' => $row['parent_value'],
+                'children' => []
+            ];
+        }
 
-    if ($row['child_id']) {
-        $data[$pid]['children'][] = [
-            'id' => $row['child_id'],
-            'label' => $row['child_label'],
-            'start' => $row['start_day'],
-            'end' => $row['end_day'],
-            'value' => $row['value']
-        ];
+        if ($row['child_id']) {
+            $data[$pid]['children'][] = [
+                'id' => $row['child_id'],
+                'label' => $row['child_label'],
+                'start' => $row['start_day'],
+                'end' => $row['end_day'],
+                'value' => $row['value']
+            ];
+        }
     }
 }
+
 if (count($data) > 0) {
     http_response_code(200);
     echo json_encode(["status" => "success", "data" => $data], JSON_UNESCAPED_UNICODE);
