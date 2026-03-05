@@ -4,47 +4,118 @@ header("Access-Control-Allow-Origin: *");
 
 include_once("../includes/fn/pg_connect.php");
 
-// ✅ ใช้ตัวแปรเดียวกันกับที่เชื่อมต่อ
+// ================= Connect Database =================
 $db = pg_connect("$host $port $dbname $credentials");
+
 if (!$db) {
-    echo json_encode(["status" => "error", "message" => "can not connect to database"]);
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "cannot connect to database"
+    ]);
     exit;
 }
 
-// ✅ รับค่าจาก Flutter หรือ Postman
+// ================= Get JSON =================
 $json = $_POST['json'] ?? '';
-// $json = file_get_contents("php://input");
-// ✅ ตรวจสอบว่ามีค่ามาครบไหม
+
 if (empty($json)) {
-    echo json_encode(["status" => "error", "message" => "need parameter json"]);
+    http_response_code(400);
+    echo json_encode([
+        "status" => "error",
+        "message" => "need parameter json"
+    ]);
     pg_close($db);
     exit;
 }
 
+// ================= Decode JSON =================
 $decode = json_decode($json);
 
+if (!$decode) {
+    http_response_code(400);
+    echo json_encode([
+        "status" => "error",
+        "message" => "invalid json format"
+    ]);
+    pg_close($db);
+    exit;
+}
 
-// ✅ เตรียมคำสั่ง SQL INSERT
-$sql = "INSERT INTO branch_info ( branch_name, status, createtime, updatetime ) VALUES ($1,$2,$3,$4)";
+try {
 
-$now = date('Y-m-d H:i:s'); // แปลงเป็น string
+    // ================= START TRANSACTION =================
+    pg_query($db, "BEGIN");
 
-// ✅ เตรียมค่าพารามิเตอร์
-$params = [
-    $decode->newname ?? "New Branch",
-    $decode->status ?? 1,
-    $now,
-    $now
-];
+    // ================= Insert Branch =================
+    $sql = "INSERT INTO branch_info 
+            (branch_name, status, createtime, updatetime) 
+            VALUES ($1,$2,$3,$4) 
+            RETURNING branch_id";
 
-// ✅ รันคำสั่ง SQL
-$result = pg_query_params($db, $sql, $params);
+    $now = date('Y-m-d H:i:s');
 
-if ($result) {
-    echo json_encode(["status" => "success", "message" => "Create Success"]);
-} else {
-    echo json_encode(["status" => "error", "message" => pg_last_error($db)]);
+    $params = [
+        $decode->newname ?? "New Branch",
+        $decode->status ?? 1,
+        $now,
+        $now
+    ];
+
+    $result = pg_query_params($db, $sql, $params);
+
+    if (!$result) {
+        throw new Exception(pg_last_error($db));
+    }
+
+    $row = pg_fetch_assoc($result);
+    $branch_id = $row['branch_id'];
+
+    // ================= Copy Dashboard =================
+    $sql_home = "SELECT id, value FROM dashboard_main";
+    $result_home = pg_query($db, $sql_home);
+
+    if (!$result_home) {
+        throw new Exception(pg_last_error($db));
+    }
+
+    while ($row_home = pg_fetch_assoc($result_home)) {
+
+        $sql_homeb = "INSERT INTO home_branch 
+                      (branch_id, home_row_id, value) 
+                      VALUES ($1,$2,$3)";
+
+        $insert_home = pg_query_params($db, $sql_homeb, [
+            $branch_id,
+            $row_home['id'],
+            $row_home['value'] ?? 0
+        ]);
+
+        if (!$insert_home) {
+            throw new Exception(pg_last_error($db));
+        }
+    }
+
+    // ================= COMMIT =================
+    pg_query($db, "COMMIT");
+
+    echo json_encode([
+        "status" => "success",
+        "message" => "Create Success",
+        "branch_id" => $branch_id
+    ]);
+
+} catch (Throwable $e) {
+
+    // ================= ROLLBACK =================
+    pg_query($db, "ROLLBACK");
+
+    http_response_code(500);
+
+    echo json_encode([
+        "status" => "error",
+        "message" => $e->getMessage()
+    ]);
 }
 
 pg_close($db);
-// ✅ ปิดการเชื่อมต่อ
