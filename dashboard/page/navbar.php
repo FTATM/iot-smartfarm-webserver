@@ -112,6 +112,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         box-shadow: 0 6px 20px #DA7F3A88;
     }
 
+    .dark .hamburger-btn:hover {
+        background: #000000;
+        box-shadow: 0 6px 20px #DA7F3A88;
+    }
+
     .hamburger-btn.hide {
         opacity: 0;
         pointer-events: none;
@@ -628,7 +633,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 </style>
 
 <!-- ปุ่ม Hamburger (3 ขีด) -->
-<button class="hamburger-btn" id="hamburgerBtn">
+<button class="hamburger-btn dark:bg-stone-900" id="hamburgerBtn">
     <span></span>
     <span></span>
     <span></span>
