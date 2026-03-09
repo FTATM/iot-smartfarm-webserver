@@ -1,10 +1,3 @@
-<?php
-
-$currentDate = date('d M Y');
-date_default_timezone_set('Asia/Bangkok');
-$currentTime = date('H:i:s');
-?>
-
 <!DOCTYPE html>
 <html class="light" lang="th">
 
