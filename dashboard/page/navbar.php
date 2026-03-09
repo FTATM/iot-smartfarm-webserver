@@ -309,6 +309,10 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         position: relative;
     }
 
+    .dark .nav-list li a {
+        color: #ffffff;
+    }
+
     /* Tablet (640px+) */
     @media screen and (min-width: 640px) {
         .nav-list li a {
@@ -417,6 +421,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
     .nav-list li a.active {
         background: #FFFFFF;
+        color: #ff8021;
+        font-weight: 600;
+    }
+
+    .dark .nav-list li a.active {
+        background: #3A3A3A;
         color: #ff8021;
         font-weight: 600;
     }
@@ -643,20 +653,23 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <!-- Sidebar Menu -->
-<nav class="sidebar-menu flex flex-col" id="sidebarMenu">
+<nav class="sidebar-menu flex flex-col dark:bg-stone-600" id="sidebarMenu">
 
     <!-- 🔝 Header ของ Sidebar -->
     <div class="flex items-center justify-between p-3">
-        <div>
-            <img src="../../img/logo.png" alt="ฟิวด์เทค ออร์โตเมชั่น จำกัด" class="w-[5rem] object-cover rounded-md">
-            <!-- <p class="text-lg font-bold">FieldTech Automation Co.,ltd</p> -->
+        <div class="flex gap-2">
+            <img src="../../img/logo.png" alt="ฟิวด์เทค ออร์โตเมชั่น จำกัด" class="w-[5vw] object-cover rounded-md">
+            <div>
+                <div class="text-[1.5vw] font-bold font-monospace">FieldTech</div>
+                <div class="text-[1vw]">Automation Co.,ltd</div>
+            </div>
         </div>
         <button
             id="closeBtn"
             title="ปิดเมนู"
             class="close-btn 
                    w-8 h-8 flex items-center justify-center
-                   rounded-full bg-stone-100 text-stone-600
+                   rounded-full bg-stone-100 text-stone-600 dark:bg-stone-800
                    hover:bg-orange-100 hover:text-[#ff8021]
                    transition">
             ✕
@@ -669,32 +682,32 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </div>
         <li>
             <a href="shrimp-dashboard.php" class="<?php echo ($current_page == 'shrimp-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon emojione-monotone--shrimp"></span>Shrimp Dashboard
+                <span class="nav-icon dark:text-white emojione-monotone--shrimp"></span>Shrimp Dashboard
             </a>
         </li>
         <li>
             <a href="chicken-dashboard.php" class="<?php echo ($current_page == 'chicken-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon emojione-monotone--chicken"></span>Chicken Dashboard
+                <span class="nav-icon dark:text-white emojione-monotone--chicken"></span>Chicken Dashboard
             </a>
         </li>
         <li>
             <a href="outdoor-dashboard.php" class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon fluent--door-arrow-right-28-regular"></span>Outdoor Dashboard
+                <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>Outdoor Dashboard
             </a>
         </li>
         <li>
             <a href="indoor-dashboard.php" class="<?php echo ($current_page == 'indoor-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon fluent--door-arrow-left-20-regular"></span>Indoor Dashboard
+                <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>Indoor Dashboard
             </a>
         </li>
         <li>
             <a href="weather-dashboard.php" class="<?php echo ($current_page == 'weather-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon arcticons--weathercan"></span>Weather Dashboard
+                <span class="nav-icon dark:text-white arcticons--weathercan"></span>Weather Dashboard
             </a>
         </li>
         <li>
             <a href="solar-system-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon ph--solar-panel-duotone"></span>Solar System Dashboard
+                <span class="nav-icon dark:text-white ph--solar-panel-duotone"></span>Solar System Dashboard
             </a>
         </li>
         <!-- </br> -->
@@ -705,12 +718,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </div>
         <li>
             <a href="income-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon hugeicons--bitcoin-down-01"></span>Income management
+                <span class="nav-icon dark:text-white hugeicons--bitcoin-down-01"></span>Income management
             </a>
         </li>
         <li>
             <a href="expense-dashboard.php" class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon hugeicons--bitcoin-up-01"></span>Expense management
+                <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>Expense management
             </a>
         </li>
     </ul>

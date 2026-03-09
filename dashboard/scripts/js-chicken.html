@@ -17,6 +17,7 @@
         isLoading = false;
 
         setInterval(async () => {
+            setHeaderInit();
             console.log("loading new data from database ...");
             await process();
             console.log("load data success");
@@ -29,10 +30,10 @@
         await loadSensorData();
         await SensorsLeft();
         await SensorsRight();
-        await Card1();
-        await Card2();
-        await Card3();
-        await Card4();
+        Card1();
+        Card2();
+        Card3();
+        Card4();
 
         await loadGraphMarketById();
         await loadPieGraph();
@@ -117,7 +118,7 @@
             div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[0.75vw] font-bold text-stone-500 uppercase tracking-widest">
+                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">
                         ${s}
                     </span>
                     <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
@@ -215,7 +216,7 @@
 
             SetValueInHTMLById('total-hours', totalhours);
             SetValueInHTMLById('light-time', lighttime);
-            SetValueInHTMLById('light-recommentation', luminance);
+            // SetValueInHTMLById('light-recommentation', luminance);
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);

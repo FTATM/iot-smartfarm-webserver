@@ -4,9 +4,7 @@ $currentDate = date('d M Y');
 date_default_timezone_set('Asia/Bangkok');
 $currentTime = date('H:i:s');
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html class="light" lang="th">
 <?php include("../scripts/ref.html"); ?>
 <?php include("../styles/css-icon.html"); ?>
