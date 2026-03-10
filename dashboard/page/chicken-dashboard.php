@@ -132,7 +132,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                 <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] fluent--food-20-regular"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">การให้อาหารวันนี้</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">การให้อาหารวันนี้</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2 mt-[0.5vh]">
                         <div class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
@@ -154,7 +154,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                 <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] mage--light-bulb"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">ความชื้นและแสงสว่าง</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ความชื้นและแสงสว่าง</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-[0.5vw] my-[1vh]">
                         <div class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center">
@@ -177,7 +177,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-[2vw] clarity--coin-bag-line"></span>
-                            <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">ต้นทุนทรัพยากรวันนี้</h3>
+                            <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ต้นทุนทรัพยากรวันนี้</h3>
                         </div>
                         <div onclick="calculateElectricityAndWater('card-3')" class="flex items-center gap-2 cursor-pointer">
                             <span class="material-symbols-outlined text-xl text-stone-500 dark:text-stone-400">refresh</span>
@@ -209,7 +209,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                 <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-icons-round text-primary">analytics</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">ผลรวม</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ผลรวม</h3>
                     </div>
                     <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
                     <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
@@ -243,31 +243,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
     <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-chicken.html"; ?>
 
-    <script>
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            document.documentElement.classList.toggle('light', !isDark);
-            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'inline';
-            document.getElementById('icon-sun').style.display = isDark ? 'inline' : 'none';
-            document.getElementById('mode-label').textContent = isDark ? 'Light' : 'Dark';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        }
 
-        /* โหลด preference จาก localStorage เมื่อเปิดหน้า */
-        (function() {
-            const saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.documentElement.classList.remove('light');
-                const moon = document.getElementById('icon-moon');
-                const sun = document.getElementById('icon-sun');
-                const label = document.getElementById('mode-label');
-                if (moon) moon.style.display = 'none';
-                if (sun) sun.style.display = 'inline';
-                if (label) label.textContent = 'Light';
-            }
-        })();
-    </script>
 
 </body>
 

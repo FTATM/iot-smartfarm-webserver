@@ -114,7 +114,7 @@
                             <div class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg">
                                 <span class="material-icons-round">payments</span>
                             </div>
-                            <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">รายรับรวมเดือนนี้</h3>
+                            <h3 class="text-[1vw] font-bold text-stone-700 ">รายรับรวมเดือนนี้</h3>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -136,7 +136,7 @@
                         <div class="p-[0.5vw] bg-rose-50 dark:bg-rose-900/20 text-rose-600 rounded-lg">
                             <span class="material-icons-round">shopping_cart</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">รายจ่ายเดือนนี้</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">รายจ่ายเดือนนี้</h3>
                     </div>
 
                     <div class="flex items-baseline gap-2">
@@ -164,7 +164,7 @@
                         <div class="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-lg">
                             <span class="material-icons-round">account_balance_wallet</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4"> กำไรสุทธิ (Net Profit) </h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 "> กำไรสุทธิ (Net Profit) </h3>
                     </div>
 
                     <div class="flex items-baseline gap-2 relative z-10">
@@ -192,7 +192,7 @@
                         <div class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg">
                             <span class="material-icons-round">star</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">
                             หมวดหมู่รายจ่ายสูงสุด
                         </h3>
                     </div>

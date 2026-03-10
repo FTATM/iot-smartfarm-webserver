@@ -1,6 +1,11 @@
+<?php
+$Title = "Income Managements";
+$subTitle = "Chicken Farm Intelligence Dashboard";
+?>
 <!DOCTYPE html>
 <html class="light" lang="th">
 <?php include("../scripts/ref.html"); ?>
+<?php include("../styles/css-default.html"); ?>
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
@@ -9,37 +14,11 @@
 
 <body class="h-screen overflow-hidden flex flex-col">
 
-    <!-- Header -->
-    <header class="flex items-center justify-between p-[0.5vw] border-b border-stone-200 bg-white shrink-0">
-        <div class="flex items-center gap-3">
-            <?php include 'navbar.php'; ?>
-            <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="emojione-monotone--chicken text-2xl text-white"> </span>
-            </div>
-            <div>
-                <h1 class="text-[#1d130c] text-[1.5vw] font-bold leading-none">Income Management</h1>
-                <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-0.5">Chicken Farm Intelligence Dashboard</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2 bg-stone-100 p-1 px-3 rounded-xl border border-stone-200">
-                <div class="flex items-center gap-2">
-                    <span class="text-[0.75vw] font-bold text-primary leading-none">อายุไก่ปัจจุบัน:</span>
-                    <span class="text-[0.75vw] font-bold text-primary leading-none" id="day-age">--</span>
-                    <span class="text-[0.75vw] font-bold text-primary leading-none">วัน</span>
-                    <div class="w-px h-2.5 bg-stone-300"></div>
-                    <span class="text-[0.75vw] text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
-                </div>
-            </div>
-            <div class="flex flex-col items-end border-l border-stone-200 pl-4">
-                <span class="text-[0.75vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-0.5 2xl:mb-4">อัปเดตล่าสุด</span>
-                <span class="text-[0.75vw] font-bold text-stone-800 text-center" id="last-update"><?php echo $currentTime; ?></span>
-            </div>
-        </div>
-    </header>
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col p-[0.5vw] gap-3 overflow-hidden min-h-0">
+        <?php include "../components/header.php"; ?>
+
         <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
         <div class="grid grid-cols-12 gap-3 h-full min-h-0">
 
@@ -114,7 +93,7 @@
                             <div class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg">
                                 <span class="material-icons-round">payments</span>
                             </div>
-                            <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">รายรับรวมเดือนนี้</h3>
+                            <h3 class="text-[1vw] font-bold text-stone-700 ">รายรับรวมเดือนนี้</h3>
                         </div>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -136,7 +115,7 @@
                         <div class="p-[0.5vw] bg-rose-50 dark:bg-rose-900/20 text-rose-600 rounded-lg">
                             <span class="material-icons-round">shopping_cart</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">รายจ่ายเดือนนี้</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">รายจ่ายเดือนนี้</h3>
                     </div>
 
                     <div class="flex items-baseline gap-2">
@@ -164,7 +143,7 @@
                         <div class="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-lg">
                             <span class="material-icons-round">account_balance_wallet</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4"> กำไรสุทธิ (Net Profit) </h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 "> กำไรสุทธิ (Net Profit) </h3>
                     </div>
 
                     <div class="flex items-baseline gap-2 relative z-10">
@@ -192,7 +171,7 @@
                         <div class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg">
                             <span class="material-icons-round">star</span>
                         </div>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">
                             หมวดหมู่รายรับสูงสุด
                         </h3>
                     </div>

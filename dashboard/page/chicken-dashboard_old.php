@@ -178,7 +178,7 @@
                 <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] fluent--food-20-regular"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">การให้อาหารวันนี้</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">การให้อาหารวันนี้</h3>
                     </div>
                     <div class="grid grid-cols-2 gap-2 mt-[0.5vh] ">
                         <div class="bg-stone-50 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
@@ -200,7 +200,7 @@
                 <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] mage--light-bulb"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">ความชื้นและแสงสว่าง</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">ความชื้นและแสงสว่าง</h3>
                     </div>
 
                     <div class="grid grid-cols-2 gap-[0.5vw] my-[1vh]">
@@ -225,7 +225,7 @@
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-[2vw] clarity--coin-bag-line"></span>
-                            <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">ต้นทุนทรัพยากรวันนี้</h3>
+                            <h3 class="text-[1vw] font-bold text-stone-700 ">ต้นทุนทรัพยากรวันนี้</h3>
                         </div>
                         <div onclick="calculateElectricityAndWater('card-3')" class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-xl">refresh</span>
@@ -253,7 +253,7 @@
                 <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
                     <div class="flex items-center gap-2">
                         <span class="material-icons-round text-primary">analytics</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 2xl:pl-4">ผลรวม</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 ">ผลรวม</h3>
                     </div>
                     <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
                     <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
