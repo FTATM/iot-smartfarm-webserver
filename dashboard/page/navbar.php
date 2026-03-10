@@ -397,6 +397,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         padding-left: 2rem;
     }
 
+    .dark .nav-list li a:hover {
+        background: #252525;
+        color: #ff8021;
+        padding-left: 2rem;
+    }
+
     @media screen and (min-width: 1024px) {
         .nav-list li a:hover {
             padding-left: 2.5rem;
@@ -653,15 +659,15 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <!-- Sidebar Menu -->
-<nav class="sidebar-menu flex flex-col dark:bg-stone-600" id="sidebarMenu">
+<nav class="sidebar-menu flex flex-col dark:bg-stone-700" id="sidebarMenu">
 
     <!-- 🔝 Header ของ Sidebar -->
     <div class="flex items-center justify-between p-3">
         <div class="flex gap-2">
             <img src="../../img/logo.png" alt="ฟิวด์เทค ออร์โตเมชั่น จำกัด" class="w-[5vw] object-cover rounded-md">
             <div>
-                <div class="text-[1.5vw] font-bold font-monospace">FieldTech</div>
-                <div class="text-[1vw]">Automation Co.,ltd</div>
+                <div class="text-[1.5vw] font-bold font-monospace dark:text-white">FieldTech</div>
+                <div class="text-[1vw] dark:text-stone-200">Automation Co.,ltd</div>
             </div>
         </div>
         <button
@@ -669,7 +675,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             title="ปิดเมนู"
             class="close-btn 
                    w-8 h-8 flex items-center justify-center
-                   rounded-full bg-stone-100 text-stone-600 dark:bg-stone-800
+                   rounded-full bg-stone-100 text-stone-600 dark:bg-stone-600
                    hover:bg-orange-100 hover:text-[#ff8021]
                    transition">
             ✕

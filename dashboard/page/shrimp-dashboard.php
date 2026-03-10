@@ -142,7 +142,7 @@ $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
                 <div class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[1vw]">restaurant</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4 ">การให้อาหารวันนี้</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200  ">การให้อาหารวันนี้</h3>
                     </div>
                     <div>
                         <div class="grid grid-cols-2 gap-2  " id="feeding-info">
@@ -167,7 +167,7 @@ $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-[2vw] clarity--coin-bag-line"></span>
-                            <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">ต้นทุนทรัพยากรวันนี้</h3>
+                            <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ต้นทุนทรัพยากรวันนี้</h3>
                         </div>
                         <div onclick="calculateElectricityAndWater('card-2')" class="flex items-center gap-2 cursor-pointer">
                             <span class="material-symbols-outlined text-xl text-stone-500 dark:text-stone-400">refresh</span>
@@ -199,7 +199,7 @@ $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
                 <div class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[1vw]">waves</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">คุณภาพน้ำที่เหมาะสม</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">คุณภาพน้ำที่เหมาะสม</h3>
                     </div>
                     <div>
                         <div>
@@ -231,19 +231,19 @@ $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
                 <div class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[1vw]">rule</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 2xl:pl-4">การปรับอาหาร</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">การปรับอาหาร</h3>
                     </div>
                     <div class="flex flex-col gap-1 2xl:px-2 ">
                         <div class="flex items-center justify-between px-2 py-2 bg-success/5 border border-success/10 dark:bg-green-900 rounded-lg">
-                            <span class="text-[0.75vw] font-bold text-success dark:text-green-400 uppercase 2xl:pl-4">หมดเกลี้ยง</span>
+                            <span class="text-[0.75vw] font-bold text-success dark:text-green-400 uppercase ">หมดเกลี้ยง</span>
                             <span class="text-[0.75vw] text-stone-700 dark:text-white 2xl:pr-4">+5 ถึง +10%</span>
                         </div>
                         <div class="flex items-center justify-between px-2 py-2 bg-warning/5 border border-warning/10 dark:bg-yellow-800 rounded-lg">
-                            <span class="text-[0.75vw] font-bold text-warning dark:text-yellow-400 uppercase 2xl:pl-4">เหลือเล็กน้อย</span>
+                            <span class="text-[0.75vw] font-bold text-warning dark:text-yellow-400 uppercase ">เหลือเล็กน้อย</span>
                             <span class="text-[0.75vw] text-stone-700 dark:text-white 2xl:pr-4">คงที่ / -5%</span>
                         </div>
                         <div class="flex items-center justify-between px-2 py-2 bg-danger/5 border border-danger/10 dark:bg-red-900 rounded-lg">
-                            <span class="text-[0.75vw] font-bold text-danger dark:text-red-100 uppercase 2xl:pl-4">เหลือเยอะ</span>
+                            <span class="text-[0.75vw] font-bold text-danger dark:text-red-100 uppercase ">เหลือเยอะ</span>
                             <span class="text-[0.75vw] text-stone-700 dark:text-white 2xl:pr-4">งด / -50%</span>
                         </div>
                     </div>

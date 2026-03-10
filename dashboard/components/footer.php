@@ -5,6 +5,7 @@
         <div class="h-3 w-px bg-stone-200"></div>
         <span class="text-[0.5vw] font-bold text-primary uppercase">smart farm system</span>
         <div class="h-3 w-px bg-stone-200"></div>
+        <img src="../../img/logo.png" class="w-[0.75vw] h-[0.75vw]" />
         <span class="text-[0.5vw] font-bold text-stone-500 uppercase">@copyright fieldtech automation co. ltd</span>
     </div>
 </footer>
