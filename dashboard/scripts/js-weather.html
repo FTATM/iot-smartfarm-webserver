@@ -3,32 +3,41 @@
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_realtime = [];
-    const Sensors_name_left = [];
-    const Sensors_name_right = [];
+    const Sensors_realtime = ["wind_Direction", "Air_Quality", "Ammonia", "Oxygen", "Rainfall", "light_int"];
+    const Sensors_name_left = ["PM 2.5", "PM 10", "PM 1", "Voltage Supply", "Current Supply", "Power Supply"];
+    const Sensors_name_right = ["AQI", "Heat Index","-", "Voltage Loaded", "Current Loaded", "Power Loaded"];
     const market_name = "weather";     //name market example => solar, shrimp, indoor, outdoor
-    const type = "price";             //multi type example => demand,price
+    const type = "price";              //multi type example => demand,price
 
     // Adjust font sizes based on screen width
     document.addEventListener('DOMContentLoaded', async () => {
 
+        await process();
+
+        isLoading = false;
+
+        setInterval(async () => {
+            setHeaderInit();
+            console.log("loading new data from database ...");
+            await process();
+            console.log("load data success");
+            console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+        }, 10000);
+
+    });
+
+    async function process() {
         await loadSensorData();
         await SensorsLeft();
         await SensorsRight();
-        await Card1();
-        await Card2();
-        await Card3();
-        await Card4();
+        Card1();
+        Card2();
+        Card3();
+        Card4();
 
         await loadGraphMarketById();
-        initMetricBars();
-        isLoading = false;
-        // setInterval(async () => {
-        //     await loadSensorData();
-        //     await loadGraphSensorById();
-        // }, 10000);
-
-    });
+        await loadPieGraph();
+    }
 
     async function loadSensorData() {
         try {
@@ -67,9 +76,6 @@
             const data = await res.json();
             const sensors = data['sensors'];
 
-            console.log("Left");
-            console.log(sensors);
-
             SetCardsBynames(Sensors_name_left, sensors, 'left');
 
         } catch (err) {
@@ -91,16 +97,12 @@
             const data = await res.json();
             const sensors = data['sensors'];
 
-            console.log("right");
-            console.log(sensors);
-
             SetCardsBynames(Sensors_name_right, sensors, 'right');
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
     }
-
 
     function Create_sensorCard(sensor_names, sensors) {
         let metricsCards = document.getElementById('metrics-cards');
@@ -112,10 +114,10 @@
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white rounded-2xl p-[0.5vw] border border-stone-200 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[0.75vw] font-bold text-stone-500 uppercase tracking-widest">
+                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">
                         ${s}
                     </span>
                     <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
@@ -124,10 +126,10 @@
                 </div>
                 <div class="flex-1 flex items-center justify-center">
                     <div class="flex items-baseline gap-1">
-                        <span class="text-[1.5vw] font-black text-black value">
+                        <span class="text-[1.5vw] font-black text-black dark:text-white value">
                             ${value}
                         </span>
-                        <span class="text-[0.75vw] font-bold text-stone-400">
+                        <span class="text-[0.75vw] font-bold text-stone-400 dark:text-stone-200">
                             ${row.unit ?? ''}
                         </span>
                     </div>
@@ -148,7 +150,6 @@
 
             if (row['unit'] !== "--") {
                 div.onclick = () => {
-                    console.log("Select sensor : " + row.monitor_name);
                     sensor_select = row.monitor_id;
                     loadGraphSensorById(sensors);
                 }
@@ -165,47 +166,19 @@
 
     async function Card1() {
         console.log("Card 1");
-        const table_type = 1;     //Watch table id in 
         try {
-            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + data.day);
-            const raw = await res.json();
-            const table = Object.values(raw.data);
-
-            const mealsCount = table[0].value;
-            const volumeMeal = table[0].children[0]['value'];
-            const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
-
-            SetValueInHTMLById('meals-count', mealsCount);
-            SetValueInHTMLById('volume-meal', volumeMeal);
-            SetValueInHTMLById('total-meal-per-day', totalMealperDay);
 
         } catch (err) {
-            console.error('❌ loadSensorData error:', err);
+            console.error('❌ card-1 error:', err);
         }
     }
 
     async function Card2() {
         console.log("Card 2");
         try {
-            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
-            const raw = await res.json();
-            const expense = raw['data'];
 
-            const electricity = Number(expense[0]?.electricity) || 0;
-            const water = Number(expense[0]?.water) || 0;
-            const hardware = Number(expense[0]?.hardware) || 0;
-            const infrastructure = Number(expense[0]?.infrastructure) || 0;
-            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
-            const total = hardware + infrastructure + miscellaneous + electricity + water;
-
-            SetValueInHTMLById('electricity-usage', electricity);
-            SetValueInHTMLById('water-usage', water);
-            SetValueInHTMLById('expense-hardware', hardware);
-            SetValueInHTMLById('expense-infrastructure', infrastructure);
-            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
-            SetValueInHTMLById('expense-total', total);
         } catch (err) {
-            console.error('❌ loadSensorData error:', err);
+            console.error('❌ card-2 error:', err);
         }
 
     }
@@ -213,8 +186,9 @@
     async function Card3() {
         console.log("Card 3");
         try {
+
         } catch (err) {
-            console.error('❌ loadSensorData error:', err);
+            console.error('❌ card-3 error:', err);
         }
 
     }
@@ -224,7 +198,7 @@
         try {
 
         } catch (err) {
-            console.error('❌ loadSensorData error:', err);
+            console.error('❌ card-4 error:', err);
         }
     }
 

@@ -1,131 +1,117 @@
 <?php
-
-$currentDate = date('d M Y');
-date_default_timezone_set('Asia/Bangkok');
-$currentTime = date('H:i:s');
-
-?><!DOCTYPE html>
+$Title ="Solar System Dashboard";
+$subTitle ="Solar System Intelligence Dashboard";
+?>
+<!DOCTYPE html>
 <html class="light" lang="th">
-
 <?php include("../scripts/ref.html"); ?>
+<?php include("../styles/css-default.html"); ?>
 <?php include("../styles/css-icon.html"); ?>
-<?php include("../styles/css-solar.html"); ?>
 
 <head>
     <title>Solar system - Dashboard</title>
 </head>
 
-<body>
-
-    <!-- Header -->
-    <header class="flex items-center justify-between p-[0.5vw] border-b border-stone-200 bg-white shrink-0">
-        <div class="flex items-center gap-4">
-            <?php include 'navbar.php'; ?>
-            <div class="size-9 w-[5rem] h-[5rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-                <span class="ph--solar-panel-duotone text-2xl text-white"> </span>
-            </div>
-            <div>
-                <h1 class="text-[#1d130c] text-[1.5vw] text-lg font-bold leading-none">Solar System Dashboard</h1>
-                <p class="text-[0.75vw] text-stone-500 font-medium uppercase tracking-wider mt-1">Solar System Intelligence Dashboard</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2 bg-stone-100 p-1.5 px-4 rounded-xl border border-stone-200">
-                <div class="flex items-center gap-3">
-                    <span class=" text-xs text-stone-600 font-bold leading-none" id="start-date"> -- --- ---- </span>
-                </div>
-            </div>
-            <div class="flex flex-col items-end border-l border-stone-200 pl-6">
-                <span class="text-[0.75vw] font-bold text-stone-400 uppercase tracking-widest leading-none mb-1">อัปเดตล่าสุด</span>
-                <span class="text-[0.75vw] font-bold text-stone-800" id="last-update"><?php echo $currentTime; ?></span>
-            </div>
-        </div>
-    </header>
+<body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
+    <?php include"../components/header.php"; ?>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
+    <main class="flex-1 flex flex-col p-[0.5vw] gap-3 overflow-hidden min-h-0 bg-stone-50 dark:bg-stone-900/20 dark:bg-stone-950 transition-colors duration-300">
         <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
-        <div class="grid grid-cols-12 gap-4 h-full">
+        <div class="grid grid-cols-12 gap-3 h-full min-h-0">
 
             <!-- ========== LEFT SECTION (10 columns) ========== -->
-            <div class="col-span-10 grid grid-rows-8 gap-3 min-h-0">
+            <div class="col-span-10 flex flex-col justify-between gap-3 min-h-0">
 
                 <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
-                <div class="row-span-7 grid grid-cols-4 gap-4 flex-1 min-h-0">
+                <div class="row-span-7 grid grid-cols-4 gap-3 2xl:gap-3 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
-                    <div class="col-span-2 bg-white rounded-2xl border border-stone-200 shadow-sm p-4 flex-row items-center justify-center hover:ring-2 hover:ring-orange-400 transition-all duration-200 ">
-                        <!-- <div class="flex-row "> -->
+                    <div class="box col-span-2 flex flex-col bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
 
                         <!-- พื้นที่กลาง (รูปบน) -->
-                        <div class="col-span-8 bg-white rounded-2xl p-2 flex-column items-center justify-center transition-all min-h-[300px]">
-                            <div class="p-2 bg-stone-100 rounded-xl font-bold mb-2">Solar System with IoT App.</div>
-                            <img src="images/Solar.jpeg" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        <div class="rounded-xl px-[1.5vw] flex flex-col items-center justify-center">
+                            <div class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                Solar System with IoT App.
+                            </div>
+                            <img src="images/Solar.jpeg" alt="เครื่องมือ/อุปกรณ์" class="object-contain rounded-lg" style="max-height: 30vh;" />
                         </div>
 
-                        <div class="grid grid-cols-12 gap-4 2xl:gap-1 2xl:min-h-[300px]">
-                            <?php include("../components/sensors_left.php"); ?>
-
-                            <div class="col-span-8 bg-white rounded-2xl p-2 flex items-center justify-center transition-all">
-                                <img src="images/solar.png" alt="เครื่องมือ/อุปกรณ์" class="w-full object-cover rounded-xl">
+                        <div class="flex flex-col flex-1 px-[1.5vw]">
+                            <div class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                               Solar System and Panel
                             </div>
-                            <?php include("../components/sensors_right.php"); ?>
-
+                            <!-- เนื้อหาส่วนล่าง -->
+                            <div class="flex justify-between flex-1 gap-1.5">
+                                <div class="flex flex-col justify-between">
+                                    <?php include("../components/sensors_left.php"); ?>
+                                </div>
+                                <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
+                                    <img src="images/solar.png" alt="เครื่องมือ/อุปกรณ์" class="object-contain rounded-md" style="max-height: 30vh;" />
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <?php include("../components/sensors_right.php"); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
-                    <div class="col-span-2 flex flex-col gap-4 min-h-0">
-                        <!-- กราฟที่ 1: DO Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2 2xl:p-8 shrink-0">
+                    <div class="col-span-2 flex flex-col justify-between gap-3 min-h-0">
+
+                        <!-- ===== กราฟบน ===== -->
+                        <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col flex-1 min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                            <div class="flex justify-between items-center mb-2 shrink-0">
                                 <div>
-                                    <h2 id="title-graph-sensor" class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
-                                        <span class="w-1 h-3 bg-orange-500 rounded-full"></span>
-                                        กำลังโหลดข้อมูล...
+                                    <h2 class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                                        <span class="w-[0.25vw] h-4 2xl:h-6 bg-orange-500 rounded-full"></span>
+                                        <div id="title-graph-sensor">แนวโน้ม</div>
                                     </h2>
-                                    <p id="title-graph-sensor-sub" class="text-[0.75vw] text-stone-400 font-medium uppercase tracking-wider mt-0.5">
-                                        Loading data...
+                                    <p id="title-graph-sensor-sub" class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
+                                        Historical Data
                                     </p>
                                 </div>
-                                <div class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg border border-stone-200">
-                                    <button id="btnDoDay" class="px-2 py-0.5 text-[1vw] font-bold rounded-md bg-white shadow-sm text-orange-600" type="button">1 วัน</button>
-                                    <button id="btnDoMonth" class="px-2 py-0.5 text-[1vw] font-bold rounded-md text-stone-500 hover:bg-white/50" type="button">1 เดือน</button>
-                                </div>
                             </div>
-                            <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 rounded-md">
-                                <div id="do-loading" class="absolute inset-0 flex items-center justify-center z-10">
-                                    <div class="flex gap-1">
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                    </div>
-                                </div>
-                                <canvas id="TrendChart" class="absolute inset-0"></canvas>
+                            <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
                             </div>
                         </div>
 
-                        <!-- กราฟที่ 2: Price Trend Chart -->
-                        <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
-                            <div class="flex justify-between items-center mb-2  2xl:p-8 shrink-0">
-                                <div>
-                                    <h2 class="text-[1vw] font-bold text-stone-800 flex items-center gap-2">
-                                        <span class="w-1 h-3 bg-primary rounded-full"></span>
-                                        แนวโน้มราคาตลาด
-                                    </h2>
-                                    <p class="text-[0.75vw] text-stone-400 font-medium uppercase tracking-wider mt-0.5">Market Price Trend</p>
+                        <!-- ===== กราฟล่าง ===== -->
+                        <div class="grid grid-cols-5 gap-3 flex-1 min-h-0">
+                            <!-- Market Price (3 ส่วน) -->
+                            <div class="col-span-3 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                                <div class="flex justify-between items-center mb-2 shrink-0">
+                                    <div>
+                                        <h2 class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                                            <span class="w-[0.25vw] h-4 2xl:h-6 bg-primary rounded-full"></span>
+                                            แนวโน้มราคาตลาด
+                                        </h2>
+                                        <p class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
+                                            Market Price Trend
+                                        </p>
+                                    </div>
+                                    <div id="types-MarketChart" class="flex items-center gap-2 flex-wrap"></div>
                                 </div>
-                                <div id="types-MarketChart" class="flex items-center gap-1 bg-stone-100 p-0.5 rounded-md border border-stone-200 px-2 py-0.5 text-[1vw] ">
+                                <div class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                    <canvas id="marketPriceChart" class="absolute inset-0 w-full h-full"></canvas>
                                 </div>
                             </div>
-                            <div class="flex-1 min-h-0 relative border-l border-b border-stone-100 bg-white">
-                                <div id="price-loading" class="absolute inset-0 flex items-center justify-center z-10">
-                                    <div class="flex gap-1">
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
-                                        <span class="size-1.5 rounded-full bg-stone-300 loading-dot"></span>
+
+                            <!-- ช่องขวา (2 ส่วน) -->
+                            <div class="col-span-2 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                                <div>
+                                    <h3 class="text-[1vw] font-bold font-display text-slate-900 dark:text-white">สัดส่วนรายจ่าย</h3>
+                                    <p class="text-[0.5vw] font-bold text-slate-400 uppercase tracking-widest">Expense Distribution</p>
+                                </div>
+                                <div class="flex flex-col items-center justify-center flex-grow">
+                                    <div id="donut" class="relative w-[10vw] h-[10vw] donut-chart shadow-xl">
+                                        <div class="absolute inset-4 bg-white dark:bg-stone-900 rounded-full flex flex-col items-center justify-center text-center">
+                                            <p class="text-[0.75vw] font-bold text-slate-400 uppercase">Net Profit</p>
+                                            <p id="card-4-total" class="text-[1vw] font-bold font-display text-slate-900 dark:text-white leading-none">0</p>
+                                            <p class="text-[0.75vw] font-bold text-teal-500 mt-1">THB</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <canvas id="marketPriceChart" class="absolute inset-0"></canvas>
                             </div>
                         </div>
                     </div>
@@ -133,53 +119,52 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->
-                <div class="grid grid-cols-6 gap-1 shrink-0" id="metrics-cards">
-                </div>
+                <div class="row-span-1 grid grid-cols-6 gap-3 shrink-0" id="metrics-cards"></div>
 
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
-            <div class="col-span-2 grid grid-rows-4 gap-3 h-full">
+            <div class="col-span-2 flex flex-col gap-3 min-h-0">
 
                 <!-- Card 1: Power Meter -->
-                <div class="bg-white p-[0.5vw] rounded-2xl shadow-sm border border-stone-200 transition-all hover:ring-2 hover:ring-orange-400">
+                <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-[2vw] temaki--power-meter"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700">Power Meter</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-white">Power Meter</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-1 2xl:px-8">
+                    <div class="grid grid-cols-1 gap-2">
                         <!-- Grid 2 Columns -->
-                        <div class="grid grid-cols-2 gap-2 2xl:gap-8 ">
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Voltage</p>
-                                <p class="text-[1vw] font-bold">
-                                    <span class="animate-pulse" id="pwrm-voltage">--</span>
-                                    <span class="text-[0.75vw] font-normal text-slate-400">V</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-900/10">
+                                <p class="text-[0.65vw] text-slate-500 dark:text-slate-200 font-bold uppercase mb-1">Voltage</p>
+                                <p class="font-bold">
+                                    <span class="text-[0.75vw] dark:text-white" id="pwrm-voltage">--</span>
+                                    <span class="text-[0.5vw] font-normal text-slate-400">V</span>
                                 </p>
                             </div>
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Current</p>
-                                <p class="text-[1vw] font-bold">
-                                    <span class="animate-pulse" id="pwrm-current">--</span>
-                                    <span class="text-[0.75vw] font-normal text-slate-400">mA</span>
+                            <div class="bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-900/10">
+                                <p class="text-[0.65vw] text-slate-500 dark:text-slate-200 font-bold uppercase mb-1">Current</p>
+                                <p class="font-bold">
+                                    <span class="text-[0.75vw] dark:text-white" id="pwrm-current">--</span>
+                                    <span class="text-[0.5vw] font-normal text-slate-400">mA</span>
                                 </p>
                             </div>
                         </div>
                         <!-- Grid 2 Columns -->
-                        <div class="grid grid-cols-2 gap-2 2xl:gap-8 ">
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Power</p>
-                                <p class="text-[1vw] font-bold">
-                                    <span class="animate-pulse" id="pwrm-power">--</span>
-                                    <span class="text-[0.75vw] font-normal text-slate-400">kW</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-900/10">
+                                <p class="text-[0.65vw] text-slate-500 dark:text-slate-200 font-bold uppercase mb-1">Power</p>
+                                <p class="font-bold">
+                                    <span class="text-[0.75vw] dark:text-white" id="pwrm-power">--</span>
+                                    <span class="text-[0.5vw] font-normal text-slate-400">kW</span>
                                 </p>
                             </div>
-                            <div class="bg-stone-50 p-2 rounded-xl border border-stone-100 2xl:p-4">
-                                <p class="text-[0.75vw] text-slate-500 font-bold uppercase mb-1">Energy</p>
-                                <p class="text-[1vw] font-bold">
-                                    <span class="animate-pulse" id="pwrm-energy">--</span>
-                                    <span class="text-[0.75vw] font-normal text-slate-400">kWh</span>
+                            <div class="bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-900/10">
+                                <p class="text-[0.65vw] text-slate-500 dark:text-slate-200 font-bold uppercase mb-1">Energy</p>
+                                <p class="font-bold">
+                                    <span class="text-[0.75vw] dark:text-white" id="pwrm-energy">--</span>
+                                    <span class="text-[0.5vw] font-normal text-slate-400">kWh</span>
                                 </p>
                             </div>
                         </div>
@@ -187,14 +172,14 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- Card 2: Solar Supply/Load -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group shrink-0">
+                <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-[2vw] cbi--solar-battery "></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700">Solar Supply/Load</h3>
+                        <span class="material-symbols-outlined text-primary text-[2vw] cbi--solar-battery"></span>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-white">Solar Supply/Load</h3>
                     </div>
-                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
+                    <div class="space-y-2">
                         <!-- Header -->
-                        <div class="flex items-center justify-between text-[0.75vw] font-bold text-slate-400 uppercase tracking-wider px-1">
+                        <div class="flex items-center justify-between text-[0.65vw] font-bold text-slate-500 dark:text-slate-200 uppercase tracking-wider px-1">
                             <span>Metrics</span>
                             <div class="flex gap-3">
                                 <span class="w-10 text-center text-[#ff8021]">1h</span>
@@ -204,38 +189,38 @@ $currentTime = date('H:i:s');
                         </div>
 
                         <!-- Supply Row -->
-                        <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
+                        <div class="flex items-center justify-between bg-stone-50 dark:bg-stone-900/20 p-0.1 rounded-lg border border-stone-100">
                             <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-green-600 text-sm 2xl:px-4">arrow_upward</span>
-                                <span class="text-[0.75vw] font-bold text-slate-700">Supply</span>
+                                <span class="material-symbols-outlined text-green-600 text-[1vw]">arrow_upward</span>
+                                <span class="text-[0.65vw] font-bold text-slate-700 dark:text-slate-200">Supply</span>
                             </div>
-                            <div class="flex gap-3 text-[1vw] font-bold">
-                                <span class="w-10 text-center text-slate-800" id="supply-1h">--</span>
-                                <span class="w-10 text-center text-slate-800" id="supply-3h">--</span>
-                                <span class="w-10 text-center text-slate-800" id="supply-12h">--</span>
+                            <div class="flex gap-3 text-[0.65vw] font-bold">
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="supply-1h">--</span>
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="supply-3h">--</span>
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="supply-12h">--</span>
                             </div>
                         </div>
 
                         <!-- Load Row -->
-                        <div class="flex items-center justify-between bg-stone-50 p-0.1 rounded-lg border border-stone-100">
-                            <div class="flex items-center gap-1. 5">
-                                <span class="material-symbols-outlined text-red-600 text-sm 2xl:px-4">arrow_downward</span>
-                                <span class="text-[0.75vw] font-bold text-slate-700">Load</span>
+                        <div class="flex items-center justify-between bg-stone-50 dark:bg-stone-900/20 p-0.1 rounded-lg border border-stone-100">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-red-600 text-[1vw]">arrow_downward</span>
+                                <span class="text-[0.65vw] font-bold text-slate-700 dark:text-slate-200">Load</span>
                             </div>
-                            <div class="flex gap-3 text-[1vw] font-bold">
-                                <span class="w-10 text-center text-slate-800" id="load-1h">--</span>
-                                <span class="w-10 text-center text-slate-800" id="load-3h">--</span>
-                                <span class="w-10 text-center text-slate-800" id="load-12h">--</span>
+                            <div class="flex gap-3 text-[0.65vw] font-bold">
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="load-1h">--</span>
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="load-3h">--</span>
+                                <span class="w-10 text-center text-slate-800 dark:text-white" id="load-12h">--</span>
                             </div>
                         </div>
 
                         <!-- Balance Row -->
-                        <div class="flex items-center justify-between bg-orange-50 p-0.1 rounded-lg border border-orange-100">
+                        <div class="flex items-center justify-between bg-stone-50 dark:bg-stone-900/20 p-0.1 rounded-lg border border-stone-100">
                             <div class="flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-[#ff8021] text-sm 2xl:px-4">balance</span>
-                                <span class="text-[0.75vw] font-bold text-slate-700">Balance</span>
+                                <span class="material-symbols-outlined text-[#ff8021] text-[1vw]">balance</span>
+                                <span class="text-[0.75vw] font-bold text-slate-700 dark:text-slate-200">Balance</span>
                             </div>
-                            <div class="flex gap-3 text-[1vw] font-bold">
+                            <div class="flex gap-3 text-[0.65vw] font-bold">
                                 <span class="w-10 text-center text-[#ff8021]" id="balance-1h">--</span>
                                 <span class="w-10 text-center text-[#ff8021]" id="balance-3h">--</span>
                                 <span class="w-10 text-center text-[#ff8021]" id="balance-12h">--</span>
@@ -245,89 +230,74 @@ $currentTime = date('H:i:s');
                 </div>
 
                 <!-- Card 3: เงินคืนทุน -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
+                <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center gap-1.5 mb-2">
                         <span class="material-symbols-outlined text-primary text-xs solar--hand-money-linear"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700">เงินคืนทุน</h3>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-white">เงินคืนทุน</h3>
                     </div>
 
-                    <div class="space-y-1 2xl:space-y-4 2xl:px-8">
-                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[0.75vw] font-bold text-slate-700">ทุนเริ่มต้น</span>
-                            <div class="flex gap-2 text-[1vw] font-medium">
-                                <span class="w-12 text-end" id="initial-capital">-</span>
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 dark:bg-slate-900/10 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[0.65vw] font-bold text-slate-700 dark:text-slate-200">ทุนเริ่มต้น</span>
+                            <div class="flex gap-2 text-[0.5vw] font-medium">
+                                <span class="w-12 text-end text-slate-700 dark:text-slate-300" id="initial-capital">-</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[0.75vw] font-bold text-slate-700">คืนแล้ว</span>
-                            <div class="flex gap-2 text-[1vw] font-medium">
-                                <span class="w-12 text-end text-green-600" id="refunded">-</span>
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 dark:bg-slate-900/10 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[0.65vw] font-bold text-slate-700 dark:text-slate-200">คืนแล้ว</span>
+                            <div class="flex gap-2 text-[0.5vw] font-medium">
+                                <span class="w-12 text-end text-green-600 dark:text-green-300" id="refunded">-</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between p-1.5 2xl:px-8 bg-slate-50 rounded-lg border border-transparent hover:border-slate-200 transition-all">
-                            <span class="text-[0.75vw] font-bold text-slate-700">คงเหลือ</span>
-                            <div class="flex gap-2 text-[1vw] font-medium">
-                                <span class="w-12 text-end text-orange-600" id="remaining">-</span>
+                        <div class="flex items-center justify-between p-1.5 bg-slate-50 dark:bg-slate-900/10 rounded-lg border border-transparent hover:border-slate-200 transition-all">
+                            <span class="text-[0.65vw] font-bold text-slate-700 dark:text-slate-200">คงเหลือ</span>
+                            <div class="flex gap-2 text-[0.5vw] font-medium">
+                                <span class="w-12 text-end text-orange-600 dark:text-orange-300" id="remaining">-</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4: ต้นทุนรวมทั้งหมด -->
-                <div class="bg-white border border-stone-200 rounded-2xl p-2 shadow-sm hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0">
-
-                    <div class="flex items-center gap-1.5 mb-2">
-                        <span class="material-symbols-outlined text-primary text-xs streamline-cyber--money-bag-1"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700">ต้นทุนรวมทั้งหมด</h3>
+                <!-- Card 4: Performance Ranking -->
+                <div class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
+                    <div class="flex items-center gap-2">
+                        <span class="material-icons-round text-primary">analytics</span>
+                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ผลรวม</h3>
                     </div>
-
-                    <div class="space-y-2 2xl:px-8 2xl:space-y-4">
-                        <!-- Hardware -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-green-50 rounded-md border border-green-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-green-600 text-[1vw]">check_circle</span>
-                                <span class="text-[0.75vw] font-bold text-green-700 uppercase 2xl:px-4">Hardware</span>
+                    <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
+                    <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รวมต้นทุน</span>
+                        <span id="card-4-expense" class="text-[0.65vw] font-bold text-slate-900 dark:text-white">฿0</span>
+                    </div>
+                    <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รายได้คาดการณ์</span>
+                        <span id="card-4-forecast" class="text-[0.65vw] font-bold text-slate-900 dark:text-white">฿0</span>
+                    </div>
+                    <div class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รายได้ทั้งหมด</span>
+                        <span id="card-4-income" class="text-[0.65vw] font-bold text-emerald-600 dark:text-emerald-400">฿0</span>
+                    </div>
+                    <div class="bg-orange-50 dark:bg-orange-900/20 py-[0.25vw] px-[0.5vw] rounded-xl border border-orange-100 dark:border-orange-900/30">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[0.65vw] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-[0.5vh]">กำไรสุทธิ (Net Profit)</p>
+                                <p id="card-4-remain" class="text-[0.8vw] font-bold font-display text-slate-900 dark:text-white leading-none">0</p>
                             </div>
-                            <span class="text-[0.75vw] font-bold text-green-700" id="expense-hardware">-</span>
-                        </div>
-
-                        <!-- Infrastructure -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-yellow-50 rounded-md border border-yellow-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-yellow-600 text-[1vw]">warning</span>
-                                <span class="text-[0.75vw] font-bold text-yellow-700 uppercase 2xl:px-4">Infrastructure</span>
-                            </div>
-                            <span class="text-[0.75vw] font-bold text-yellow-700" id="expense-infrastructure">-</span>
-                        </div>
-
-                        <!-- Miscellaneous -->
-                        <div class="flex items-center justify-between p-1 2xl:px-4 bg-red-50 rounded-md border border-red-100">
-                            <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-red-600 text-[1vw]">error</span>
-                                <span class="text-[0.75vw] font-bold text-red-700 uppercase 2xl:px-4">Miscellaneous</span>
-                            </div>
-                            <span class="text-[0.75vw] font-bold text-red-700" id="expense-miscellaneous">-</span>
-                        </div>
-
-                        <!-- Total -->
-                        <div class="pt-1.5 2xl:px-8 mt-0.75 border-t border-slate-200 flex justify-between items-center">
-                            <span class="font-bold text-slate-800 uppercase text-[0.75vw] tracking-wider">Total</span>
-                            <span class="font-bold text-[1vw] text-primary" id="expense-total">-</span>
+                            <span class="text-[0.8vw] font-bold text-slate-500 dark:text-slate-400">฿</span>
                         </div>
                     </div>
-
                 </div>
             </div>
 
         </div>
     </main>
 
-    <?php include "../components/footer.php"; ?>
+    <?php include"../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
-    <?php include "../scripts/js-solar.html"; ?>
+    <?php include"../scripts/js.html"; ?>
+    <?php include"../scripts/js-solar.html"; ?>
 </body>
 
 </html>
