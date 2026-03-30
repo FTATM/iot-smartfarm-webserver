@@ -24,7 +24,7 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
             <div class="col-span-10 flex flex-col justify-between gap-3 min-h-0">
 
                 <!-- TOP ROW: รูปภาพ + กราฟ (4 columns) -->
-                <div class="row-span-7 grid grid-cols-4 gap-3 2xl:gap-3 flex-1 min-h-0">
+                <div class="row-span-7 grid grid-cols-4 gap-3 flex-1 min-h-0">
 
                     <!-- รูปภาพ 2 ส่วน (กลาง) -->
                     <div class="box col-span-2 flex flex-col bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
@@ -57,7 +57,6 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                             </div>
                         </div>
                     </div>
-
 
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col justify-between gap-3 min-h-0">
