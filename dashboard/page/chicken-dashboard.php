@@ -37,8 +37,8 @@ $subTitle = "Chicken Farm Intelligence Dashboard";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Smart chicken farming system with AI health monitoring cameras and IoT app.
                             </div>
-                            <img src="images/chicken-top.png" alt="เครื่องมือ/อุปกรณ์" class="object-contain rounded-lg"
-                                style="max-height: 30vh;" />
+                            <img src="images/chicken-top.jpeg" alt="เครื่องมือ/อุปกรณ์"
+                                class="object-contain rounded-lg" style="max-height: 30vh;" />
                         </div>
 
                         <div class="flex flex-col flex-1 px-[1.5vw]">
