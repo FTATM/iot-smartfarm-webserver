@@ -1,6 +1,7 @@
 <?php
 $Title = "Weather Dashboard";
 $subTitle = "Weather Dashboard Farm Intelligence";
+$classIconHeader = "arcticons--weathercan";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">

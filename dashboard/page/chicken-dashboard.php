@@ -1,6 +1,7 @@
 <?php
 $Title = "Chicken Dashboard";
 $subTitle = "Chicken Farm Intelligence Dashboard";
+$classIconHeader = "emojione-monotone--chicken";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">

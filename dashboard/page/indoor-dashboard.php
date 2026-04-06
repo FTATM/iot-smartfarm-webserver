@@ -1,6 +1,7 @@
 <?php
 $Title = "Indoor Dashboard";
 $subTitle = "Plant hydroponic intellegent system";
+$classIconHeader = "fluent--door-arrow-left-20-regular";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">

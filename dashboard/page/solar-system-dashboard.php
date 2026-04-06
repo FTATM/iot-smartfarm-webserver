@@ -1,6 +1,7 @@
 <?php
 $Title ="Solar System Dashboard";
 $subTitle ="Solar System Intelligence Dashboard";
+$classIconHeader = "ph--solar-panel-duotone";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">

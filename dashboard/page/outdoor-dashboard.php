@@ -1,6 +1,7 @@
 <?php
 $Title = "Outdoor Dashboard";
 $subTitle = "Outdoor Farm Intelligence Dashboard";
+$classIconHeader = "fluent--door-arrow-right-28-regular";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">
