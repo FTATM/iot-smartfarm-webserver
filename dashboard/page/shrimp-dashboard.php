@@ -37,7 +37,7 @@ $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Smart Vertical Raised Shrimp Farming System(RAS) with IoT App
                             </div>
-                            <img src="images/shrimp_main.jpg" alt="เครื่องมือ/อุปกรณ์" class="object-contain rounded-lg"
+                            <img src="images/shrimp_top.jpeg" alt="เครื่องมือ/อุปกรณ์" class="object-contain rounded-lg"
                                 style="max-height: 30vh;" />
                         </div>
 
