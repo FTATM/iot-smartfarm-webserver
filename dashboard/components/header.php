@@ -3,7 +3,7 @@
     <div class="flex items-center gap-3">
         <?php include 'navbar.php'; ?>
         <div class="size-9 w-[3rem] h-[3rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
-            <span class="emojione-monotone--chicken text-2xl text-white"></span>
+            <span class="<?php echo $classIconHeader; ?> text-2xl text-white"></span>
         </div>
         <div>
             <h1 class="text-[#1d130c] dark:text-orange-300 text-[1.5vw] font-bold leading-none">

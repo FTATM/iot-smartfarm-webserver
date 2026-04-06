@@ -1,6 +1,7 @@
 <?php
 $Title = "Shrimp Dashboard";
 $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
+$classIconHeader = "emojione-monotone--shrimp";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">
