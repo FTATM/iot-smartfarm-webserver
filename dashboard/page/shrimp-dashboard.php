@@ -127,10 +127,15 @@ $classIconHeader = "emojione-monotone--shrimp";
                             <div
                                 class="col-span-2 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
                                 <div>
-                                    <h3 class="text-[1vw] font-bold font-display text-slate-900 dark:text-white">
-                                        สัดส่วนรายจ่าย</h3>
-                                    <p class="text-[0.5vw] font-bold text-slate-400 uppercase tracking-widest">Expense
-                                        Distribution</p>
+                                    <h2
+                                        class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                                        <span class="w-[0.25vw] h-4 2xl:h-6 bg-primary rounded-full"></span>
+                                        สัดส่วนรายจ่าย
+                                    </h2>
+                                    <p
+                                        class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
+                                        Distribution
+                                    </p>
                                 </div>
                                 <div class="flex flex-col items-center justify-center flex-grow">
                                     <div id="donut" class="relative w-[10vw] h-[10vw] donut-chart shadow-xl">
@@ -162,9 +167,13 @@ $classIconHeader = "emojione-monotone--shrimp";
                 <!-- Card 1: การให้อาหารวันนี้ -->
                 <div
                     class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-[1vw]">restaurant</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200  ">การให้อาหารวันนี้</h3>
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="material-symbols--restaurant"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">การให้อาหารวันนี้
+                        </h3>
                     </div>
                     <div>
                         <div class="grid grid-cols-2 gap-2  " id="feeding-info">
@@ -196,10 +205,13 @@ $classIconHeader = "emojione-monotone--shrimp";
                 <div
                     class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
                     <div class="flex justify-between">
-                        <div class="flex items-center gap-2">
-                            <span
-                                class="material-symbols-outlined text-primary text-[2vw] clarity--coin-bag-line"></span>
-                            <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">ต้นทุนทรัพยากรวันนี้
+                        <div class="flex items-center mb-2">
+                            <div
+                                class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                                <span class="clarity--coin-bag-line"></span>
+                            </div>
+                            <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">
+                                ต้นทุนทรัพยากรวันนี้
                             </h3>
                         </div>
                         <div onclick="calculateElectricityAndWater('card-2')"
@@ -239,9 +251,14 @@ $classIconHeader = "emojione-monotone--shrimp";
                 <!-- Card 3: คุณภาพน้ำที่เหมาะสม -->
                 <div
                     class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-[1vw]">waves</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">คุณภาพน้ำที่เหมาะสม</h3>
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="ic--round-waves"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">
+                            คุณภาพน้ำที่เหมาะสม
+                        </h3>
                     </div>
                     <div>
                         <div>
@@ -280,9 +297,15 @@ $classIconHeader = "emojione-monotone--shrimp";
                 <!-- Card 4: การปรับอาหาร -->
                 <div
                     class="bg-white dark:bg-stone-900 flex-1 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-primary text-[1vw]">rule</span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">การปรับอาหาร</h3>
+
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="material-symbols--rule-rounded"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">
+                            การปรับอาหาร
+                        </h3>
                     </div>
                     <div class="flex flex-col gap-1 2xl:px-2 ">
                         <div
