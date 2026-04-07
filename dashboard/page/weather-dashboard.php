@@ -195,10 +195,15 @@ $classIconHeader = "arcticons--weathercan";
                             <div
                                 class="col-span-2 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
                                 <div>
-                                    <h3 class="text-[1vw] font-bold font-display text-slate-900 dark:text-white">
-                                        สัดส่วนรายจ่าย</h3>
-                                    <p class="text-[0.5vw] font-bold text-slate-400 uppercase tracking-widest">Expense
-                                        Distribution</p>
+                                    <h2
+                                        class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                                        <span class="w-[0.25vw] h-4 2xl:h-6 bg-primary rounded-full"></span>
+                                        สัดส่วนรายจ่าย
+                                    </h2>
+                                    <p
+                                        class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
+                                        Distribution
+                                    </p>
                                 </div>
                                 <div class="flex flex-col items-center justify-center flex-grow">
                                     <div id="donut" class="relative w-[10vw] h-[10vw] donut-chart shadow-xl">
@@ -227,9 +232,13 @@ $classIconHeader = "arcticons--weathercan";
                 <!-- Card 1: พยากรณ์อุณหภูมิ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="carbon--temperature-hot text-[#ff8021] text-[2vw]"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">พยากรณ์อุณหภูมิวันนี้</h3>
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="streamline-ultimate--temperature-thermometer-medium-bold"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์อุณหภูมิวันนี้
+                        </h3>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <!-- ต่ำสุด -->
@@ -259,9 +268,13 @@ $classIconHeader = "arcticons--weathercan";
                 <!-- Card 2: พยากรณ์ลมรายชั่วโมง -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="solar--wind-bold-duotone text-sm text-[#ff8021] text-[2vw]"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">พยากรณ์ลมรายชั่วโมง</h3>
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="solar--wind-bold-duotone"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์ลมรายชั่วโมง
+                        </h3>
                     </div>
                     <div class="grid grid-cols-4 gap-2 text-center flex-1" id="wind-forecast">
                         <!-- Loading state -->
@@ -296,9 +309,13 @@ $classIconHeader = "arcticons--weathercan";
                 <!-- Card 3: พยากรณ์ความชื้นสัมพัทธ์ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="wi--humidity text-sm text-[#ff8021] text-[2vw]"></span>
-                        <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์ความชื้นสัมพัทธ์</h3>
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="mdi--humidity-outline"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์ความชื้นสัมพัทธ์
+                        </h3>
                     </div>
                     <div class="text-center py-2">
                         <span class="text-[1vw] font-black text-slate-800 dark:text-slate-200" id="humidity-current">
@@ -325,6 +342,14 @@ $classIconHeader = "arcticons--weathercan";
                 <!-- Card 4: พยากรณ์สภาพอากาศ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden flex-1">
+                    <div class="flex items-center mb-2">
+                        <div
+                            class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
+                            <span class="f7--cloud-sun-rain-fill"></span>
+                        </div>
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์สภาพอากาศ
+                        </h3>
+                    </div>
                     <div class="flex items-center gap-2 mb-2">
                         <span class="emojione-monotone--sun-behind-rain-cloud text-[#ff8021] text-[2vw]"></span>
                         <h3 class="text-[1vw] font-bold text-stone-700 dark:text-stone-200 ">พยากรณ์สภาพอากาศ</h3>
