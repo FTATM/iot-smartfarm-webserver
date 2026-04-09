@@ -3,8 +3,7 @@
     class="flex items-center p-[0.5vw] border-b border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 shrink-0 transition-colors duration-300">
     <div class="flex items-center gap-3">
         <?php include 'navbar.php'; ?>
-        <div
-            class="size-9 w-[3rem] h-[3rem] bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
+        <div class="size-9 bg-[#FF8021] rounded-xl flex items-center justify-center text-white shadow-sm shadow-primary/20">
             <span class="<?php echo $classIconHeader; ?> text-2xl text-white"></span>
         </div>
         <div>
