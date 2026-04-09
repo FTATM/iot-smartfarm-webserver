@@ -38,8 +38,11 @@ $classIconHeader = "emojione-monotone--chicken";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Smart chicken farming system with AI health monitoring cameras and IoT app.
                             </div>
-                            <img src="images/chicken-top.jpeg" alt="เครื่องมือ/อุปกรณ์"
-                                class="object-contain rounded-lg" style="max-height: 30vh;" />
+                            <img src="images/chicken-top2.png" 
+                                alt="เครื่องมือ/อุปกรณ์"
+                                class="rounded-lg object-cover object-center"
+                                style="width: 130em; height: 30vh;"
+                                />
                         </div>
 
                         <div class="flex flex-col flex-1 px-[1.5vw]">
@@ -147,7 +150,7 @@ $classIconHeader = "emojione-monotone--chicken";
                 </div>
 
                 <!-- BOTTOM ROW: Sensor Metrics (6 columns) -->
-                <div class="row-span-1 flex flex-col gap-3 shrink-0" id="metrics-cards"></div>
+                <div class="row-span-1 grid grid-cols-6 gap-4 shrink-0" id="metrics-cards"></div>
             </div>
 
             <!-- ========== RIGHT SECTION (2 columns): 4 Cards แนวตั้ง ========== -->
@@ -191,7 +194,7 @@ $classIconHeader = "emojione-monotone--chicken";
                 <!-- Card 2: ความชื้นและแสงสว่าง -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col :ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
-                    <div class="flex items-center mb-2">hover
+                    <div class="flex items-center mb-2">
                         <div
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
                             <span class="mage--light-bulb"></span>
