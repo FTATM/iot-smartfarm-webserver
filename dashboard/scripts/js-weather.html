@@ -5,7 +5,7 @@
 
     const Sensors_realtime = ["wind_Direction", "Air_Quality", "Ammonia", "Oxygen", "Rainfall", "light_int"];
     const Sensors_name_left = ["PM 2.5", "PM 10", "PM 1", "Voltage Supply", "Current Supply", "Power Supply"];
-    const Sensors_name_right = ["AQI", "Heat Index","-", "Voltage Loaded", "Current Loaded", "Power Loaded"];
+    const Sensors_name_right = ["AQI", "Heat Index", "-", "Voltage Loaded", "Current Loaded", "Power Loaded"];
     const market_name = "weather";     //name market example => solar, shrimp, indoor, outdoor
     const type = "price";              //multi type example => demand,price
 
@@ -52,14 +52,14 @@
             );
             const data = await res.json();
             const sensors = data['sensors'];
-
-            Create_sensorCard(Sensors_realtime, sensors);
-
-            loadGraphSensorById(sensors);
-
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
+
+        Create_sensorCard(Sensors_realtime, sensors);
+
+        loadGraphSensorById(sensors);
+
     }
 
     async function SensorsLeft() {

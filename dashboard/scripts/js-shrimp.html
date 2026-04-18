@@ -53,14 +53,13 @@
             );
             const data = await res.json();
             const sensors = data['sensors'];
-
-            Create_sensorCard(Sensors_realtime, sensors);
-
-            loadGraphSensorById(sensors);
-
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
+        Create_sensorCard(Sensors_realtime, sensors);
+
+        loadGraphSensorById(sensors);
+
     }
 
     async function SensorsLeft() {
