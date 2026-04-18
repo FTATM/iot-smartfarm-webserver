@@ -36,6 +36,7 @@
     }
 
     async function loadSensorData() {
+        let sensors;
         try {
             const res = await fetch(
                 "../../api-website/plot_sensor_log_multiple.php",
@@ -48,7 +49,7 @@
                 },
             );
             const data = await res.json();
-            const sensors = data["sensors"];
+            sensors = data['sensors'];
 
         } catch (err) {
             console.error("❌ loadSensorData error:", err);
