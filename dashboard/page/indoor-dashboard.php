@@ -37,8 +37,8 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Indoor Farm with IoT App.
                             </div>
-                            <img src="images/Gemini_Generated_Image_hygiclhygiclhygi.jpeg" alt="เครื่องมือ/อุปกรณ์"
-                                class="object-contain rounded-lg" style="max-height: 30vh;" />
+                            <img src="images/indoor_top.png" alt="เครื่องมือ/อุปกรณ์"
+                                class="rounded-lg object-cover object-center" style="width: 130em; height: 30vh;" />
                         </div>
                         <div class="flex flex-col flex-1 px-[1.5vw]">
                             <div
@@ -53,7 +53,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/indoor_edited.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/Indoor.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 30vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
@@ -161,16 +161,24 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                         <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">สิ่งที่ต้องทำวันนี้
                         </h3>
                     </div>
+                    <div
+                        class="bg-stone-50 dark:bg-stone-900 rounded-lg border border-stone-100 mb-2 dark:border-stone-400/20">
+                        <div class="py-[1vh] px-[0.5vw]">
+                            <p class="text-[0.75vw] text-slate-500 font-bold uppercase tracking-wider">ขั้นตอน</p>
+                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="main-task">-</p>
+                        </div>
+                    </div>
 
                     <div
                         class="flex justify-between items-center bg-stone-50 dark:bg-stone-900 rounded-lg border border-stone-100 dark:border-stone-400/20">
                         <div class="py-[1vh] px-[0.5vw]">
-                            <p class="text-[0.75vw] text-slate-500 font-bold uppercase tracking-wider">งานหลัก</p>
+                            <p class="text-[0.75vw] text-slate-500 font-bold uppercase tracking-wider">เป้าหมาย</p>
                             <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="main-task">-</p>
                         </div>
                         <div class="py-[1vh] px-[0.5vw]">
-                            <p class="text-[0.75vw] text-[#ff8021] font-bold uppercase tracking-wider">ดินที่แนะนำ</p>
-                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="recommended-soil">-</p>
+                            <p class="text-[0.75vw] text-[#ff8021] font-bold uppercase tracking-wider">หมายเหตุ</p>
+                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="recommended-soil">-
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -246,7 +254,8 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             <div class="flex justify-center p-[0.45vw] text-center">
                                 <span id="card-3-water-usage"
                                     class="text-[1vw] text-center font-black text-stone-800 dark:text-stone-100 leading-tight">-</span>
-                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400"> THB</span>
+                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400">
+                                    THB</span>
                             </div>
                         </div>
                         <div class="bg-stone-50 dark:bg-stone-800 rounded-lg p-[0.45vw] flex flex-col justify-center">
@@ -255,7 +264,8 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             <div class="flex justify-center p-[0.45vw] text-center">
                                 <span id="card-3-electricity-usage"
                                     class="text-[1vw] text-center font-black text-stone-800 dark:text-stone-100 leading-tight">-</span>
-                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400"> THB</span>
+                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400">
+                                    THB</span>
                             </div>
                         </div>
                     </div>

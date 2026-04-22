@@ -37,32 +37,31 @@ $classIconHeader = "arcticons--weathercan";
                             <!-- Wind Chill -->
                             <div class="mb-2 pb-2 border-b border-dashed border-stone-200">
                                 <h3 class="text-stone-600 dark:text-stone-200 font-bold mb-1.5 uppercase tracking-wider"
-                                    style="font-size: 0.5vw;">Wind Chill</h3>
+                                    style="font-size: clamp(0.55vw, 0.75vw, 2vw);">Wind Chill</h3>
                                 <div class="flex items-center gap-2">
                                     <span id="widget-windChill" class="text-orange-500 font-light"
                                         style="font-size: 1.2vw;">--°C</span>
                                     <div class="flex gap-0.5">
                                         <span class="material-symbols-outlined text-stone-400 dark:text-stone-200"
-                                            style="font-size: 0.8vw;">thermostat</span>
+                                            style="font-size: clamp(0.75vw, 1vw, 3vw);">thermostat</span>
                                         <span class="material-symbols-outlined text-stone-400 dark:text-stone-200"
-                                            style="font-size: 0.8vw;">air</span>
+                                            style="font-size: clamp(0.75vw, 1vw, 3vw);">air</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Humidex -->
-                            <div
-                                class="mb-2 pb-2 border-b border-dashed border-stone-200 2xl:mb-16 2xl:pb-8 2xl:border-b-8">
+                            <div class="mb-2 pb-2 border-b border-dashed border-stone-200">
                                 <h3 class="text-stone-600 dark:text-stone-200 font-bold mb-1.5 uppercase tracking-wider"
-                                    style="font-size: 0.5vw;">Humidex</h3>
+                                    style="font-size: clamp(0.55vw, 0.75vw, 2vw);">Humidex</h3>
                                 <div class="flex items-center gap-2">
                                     <span id="widget-humidex" class="text-orange-500 font-light"
-                                        style="font-size: 1.2vw;">--°C</span>
+                                        style="font-size: clamp(0.75vw, 1vw, 3vw);">--°C</span>
                                     <div class="flex gap-0.5">
                                         <span class="material-symbols-outlined text-stone-400 dark:text-stone-200"
-                                            style="font-size: 0.8vw;">wb_sunny</span>
+                                            style="font-size: clamp(0.75vw, 1vw, 3vw);">wb_sunny</span>
                                         <span class="material-symbols-outlined text-stone-400 dark:text-stone-200"
-                                            style="font-size: 0.8vw;">water_drop</span>
+                                            style="font-size: clamp(0.75vw, 1vw, 3vw);">water_drop</span>
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +97,7 @@ $classIconHeader = "arcticons--weathercan";
                                 <!-- Temperature Reading with Icon -->
                                 <div class="text-center flex items-center gap-2">
                                     <span id="widget-currentTemp" class="text-orange-500 font-light"
-                                        style="font-size: 1.4vw;">--°C</span>
+                                        style="font-size: clamp(0.75vw, 1vw, 3vw);">--°C</span>
                                 </div>
                             </div>
                         </div>
@@ -115,10 +114,11 @@ $classIconHeader = "arcticons--weathercan";
                                 Weather System with IoT App.
                             </div>
                             <img src="images/weather_top-3.png" alt="เครื่องมือ/อุปกรณ์"
-                                class="object-contain rounded-lg dark:bg-stone-600" style="max-height: 30vh;" />
+                                class="object-contain rounded-lg dark:bg-stone-600"
+                                style="width: 130em; height: 30vh;" />
                         </div>
 
-                        <div class="flex flex-col flex-1 px-[1.5vw]">
+                        <div class=" flex flex-col flex-1 px-[1.5vw]">
                             <div
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Weather System Architecture

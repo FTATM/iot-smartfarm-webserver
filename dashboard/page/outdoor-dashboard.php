@@ -37,8 +37,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Outdoor Farm with IoT App.
                             </div>
-                            <img src="images/Gemini_Generated_Image_f3a8dzf3a8dzf3a8.jpeg" alt="เครื่องมือ/อุปกรณ์"
-                                class="object-contain rounded-lg" style="max-height: 30vh;" />
+                            <img src="images/outdoor_top.png" alt="เครื่องมือ/อุปกรณ์"
+                                class="rounded-lg object-cover object-center" style="width: 130em; height: 30vh;" />
                         </div>
 
                         <div class="flex flex-col flex-1 px-[1.5vw]">
@@ -54,7 +54,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/outdoor_main.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/Outdoor.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 30vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
