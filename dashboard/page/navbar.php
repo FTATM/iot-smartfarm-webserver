@@ -24,7 +24,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     justify-content: center;
     align-items: center;
     gap: 5px;
-    z-index: 100;
+    z-index: 10;
     transition: all 0.3s ease;
 }
 
@@ -732,6 +732,12 @@ body.menu-open {
             <a href="expense-dashboard.php"
                 class="<?php echo ($current_page == 'expense-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>Expense management
+            </a>
+        </li>
+        <li>
+            <a href="knowledge-management.php"
+                class="<?php echo ($current_page == 'knowledge-management') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>knowledge management
             </a>
         </li>
     </ul>

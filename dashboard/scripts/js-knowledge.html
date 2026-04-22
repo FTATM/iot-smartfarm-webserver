@@ -1,0 +1,298 @@
+<!-- JavaScript -->
+<script>
+    let isLoading = true;
+    let tables = [];
+    let table_m = [];
+    let table_c = [];
+    let table = [];
+    let childen = [];
+
+    // Adjust font sizes based on screen width
+    document.addEventListener('DOMContentLoaded', async () => {
+
+        await fetchs();
+        initDataTable();
+        await process();
+
+        isLoading = false;
+    });
+    async function fetchs() {
+        let f = new FormData();
+
+        let res = await fetch("../../api-website/fetch-tableknowledge.php");
+        let raw = await res.json();
+        let data = raw['data'] ?? [];
+        console.log(data);
+        tables = data;
+    }
+
+    async function process() {
+
+    }
+
+    function initDataTable() {
+        if (!tables) {
+            console.warn("Sorry, Not found tables. Please check data from database.");
+            return;
+        }
+
+        table_m = tables.filter((t) => t.child_of_table_id == null);
+        table_c = tables.filter((t) => t.child_of_table_id != null);
+
+        table = table_m;
+        childen = table_c;
+        // selectTable = table_m[0].id;
+        selectTable = 15;
+
+        filterTableKnowledge();
+
+    }
+
+    function filterTableKnowledge() {
+
+        table = table_m.filter((t) => t['id'] == selectTable)[0];
+        childen = table_c.filter((c) => c['child_of_table_id'] == selectTable);
+
+        console.log(table);
+        console.log(childen);
+
+        initListTable(table_m);
+
+        initTable(table, childen);
+
+        mapTable(table, childen);
+    }
+
+    function initListTable(list) {
+        let listTableE = document.getElementById("table-list");
+        if (!listTableE) {
+            console.warn("Sorry, Not found Element list-table. Please contact administrator.");
+            return;
+        }
+        listTableE.innerHTML = '';
+
+        list.forEach((l) => {
+            let div = document.createElement('div');
+            div.className = "px-3 py-2 cursor-pointer hover:font-bold hover:bg-stone-200/50";
+            div.innerHTML = `[${l.id}] ${l.name}`;
+            div.onclick = () => {
+                selectTable = l.id;
+                filterTableKnowledge();
+            }
+            // if (l.id == selectTable) div.classList.add('active')
+
+            listTableE.appendChild(div);
+        });
+    }
+
+    function initTable(table, childen) {
+        let tableE = document.getElementById("table");
+        if (!tableE) {
+            console.warn("Sorry, Not found Element table. Please contact administrator.");
+            return;
+        }
+        tableE.innerHTML = '';
+
+        let title_Table = document.getElementById('title-table');
+        if (!title_Table) {
+            console.warn("Sorry, Not found Element title table. Please contact administrator.");
+        }
+        title_Table.innerHTML = `${table.name ?? "ไม่พบชื่อตาราง"}`;
+
+        let thead = document.createElement('thead');
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+            <th>วัน</th>
+            <th>${table.label ?? "..."}</th>
+        `;
+
+        childen.forEach(c => {
+            tr.innerHTML += `<th>${c.label ?? "-"}</th>`;
+        });
+
+        thead.appendChild(tr);
+        tableE.appendChild(thead);
+
+
+    }
+
+    function mapTable(table, childen) {
+        let tableE = document.getElementById("table");
+        if (!tableE) {
+            console.warn("Sorry, Not found Element table. Please contact administrator.");
+            return;
+        }
+        let tbody = document.createElement('tbody');
+
+        let rows = table['rows'];
+
+        Object.values(rows).forEach(r => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.d_start_day} - ${r.d_end_day}</td>
+                <td>${r.d_value ?? "-"}</td>
+            `;
+
+            Object.values(childen).forEach(c => {
+                let a123 = c['rows'].filter((d) => d.d_row_parent_id == r.d_id);
+                let value = a123[0] ?? { 'value': '-' };
+
+                tr.innerHTML += `<td>${value['d_value']}</td>`;
+            });
+
+            tbody.appendChild(tr);
+        });
+        tableE.append(tbody);
+
+    }
+
+    function EditTable() {
+        let tableE = document.getElementById("table");
+        if (!tableE) {
+            console.warn("Sorry, Not found Element table. Please contact administrator.");
+            return;
+        }
+
+        let tbody = tableE.querySelector('tbody');
+        tbody.innerHTML = '';
+
+        console.log(table);
+        
+        let rows = table['rows'];
+
+        Object.values(rows).forEach(r => {
+            let tr = document.createElement('tr');
+
+            // 🟡 column แรก (ช่วงวัน)
+            let tdDate = document.createElement('td');
+            
+            tdDate.innerHTML = `
+            <input 
+                type="number" 
+                class="border p-1 rounded w-[40%]"
+                value="${r.d_start_day}"
+                data-id="${r.d_id}"
+                data-field="start_day"
+            > - 
+            <input 
+                type="number" 
+                class="border p-1 rounded w-[40%]"
+                value="${r.d_end_day}"
+                data-id="${r.d_id}"
+                data-field="end_day"
+            >
+        `;
+            tr.appendChild(tdDate);
+
+            // 🟡 column value หลัก
+            let tdValue = document.createElement('td');
+            tdValue.innerHTML = `
+            <input 
+                class="border p-1 rounded w-full text-center"
+                value="${r.d_value ?? ''}"
+                data-id="${r.d_id}"
+                data-field="main_value"
+            >
+        `;
+            tr.appendChild(tdValue);
+
+            // 🟡 child columns
+            Object.values(childen).forEach(c => {
+                let td = document.createElement('td');
+
+                let found = c['rows'].find(d => d.d_row_parent_id == r.d_id);
+
+                td.innerHTML = `
+                <input 
+                    class="border p-1 rounded w-full text-center"
+                    value="${found?.d_value ?? ''}"
+                    data-parent="${r.d_id}"
+                    data-child="${c.id ?? ''}"
+                    data-field="child_value"
+                >
+            `;
+
+                tr.appendChild(td);
+            });
+
+            tbody.appendChild(tr);
+        });
+
+        tableE.appendChild(tbody);
+    }
+
+    function collectData() {
+        let inputs = document.querySelectorAll("#table input");
+
+        let result = [];
+
+        inputs.forEach(input => {
+            result.push({
+                id: input.dataset.id,
+                parent: input.dataset.parent,
+                field: input.dataset.field,
+                value: input.value
+            });
+        });
+
+        console.log(result);
+    }
+
+
+    // =============== Switch Mode ================
+
+    function ModalConfirmEditTable() {
+        openModal(
+            "ยืนยันการแก้ไข",
+            "คุณต้องการแก้ไขข้อมูลนี้ใช่หรือไม่?",
+            confirmEdit,
+            "bg-yellow-500 hover:bg-yellow-600"
+        );
+    }
+
+    function ModalConfirmDeleteTable() {
+        openModal(
+            "ยืนยันการลบ",
+            "คุณต้องการลบข้อมูลนี้ใช่หรือไม่?",
+            confirmDelete,
+            "bg-red-500 hover:bg-red-600"
+        );
+    }
+
+    function confirmEdit() {
+        console.log("Confirm Edit");
+        EditTable();
+    }
+
+    function confirmDelete() {
+        console.log("Confirm Delete");
+    }
+
+
+
+    // ============ Modal ===========
+    let currentAction = null;
+
+    function openModal(title, desc, action, colorClass) {
+        document.getElementById("confirmModal").classList.remove("hidden");
+        document.getElementById("confirmModal").classList.add("flex");
+
+        document.getElementById("modalTitle").innerText = title;
+        document.getElementById("modalDesc").innerText = desc;
+
+        const btn = document.getElementById("confirmBtn");
+        btn.className = `px-4 py-2 rounded text-white ${colorClass}`;
+
+        currentAction = action;
+    }
+
+    function closeModal() {
+        document.getElementById("confirmModal").classList.add("hidden");
+        document.getElementById("confirmModal").classList.remove("flex");
+    }
+
+    document.getElementById("confirmBtn").onclick = function () {
+        if (currentAction) currentAction();
+        closeModal();
+    };
+</script>
