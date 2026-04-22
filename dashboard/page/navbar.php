@@ -646,6 +646,26 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 body.menu-open {
     overflow: hidden;
 }
+
+.submenu {
+    padding-left: 20px;
+    /* ทำให้เยื้องเข้า */
+    display: none;
+    /* ซ่อนก่อน */
+}
+
+li:hover>.submenu {
+    display: block;
+    /* โชว์ตอน hover */
+}
+
+.submenu {
+    display: none;
+}
+
+.submenu.open {
+    display: block;
+}
 </style>
 
 <!-- ปุ่ม Hamburger (3 ขีด) -->
@@ -697,13 +717,89 @@ body.menu-open {
         <li>
             <a href="outdoor-dashboard.php"
                 class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>Outdoor Dashboard
+                <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>
+                Outdoor Dashboard
             </a>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="outdoor-papaya-dashboard.php"
+                        class="<?php echo ($current_page == 'outdoor-papaya-dashboard') ? 'active' : ''; ?>">
+
+                        <span class="nav-icon dark:text-white custom-icon">
+
+                        </span>
+                        Papaya
+                    </a>
+                </li>
+            </ul>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="outdoor-chili-dashboard.php"
+                        class="<?php echo ($current_page == 'outdoor-chili-dashboard') ? 'active' : ''; ?>">
+                        <span class="nav-icon  dark:text-white icon-park-twotone--chili ">
+                        </span>
+                        Chili
+                    </a>
+                </li>
+            </ul>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="outdoor-HolyBasil-dashboard.php"
+                        class="<?php echo ($current_page == 'outdoor-HolyBasil-dashboard') ? 'active' : ''; ?>">
+                        <span class="nav-icon  dark:text-white fluent--leaf-three-16-regular">
+                        </span>
+                        Holy Basil
+                    </a>
+                </li>
+            </ul>
+
         </li>
         <li>
             <a href="indoor-dashboard.php" class="<?php echo ($current_page == 'indoor-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>Indoor Dashboard
             </a>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="indoor-Broccoli-dashboard.php"
+                        class="<?php echo ($current_page == 'indoor-Broccoli-dashboard') ? 'active' : ''; ?>">
+                        <span class="nav-icon dark:text-white tdesign--broccoli">
+                        </span>
+                        Broccoli
+                    </a>
+                </li>
+            </ul>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="indoor-lettuce-dashboard.php"
+                        class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
+                        <span class="nav-icon  dark:text-white cbi--romaine-lettuce">
+                        </span>
+                        lettuce
+                    </a>
+                </li>
+            </ul>
+
+            <!-- เมนูย่อย -->
+            <ul class="submenu">
+                <li>
+                    <a href="indoor-SweetBasil-dashboard.php"
+                        class="<?php echo ($current_page == 'indoor-SweetBasil-dashboard') ? 'active' : ''; ?>">
+                        <span class="nav-icon  dark:text-white fluent--leaf-three-16-regular">
+                        </span>
+                        Sweet Basil
+                    </a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="weather-dashboard.php"
@@ -715,6 +811,12 @@ body.menu-open {
             <a href="solar-system-dashboard.php"
                 class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white ph--solar-panel-duotone"></span>Solar System Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="container-dashboard.php"
+                class="<?php echo ($current_page == 'container-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white boxicons--container"></span>Container Dashboard
             </a>
         </li>
         <!-- </br> -->
@@ -785,5 +887,15 @@ navLinks.forEach(link => {
 // ป้องกันการปิดเมื่อคลิกใน sidebar
 sidebarMenu.addEventListener('click', (e) => {
     e.stopPropagation();
+});
+
+document.querySelectorAll("li > a").forEach(menu => {
+    menu.addEventListener("click", function(e) {
+        const submenu = this.nextElementSibling;
+        if (submenu && submenu.classList.contains("submenu")) {
+            e.preventDefault();
+            submenu.classList.toggle("open");
+        }
+    });
 });
 </script>

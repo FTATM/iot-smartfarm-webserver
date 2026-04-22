@@ -241,8 +241,6 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
             </div>
     </main>
 
-
-
     <?php include "../components/footer.php"; ?>
     <?php include "../components/popup.php"; ?>
 
