@@ -24,7 +24,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     justify-content: center;
     align-items: center;
     gap: 5px;
-    z-index: 100;
+    z-index: 10;
     transition: all 0.3s ease;
 }
 
@@ -703,7 +703,7 @@ li:hover>.submenu {
         <div class="pt-6 pb-2 px-6">
             <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Menu pages</h3>
         </div>
-        <li>
+        <!-- <li>
             <a href="shrimp-dashboard.php" class="<?php echo ($current_page == 'shrimp-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white emojione-monotone--shrimp"></span>Shrimp Dashboard
             </a>
@@ -713,7 +713,7 @@ li:hover>.submenu {
                 class="<?php echo ($current_page == 'chicken-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white emojione-monotone--chicken"></span>Chicken Dashboard
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="outdoor-dashboard.php"
                 class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
@@ -834,6 +834,12 @@ li:hover>.submenu {
             <a href="expense-dashboard.php"
                 class="<?php echo ($current_page == 'expense-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>Expense management
+            </a>
+        </li>
+        <li>
+            <a href="knowledge-management.php"
+                class="<?php echo ($current_page == 'knowledge-management') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>Knowledge management
             </a>
         </li>
     </ul>
