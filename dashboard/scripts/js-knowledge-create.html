@@ -1,7 +1,26 @@
 <!-- JavaScript -->
 <script>
     let isLoading = true;
-    let tables = [];
+    let tables = [
+        {
+            'id': 'newTable_1',
+            'name': null,
+            'label': null,
+            'branch_id': 1,
+            'table_type_id': null,
+            'child_of_table_id': null,
+            'rows': [{
+                'd_id': 'newrow_1',
+                'd_name_table_id': 'newTable_1',
+                'd_start_day': 0,
+                'd_end_day': 0,
+                'd_value': null,
+                'd_second_label': null,
+                'd_row_parent_id': null
+            }
+            ]
+        }
+    ];
     let table_m = [];
     let table_c = [];
     let table = [];
@@ -10,9 +29,7 @@
     // Adjust font sizes based on screen width
     document.addEventListener('DOMContentLoaded', async () => {
 
-        await fetchs();
         initDataTable();
-        await process();
 
         isLoading = false;
     });
@@ -39,128 +56,68 @@
         table_m = tables.filter((t) => t.child_of_table_id == null);
         table_c = tables.filter((t) => t.child_of_table_id != null);
 
-        table = table_m;
+        console.log(table_m);
+        console.log(table_c);
+
+
+        table = table_m[0];
         childen = table_c;
-        // selectTable = table_m[0].id;
-        selectTable = 15;
 
-        filterTableKnowledge();
-
+        Table();
     }
 
-    function filterTableKnowledge() {
-
-        table = table_m.filter((t) => t['id'] == selectTable)[0];
-        childen = table_c.filter((c) => c['child_of_table_id'] == selectTable);
-
-        console.log(table);
-        console.log(childen);
-
-        initListTable(table_m);
-
-        initTable(table, childen);
-
-        mapTable(table, childen);
-    }
-
-    function initListTable(list) {
-        let listTableE = document.getElementById("table-list");
-        if (!listTableE) {
-            console.warn("Sorry, Not found Element list-table. Please contact administrator.");
-            return;
-        }
-        listTableE.innerHTML = `
-        <div class="px-3 py-2 cursor-pointer hover:font-bold hover:bg-stone-200/50" onclick="redirectTo('knowledge-create')">
-            [icon] สร้างตารางใหม่
-        </div>
-        `;
-
-        list.forEach((l) => {
-            let div = document.createElement('div');
-            div.className = "px-3 py-2 cursor-pointer hover:font-bold hover:bg-stone-200/50";
-            div.innerHTML = `[${l.id}] ${l.name}`;
-            div.onclick = () => {
-                selectTable = l.id;
-                filterTableKnowledge();
-            }
-            // if (l.id == selectTable) div.classList.add('active')
-
-            listTableE.appendChild(div);
-        });
-    }
-
-    function initTable(table, childen) {
+    function Table() {
         let tableE = document.getElementById("table");
         if (!tableE) {
             console.warn("Sorry, Not found Element table. Please contact administrator.");
             return;
         }
-        tableE.innerHTML = '';
-
-        let title_Table = document.getElementById('title-table');
-        if (!title_Table) {
-            console.warn("Sorry, Not found Element title table. Please contact administrator.");
+        let thead = tableE.querySelector('thead');
+        if (!thead) {
+            thead = document.createElement('thead');
         }
-        title_Table.innerHTML = `${table.name ?? "ไม่พบชื่อตาราง"}`;
+        thead.innerHTML = '';
 
-        let thead = document.createElement('thead');
         let tr = document.createElement('tr');
         tr.innerHTML = `
             <th>วัน</th>
-            <th>${table.label ?? "..."}</th>
+            <th>
+                <input 
+                class="border p-1 rounded w-full text-center"
+                value="${table.label ?? ''}" 
+                data-id='${table.id}'
+                data-field="label-table"
+                >
+            </th>
         `;
 
         childen.forEach(c => {
-            tr.innerHTML += `<th>${c.label ?? "-"}</th>`;
+            tr.innerHTML += `
+            <th>
+                <input 
+                class="border p-1 rounded w-full text-center"
+                value="${c.label ?? ''}"
+                data-id='${c.id}'
+                data-field="label-table"
+                >
+            </th>`;
         });
+
+
+        let btnAddColumn = document.createElement('th');
+        btnAddColumn.innerHTML = ' <button class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-300 hover:bg-blue-400 text-white text-xl shadow"> + </button>';
+        btnAddColumn.onclick = () => addColumn();
+        tr.appendChild(btnAddColumn);
 
         thead.appendChild(tr);
-        tableE.appendChild(thead);
 
-
-    }
-
-    function mapTable(table, childen) {
-        let tableE = document.getElementById("table");
-        if (!tableE) {
-            console.warn("Sorry, Not found Element table. Please contact administrator.");
-            return;
-        }
-        let tbody = document.createElement('tbody');
-
-        let rows = table['rows'];
-
-        Object.values(rows).forEach(r => {
-            let tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${r.d_start_day} - ${r.d_end_day}</td>
-                <td>${r.d_value ?? "-"}</td>
-            `;
-
-            Object.values(childen).forEach(c => {
-                let a123 = c['rows'].filter((d) => d.d_row_parent_id == r.d_id);
-                let value = a123[0] ?? { 'value': '-' };
-
-                tr.innerHTML += `<td>${value['d_value']}</td>`;
-            });
-
-            tbody.appendChild(tr);
-        });
-        tableE.append(tbody);
-
-    }
-
-    function EditTable() {
-        let tableE = document.getElementById("table");
-        if (!tableE) {
-            console.warn("Sorry, Not found Element table. Please contact administrator.");
-            return;
-        }
 
         let tbody = tableE.querySelector('tbody');
+        if (!tbody) {
+            tbody = document.createElement('tbody');
+        }
         tbody.innerHTML = '';
 
-        console.log(table);
 
         let rows = table['rows'];
 
@@ -173,7 +130,7 @@
             tdDate.innerHTML = `
             <input 
                 type="number" 
-                class="border p-1 rounded w-[40%]"
+                class="border p-1 rounded w-[40%] max-w-[5vw]"
                 value="${r.d_start_day}"
                 data-id="${r.d_id}"
                 data-table_id="${r?.d_name_table_id}"
@@ -181,7 +138,7 @@
             > - 
             <input 
                 type="number" 
-                class="border p-1 rounded w-[40%]"
+                class="border p-1 rounded w-[40%] max-w-[5vw]"
                 value="${r.d_end_day}"
                 data-id="${r.d_id}"
                 data-table_id="${r?.d_name_table_id}"
@@ -219,14 +176,14 @@
                     data-child="${c.id ?? ''}"
                     data-field="child_value"
                 >
-            `;
-
+                `;
                 tr.appendChild(td);
             });
 
             tbody.appendChild(tr);
         });
 
+        tableE.appendChild(thead);
         tableE.appendChild(tbody);
     }
 
@@ -246,102 +203,6 @@
         });
 
         return result;
-    }
-
-    function transformData(data) {
-        const mainMap = {};
-        const tableMap = {};
-
-        // 1. เก็บ main (table_id = 15)
-        data.forEach(item => {
-            if (item.table_id === '15') {
-                if (!mainMap[item.id]) {
-                    mainMap[item.id] = {};
-                }
-                mainMap[item.id][item.field] = item.value;
-            }
-        });
-
-        // 2. จัดกลุ่ม child
-        data.forEach(item => {
-            if (item.table_id !== '15') {
-
-                const tableId = item.table_id;
-
-                if (!tableMap[tableId]) {
-                    tableMap[tableId] = {
-                        id: tableId,
-                        name: null,
-                        label: null, // ใส่ label เพิ่มเองทีหลัง
-                        branch_id: "1",
-                        child_of_table_id: "15",
-                        is_deleted: "0",
-                        rows: []
-                    };
-                }
-
-                const parent = mainMap[item.parent] || {};
-
-                tableMap[tableId].rows.push({
-                    d_id: item.id,
-                    d_name_table_id: tableId,
-                    d_row_parent_id: item.parent,
-                    d_start_day: parent.start_day || null,
-                    d_end_day: parent.end_day || null,
-                    d_value: item.value,
-                    d_second_label: null
-                });
-            }
-        });
-
-        // 3. เอาแค่ object เป็น array
-        return Object.values(tableMap);
-    }
-
-    function bindDataToChildren(result, table, children) {
-        const mainMap = {};
-
-        // 1. เก็บ start/end ของ main (table_id = table.id)
-        result.forEach(r => {
-            if (r.table_id === table.id) {
-                if (!mainMap[r.id]) mainMap[r.id] = {};
-                mainMap[r.id][r.field] = r.value;
-            }
-        });
-
-        // 2. reset rows ทุก child
-        children.forEach(c => {
-            c.rows = [];
-        });
-
-        // 3. map child table_id → object
-        const childMap = {};
-        children.forEach(c => {
-            childMap[c.id] = c;
-        });
-
-        // 4. ใส่ข้อมูลลง rows
-        result.forEach(r => {
-            if (r.table_id !== table.id && r.parent) {
-
-                const childTable = childMap[r.table_id];
-                const parent = mainMap[r.parent];
-
-                if (!childTable || !parent) return;
-
-                childTable.rows.push({
-                    d_id: r.id,
-                    d_name_table_id: r.table_id,
-                    d_row_parent_id: r.parent,
-                    d_start_day: parent.start_day || null,
-                    d_end_day: parent.end_day || null,
-                    d_value: r.value,
-                    d_second_label: null
-                });
-            }
-        });
-
-        return children;
     }
 
     function buildAllTables(result, table, children) {
@@ -416,6 +277,48 @@
         return allTables;
     }
 
+    function addColumn() {
+        console.log('add column');
+
+        let result = collectData();
+        console.log(result);
+        // result = transformData(result);
+        // let newChildren = bindDataToChildren(result, table, childen);
+        // console.log(newChildren);
+        let all = buildAllTables(result, table, childen);
+        console.log(all);
+        const count = tables.length ?? 0;
+        const rows_len = table.rows ?? 0;
+        const newTable_id = 'newTable_' + (count + 1);
+
+        list_rows = table.rows.map((r, index) => {
+            const newrow_id = 'newrow_' + r.id + "_" + index;
+            return {
+                'd_id': newrow_id,
+                'd_name_table_id': newTable_id,
+                'd_start_day': r.start_day,
+                'd_end_day': r.end_day,
+                'd_value': null,
+                'd_second_label': null,
+                'd_row_parent_id': r.id
+            }
+        });
+
+        tables.push({
+            'id': newTable_id,
+            'name': null,
+            'label': null,
+            'branch_id': 1,
+            'table_type_id': null,
+            'child_of_table_id': table.id,
+            'rows': list_rows
+        })
+
+        initDataTable();
+    }
+
+
+
     // =============== Switch Mode ================
 
     function ModalConfirmEditTable() {
@@ -456,7 +359,7 @@
 
     function confirmEdit() {
         console.log("Confirm Edit");
-        EditTable();
+        Table();
         let _cancel = document.getElementById('cancel-table');
         let _save = document.getElementById('save-table');
         let _edit = document.getElementById('edit-table');

@@ -78,6 +78,14 @@
     }
   }
 
+  function redirectTo(page, path="") {
+    if (!page) return;
+
+    // กำหนด path ตามที่ต้องการ
+    window.location.href = path + page + ".php";
+  }
+
+
   function getStatusByKey(key, v, min, max) {
     if (v >= min && v <= max) return { text: "ดีที่สุด", type: "success" };
     if (v > max) return { text: "เหมาะสม", type: "success" };
