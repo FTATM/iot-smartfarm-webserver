@@ -6,20 +6,24 @@
     const Sensors_realtime = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
     const Sensors_name_left = [];
     const Sensors_name_right = [];
+    const market_name = "outdoor";     //name market example => solar, shrimp, indoor, outdoor
+    const type = "price";             //multi type example => demand,price
 
     // Adjust font sizes based on screen width
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+
         await process();
 
         isLoading = false;
 
-        setInterval(async () => {
-            setHeaderInit();
-            console.log("loading new data from database ...");
-            await process();
-            console.log("load data success");
-            console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        }, 10000);
+        // setInterval(async () => {
+        //     setHeaderInit();
+        //     console.log("loading new data from database ...");
+        //     await process();
+        //     console.log("load data success");
+        //     console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+        // }, 10000);
+
     });
 
     async function process() {
@@ -33,26 +37,25 @@
 
         await loadGraphMarketById();
         await loadPieGraph();
+        await loadPapayaTableData();
     }
 
     async function loadSensorData() {
         let sensors;
         try {
-            const res = await fetch(
-                "../../api-website/plot_sensor_log_multiple.php",
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors_realtime,
-                    }),
-                },
+                        sensorLog: Sensors_realtime
+                    })
+                }
             );
             const data = await res.json();
             sensors = data['sensors'];
-
         } catch (err) {
-            console.error("❌ loadSensorData error:", err);
+            console.error('❌ loadSensorData error:', err);
         }
         Create_sensorCard(Sensors_realtime, sensors);
 
@@ -61,55 +64,55 @@
 
     async function SensorsLeft() {
         try {
-            const res = await fetch(
-                "../../api-website/plot_sensor_log_multiple.php",
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors_name_left,
-                    }),
-                },
+                        sensorLog: Sensors_name_left
+                    })
+                }
             );
             const data = await res.json();
-            const sensors = data["sensors"];
+            const sensors = data['sensors'];
 
-            SetCardsBynames(Sensors_name_left, sensors, "left");
+            SetCardsBynames(Sensors_name_left, sensors, 'left');
+
         } catch (err) {
-            console.error("❌ loadSensorData error:", err);
+            console.error('❌ loadSensorData error:', err);
         }
     }
 
     async function SensorsRight() {
         try {
-            const res = await fetch(
-                "../../api-website/plot_sensor_log_multiple.php",
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
                 {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sensorLog: Sensors_name_right,
-                    }),
-                },
+                        sensorLog: Sensors_name_right
+                    })
+                }
             );
             const data = await res.json();
-            const sensors = data["sensors"];
+            const sensors = data['sensors'];
 
-            SetCardsBynames(Sensors_name_right, sensors, "right");
+            SetCardsBynames(Sensors_name_right, sensors, 'right');
+
         } catch (err) {
-            console.error("❌ loadSensorData error:", err);
+            console.error('❌ loadSensorData error:', err);
         }
     }
 
     function Create_sensorCard(sensor_names, sensors) {
-        let metricsCards = document.getElementById("metrics-cards");
+        let metricsCards = document.getElementById('metrics-cards');
         metricsCards.innerHTML = "";
         Object.values(sensor_names).forEach((s) => {
             const row = sensors[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
-            const min = row["min"] || 0;
-            const max = row["max"] || 1;
+            const min = row['min'] || 0;
+            const max = row['max'] || 1;
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
-            let div = document.createElement("div");
+            let div = document.createElement('div');
             div.id = `card-${s}`;
             div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
@@ -127,7 +130,7 @@
                             ${value}
                         </span>
                         <span class="text-[0.75vw] font-bold text-stone-400 dark:text-stone-200">
-                            ${row.unit ?? ""}
+                            ${row.unit ?? ''}
                         </span>
                     </div>
                 </div>
@@ -145,96 +148,75 @@
                 </div>
                 `;
 
-            if (row["unit"] !== "--") {
+            if (row['unit'] !== "--") {
                 div.onclick = () => {
+                    console.log("Select sensor : " + row.monitor_name);
                     sensor_select = row.monitor_id;
                     loadGraphSensorById(sensors);
-                };
+                }
             }
 
             metricsCards.appendChild(div);
 
             setCardValue(s, value, min, max);
-
             if (sensor_select == 0 && row.monitor_id) {
                 sensor_select = row.monitor_id;
             }
-        });
+        })
     }
 
     async function Card1() {
-        console.log("Card 1");
-        const table_type = 1; //Watch table id in
+        const table_type = 1;     //Watch table id in 
         try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type +
-                "&aDay=" +
-                data.day,
-            );
+            const res = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + data.day);
             const raw = await res.json();
             const table = Object.values(raw.data);
 
             const mealsCount = table[0].value;
-            const volumeMeal = table[0].children[0]["value"];
-            const totalMealperDay =
-                toNumber(mealsCount) * toNumber(volumeMeal) || "-";
+            const volumeMeal = table[0].children[0]['value'];
+            const totalMealperDay = (toNumber(mealsCount) * toNumber(volumeMeal)) || "-";
 
-            SetValueInHTMLById("meals-count", mealsCount);
-            SetValueInHTMLById("volume-meal", volumeMeal);
-            SetValueInHTMLById("total-meal-per-day", totalMealperDay);
+            SetValueInHTMLById('meals-count', mealsCount);
+            SetValueInHTMLById('volume-meal', volumeMeal);
+            SetValueInHTMLById('total-meal-per-day', totalMealperDay);
+
         } catch (err) {
-            console.error("❌ loadSensorData error:", err);
+            console.error('❌ loadSensorData error:', err);
         }
     }
 
     async function Card2() {
-        console.log("Card 2");
-        const table_type_humidity = 5; //Watch table id in database
         try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type_humidity +
-                "&aDay=" +
-                data.day,
-            );
+            const res = await fetch('../../api-website/fetch_expenseBycategory.php?bid=1');
             const raw = await res.json();
-            const humidityTable = Object.values(raw.data);
+            const expense = raw['data'];
 
-            const humidity = humidityTable[0].value;
+            const electricity = Number(expense[0]?.electricity) || 0;
+            const water = Number(expense[0]?.water) || 0;
+            const hardware = Number(expense[0]?.hardware) || 0;
+            const infrastructure = Number(expense[0]?.infrastructure) || 0;
+            const miscellaneous = Number(expense[0]?.miscellaneous) || 0;
+            const total = hardware + infrastructure + miscellaneous + electricity + water;
 
-            SetValueInHTMLById("humidity", humidity + "%");
+            SetValueInHTMLById('electricity-usage', electricity);
+            SetValueInHTMLById('water-usage', water);
+            SetValueInHTMLById('expense-hardware', hardware);
+            SetValueInHTMLById('expense-infrastructure', infrastructure);
+            SetValueInHTMLById('expense-miscellaneous', miscellaneous);
+            SetValueInHTMLById('expense-total', total);
         } catch (err) {
-            console.error("❌ loadSensorData error:", err);
+            console.error('❌ loadSensorData error:', err);
         }
 
-        // =============== Light ==============
-        const table_type_light = 4; //Watch table id in database
-        try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type_light +
-                "&aDay=" +
-                data.day,
-            );
-            const raw = await res.json();
-            const LuminanceTable = Object.values(raw.data);
-            console.log(LuminanceTable);
-
-            const totalhours = LuminanceTable[0].value;
-            const lighttime = LuminanceTable[0].children[0].value;
-            const luminance = LuminanceTable[0].children[1].value;
-
-            SetValueInHTMLById("total-hours", totalhours);
-            SetValueInHTMLById("light-time", lighttime);
-            SetValueInHTMLById("light-recommentation", luminance);
-        } catch (err) {
-            console.error("❌ loadSensorData error:", err);
-        }
     }
 
     async function Card3() {
         calculateElectricityAndWater('card-3');
+        try {
+        } catch (err) {
+            console.error('❌ loadSensorData error:', err);
+        }
+
     }
 
     async function Card4() {
@@ -327,8 +309,7 @@
             `;
         });
     }
-
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
     });
 var T2 = ['tab-env2','tab-fert2','tab-care2'];
@@ -407,4 +388,122 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
   }
  
   setActive(0);
+  
+  async function loadPapayaTableData() {
+    try {
+        const fd = new FormData();
+        fd.append('bid', '1');
+
+        const res = await fetch('../../api-app/fetch-tableknowledge.php', {
+            method: 'POST',
+            body: fd
+        });
+
+        const json = await res.json();
+
+
+        const tables = json.data;
+        console.log(tables);
+        
+
+        // ดึง day จาก global variable 'data' ที่มาจาก header/footer
+        // ถ้าไม่มี fallback เป็น 0
+        const day = Number(
+            (typeof data !== 'undefined' && data?.day != null)
+                ? data.day
+                : 0
+        );
+        console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
+
+        console.log('DAY:', day);
+
+        // ===============================
+        // 🔥 CORE FUNCTION ใหม่ (ตัวจบ)
+        // ===============================
+        function getRow(tableId) {
+            const table = tables.find(t => t.id == tableId);
+            if (!table || !table.rows) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
+                return null;
+            }
+
+            const matched = table.rows.find(r => {
+                const start = Number(r.d_start_day);
+                const end = Number(r.d_end_day);
+
+                // ถ้า start=0 และ end=0 = ใช้ได้กับทุกวัน (หรือ day=0)
+                if (start === 0 && end === 0) return true;
+
+                return day >= start && day <= end;
+            });
+
+            if (!matched) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่มี row ที่ตรงกับ day=${day}, ใช้ row แรก`);
+            }
+
+            return matched || table.rows[0];
+        }
+
+        function getVal(tableId) {
+            return getRow(tableId)?.d_value ?? '-';
+        }
+
+        function getRange(tableId) {
+            const r = getRow(tableId);
+            if (!r) return '-';
+            return `${r.d_start_day} - ${r.d_end_day} วัน`;
+        }
+
+        // ===============================
+        // ✅ CARD 1 (ปลูก)
+        // ===============================
+        SetValueInHTMLById('planting-stage',   getVal(15));
+        SetValueInHTMLById('planting-days',    getRange(15));
+        SetValueInHTMLById('planting-area',    getVal(16));
+        SetValueInHTMLById('planting-density', getVal(17));
+        SetValueInHTMLById('planting-yield',   getVal(18));
+
+        // ===============================
+        // ✅ DOT PROGRESS
+        // ===============================
+        const dotMap = {
+            'เตรียมดิน': 0, 'เพาะกล้า': 0,
+            'ย้ายปลูก': 1, 'เจริญเติบโต': 1,
+            'เริ่มออกดอก': 2,
+            'ติดผล': 3,
+            'ให้ผลต่อเนื่อง': 4, 'ช่วงปลายอายุ': 4
+        };
+        setActive(dotMap[getVal(15)] ?? 0);
+
+        // ===============================
+        // ✅ PANEL A
+        // ===============================
+        SetValueInHTMLById('ec',          getVal(19));
+        SetValueInHTMLById('ph',          getVal(20));
+        SetValueInHTMLById('temperature', getVal(21));
+        SetValueInHTMLById('humidity',    getVal(22));
+        SetValueInHTMLById('light',       getVal(23));
+        SetValueInHTMLById('o2',          getVal(24));
+        SetValueInHTMLById('co2',         getVal(25));
+
+        // ===============================
+        // ✅ PANEL B
+        // ===============================
+        SetValueInHTMLById('fert-chemical', getVal(26));
+        SetValueInHTMLById('fert-bio',      getVal(27));
+        SetValueInHTMLById('fert-organic',  getVal(28));
+        SetValueInHTMLById('fert-mix',      getVal(29));
+
+        // ===============================
+        // ✅ PANEL C
+        // ===============================
+        SetValueInHTMLById('care-disease', getVal(30));
+        SetValueInHTMLById('care-note',    getVal(31));
+
+        console.log('✅ Papaya data loaded');
+
+    } catch (err) {
+        console.error('❌ loadPapayaTableData error:', err);
+    }
+}
 </script>

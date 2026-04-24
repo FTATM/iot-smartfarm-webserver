@@ -33,6 +33,7 @@
 
         await loadGraphMarketById();
         await loadPieGraph();
+        await loadlettuceTableData();
     }
 
     async function loadSensorData() {
@@ -330,7 +331,34 @@
 
         document.addEventListener('DOMContentLoaded', function () {
         switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
+        switchCard1(0);
     });
+
+    var T1 = ['tab1-plant', 'tab1-struct', 'tab1-growth'];
+var P1 = ['panel1-0', 'panel1-1', 'panel1-2'];
+
+function switchCard1(idx) {
+    T1.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (i === idx) {
+            el.style.backgroundColor = '#ff8021';
+            el.style.color = '#ffffff';
+            el.style.borderColor = '#ff8021';
+        } else {
+            el.style.backgroundColor = '#ffffff';
+            el.style.color = '#ff8021';
+            el.style.borderColor = '#ff8021';
+        }
+    });
+    P1.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+    });
+}
+
+
 var T2 = ['tab-env2','tab-fert2','tab-care2'];
 var P2 = ['panel2-0','panel2-1','panel2-2'];
 
@@ -363,48 +391,222 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
   const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
   const fillPcts   = [0, 25, 50, 75, 100];
  
-  function setActive(index) {
-    const dots   = document.querySelectorAll('.dot');
-    const nums   = document.querySelectorAll('.dot-num');
-    const labels = document.querySelectorAll('.label');
-    const fill   = document.getElementById('fill');
- 
+  // ===== BUILD DOTS จาก DB =====
+function buildDots(rows) {
+    const dotRow   = document.getElementById('dot-row');
+    const labelRow = document.getElementById('label-row');
+    if (!dotRow || !labelRow) return;
+
+    dotRow.innerHTML   = '';
+    labelRow.innerHTML = '';
+
+    rows.forEach((row, i) => {
+        // Dot
+        const dotWrap = document.createElement('div');
+        dotWrap.style.cssText = 'display:flex; align-items:center; justify-content:center;';
+
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.dataset.index = i;
+        dot.style.cssText = `width:20px; height:20px; border-radius:50%; border:2px solid #ddd; background:#fff; display:flex; align-items:center; justify-content:center; transition:all 0.2s;`;
+
+        const num = document.createElement('span');
+        num.className = 'dot-num';
+        num.style.cssText = 'font-size:8px; font-weight:500; color:#888;';
+        num.textContent = i + 1;
+
+        dot.appendChild(num);
+        dotWrap.appendChild(dot);
+        dotRow.appendChild(dotWrap);
+
+        // Label
+        const labelWrap = document.createElement('div');
+        labelWrap.style.cssText = 'text-align:center; flex:1;';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'label';
+        lbl.dataset.index = i;
+        lbl.style.cssText = 'font-size:8px; font-weight:300; color:#888; white-space:nowrap;';
+        lbl.textContent = row.d_value;
+
+        labelWrap.appendChild(lbl);
+        labelRow.appendChild(labelWrap);
+    });
+}
+
+// ===== SET ACTIVE (dynamic จาก rows) =====
+function setActive(index, totalRows) {
+    const container = document.getElementById('panel1-2');
+    if (!container) return;
+
+    const dots   = container.querySelectorAll('.dot');
+    const nums   = container.querySelectorAll('.dot-num');
+    const labels = container.querySelectorAll('.label');
+    const fill   = document.getElementById('fill-bar');
+
+    const total = totalRows || dots.length;
+    const pct   = total <= 1 ? 0 : (index / (total - 1)) * 100;
+
+    const color     = '#639922';
+    const textColor = '#27500A';
+
     dots.forEach((dot, i) => {
-      const num = nums[i];
-      if (i < index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#fff';
-      } else if (i === index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '24px';
-        num.style.color = '#fff';
-      } else {
-        dot.style.background  = '#fff';
-        dot.style.borderColor = '#ddd';
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#888';
-      }
+        const num = nums[i];
+        if (i < index) {
+            dot.style.background  = color;
+            dot.style.borderColor = color;
+            dot.style.width = dot.style.height = '20px';
+            num.style.color = '#fff';
+        } else if (i === index) {
+            dot.style.background  = color;
+            dot.style.borderColor = color;
+            dot.style.width = dot.style.height = '24px';
+            num.style.color = '#fff';
+        } else {
+            dot.style.background  = '#fff';
+            dot.style.borderColor = '#ddd';
+            dot.style.width = dot.style.height = '20px';
+            num.style.color = '#888';
+        }
     });
- 
+
     labels.forEach((lbl, i) => {
-      if (i === index) {
-        lbl.style.color      = textColors[index];
-        lbl.style.fontWeight = '700';
-      } else if (i < index) {
-        lbl.style.color      = dotColors[index];
-        lbl.style.fontWeight = '500';
-      } else {
-        lbl.style.color      = '#888';
-        lbl.style.fontWeight = '500';
-      }
+        if (i === index) {
+            lbl.style.color      = textColor;
+            lbl.style.fontWeight = '700';
+        } else if (i < index) {
+            lbl.style.color      = color;
+            lbl.style.fontWeight = '500';
+        } else {
+            lbl.style.color      = '#888';
+            lbl.style.fontWeight = '300';
+        }
     });
- 
-    fill.style.background = dotColors[index];
-    fill.style.width      = fillPcts[index] + '%';
-  }
+
+    if (fill) {
+        fill.style.background = color;
+        fill.style.width      = pct + '%';
+    }
+}
  
   setActive(0);
+  async function loadlettuceTableData() {
+    try {
+        const fd = new FormData();
+        fd.append('bid', '1');
+
+        const res = await fetch('../../api-app/fetch-tableknowledge.php', {
+            method: 'POST',
+            body: fd
+        });
+
+        const json = await res.json();
+
+
+        const tables = json.data;
+        console.log(tables);
+        
+
+        // ดึง day จาก global variable 'data' ที่มาจาก header/footer
+        // ถ้าไม่มี fallback เป็น 0
+        const day = Number(
+            (typeof data !== 'undefined' && data?.day != null)
+                ? data.day
+                : 0
+        );
+        console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
+
+        console.log('DAY:', day);
+
+        // ===============================
+        // 🔥 CORE FUNCTION ใหม่ (ตัวจบ)
+        // ===============================
+        function getRow(tableId) {
+            const table = tables.find(t => t.id == tableId);
+            if (!table || !table.rows) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
+                return null;
+            }
+
+            const matched = table.rows.find(r => {
+                const start = Number(r.d_start_day);
+                const end = Number(r.d_end_day);
+
+                // ถ้า start=0 และ end=0 = ใช้ได้กับทุกวัน (หรือ day=0)
+                if (start === 0 && end === 0) return true;
+
+                return day >= start && day <= end;
+            });
+
+            if (!matched) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่มี row ที่ตรงกับ day=${day}, ใช้ row แรก`);
+            }
+
+            return matched || table.rows[0];
+        }
+
+        function getVal(tableId) {
+            return getRow(tableId)?.d_value ?? '-';
+        }
+
+        function getRange(tableId) {
+            const r = getRow(tableId);
+            if (!r) return '-';
+            return `${r.d_start_day} - ${r.d_end_day} วัน`;
+        }
+
+        // ===============================
+        // ✅ CARD 1 (ปลูก)
+        // ===============================
+        SetValueInHTMLById('planting-stage',   getVal(15));
+        SetValueInHTMLById('planting-days',    getRange(15));
+        SetValueInHTMLById('planting-area',    getVal(16));
+        SetValueInHTMLById('planting-density', getVal(17));
+        SetValueInHTMLById('planting-yield',   getVal(18));
+
+
+const table15 = tables.find(t => t.id == 15);
+if (table15 && table15.rows) {
+    // สร้าง dot ตาม rows จาก DB
+    buildDots(table15.rows);
+
+    // หา index ของ row ที่ตรงกับ day ปัจจุบัน
+    const currentVal  = getVal(15);
+    const activeIndex = table15.rows.findIndex(r => r.d_value === currentVal);
+
+    setActive(activeIndex >= 0 ? activeIndex : 0, table15.rows.length);
+}
+
+        // ===============================
+        // ✅ PANEL A
+        // ===============================
+        SetValueInHTMLById('ec',          getVal(19));
+        SetValueInHTMLById('ph',          getVal(20));
+        SetValueInHTMLById('temperature', getVal(21));
+        SetValueInHTMLById('humidity',    getVal(22));
+        SetValueInHTMLById('light',       getVal(23));
+        SetValueInHTMLById('o2',          getVal(24));
+        SetValueInHTMLById('co2',         getVal(25));
+
+        // ===============================
+        // ✅ PANEL B
+        // ===============================
+        SetValueInHTMLById('fert-chemical', getVal(26));
+        SetValueInHTMLById('fert-bio',      getVal(27));
+        SetValueInHTMLById('fert-organic',  getVal(28));
+        SetValueInHTMLById('fert-mix',      getVal(29));
+
+        // ===============================
+        // ✅ PANEL C
+        // ===============================
+        SetValueInHTMLById('care-disease', getVal(30));
+        SetValueInHTMLById('care-note',    getVal(31));
+
+        console.log('✅ Papaya data loaded');
+
+    } catch (err) {
+        console.error('❌ loadPapayaTableData error:', err);
+    }
+}
+
 </script>

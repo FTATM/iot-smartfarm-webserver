@@ -173,237 +173,260 @@
             mask-size: 100% 100%;
             }
 
-        /* ========== RESPONSIVE FOR 75" TV (4K - 3840x2160) ========== */
-        @media (min-width: 3840px) {
-            body {
-                font-size: 28px;
-            }
-            
-            .fluent--door-arrow-left-20-regular {
-                width: 70px;
-                height: 70px;
-            }
-            
-            /* Header scaling */
-            header h1 {
-                font-size: 3rem !important;
-            }
-            
-            header p {
-                font-size: 1.25rem !important;
-            }
-            
-            header .text-sm {
-                font-size: 1.75rem !important;
-            }
-            
-            header .text-xs {
-                font-size: 1.5rem !important;
-            }
-            
-            header .text-\[10px\] {
-                font-size: 1.25rem !important;
-            }
-            
-            header .size-9 {
-                width: 5rem !important;
-                height: 5rem !important;
-            }
-            
-            /* Metric cards */
-            .metric-card-value {
-                font-size: 4rem !important;
-            }
-            
-            #metrics-cards .text-lg {
-                font-size: 4rem !important;
-            }
-            
-            #metrics-cards .text-sm {
-                font-size: 2rem !important;
-            }
-            
-            #metrics-cards .text-\[9px\] {
-                font-size: 1.5rem !important;
-            }
-            
-            #metrics-cards .text-\[8px\] {
-                font-size: 1.25rem !important;
-            }
-            
-            #metrics-cards .text-\[7px\] {
-                font-size: 1.5rem !important;
-            }
-            
-            #metrics-cards > div {
-                height: 18rem !important;
-            }
-            
-            /* Chart titles and text */
-            .text-\[11px\] {
-                font-size: 1.75rem !important;
-            }
-            
-            .text-\[10px\] {
-                font-size: 1.5rem !important;
-            }
-            
-            .text-\[9px\] {
-                font-size: 1.25rem !important;
-            }
-            
-            .text-\[8px\] {
-                font-size: 1.45rem !important;
-            }
-            
-            .text-\[7px\] {
-                font-size: 1.45rem !important;
-            }
+        /* ============================================================
+   RESPONSIVE TYPOGRAPHY — ครอบคลุมทุกขนาดหน้าจอ
+   Mobile → Tablet → Laptop → FHD → QHD → 4K TV
+   ============================================================ */
 
-            .text-\[6px\] {
-                font-size: 1.45rem !important;
-            }
-            
-            /* Material icons */
-            .material-symbols-outlined {
-                font-size: 3rem !important;
-            }
-            
-            /* Right sidebar cards */
-            .col-span-2 h3 {
-                font-size: 1.75rem !important;
-            }
-            
-            /* Buttons and badges */
-            button {
-                font-size: 1.25rem !important;
-                padding: 0.75rem 1.5rem !important;
-            }
-            
-            .status {
-                font-size: 1.5rem !important;
-                padding: 0.75rem 1.5rem !important;
-            }
-            
-            /* Border radius scaling */
-            .rounded-2xl {
-                border-radius: 2rem !important;
-            }
-            
-            .rounded-xl {
-                border-radius: 1.5rem !important;
-            }
-            
-            .rounded-lg {
-                border-radius: 1rem !important;
-            }
-            
-            /* Spacing */
-            .gap-4 {
-                gap: 2rem !important;
-            }
-            
-            .gap-3 {
-                gap: 1.5rem !important;
-            }
-            
-            .gap-2 {
-                gap: 1rem !important;
-            }
-            
-            .p-4 {
-                padding: 2rem !important;
-            }
-            
-            .p-3 {
-                padding: 1.5rem !important;
-            }
-            
-            .px-6 {
-                padding-left: 3rem !important;
-                padding-right: 3rem !important;
-            }
-            
-            .py-3 {
-                padding-top: 1.5rem !important;
-                padding-bottom: 1.5rem !important;
-            }
-            
-            /* Loading dots */
-            .loading-dot {
-                width: 1rem !important;
-                height: 1rem !important;
-            }
-            
-            /* Range bar */
-            .metric-range .bar {
-                height: 0.75rem !important;
-            }
-            
-            /* Footer */
-            footer {
-                padding: 1.5rem 3rem !important;
-            }
-        }
+/* ========== MOBILE (≤ 767px) ========== */
+@media (max-width: 767px) {
+    body { font-size: 12px; }
 
-        /* ========== RESPONSIVE FOR LARGE DISPLAYS (1920x1080 - 2560x1440) ========== */
-        @media (min-width: 1920px) and (max-width: 3839px) {
-            body {
-                font-size: 18px;
-            }
-            
-            .fluent--door-arrow-left-20-regular {
-                width: 35px;
-                height: 35px;
-            }
-            
-            header h1 {
-                font-size: 2rem !important;
-            }
-            
-            header .text-\[10px\] {
-                font-size: 0.875rem !important;
-            }
-            
-            header .size-9 {
-                width: 3.5rem !important;
-                height: 3.5rem !important;
-            }
-            
-            #metrics-cards .text-lg {
-                font-size: 2.5rem !important;
-            }
-            
-            #metrics-cards .text-sm {
-                font-size: 1.25rem !important;
-            }
-            
-            #metrics-cards .text-\[9px\] {
-                font-size: 1rem !important;
-            }
-            
-            #metrics-cards > div {
-                height: 12rem !important;
-            }
-            
-            .text-\[11px\] {
-                font-size: 1.125rem !important;
-            }
-            
-            .text-\[10px\] {
-                font-size: 1rem !important;
-            }
-            
-            .text-\[9px\] {
-                font-size: 0.875rem !important;
-            }
-            
-            .material-symbols-outlined {
-                font-size: 2rem !important;
-            }
-            
-            .status {
-                font-size: 1rem !important;
-            }
-        }
+    .fluent--door-arrow-left-20-regular { width: 20px; height: 20px; }
+
+    header h1 { font-size: 1rem !important; }
+    header p  { font-size: 0.7rem !important; }
+    header .text-sm  { font-size: 0.75rem !important; }
+    header .text-xs  { font-size: 0.65rem !important; }
+    header .text-\[10px\] { font-size: 0.6rem !important; }
+    header .size-9   { width: 2rem !important; height: 2rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 1.25rem !important; }
+    #metrics-cards .text-sm  { font-size: 0.65rem !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 0.55rem !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 0.5rem  !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 0.55rem !important; }
+    #metrics-cards > div     { height: 5rem !important; }
+
+    .text-\[11px\] { font-size: 0.65rem !important; }
+    .text-\[10px\] { font-size: 0.6rem  !important; }
+    .text-\[9px\]  { font-size: 0.55rem !important; }
+    .text-\[8px\]  { font-size: 0.5rem  !important; }
+    .text-\[7px\]  { font-size: 0.5rem  !important; }
+    .text-\[6px\]  { font-size: 0.5rem  !important; }
+
+    .material-symbols-outlined { font-size: 1.1rem !important; }
+
+    .col-span-2 h3 { font-size: 0.7rem !important; }
+
+    button { font-size: 0.6rem !important; padding: 0.3rem 0.6rem !important; }
+    .status { font-size: 0.6rem !important; padding: 0.3rem 0.6rem !important; }
+
+    /* Growth-stage dots */
+    .dot     { width: clamp(12px, 3.5vw, 20px) !important; height: clamp(12px, 3.5vw, 20px) !important; }
+    .dot-num { font-size: clamp(5px, 1.5vw, 8px) !important; }
+    .label   { font-size: clamp(5px, 1.5vw, 8px) !important; }
+}
+
+/* ========== TABLET (768px – 1023px) ========== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    body { font-size: 13px; }
+
+    .fluent--door-arrow-left-20-regular { width: 24px; height: 24px; }
+
+    header h1 { font-size: 1.15rem !important; }
+    header p  { font-size: 0.75rem !important; }
+    header .text-sm  { font-size: 0.8rem  !important; }
+    header .text-xs  { font-size: 0.7rem  !important; }
+    header .text-\[10px\] { font-size: 0.65rem !important; }
+    header .size-9   { width: 2.25rem !important; height: 2.25rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 1.5rem  !important; }
+    #metrics-cards .text-sm  { font-size: 0.75rem !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 0.6rem  !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 0.55rem !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 0.6rem  !important; }
+    #metrics-cards > div     { height: 6rem !important; }
+
+    .text-\[11px\] { font-size: 0.7rem  !important; }
+    .text-\[10px\] { font-size: 0.65rem !important; }
+    .text-\[9px\]  { font-size: 0.6rem  !important; }
+    .text-\[8px\]  { font-size: 0.55rem !important; }
+    .text-\[7px\]  { font-size: 0.55rem !important; }
+    .text-\[6px\]  { font-size: 0.55rem !important; }
+
+    .material-symbols-outlined { font-size: 1.25rem !important; }
+
+    .col-span-2 h3 { font-size: 0.75rem !important; }
+
+    button { font-size: 0.65rem !important; padding: 0.35rem 0.75rem !important; }
+    .status { font-size: 0.65rem !important; padding: 0.35rem 0.75rem !important; }
+
+    .dot     { width: clamp(14px, 2vw, 22px) !important; height: clamp(14px, 2vw, 22px) !important; }
+    .dot-num { font-size: clamp(5px, 0.8vw, 9px) !important; }
+    .label   { font-size: clamp(5px, 0.8vw, 9px) !important; }
+}
+
+/* ========== LAPTOP / SMALL DESKTOP (1024px – 1279px) ========== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    body { font-size: 14px; }
+
+    .fluent--door-arrow-left-20-regular { width: 26px; height: 26px; }
+
+    header h1 { font-size: 1.25rem !important; }
+    header p  { font-size: 0.8rem  !important; }
+    header .text-sm  { font-size: 0.85rem !important; }
+    header .text-xs  { font-size: 0.75rem !important; }
+    header .text-\[10px\] { font-size: 0.7rem !important; }
+    header .size-9   { width: 2.5rem !important; height: 2.5rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 1.6rem  !important; }
+    #metrics-cards .text-sm  { font-size: 0.8rem  !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 0.65rem !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 0.6rem  !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 0.65rem !important; }
+    #metrics-cards > div     { height: 7rem !important; }
+
+    .text-\[11px\] { font-size: 0.75rem !important; }
+    .text-\[10px\] { font-size: 0.7rem  !important; }
+    .text-\[9px\]  { font-size: 0.65rem !important; }
+    .text-\[8px\]  { font-size: 0.6rem  !important; }
+    .text-\[7px\]  { font-size: 0.6rem  !important; }
+    .text-\[6px\]  { font-size: 0.6rem  !important; }
+
+    .material-symbols-outlined { font-size: 1.35rem !important; }
+
+    .col-span-2 h3 { font-size: 0.8rem !important; }
+
+    button { font-size: 0.7rem !important; padding: 0.4rem 0.85rem !important; }
+    .status { font-size: 0.7rem !important; padding: 0.4rem 0.85rem !important; }
+
+    .dot     { width: clamp(14px, 1.5vw, 24px) !important; height: clamp(14px, 1.5vw, 24px) !important; }
+    .dot-num { font-size: clamp(5px, 0.6vw, 10px) !important; }
+    .label   { font-size: clamp(5px, 0.6vw, 10px) !important; }
+}
+
+/* ========== HD / WXGA (1280px – 1919px) ========== */
+@media (min-width: 1280px) and (max-width: 1919px) {
+    body { font-size: 15px; }
+
+    .fluent--door-arrow-left-20-regular { width: 28px; height: 28px; }
+
+    header h1 { font-size: 1.4rem !important; }
+    header p  { font-size: 0.85rem !important; }
+    header .text-sm  { font-size: 0.9rem  !important; }
+    header .text-xs  { font-size: 0.8rem  !important; }
+    header .text-\[10px\] { font-size: 0.75rem !important; }
+    header .size-9   { width: 2.75rem !important; height: 2.75rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 1.75rem !important; }
+    #metrics-cards .text-sm  { font-size: 0.85rem !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 0.7rem  !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 0.65rem !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 0.7rem  !important; }
+    #metrics-cards > div     { height: 8rem !important; }
+
+    .text-\[11px\] { font-size: 0.8rem  !important; }
+    .text-\[10px\] { font-size: 0.75rem !important; }
+    .text-\[9px\]  { font-size: 0.7rem  !important; }
+    .text-\[8px\]  { font-size: 0.65rem !important; }
+    .text-\[7px\]  { font-size: 0.65rem !important; }
+    .text-\[6px\]  { font-size: 0.65rem !important; }
+
+    .material-symbols-outlined { font-size: 1.5rem !important; }
+
+    .col-span-2 h3 { font-size: 0.85rem !important; }
+
+    button { font-size: 0.75rem !important; padding: 0.45rem 1rem !important; }
+    .status { font-size: 0.75rem !important; padding: 0.45rem 1rem !important; }
+
+    .dot     { width: clamp(16px, 1.2vw, 26px) !important; height: clamp(16px, 1.2vw, 26px) !important; }
+    .dot-num { font-size: clamp(6px, 0.5vw, 11px) !important; }
+    .label   { font-size: clamp(6px, 0.5vw, 11px) !important; }
+}
+
+/* ========== FULL HD / QHD (1920px – 3839px) ========== */
+@media (min-width: 1920px) and (max-width: 3839px) {
+    body { font-size: 18px; }
+
+    .fluent--door-arrow-left-20-regular { width: 35px; height: 35px; }
+
+    header h1 { font-size: 2rem !important; }
+    header p  { font-size: 1rem !important; }
+    header .text-sm  { font-size: 1.1rem  !important; }
+    header .text-xs  { font-size: 1rem    !important; }
+    header .text-\[10px\] { font-size: 0.875rem !important; }
+    header .size-9   { width: 3.5rem !important; height: 3.5rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 2.5rem  !important; }
+    #metrics-cards .text-sm  { font-size: 1.25rem !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 1rem    !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 0.9rem  !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 1rem    !important; }
+    #metrics-cards > div     { height: 12rem !important; }
+
+    .text-\[11px\] { font-size: 1.125rem !important; }
+    .text-\[10px\] { font-size: 1rem     !important; }
+    .text-\[9px\]  { font-size: 0.875rem !important; }
+    .text-\[8px\]  { font-size: 0.85rem  !important; }
+    .text-\[7px\]  { font-size: 0.85rem  !important; }
+    .text-\[6px\]  { font-size: 0.85rem  !important; }
+
+    .material-symbols-outlined { font-size: 2rem !important; }
+
+    .col-span-2 h3 { font-size: 1.1rem !important; }
+
+    button { font-size: 1rem !important; padding: 0.6rem 1.25rem !important; }
+    .status { font-size: 1rem !important; padding: 0.6rem 1.25rem !important; }
+
+    .dot     { width: clamp(20px, 1.04vw, 40px) !important; height: clamp(20px, 1.04vw, 40px) !important; }
+    .dot-num { font-size: clamp(8px, 0.42vw, 16px) !important; }
+    .label   { font-size: clamp(8px, 0.42vw, 16px) !important; }
+}
+
+/* ========== 4K TV (≥ 3840px) ========== */
+@media (min-width: 3840px) {
+    body { font-size: 28px; }
+
+    .fluent--door-arrow-left-20-regular { width: 70px; height: 70px; }
+
+    header h1 { font-size: 3rem   !important; }
+    header p  { font-size: 1.25rem !important; }
+    header .text-sm  { font-size: 1.75rem !important; }
+    header .text-xs  { font-size: 1.5rem  !important; }
+    header .text-\[10px\] { font-size: 1.25rem !important; }
+    header .size-9   { width: 5rem !important; height: 5rem !important; }
+
+    #metrics-cards .text-lg  { font-size: 4rem   !important; }
+    #metrics-cards .text-sm  { font-size: 2rem   !important; }
+    #metrics-cards .text-\[9px\]  { font-size: 1.5rem  !important; }
+    #metrics-cards .text-\[8px\]  { font-size: 1.25rem !important; }
+    #metrics-cards .text-\[7px\]  { font-size: 1.5rem  !important; }
+    #metrics-cards > div     { height: 18rem !important; }
+
+    .text-\[11px\] { font-size: 1.75rem !important; }
+    .text-\[10px\] { font-size: 1.5rem  !important; }
+    .text-\[9px\]  { font-size: 1.25rem !important; }
+    .text-\[8px\]  { font-size: 1.45rem !important; }
+    .text-\[7px\]  { font-size: 1.45rem !important; }
+    .text-\[6px\]  { font-size: 1.45rem !important; }
+
+    .material-symbols-outlined { font-size: 3rem !important; }
+
+    .col-span-2 h3 { font-size: 1.75rem !important; }
+
+    button { font-size: 1.25rem !important; padding: 0.75rem 1.5rem !important; }
+    .status { font-size: 1.5rem !important; padding: 0.75rem 1.5rem !important; }
+
+    /* Spacing */
+    .rounded-2xl { border-radius: 2rem   !important; }
+    .rounded-xl  { border-radius: 1.5rem !important; }
+    .rounded-lg  { border-radius: 1rem   !important; }
+    .gap-4 { gap: 2rem !important; }
+    .gap-3 { gap: 1.5rem !important; }
+    .gap-2 { gap: 1rem !important; }
+    .p-4   { padding: 2rem !important; }
+    .p-3   { padding: 1.5rem !important; }
+    .px-6  { padding-left: 3rem !important; padding-right: 3rem !important; }
+    .py-3  { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+
+    .loading-dot { width: 1rem !important; height: 1rem !important; }
+    .metric-range .bar { height: 0.75rem !important; }
+
+    footer { padding: 1.5rem 3rem !important; }
+
+    .dot     { width: 2.6vw !important; height: 2.6vw !important; }
+    .dot-num { font-size: 1.1vw !important; }
+    .label   { font-size: 1.1vw !important; }
+}
     </style>

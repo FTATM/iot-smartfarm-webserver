@@ -37,6 +37,7 @@
 
         await loadGraphMarketById();
         await loadPieGraph();
+        await loadchiliTableData();
     }
 
 
@@ -390,4 +391,122 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
   }
  
   setActive(0);
+
+  async function loadchiliTableData() {
+    try {
+        const fd = new FormData();
+        fd.append('bid', '1');
+
+        const res = await fetch('../../api-app/fetch-tableknowledge.php', {
+            method: 'POST',
+            body: fd
+        });
+
+        const json = await res.json();
+
+
+        const tables = json.data;
+        console.log(tables);
+        
+
+        // ดึง day จาก global variable 'data' ที่มาจาก header/footer
+        // ถ้าไม่มี fallback เป็น 0
+        const day = Number(
+            (typeof data !== 'undefined' && data?.day != null)
+                ? data.day
+                : 0
+        );
+        console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
+
+        console.log('DAY:', day);
+
+        // ===============================
+        // 🔥 CORE FUNCTION ใหม่ (ตัวจบ)
+        // ===============================
+        function getRow(tableId) {
+            const table = tables.find(t => t.id == tableId);
+            if (!table || !table.rows) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
+                return null;
+            }
+
+            const matched = table.rows.find(r => {
+                const start = Number(r.d_start_day);
+                const end = Number(r.d_end_day);
+
+                // ถ้า start=0 และ end=0 = ใช้ได้กับทุกวัน (หรือ day=0)
+                if (start === 0 && end === 0) return true;
+
+                return day >= start && day <= end;
+            });
+
+            if (!matched) {
+                console.warn(`⚠️ getRow: table ${tableId} ไม่มี row ที่ตรงกับ day=${day}, ใช้ row แรก`);
+            }
+
+            return matched || table.rows[0];
+        }
+
+        function getVal(tableId) {
+            return getRow(tableId)?.d_value ?? '-';
+        }
+
+        function getRange(tableId) {
+            const r = getRow(tableId);
+            if (!r) return '-';
+            return `${r.d_start_day} - ${r.d_end_day} วัน`;
+        }
+
+        // ===============================
+        // ✅ CARD 1 (ปลูก)
+        // ===============================
+        SetValueInHTMLById('planting-stage',   getVal(15));
+        SetValueInHTMLById('planting-days',    getRange(15));
+        SetValueInHTMLById('planting-area',    getVal(16));
+        SetValueInHTMLById('planting-density', getVal(17));
+        SetValueInHTMLById('planting-yield',   getVal(18));
+
+        // ===============================
+        // ✅ DOT PROGRESS
+        // ===============================
+        const dotMap = {
+            'เตรียมดิน': 0, 'เพาะกล้า': 0,
+            'ย้ายปลูก': 1, 'เจริญเติบโต': 1,
+            'เริ่มออกดอก': 2,
+            'ติดผล': 3,
+            'ให้ผลต่อเนื่อง': 4, 'ช่วงปลายอายุ': 4
+        };
+        setActive(dotMap[getVal(15)] ?? 0);
+
+        // ===============================
+        // ✅ PANEL A
+        // ===============================
+        SetValueInHTMLById('ec',          getVal(19));
+        SetValueInHTMLById('ph',          getVal(20));
+        SetValueInHTMLById('temperature', getVal(21));
+        SetValueInHTMLById('humidity',    getVal(22));
+        SetValueInHTMLById('light',       getVal(23));
+        SetValueInHTMLById('o2',          getVal(24));
+        SetValueInHTMLById('co2',         getVal(25));
+
+        // ===============================
+        // ✅ PANEL B
+        // ===============================
+        SetValueInHTMLById('fert-chemical', getVal(26));
+        SetValueInHTMLById('fert-bio',      getVal(27));
+        SetValueInHTMLById('fert-organic',  getVal(28));
+        SetValueInHTMLById('fert-mix',      getVal(29));
+
+        // ===============================
+        // ✅ PANEL C
+        // ===============================
+        SetValueInHTMLById('care-disease', getVal(30));
+        SetValueInHTMLById('care-note',    getVal(31));
+
+        console.log('✅ Papaya data loaded');
+
+    } catch (err) {
+        console.error('❌ loadPapayaTableData error:', err);
+    }
+}
 </script>

@@ -132,15 +132,6 @@
 
         Object.values(rows).forEach(r => {
             let tr = document.createElement('tr');
-
-            // highlight row ถ้าวันปัจจุบันอยู่ในช่วง d_start_day - d_end_day
-            const today = new Date().getDate();
-            const start = Number(r.d_start_day);
-            const end = Number(r.d_end_day);
-            if (r.d_start_day != null && r.d_end_day != null && today >= start && today <= end) {
-                tr.style.cssText = 'background: #ffedd5; outline: 1px solid #fb923c; outline-offset: -1px; font-weight: 500; color: #c2410c;';
-            }
-
             tr.innerHTML = `
                 <td>${r.d_start_day} - ${r.d_end_day}</td>
                 <td>${r.d_value ?? "-"}</td>
