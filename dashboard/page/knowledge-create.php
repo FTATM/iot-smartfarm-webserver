@@ -27,7 +27,7 @@ $classIconHeader = "heroicons-outline--light-bulb";
                 <div class="flex justify-between bg-blue-400 px-2">
                     <div class="flex gap-2 items-center">
                         <div class="text-center">ชื่อตาราง :</div>
-                        <input id="title-table" class="px-2 py-1">
+                        <input id="title-table" class="px-2 py-1" data-field="name-table">
                     </div>
                     <div class="flex">
                         <div id="cancel-table" class="border border-stone-400 bg-stone-200 hover:bg-stone-400 w-[3vw] text-center px-1 py-2 cursor-pointer" onclick="ModalConfirmCancelTable()">ยกเลิก</div>
@@ -37,6 +37,7 @@ $classIconHeader = "heroicons-outline--light-bulb";
                 <div class="w-full h-full bg-orange-300">
                     <table id="table" class="">
                     </table>
+                    <button class="w-[3vw] h-[3vw] rounded bg-yellow-400" onclick="addRow()">+ row</button>
                 </div>
             </div>
         </div>
