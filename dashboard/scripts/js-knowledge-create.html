@@ -10,7 +10,7 @@
             'table_type_id': null,
             'child_of_table_id': null,
             'rows': [{
-                'd_id': 'newrow_1',
+                'd_id': 'newrow_1_1',
                 'd_name_table_id': 'newTable_1',
                 'd_start_day': 0,
                 'd_end_day': 0,
@@ -33,19 +33,6 @@
 
         isLoading = false;
     });
-    async function fetchs() {
-        let f = new FormData();
-
-        let res = await fetch("../../api-website/fetch-tableknowledge.php");
-        let raw = await res.json();
-        let data = raw['data'] ?? [];
-        console.log(data);
-        tables = data;
-    }
-
-    async function process() {
-
-    }
 
     function initDataTable() {
         if (!tables) {
@@ -56,9 +43,8 @@
         table_m = tables.filter((t) => t.child_of_table_id == null);
         table_c = tables.filter((t) => t.child_of_table_id != null);
 
-        console.log(table_m);
-        console.log(table_c);
-
+        // console.log(table_m);
+        // console.log(table_c);
 
         table = table_m[0];
         childen = table_c;
@@ -163,8 +149,13 @@
             // 🟡 child columns
             Object.values(childen).forEach(c => {
                 let td = document.createElement('td');
+                console.log('r.d_id : ' + r.d_id);
 
                 let found = c['rows'].find(d => d.d_row_parent_id == r.d_id);
+                console.log('found = ');
+
+                console.log(found);
+
 
                 td.innerHTML = `
                 <input 
@@ -188,10 +179,18 @@
     }
 
     function collectData() {
+        let nameTable = document.getElementById("title-table");
         let inputs = document.querySelectorAll("#table input");
 
         let result = [];
 
+        result.push({
+            id: table.id,
+            parent: nameTable.dataset.parent,
+            table_id: nameTable.dataset.table_id,
+            field: nameTable.dataset.field,
+            value: nameTable.value
+        });
         inputs.forEach(input => {
             result.push({
                 id: input.dataset.id,
@@ -205,94 +204,141 @@
         return result;
     }
 
-    function buildAllTables(result, table, children) {
+    function buildAllTables(result, mainTable, childrenTables) {
 
-        const mainMap = {};
+        const tableMap = {};
+        const tableLabelMap = {};
+        const mainRowMap = {};
+        let nameTable = '';
 
-        // 1. เก็บ main data
-        result.forEach(r => {
-            if (r.table_id === table.id) {
-                if (!mainMap[r.id]) mainMap[r.id] = {};
-                mainMap[r.id][r.field] = r.value;
-            }
-        });
 
-        // 2. สร้าง table list (main + children)
+        // -------------------------
+        // 1. เตรียม table ทั้งหมด
+        // -------------------------
         const allTables = [
-            {
-                ...table,
-                rows: []
-            },
-            ...children.map(c => ({
-                ...c,
-                rows: []
-            }))
+            { ...mainTable, rows: [] },
+            ...childrenTables.map(c => ({ ...c, rows: [] }))
         ];
 
-        // 3. map table_id → table object
-        const tableMap = {};
         allTables.forEach(t => {
             tableMap[t.id] = t;
         });
 
-        // 4. ใส่ข้อมูล main rows
-        Object.entries(mainMap).forEach(([id, data]) => {
-            tableMap[table.id].rows.push({
-                d_id: id,
-                d_name_table_id: table.id,
+        // -------------------------
+        // 2. แยก data เป็นกลุ่ม
+        // -------------------------
+        result.forEach(r => {
+
+            // 🔹 normalize table_id
+            const tableId = r.table_id || r.id;
+
+            // -------- HEADER --------
+            if (r.field === 'name-table') {
+                if (tableId) {
+                    nameTable = r.value;
+                }
+                return;
+            }
+
+            if (r.field === 'label-table') {
+                if (tableId) {
+                    tableLabelMap[tableId] = r.value;
+                }
+                return;
+            }
+
+            // -------- MAIN ROW --------
+            if (r.table_id === mainTable.id) {
+
+                if (!mainRowMap[r.id]) {
+                    mainRowMap[r.id] = {};
+                }
+
+                mainRowMap[r.id][r.field] = r.value;
+            }
+
+        });
+
+        // -------------------------
+        // 3. apply label ให้ table
+        // -------------------------
+        allTables.forEach(t => {
+            if (t.id == mainTable.id) t.name = nameTable;
+            t.label = tableLabelMap[t.id] || t.label || null;
+        });
+
+        // -------------------------
+        // 4. build main rows
+        // -------------------------
+        Object.entries(mainRowMap).forEach(([rowId, data]) => {
+
+            tableMap[mainTable.id].rows.push({
+                d_id: rowId,
+                d_name_table_id: mainTable.id,
                 d_row_parent_id: null,
-                d_start_day: data.start_day || null,
-                d_end_day: data.end_day || null,
-                d_value: data.main_value || null,
+                d_start_day: data.start_day ?? null,
+                d_end_day: data.end_day ?? null,
+                d_value: data.main_value ?? null,
                 d_second_label: null
+            });
+
+        });
+
+        // -------------------------
+        // 5. build child rows
+        // -------------------------
+        result.forEach(r => {
+
+            if (!r.parent) return;
+
+            const tableId = r.table_id;
+            const tableObj = tableMap[tableId];
+            const parentData = mainRowMap[r.parent];
+
+            if (!tableObj || !parentData) return;
+
+            tableObj.rows.push({
+                d_id: r.id,
+                d_name_table_id: tableId,
+                d_row_parent_id: r.parent,
+                d_start_day: parentData.start_day ?? null,
+                d_end_day: parentData.end_day ?? null,
+                d_value: r.value ?? null,
+                d_second_label: null
+            });
+
+        });
+
+        // -------------------------
+        // 6. sort rows ทุก table
+        // -------------------------
+        allTables.forEach(t => {
+            t.rows.sort((a, b) => {
+                return (Number(a.d_start_day) || 0) - (Number(b.d_start_day) || 0);
             });
         });
 
-        // 5. ใส่ข้อมูล children rows
-        result.forEach(r => {
-            if (r.table_id !== table.id && r.parent) {
-
-                const t = tableMap[r.table_id];
-                const parent = mainMap[r.parent];
-
-                if (!t || !parent) return;
-
-                t.rows.push({
-                    d_id: r.id,
-                    d_name_table_id: r.table_id,
-                    d_row_parent_id: r.parent,
-                    d_start_day: parent.start_day || null,
-                    d_end_day: parent.end_day || null,
-                    d_value: r.value,
-                    d_second_label: null
-                });
-            }
-        });
-
-        // 6. sort ทุก table ตามวัน
-        allTables.forEach(t => {
-            t.rows.sort((a, b) => (a.d_start_day || 0) - (b.d_start_day || 0));
-        });
+        // console.log("TABLE LABEL:", tableLabelMap);
+        // console.log("MAIN ROW:", mainRowMap);
+        // console.log("FINAL:", allTables);
 
         return allTables;
+
     }
 
     function addColumn() {
         console.log('add column');
 
         let result = collectData();
-        console.log(result);
-        // result = transformData(result);
-        // let newChildren = bindDataToChildren(result, table, childen);
-        // console.log(newChildren);
         let all = buildAllTables(result, table, childen);
-        console.log(all);
+
+        tables = all;
+
         const count = tables.length ?? 0;
-        const rows_len = table.rows ?? 0;
         const newTable_id = 'newTable_' + (count + 1);
 
         list_rows = table.rows.map((r, index) => {
-            const newrow_id = 'newrow_' + r.id + "_" + index;
+            const newrow_id = 'newrow_' + (index + 1) + "_" + (count + 1);
             return {
                 'd_id': newrow_id,
                 'd_name_table_id': newTable_id,
@@ -300,7 +346,7 @@
                 'd_end_day': r.end_day,
                 'd_value': null,
                 'd_second_label': null,
-                'd_row_parent_id': r.id
+                'd_row_parent_id': r.d_id
             }
         });
 
@@ -313,11 +359,56 @@
             'child_of_table_id': table.id,
             'rows': list_rows
         })
+        console.log('====== Tables ======');
+        console.log(tables);
+        console.log('====================');
 
         initDataTable();
     }
 
+    function addRow() {
+        console.log('add row');
 
+        let result = collectData();
+        let all = buildAllTables(result, table, childen);
+
+        tables = all;
+
+        let rows = table.rows;
+
+        Object.values(tables).map((t, index) => {
+            const newrow_id = 'newrow_' + (t.rows.length + 1) + "_" + (index + 1);
+            const row = rows[t.rows.length - 1];
+            console.log(row);
+
+            t.rows.push({
+                'd_id': newrow_id,
+                'd_name_table_id': t.id,
+                'd_start_day': rows[0].d_start_day,
+                'd_end_day': rows[0].d_end_day,
+                'd_value': null,
+                'd_second_label': null,
+                'd_row_parent_id': 'newrow_' + (t.rows.length + 1) + "_1"
+            });
+
+        });
+
+        initDataTable();
+
+
+        // const newrow_id = 'newrow_' + r.d_id + "_" + index;
+        // return {
+        //     'd_id': newrow_id,
+        //     'd_name_table_id': newTable_id,
+        //     'd_start_day': r.start_day,
+        //     'd_end_day': r.end_day,
+        //     'd_value': null,
+        //     'd_second_label': null,
+        //     'd_row_parent_id': r.d_id
+        // }
+
+
+    }
 
     // =============== Switch Mode ================
 
@@ -382,7 +473,12 @@
         // let newChildren = bindDataToChildren(result, table, childen);
         // console.log(newChildren);
         let all = buildAllTables(result, table, childen);
+        console.log('send to database by data :');
+
         console.log(all);
+
+        console.log('API success');
+
 
         confirmCancel();
     }
