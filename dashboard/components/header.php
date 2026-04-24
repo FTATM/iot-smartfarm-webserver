@@ -12,7 +12,7 @@
             <h1 class="text-[#1d130c] dark:text-orange-300 text-[1.5vw] font-bold leading-none">
                 <?php echo isset($Title) ? $Title : "Not Set Name in param \$Title"; ?>
             </h1>
-            <p class="text-[0.75vw] text-stone-500 dark:text-stone-400 font-medium uppercase tracking-wider mt-0.5">
+            <p class="text-[0.75vw] text-stone-500 dark:text-stone-400 font-medium uppercase tracking-wider mt-2.5">
                 <?php echo isset($subTitle) ? $subTitle : "Not Set Name in param \$subTitle"; ?>
             </p>
         </div>
@@ -46,7 +46,7 @@
                 class="flex flex-col items-center gap-2 bg-stone-100 dark:bg-stone-800 box p-1 px-3 rounded-xl border border-stone-200 dark:border-stone-700">
                 <div class="flex items-center gap-2">
                     <span class="text-[0.75vw] font-bold text-primary leading-none">รอบการเลี้ยง:</span>
-                    <span class="text-[0.75vw] font-bold text-primary leading-none" id="day-age">--</span>
+                    <span class="text-[0.75vw] font-bold text-primary leading-none" id="cycle-round">--</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none">วัน</span>
                 </div>
                 <div class="flex items-center gap-2">

@@ -152,7 +152,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 
                 <!-- ===== กรอบที่ 1: ข้อมูลการปลูก / โครงสร้าง / ผลผลิต ===== -->
                 <div
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
                     <div class="flex items-center mb-[0.8vh]">
                         <div
@@ -306,7 +306,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 
                 <!-- ===== กรอบที่ 2: สภาพแวดล้อม / ปุ๋ย / การดูแล ===== -->
                 <div
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
                     <!-- header -->
                     <div class="flex flex-col mb-[0.8vh] gap-[0.4vh]">

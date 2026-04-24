@@ -715,13 +715,19 @@ li:hover>.submenu {
             </a>
         </li> -->
         <li>
+            <a href="outdoor-chili-dashboard.php"
+                class="<?php echo ($current_page == 'outdoor-chili-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>Outdoor Dashboard
+            </a>
+        </li>
+        <!-- <li>
             <a href="outdoor-dashboard.php"
                 class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>
                 Outdoor Dashboard
             </a>
 
-            <!-- เมนูย่อย -->
+
             <ul class="submenu">
                 <li>
                     <a href="outdoor-papaya-dashboard.php"
@@ -735,7 +741,7 @@ li:hover>.submenu {
                 </li>
             </ul>
 
-            <!-- เมนูย่อย -->
+
             <ul class="submenu">
                 <li>
                     <a href="outdoor-chili-dashboard.php"
@@ -747,7 +753,7 @@ li:hover>.submenu {
                 </li>
             </ul>
 
-            <!-- เมนูย่อย -->
+
             <ul class="submenu">
                 <li>
                     <a href="outdoor-HolyBasil-dashboard.php"
@@ -759,13 +765,20 @@ li:hover>.submenu {
                 </li>
             </ul>
 
-        </li>
+        </li> -->
+
         <li>
+            <a href="indoor-lettuce-dashboard.php"
+                class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>indoor Dashboard
+            </a>
+        </li>
+
+        <!-- <li>
             <a href="indoor-dashboard.php" class="<?php echo ($current_page == 'indoor-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>Indoor Dashboard
             </a>
 
-            <!-- เมนูย่อย -->
             <ul class="submenu">
                 <li>
                     <a href="indoor-Broccoli-dashboard.php"
@@ -777,7 +790,6 @@ li:hover>.submenu {
                 </li>
             </ul>
 
-            <!-- เมนูย่อย -->
             <ul class="submenu">
                 <li>
                     <a href="indoor-lettuce-dashboard.php"
@@ -789,7 +801,6 @@ li:hover>.submenu {
                 </li>
             </ul>
 
-            <!-- เมนูย่อย -->
             <ul class="submenu">
                 <li>
                     <a href="indoor-SweetBasil-dashboard.php"
@@ -800,7 +811,7 @@ li:hover>.submenu {
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
         <li>
             <a href="weather-dashboard.php"
                 class="<?php echo ($current_page == 'weather-dashboard') ? 'active' : ''; ?>">
@@ -839,7 +850,7 @@ li:hover>.submenu {
         <li>
             <a href="knowledge-management.php"
                 class="<?php echo ($current_page == 'knowledge-management') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white hugeicons--bitcoin-up-01"></span>Knowledge management
+                <span class="nav-icon dark:text-white material-symbols--book"></span>Knowledge management
             </a>
         </li>
     </ul>
