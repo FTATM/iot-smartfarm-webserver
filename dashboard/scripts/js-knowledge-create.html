@@ -69,7 +69,7 @@
             <th>วัน</th>
             <th>
                 <input 
-                class="border p-1 rounded w-full text-center"
+                class="border p-1 rounded w-full text-center radius:2px"
                 value="${table.label ?? ''}" 
                 data-id='${table.id}'
                 data-field="label-table"
@@ -81,7 +81,7 @@
             tr.innerHTML += `
             <th>
                 <input 
-                class="border p-1 rounded w-full text-center"
+                class="border p-1 rounded w-full text-center radius:2px"
                 value="${c.label ?? ''}"
                 data-id='${c.id}'
                 data-field="label-table"
@@ -527,5 +527,37 @@
     document.getElementById("confirmBtn").onclick = function () {
         if (currentAction) currentAction();
         closeModal();
+    };
+
+    const _origOpen = window.openModal;
+    window.openModal = function(title, desc, action, colorClass) {
+        // Call original first (sets text + currentAction)
+        _origOpen(title, desc, action, colorClass);
+
+        // Remap colour to inline style on #confirmBtn
+        const btn = document.getElementById('confirmBtn');
+        btn.className = ''; // clear Tailwind classes set by original
+        btn.style.cssText = '';
+
+        if (colorClass.includes('lime')) {
+            btn.style.background = '#16a34a';
+        } else if (colorClass.includes('red')) {
+            btn.style.background = '#dc2626';
+        } else if (colorClass.includes('yellow')) {
+            btn.style.background = '#ca8a04';
+        } else if (colorClass.includes('stone')) {
+            btn.style.background = '#57534e';
+        } else {
+            btn.style.background = 'var(--orange)';
+        }
+
+        btn.style.color = '#fff';
+        btn.style.borderRadius = '8px';
+        btn.style.padding = '8px 22px';
+        btn.style.cursor = 'pointer';
+        btn.style.fontFamily = "'Sarabun', sans-serif";
+        btn.style.fontSize = '13px';
+        btn.style.fontWeight = '600';
+        btn.style.border = 'none';
     };
 </script>

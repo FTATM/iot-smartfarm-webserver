@@ -334,8 +334,8 @@
         switchCard1(0);
     });
 
-    var T1 = ['tab1-plant', 'tab1-struct', 'tab1-growth'];
-var P1 = ['panel1-0', 'panel1-1', 'panel1-2'];
+    var T1 = ['tab1-plant', 'tab1-struct', 'tab1-growth', 'tab1-fixed', 'tab1-variable'];
+var P1 = ['panel1-0', 'panel1-1', 'panel1-2', 'panel1-3', 'panel1-4'];
 
 function switchCard1(idx) {
     T1.forEach(function(id, i) {
@@ -391,7 +391,7 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
   const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
   const fillPcts   = [0, 25, 50, 75, 100];
  
-  // ===== BUILD DOTS จาก DB =====
+  // ===== BUILD DOTS จาก DB (dynamic เหมือน outdoor) =====
 function buildDots(rows) {
     const dotRow   = document.getElementById('dot-row');
     const labelRow = document.getElementById('label-row');
@@ -400,41 +400,103 @@ function buildDots(rows) {
     dotRow.innerHTML   = '';
     labelRow.innerHTML = '';
 
+    // ✅ minItemWidth ใหญ่ขึ้นบน TV
+    const isTV = window.innerWidth >= 3840;
+    const minItemWidth  = isTV ? 100 : 50;
+    const labelFontSize = isTV ? '24px' : '8px';
+    const dotSize       = isTV ? '48px' : '20px';
+    const numFontSize   = isTV ? '18px' : '8px';
+
+    const totalMinWidth = rows.length * minItemWidth;
+
+    ['dot-row', 'label-row'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.minWidth = totalMinWidth + 'px';
+    });
+
     rows.forEach((row, i) => {
-        // Dot
+        // === DOT ===
         const dotWrap = document.createElement('div');
-        dotWrap.style.cssText = 'display:flex; align-items:center; justify-content:center;';
+        dotWrap.style.cssText = `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: ${minItemWidth}px;
+    max-width: ${minItemWidth}px;
+    padding: 0 ${isTV ? 16 : 4}px;
+    box-sizing: border-box;
+`;
 
         const dot = document.createElement('div');
         dot.className = 'dot';
         dot.dataset.index = i;
-        dot.style.cssText = `width:20px; height:20px; border-radius:50%; border:2px solid #ddd; background:#fff; display:flex; align-items:center; justify-content:center; transition:all 0.2s;`;
+        dot.style.cssText = `
+            width: ${dotSize};
+            height: ${dotSize};
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        `;
 
         const num = document.createElement('span');
         num.className = 'dot-num';
-        num.style.cssText = 'font-size:8px; font-weight:500; color:#888;';
+        num.style.cssText = `font-size: ${numFontSize}; font-weight: 500; color: #888;`;
         num.textContent = i + 1;
 
         dot.appendChild(num);
         dotWrap.appendChild(dot);
         dotRow.appendChild(dotWrap);
 
-        // Label
+        // === LABEL ===
         const labelWrap = document.createElement('div');
-        labelWrap.style.cssText = 'text-align:center; flex:1;';
+        labelWrap.style.cssText = `
+    text-align: center;
+    flex: 1;
+    min-width: ${minItemWidth}px;
+    max-width: ${minItemWidth}px;
+    padding: 0 ${isTV ? 8 : 2}px;
+    box-sizing: border-box;
+    overflow: hidden;
+`;
 
         const lbl = document.createElement('span');
         lbl.className = 'label';
         lbl.dataset.index = i;
-        lbl.style.cssText = 'font-size:8px; font-weight:300; color:#888; white-space:nowrap;';
+        lbl.style.cssText = `
+    font-size: ${labelFontSize};
+    font-weight: 300;
+    color: #888;
+    white-space: normal;
+    word-break: break-word;
+    display: block;
+    text-align: center;
+    line-height: 1.3;
+`;
         lbl.textContent = row.d_value;
 
         labelWrap.appendChild(lbl);
         labelRow.appendChild(labelWrap);
     });
+
+    // scroll ถ้าเบียด
+    const scrollContainer = document.querySelector('#panel1-2 > div');
+    if (scrollContainer) {
+        const wrapper = document.getElementById('panel1-2');
+        const wrapperWidth = wrapper ? wrapper.offsetWidth : 300;
+        if (totalMinWidth > wrapperWidth) {
+            scrollContainer.style.overflowX = 'auto';
+            scrollContainer.style.paddingBottom = '4px';
+        }
+    }
 }
 
-// ===== SET ACTIVE (dynamic จาก rows) =====
+// ===== SET ACTIVE (scoped ใน panel1-2 เหมือน outdoor) =====
 function setActive(index, totalRows) {
     const container = document.getElementById('panel1-2');
     if (!container) return;
@@ -450,27 +512,33 @@ function setActive(index, totalRows) {
     const color     = '#639922';
     const textColor = '#27500A';
 
+    const isTV = window.innerWidth >= 3840;
+    const normalSz = isTV ? '48px' : '20px';
+    const activeSz = isTV ? '56px' : '24px';
+    const lblFont  = isTV ? '24px' : '8px';
+
     dots.forEach((dot, i) => {
         const num = nums[i];
         if (i < index) {
             dot.style.background  = color;
             dot.style.borderColor = color;
-            dot.style.width = dot.style.height = '20px';
+            dot.style.width = dot.style.height = normalSz;
             num.style.color = '#fff';
         } else if (i === index) {
             dot.style.background  = color;
             dot.style.borderColor = color;
-            dot.style.width = dot.style.height = '24px';
+            dot.style.width = dot.style.height = activeSz;
             num.style.color = '#fff';
         } else {
             dot.style.background  = '#fff';
             dot.style.borderColor = '#ddd';
-            dot.style.width = dot.style.height = '20px';
+            dot.style.width = dot.style.height = normalSz;
             num.style.color = '#888';
         }
     });
 
     labels.forEach((lbl, i) => {
+        lbl.style.fontSize = lblFont;
         if (i === index) {
             lbl.style.color      = textColor;
             lbl.style.fontWeight = '700';
