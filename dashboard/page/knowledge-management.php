@@ -78,7 +78,9 @@ $classIconHeader = "material-symbols--book";
 
     <?php include "../components/footer.php"; ?>
     <?php include "../scripts/js.html"; ?>
+    <?php include "../scripts/js-knowledge.html"; ?>
 
+<!-- 
     <script>
     let isLoading = true;
     let tables = [],
@@ -356,7 +358,7 @@ $classIconHeader = "material-symbols--book";
         if (currentAction) currentAction();
         closeModal();
     };
-    </script>
+    </script> -->
 
 </body>
 
