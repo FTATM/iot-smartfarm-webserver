@@ -477,25 +477,29 @@
 
         console.log(all);
 
-        console.log('API success');
+        SaveToDatabase(all)
 
+    }
 
-        confirmCancel();
+    async function SaveToDatabase(data) {
+        let raw = await fetch('../../api-website/update-knowledge.php', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await raw.json();
+        console.log(res);
+
+        if (res.status == 'success') {
+            window.location.href = "knowledge-management.php";
+        }
+
     }
 
     function confirmCancel() {
-        let _cancel = document.getElementById('cancel-table');
-        let _save = document.getElementById('save-table');
-        let _edit = document.getElementById('edit-table');
-        let _delete = document.getElementById('delete-table');
-        if (!_cancel.classList.contains('hidden')) {
-            initTable(table, childen);
-            mapTable(table, childen);
-            _cancel.classList.add('hidden');
-            _save.classList.add('hidden');
-            _edit.classList.remove('hidden');
-            _delete.classList.remove('hidden');
-        }
+        window.location.href = "knowledge-management.php";
     }
 
 
