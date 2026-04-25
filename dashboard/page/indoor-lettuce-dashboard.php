@@ -159,18 +159,31 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                     </div>
 
                     <!-- Tab Buttons -->
-                    <div class="flex gap-[0.3vw] w-full mb-[0.8vh]">
+                    <div class="grid grid-cols-3 gap-[0.3vw] w-full mb-[0.8vh]">
                         <button id="tab1-plant" onclick="switchCard1(0)"
-                            class="flex-1 tab1-btn tab1-active py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border transition-all duration-150">
+                            class="tab1-btn tab1-active py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
                             ข้อมูลการปลูก
                         </button>
+
                         <button id="tab1-struct" onclick="switchCard1(1)"
-                            class="flex-1 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border transition-all duration-150">
+                            class="tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
                             ผลผลิต
                         </button>
+
                         <button id="tab1-growth" onclick="switchCard1(2)"
-                            class="flex-1 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border transition-all duration-150">
+                            class="tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
                             ระยะเติบโต
+                        </button>
+
+                        <!-- แถวล่าง -->
+                        <button id="tab1-fixed" onclick="switchCard1(3)"
+                            class="col-span-1 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ค่าใช้จ่ายคงที่
+                        </button>
+
+                        <button id="tab1-variable" onclick="switchCard1(4)"
+                            class="col-span-2 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ต้นทุนหมุนเวียน
                         </button>
                     </div>
 
@@ -227,24 +240,46 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 
                     <!-- Panel C: ระยะเติบโต -->
                     <div id="panel1-2" class="hidden flex flex-col">
-                        <p
-                            style="font-size: 11px; color: #888; font-weight: 200; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 4px;">
-                            ระยะการเติบโต</p>
-                        <div style="position: relative;">
-                            <div style="display: flex; align-items: center; position: relative;">
+                        <p style="
+                                font-size: clamp(8px, 0.5vw, 28px);
+                                color: #888;
+                                font-weight: 200;
+                                text-transform: uppercase;
+                                letter-spacing: 0.08em;
+                                margin: 0 0 4px;
+                            ">
+                            ระยะการเติบโต
+                        </p>
+
+                        <!-- เพิ่ม overflow-x: auto ตรงนี้ -->
+                        <div style="position: relative; overflow-x: auto; padding-bottom: 4px;">
+                            <div
+                                style="display: flex; align-items: center; position: relative; min-width: max-content;">
+                                <!-- Track -->
                                 <div
                                     style="position: absolute; top: 50%; left: 0; right: 0; height: 4px; background: #ddd; border-radius: 2px; transform: translateY(-50%); z-index: 0;">
                                 </div>
+                                <!-- Fill -->
                                 <div id="fill-bar"
                                     style="position: absolute; top: 50%; left: 0; height: 4px; background: #639922; border-radius: 2px; transform: translateY(-50%); z-index: 1; transition: width 0.3s ease; width: 0%;">
                                 </div>
+                                <!-- Dots -->
                                 <div id="dot-row"
                                     style="display: flex; justify-content: space-between; width: 100%; position: relative; z-index: 2;">
                                 </div>
                             </div>
+                            <!-- Labels -->
                             <div id="label-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Panel D: ค่าใช้จ่ายคงที่ -->
+                    <div id="panel1-3" class="hidden flex flex-col gap-2">
+                    </div>
+
+                    <!-- Panel E: ต้นทุนหมุนเวียน -->
+                    <div id="panel1-4" class="hidden flex flex-col gap-2">
                     </div>
 
                 </div>

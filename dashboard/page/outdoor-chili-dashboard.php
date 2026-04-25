@@ -157,152 +157,118 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                 <div
                     class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
-                    <div class="flex items-center mb-[0.8vh]">
-                        <div
-                            class="p-[0.3vw] bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
-                            <span class="mdi--information-outline text-[0.9vw]"></span>
-                        </div>
-                        <h3 class="ml-2 text-[0.75vw] font-bold text-stone-700 dark:text-stone-200">ข้อมูลการปลูก /
-                            โครงสร้าง / ผลผลิต</h3>
+                    <!-- Tab Buttons -->
+                    <div class="grid grid-cols-3 gap-[0.3vw] w-full mb-[0.8vh]">
+                        <button id="tab1-plant" onclick="switchCard1(0)"
+                            class="tab1-btn tab1-active py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ข้อมูลการปลูก
+                        </button>
+
+                        <button id="tab1-struct" onclick="switchCard1(1)"
+                            class="tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ผลผลิต
+                        </button>
+
+                        <button id="tab1-growth" onclick="switchCard1(2)"
+                            class="tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ระยะเติบโต
+                        </button>
+
+                        <!-- แถวล่าง -->
+                        <button id="tab1-fixed" onclick="switchCard1(3)"
+                            class="col-span-1 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ค่าใช้จ่ายคงที่
+                        </button>
+
+                        <button id="tab1-variable" onclick="switchCard1(4)"
+                            class="col-span-2 tab1-btn tab1-inactive py-[0.2vh] px-[0.4vw] rounded-lg text-[0.55vw] font-bold border">
+                            ต้นทุนหมุนเวียน
+                        </button>
                     </div>
 
-                    <!-- ระยะการปลูก -->
-                    <div class="grid grid-cols-2 gap-2 mb-[0.8vh]">
-                        <div
-                            class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                            <span
-                                class="text-[0.50vw] text-stone-400 dark:text-stone-500 font-bold uppercase">ระยะการปลูก</span>
-                            <span id="planting-stage"
-                                class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
+                    <!-- Panel A: ข้อมูลการปลูก -->
+                    <div id="panel1-0" class="flex flex-col gap-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div
+                                class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
+                                <span
+                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ระยะการปลูก</span>
+                                <span id="planting-stage"
+                                    class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
+                            </div>
+                            <div
+                                class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
+                                <span
+                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ช่วงวัน</span>
+                                <span id="planting-days"
+                                    class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
+                            </div>
                         </div>
-                        <div
-                            class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                            <span class="text-[0.50vw] text-stone-400 dark:text-stone-500 font-bold uppercase">ช่วงวัน
-                            </span>
-                            <span id="planting-days"
-                                class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div
+                                class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
+                                <span
+                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">พื้นที่
+                                    (ก × ย)</span>
+                                <span id="planting-area"
+                                    class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
+                            </div>
+                            <div
+                                class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
+                                <span
+                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ต้น/พื้นที่</span>
+                                <span id="planting-density"
+                                    class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- โครงสร้างพื้นที่ -->
-                    <div class="grid grid-cols-3 gap-2 mb-[0.8vh]">
+                    <!-- Panel B: ผลผลิต -->
+                    <div id="panel1-1" class="hidden flex flex-col gap-2">
                         <div
                             class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                            <span class="text-[0.50vw] text-stone-400 dark:text-stone-500 font-bold uppercase">พื้นที่
-                                (ก × ย )</span>
-                            <span id="planting-area"
-                                class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
-                        </div>
-                        <div
-                            class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                            <span class="text-[0.50vw] text-stone-400 dark:text-stone-500 font-bold uppercase">
-                                ต้น/พื้นที่</span>
-                            <span id="planting-density"
-                                class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
-                        </div>
-                        <div
-                            class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                            <span class="text-[0.50vw] text-stone-400 dark:text-stone-500 font-bold uppercase">ผลผลิต
+                            <span class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ผลผลิต
                                 (kg/ต้น)</span>
                             <span id="planting-yield"
                                 class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
                         </div>
                     </div>
 
-                    <!--  -->
-                    <div class="border-t border-stone-100 dark:border-stone-800 mb-[0.2vh]">
-                        <p
-                            style="font-size: 11px; color: #888; font-weight: 200; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 4px;">
-                            ระยะการเติบโต</p>
+                    <!-- Panel C: ระยะเติบโต -->
+                    <div id="panel1-2" class="hidden flex flex-col">
+                        <p style="
+                                font-size: clamp(8px, 0.5vw, 28px);
+                                color: #888;
+                                font-weight: 200;
+                                text-transform: uppercase;
+                                letter-spacing: 0.08em;
+                                margin: 0 0 4px;
+                            ">
+                            ระยะการเติบโต
+                        </p>
 
-                        <div style="position: relative;">
-
-                            <!-- Track + Dots -->
-                            <div style="display: flex; align-items: center; position: relative;">
-                                <!-- Background track -->
+                        <!-- เพิ่ม overflow-x: auto ตรงนี้ -->
+                        <div style="position: relative; overflow-x: auto; padding-bottom: 4px;">
+                            <div
+                                style="display: flex; align-items: center; position: relative; min-width: max-content;">
+                                <!-- Track -->
                                 <div
                                     style="position: absolute; top: 50%; left: 0; right: 0; height: 4px; background: #ddd; border-radius: 2px; transform: translateY(-50%); z-index: 0;">
                                 </div>
                                 <!-- Fill -->
-                                <div id="fill"
+                                <div id="fill-bar"
                                     style="position: absolute; top: 50%; left: 0; height: 4px; background: #639922; border-radius: 2px; transform: translateY(-50%); z-index: 1; transition: width 0.3s ease; width: 0%;">
                                 </div>
-
                                 <!-- Dots -->
-                                <div
+                                <div id="dot-row"
                                     style="display: flex; justify-content: space-between; width: 100%; position: relative; z-index: 2;">
-                                    <div onclick="setActive(0)"
-                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <div class="dot" data-index="0"
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #639922; background: #639922; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                                            <span class="dot-num"
-                                                style="font-size: 8px; font-weight: 500; color: #fff;">1</span>
-                                        </div>
-                                    </div>
-                                    <div onclick="setActive(1)"
-                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <div class="dot" data-index="1"
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                                            <span class="dot-num"
-                                                style="font-size: 8px; font-weight: 500; color: #888;">2</span>
-                                        </div>
-                                    </div>
-                                    <div onclick="setActive(2)"
-                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <div class="dot" data-index="2"
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                                            <span class="dot-num"
-                                                style="font-size: 8px; font-weight: 500; color: #888;">3</span>
-                                        </div>
-                                    </div>
-                                    <div onclick="setActive(3)"
-                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <div class="dot" data-index="3"
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                                            <span class="dot-num"
-                                                style="font-size: 8px; font-weight: 500; color: #888;">4</span>
-                                        </div>
-                                    </div>
-                                    <div onclick="setActive(4)"
-                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <div class="dot" data-index="4"
-                                            style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                                            <span class="dot-num"
-                                                style="font-size: 8px; font-weight: 500; color: #888;">5</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-
                             <!-- Labels -->
-                            <div style="display: flex; justify-content: space-between;">
-                                <div onclick="setActive(0)" style="width: 28px; text-align: center; cursor: pointer;">
-                                    <span class="label" data-index="0"
-                                        style="font-size: 8px; font-weight: 700; color: #27500A;">ต้นกล้า</span>
-                                </div>
-                                <div onclick="setActive(1)"
-                                    style="width: 60px; text-align: center; cursor: pointer; margin-left: -16px;">
-                                    <span class="label" data-index="1"
-                                        style="font-size: 8px; font-weight: 300; color: #888;">เจริญเติบโต</span>
-                                </div>
-                                <div onclick="setActive(2)" style="width: 50px; text-align: center; cursor: pointer;">
-                                    <span class="label" data-index="2"
-                                        style="font-size: 8px; font-weight: 300; color: #888;">ออกดอก</span>
-                                </div>
-                                <div onclick="setActive(3)" style="width: 40px; text-align: center; cursor: pointer;">
-                                    <span class="label" data-index="3"
-                                        style="font-size: 8px; font-weight: 300; color: #888;">ติดผล</span>
-                                </div>
-                                <div onclick="setActive(4)"
-                                    style="width: 50px; text-align: center; cursor: pointer; margin-right: -11px;">
-                                    <span class="label" data-index="4"
-                                        style="font-size: 8px; font-weight: 300; color: #888;">เก็บเกี่ยว</span>
-                                </div>
+                            <div id="label-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
                             </div>
-
                         </div>
                     </div>
-
 
                 </div>
 

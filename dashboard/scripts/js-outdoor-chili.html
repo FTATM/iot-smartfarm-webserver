@@ -312,9 +312,7 @@
             `;
         });
     }
-    document.addEventListener('DOMContentLoaded', function () {
-        switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
-    });
+
 var T2 = ['tab-env2','tab-fert2','tab-care2'];
 var P2 = ['panel2-0','panel2-1','panel2-2'];
 
@@ -469,14 +467,16 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
         // ===============================
         // ✅ DOT PROGRESS
         // ===============================
-        const dotMap = {
-            'เตรียมดิน': 0, 'เพาะกล้า': 0,
-            'ย้ายปลูก': 1, 'เจริญเติบโต': 1,
-            'เริ่มออกดอก': 2,
-            'ติดผล': 3,
-            'ให้ผลต่อเนื่อง': 4, 'ช่วงปลายอายุ': 4
-        };
-        setActive(dotMap[getVal(15)] ?? 0);
+        // ✅ DOT PROGRESS (dynamic เหมือน indoor)
+const table15 = tables.find(t => t.id == 15);
+if (table15 && table15.rows) {
+    buildDots(table15.rows);
+
+    const currentVal  = getVal(15);
+    const activeIndex = table15.rows.findIndex(r => r.d_value === currentVal);
+
+    setActive(activeIndex >= 0 ? activeIndex : 0, table15.rows.length);
+}
 
         // ===============================
         // ✅ PANEL A
@@ -495,7 +495,7 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
         SetValueInHTMLById('fert-chemical', getVal(26));
         SetValueInHTMLById('fert-bio',      getVal(27));
         SetValueInHTMLById('fert-organic',  getVal(28));
-        SetValueInHTMLById('fert-mix',      getVal(29));
+        SetValueInHTMLById('fert-ab',  getVal(29));
 
         // ===============================
         // ✅ PANEL C
@@ -507,6 +507,229 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
 
     } catch (err) {
         console.error('❌ loadPapayaTableData error:', err);
+    }
+}
+
+function switchOutdoorCard1(index) {
+    const totalPanels = 3;
+    for (let i = 0; i < totalPanels; i++) {
+        const panel = document.getElementById(`outdoor-panel1-${i}`);
+        if (panel) panel.classList.toggle('hidden', i !== index);
+    }
+    document.querySelectorAll('.outdoor-tab1-btn').forEach((btn, i) => {
+        btn.classList.toggle('outdoor-tab1-active', i === index);
+        btn.classList.toggle('outdoor-tab1-inactive', i !== index);
+    });
+}
+
+// ===== CARD 1 TAB (เหมือน indoor — id-based + inline style) =====
+document.addEventListener('DOMContentLoaded', function () {
+    switchCard1(0); 
+    switchCard2(0);
+});
+
+var T1 = [
+    'tab1-plant',
+    'tab1-struct',
+    'tab1-growth',
+    'tab1-fixed',
+    'tab1-variable'
+];
+
+var P1 = [
+    'panel1-0',
+    'panel1-1',
+    'panel1-2',
+    'panel1-3',
+    'panel1-4'
+];
+
+function switchCard1(idx) {
+    T1.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (i === idx) {
+            el.style.backgroundColor = '#ff8021';
+            el.style.color = '#ffffff';
+            el.style.borderColor = '#ff8021';
+        } else {
+            el.style.backgroundColor = '#ffffff';
+            el.style.color = '#ff8021';
+            el.style.borderColor = '#ff8021';
+        }
+    });
+    P1.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+    });
+}
+
+// ===== BUILD DOTS จาก DB (dynamic เหมือน indoor) =====
+function buildDots(rows) {
+    const dotRow   = document.getElementById('dot-row');
+    const labelRow = document.getElementById('label-row');
+    if (!dotRow || !labelRow) return;
+
+    dotRow.innerHTML   = '';
+    labelRow.innerHTML = '';
+
+    // ✅ minItemWidth ใหญ่ขึ้นบน TV
+    const isTV = window.innerWidth >= 3840;
+    const minItemWidth  = isTV ? 100 : 50;
+    const labelFontSize = isTV ? '24px' : '8px';
+    const dotSize       = isTV ? '48px' : '20px';
+    const numFontSize   = isTV ? '18px' : '8px';
+
+    const totalMinWidth = rows.length * minItemWidth;
+
+    ['dot-row', 'label-row'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.minWidth = totalMinWidth + 'px';
+    });
+
+    rows.forEach((row, i) => {
+        // === DOT ===
+        const dotWrap = document.createElement('div');
+dotWrap.style.cssText = `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: ${minItemWidth}px;
+    max-width: ${minItemWidth}px;   /* ← เพิ่ม */
+    padding: 0 ${isTV ? 16 : 4}px;
+    box-sizing: border-box;
+`;
+
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.dataset.index = i;
+        dot.style.cssText = `
+            width: ${dotSize};
+            height: ${dotSize};
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        `;
+
+        const num = document.createElement('span');
+        num.className = 'dot-num';
+        num.style.cssText = `font-size: ${numFontSize}; font-weight: 500; color: #888;`;
+        num.textContent = i + 1;
+
+        dot.appendChild(num);
+        dotWrap.appendChild(dot);
+        dotRow.appendChild(dotWrap);
+
+        // === LABEL ===
+        // === LABEL ===
+const labelWrap = document.createElement('div');
+labelWrap.style.cssText = `
+    text-align: center;
+    flex: 1;
+    min-width: ${minItemWidth}px;
+    max-width: ${minItemWidth}px;
+    padding: 0 ${isTV ? 8 : 2}px;
+    box-sizing: border-box;
+    overflow: hidden;
+`;
+
+const lbl = document.createElement('span');
+lbl.className = 'label';
+lbl.dataset.index = i;
+lbl.style.cssText = `
+    font-size: ${labelFontSize};
+    font-weight: 300;
+    color: #888;
+    white-space: normal;       /* ← เปลี่ยนจาก nowrap เป็น normal */
+    word-break: break-word;    /* ← ตัดคำได้ */
+    display: block;
+    text-align: center;
+    line-height: 1.3;
+`;
+lbl.textContent = row.d_value;
+
+        labelWrap.appendChild(lbl);
+        labelRow.appendChild(labelWrap);
+    });
+
+    // scroll ถ้าเบียด
+    const scrollContainer = document.querySelector('#panel1-2 > div');
+    if (scrollContainer) {
+        const wrapper = document.getElementById('panel1-2');
+        const wrapperWidth = wrapper ? wrapper.offsetWidth : 300;
+        if (totalMinWidth > wrapperWidth) {
+            scrollContainer.style.overflowX = 'auto';
+            scrollContainer.style.paddingBottom = '4px';
+        }
+    }
+}
+
+// ===== SET ACTIVE (scoped ใน panel1-2 เหมือน indoor) =====
+function setActive(index, totalRows) {
+    const container = document.getElementById('panel1-2');
+    if (!container) return;
+
+    const dots   = container.querySelectorAll('.dot');
+    const nums   = container.querySelectorAll('.dot-num');
+    const labels = container.querySelectorAll('.label');
+    const fill   = document.getElementById('fill-bar');
+
+    const total = totalRows || dots.length;
+    const pct   = total <= 1 ? 0 : (index / (total - 1)) * 100;
+
+    const color     = '#639922';
+    const textColor = '#27500A';
+
+    // ✅ แก้ breakpoint เป็น 3840
+    const isTV = window.innerWidth >= 3840;
+    const normalSz = isTV ? '48px' : '20px';
+    const activeSz = isTV ? '56px' : '24px';
+    const lblFont  = isTV ? '24px' : '8px';
+
+    dots.forEach((dot, i) => {
+        const num = nums[i];
+        if (i < index) {
+            dot.style.background  = color;
+            dot.style.borderColor = color;
+            dot.style.width = dot.style.height = normalSz;
+            num.style.color = '#fff';
+        } else if (i === index) {
+            dot.style.background  = color;
+            dot.style.borderColor = color;
+            dot.style.width = dot.style.height = activeSz;
+            num.style.color = '#fff';
+        } else {
+            dot.style.background  = '#fff';
+            dot.style.borderColor = '#ddd';
+            dot.style.width = dot.style.height = normalSz;
+            num.style.color = '#888';
+        }
+    });
+
+    labels.forEach((lbl, i) => {
+        lbl.style.fontSize = lblFont; // ✅ ขยาย font TV
+        if (i === index) {
+            lbl.style.color      = textColor;
+            lbl.style.fontWeight = '700';
+        } else if (i < index) {
+            lbl.style.color      = color;
+            lbl.style.fontWeight = '500';
+        } else {
+            lbl.style.color      = '#888';
+            lbl.style.fontWeight = '300';
+        }
+    });
+
+    if (fill) {
+        fill.style.background = color;
+        fill.style.width      = pct + '%';
     }
 }
 </script>
