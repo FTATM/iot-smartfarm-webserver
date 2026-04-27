@@ -188,14 +188,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                     <!-- Panel A: ข้อมูลการปลูก -->
                     <div id="panel1-0" class="flex flex-col gap-2">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div
-                                class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
-                                <span
-                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ระยะการปลูก</span>
-                                <span id="planting-stage"
-                                    class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
-                            </div>
+                        <div class="grid grid-cols-3 gap-2">
                             <div
                                 class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
                                 <span
@@ -203,8 +196,6 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                 <span id="planting-days"
                                     class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.5">—</span>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
                             <div
                                 class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
                                 <span
@@ -236,14 +227,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                     <!-- Panel C: ระยะเติบโต -->
                     <div id="panel1-2" class="hidden flex flex-col">
-                        <p style="
-                                font-size: clamp(8px, 0.5vw, 28px);
-                                color: #888;
-                                font-weight: 200;
-                                text-transform: uppercase;
-                                letter-spacing: 0.08em;
-                                margin: 0 0 4px;
-                            ">
+                        <p
+                            class="text-[clamp(8px,0.5vw,28px)] text-gray-500 dark:text-white font-light uppercase tracking-wide mb-1">
                             ระยะการเติบโต
                         </p>
 
