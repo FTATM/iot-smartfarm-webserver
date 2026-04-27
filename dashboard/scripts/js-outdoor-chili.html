@@ -3,7 +3,7 @@
     let isLoading = true;
     let sensor_select = 0;
 
-    const Sensors_realtime = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
+    const Sensors_realtime = ["DO", "EC", "PH", "Temp", "Humidity", "AirFlow"];
     const Sensors_name_left = [];
     const Sensors_name_right = [];
     const market_name = "outdoor";     //name market example => solar, shrimp, indoor, outdoor
@@ -458,50 +458,51 @@ const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
         // ===============================
         // ✅ CARD 1 (ปลูก)
         // ===============================
-        SetValueInHTMLById('planting-stage',   getVal(15));
-        SetValueInHTMLById('planting-days',    getRange(15));
-        SetValueInHTMLById('planting-area',    getVal(16));
-        SetValueInHTMLById('planting-density', getVal(17));
-        SetValueInHTMLById('planting-yield',   getVal(18));
+        SetValueInHTMLById('planting-stage',   getVal(19));  // ระยะการปลูก
+        SetValueInHTMLById('planting-days',    getRange(19));
+        SetValueInHTMLById('planting-area',    getVal(20));  // พื้นที่ (กว้าง×ยาว m)
+        SetValueInHTMLById('planting-density', getVal(21));  // จำนวนต้น/พื้นที่ (ต้น/m²)
+        SetValueInHTMLById('planting-yield',   getVal(22));  // ผลผลิต (kg/ต้น)
 
         // ===============================
         // ✅ DOT PROGRESS
         // ===============================
         // ✅ DOT PROGRESS (dynamic เหมือน indoor)
-const table15 = tables.find(t => t.id == 15);
-if (table15 && table15.rows) {
-    buildDots(table15.rows);
+const table19 = tables.find(t => t.id == 19);
+if (table19 && table19.rows) {
+    buildDots(table19.rows);
 
-    const currentVal  = getVal(15);
-    const activeIndex = table15.rows.findIndex(r => r.d_value === currentVal);
+    const currentVal  = getVal(19);
+    const activeIndex = table19.rows.findIndex(r => r.d_value === currentVal);
 
-    setActive(activeIndex >= 0 ? activeIndex : 0, table15.rows.length);
+    setActive(activeIndex >= 0 ? activeIndex : 0, table19.rows.length);
 }
 
         // ===============================
         // ✅ PANEL A
         // ===============================
-        SetValueInHTMLById('ec',          getVal(19));
-        SetValueInHTMLById('ph',          getVal(20));
-        SetValueInHTMLById('temperature', getVal(21));
-        SetValueInHTMLById('humidity',    getVal(22));
-        SetValueInHTMLById('light',       getVal(23));
-        SetValueInHTMLById('o2',          getVal(24));
-        SetValueInHTMLById('co2',         getVal(25));
+        SetValueInHTMLById('ec',          getVal(23));  // EC
+        SetValueInHTMLById('ph',          getVal(24));  // pH
+        SetValueInHTMLById('temperature', getVal(25));  // Temp (°C)
+        SetValueInHTMLById('humidity',    getVal(26));  // HR (%)
+        SetValueInHTMLById('light',       getVal(27));  // แสง (LUX outdoor)
+        SetValueInHTMLById('o2',          getVal(28));  // O₂
+        SetValueInHTMLById('co2',         getVal(29));  // CO₂
 
         // ===============================
         // ✅ PANEL B
         // ===============================
-        SetValueInHTMLById('fert-chemical', getVal(26));
-        SetValueInHTMLById('fert-bio',      getVal(27));
-        SetValueInHTMLById('fert-organic',  getVal(28));
-        SetValueInHTMLById('fert-ab',  getVal(29));
+        SetValueInHTMLById('fert-chemical', getVal(30));  // ปุ๋ยเคมี (g/L)
+        SetValueInHTMLById('fert-bio',      getVal(31));  // ปุ๋ยชีวภาพ (ml/L)
+        SetValueInHTMLById('fert-organic',  getVal(32));  // ปุ๋ยอินทรี (ml/L)
+        SetValueInHTMLById('fert-ab',       getVal(33));  // ปุ๋ย AB (ml/L)
 
-        // ===============================
+
+       // ===============================
         // ✅ PANEL C
         // ===============================
-        SetValueInHTMLById('care-disease', getVal(30));
-        SetValueInHTMLById('care-note',    getVal(31));
+        SetValueInHTMLById('care-disease', getVal(35));  // โรค/ปัญหา
+        SetValueInHTMLById('care-note',    getVal(36));  // การดูแล
 
         console.log('✅ Papaya data loaded');
 
@@ -548,17 +549,38 @@ function switchCard1(idx) {
     T1.forEach(function (id, i) {
         var el = document.getElementById(id);
         if (!el) return;
-        if (i === idx) {
-            el.style.backgroundColor = '#ff8021';
-            el.style.color = '#ffffff';
-            el.style.borderColor = '#ff8021';
+       if (i === idx) {
+            el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+            el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
         } else {
-            el.style.backgroundColor = '#ffffff';
-            el.style.color = '#ff8021';
-            el.style.borderColor = '#ff8021';
+            el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
+            el.classList.remove('bg-orange-500', 'text-white');
         }
     });
     P1.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+    });
+}
+
+function switchCard2(idx) {
+    T2.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+
+        if (i === idx) {
+            // ACTIVE
+            el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+            el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
+        } else {
+            // INACTIVE
+            el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
+            el.classList.remove('bg-orange-500', 'text-white');
+        }
+    });
+
+    P2.forEach(function(id, i) {
         var el = document.getElementById(id);
         if (!el) return;
         i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
@@ -598,7 +620,7 @@ dotWrap.style.cssText = `
     justify-content: center;
     flex: 1;
     min-width: ${minItemWidth}px;
-    max-width: ${minItemWidth}px;   /* ← เพิ่ม */
+    max-width: ${minItemWidth}px;
     padding: 0 ${isTV ? 16 : 4}px;
     box-sizing: border-box;
 `;

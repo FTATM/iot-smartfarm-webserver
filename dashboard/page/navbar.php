@@ -821,15 +821,15 @@ li:hover>.submenu {
         <li>
             <a href="solar-system-dashboard.php"
                 class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white ph--solar-panel-duotone"></span>Solar System Dashboard
+                <span class="nav-icon dark:text-white boxicons--container"></span>Container Dashboard
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="container-dashboard.php"
                 class="<?php echo ($current_page == 'container-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white boxicons--container"></span>Container Dashboard
             </a>
-        </li>
+        </li> -->
         <!-- </br> -->
         <!-- <div class="text-center text-[1.25vw] font-bold">Income and expense</div> -->
         <!-- <hr> -->

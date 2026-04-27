@@ -362,21 +362,38 @@ function switchCard1(idx) {
 var T2 = ['tab-env2','tab-fert2','tab-care2'];
 var P2 = ['panel2-0','panel2-1','panel2-2'];
 
+function switchCard1(idx) {
+    T1.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+       if (i === idx) {
+            el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+            el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
+        } else {
+            el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
+            el.classList.remove('bg-orange-500', 'text-white');
+        }
+    });
+    P1.forEach(function (id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+    });
+}
+
 function switchCard2(idx) {
     T2.forEach(function(id, i) {
         var el = document.getElementById(id);
         if (!el) return;
 
         if (i === idx) {
-            // ACTIVE (เน้นสีส้ม)
-            el.style.backgroundColor = '#ff8021';
-            el.style.color = '#ffffff';
-            el.style.borderColor = '#ff8021';
+            // ACTIVE
+            el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+            el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
         } else {
             // INACTIVE
-            el.style.backgroundColor = '#ffffff';
-            el.style.color = '#ff8021';
-            el.style.borderColor = '#ff8021';
+            el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
+            el.classList.remove('bg-orange-500', 'text-white');
         }
     });
 
@@ -626,49 +643,50 @@ function setActive(index, totalRows) {
         // ===============================
         // ✅ CARD 1 (ปลูก)
         // ===============================
-        SetValueInHTMLById('planting-stage',   getVal(15));
-        SetValueInHTMLById('planting-days',    getRange(15));
-        SetValueInHTMLById('planting-area',    getVal(16));
-        SetValueInHTMLById('planting-density', getVal(17));
-        SetValueInHTMLById('planting-yield',   getVal(18));
+        SetValueInHTMLById('planting-stage',   getVal(1));
+        SetValueInHTMLById('planting-days',    getRange(2));
+        SetValueInHTMLById('planting-area',    getVal(3));
+        SetValueInHTMLById('planting-density', getVal(4));
+        SetValueInHTMLById('planting-yield',   getVal(5));
 
 
-const table15 = tables.find(t => t.id == 15);
-if (table15 && table15.rows) {
+const table1 = tables.find(t => t.id == 1);
+if (table1 && table1.rows) {
     // สร้าง dot ตาม rows จาก DB
-    buildDots(table15.rows);
+    buildDots(table1.rows);
 
     // หา index ของ row ที่ตรงกับ day ปัจจุบัน
-    const currentVal  = getVal(15);
-    const activeIndex = table15.rows.findIndex(r => r.d_value === currentVal);
+    const currentVal  = getVal(1);
+    const activeIndex = table1.rows.findIndex(r => r.d_value === currentVal);
 
-    setActive(activeIndex >= 0 ? activeIndex : 0, table15.rows.length);
+    setActive(activeIndex >= 0 ? activeIndex : 0, table1.rows.length);
 }
 
         // ===============================
         // ✅ PANEL A
         // ===============================
-        SetValueInHTMLById('ec',          getVal(19));
-        SetValueInHTMLById('ph',          getVal(20));
-        SetValueInHTMLById('temperature', getVal(21));
-        SetValueInHTMLById('humidity',    getVal(22));
-        SetValueInHTMLById('light',       getVal(23));
-        SetValueInHTMLById('o2',          getVal(24));
-        SetValueInHTMLById('co2',         getVal(25));
+        SetValueInHTMLById('ec',          getVal(5));   // EC
+        SetValueInHTMLById('ph',          getVal(6));   // pH
+        SetValueInHTMLById('temperature', getVal(7));   // Temp (°C)
+        SetValueInHTMLById('humidity',    getVal(8));   // RH (%)
+        SetValueInHTMLById('light',       getVal(9));   // แสง (LUX)
+        SetValueInHTMLById('o2',          getVal(10));  // O₂
+        SetValueInHTMLById('co2',         getVal(11));  // CO₂
 
         // ===============================
         // ✅ PANEL B
         // ===============================
-        SetValueInHTMLById('fert-chemical', getVal(26));
-        SetValueInHTMLById('fert-bio',      getVal(27));
-        SetValueInHTMLById('fert-organic',  getVal(28));
-        SetValueInHTMLById('fert-mix',      getVal(29));
+        SetValueInHTMLById('fert-chemical', getVal(12)); // ปุ๋ยเคมี
+        SetValueInHTMLById('fert-bio',      getVal(13)); // ปุ๋ยชีวภาพ
+        SetValueInHTMLById('fert-organic',  getVal(14)); // ปุ๋ยอินทรี
+        SetValueInHTMLById('fert-ab',       getVal(15)); // ปุ๋ย AB
+        SetValueInHTMLById('fert-mix',      getVal(16)); // วิธีผสมปุ๋ย
 
         // ===============================
         // ✅ PANEL C
         // ===============================
-        SetValueInHTMLById('care-disease', getVal(30));
-        SetValueInHTMLById('care-note',    getVal(31));
+        SetValueInHTMLById('care-disease', getVal(17)); // โรค/ปัญหา
+        SetValueInHTMLById('care-note',    getVal(18)); // การดูแล
 
         console.log('✅ Papaya data loaded');
 

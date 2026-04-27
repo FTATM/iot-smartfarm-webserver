@@ -1,7 +1,7 @@
 <?php
-$Title ="Solar System Dashboard";
-$subTitle ="Solar System Intelligence Dashboard";
-$classIconHeader = "ph--solar-panel-duotone";
+$Title ="Container Dashboard";
+$subTitle ="Container Intelligence Dashboard";
+$classIconHeader = "boxicons--container";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">
@@ -10,7 +10,7 @@ $classIconHeader = "ph--solar-panel-duotone";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Solar system - Dashboard</title>
+    <title>Container Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
