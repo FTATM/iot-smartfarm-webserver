@@ -1,4 +1,4 @@
 <?php
-  header("Location:/iotsf/dashboard/page/shrimp-dashboard.php");
+  header("Location:/iotsf/dashboard/page/outdoor-chili-dashboard.php");
   die();
 ?>

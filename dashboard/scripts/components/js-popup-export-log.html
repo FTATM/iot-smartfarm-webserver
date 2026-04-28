@@ -1,0 +1,41 @@
+<!-- JavaScript -->
+<script>
+    let devices = [];
+
+    console.log("branch ID : " + branchID);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetchAll();
+    });
+
+    async function fetchAll() {
+        const raw = await fetch("../../api-website/fetch-branchs.php");
+        const res = await raw.json();
+        devices = res['data'] ?? [];
+        console.log(devices);
+    }
+
+    function setInfomation() {
+        const div = document.getElementById('popup-export-log');
+        if (!div) {
+            console.warn("not found Element popup-export-log");
+            return;
+        }
+        generateOption('select-device', devices, true);
+    }
+
+    async function process() {
+
+    }
+
+    async function loadFile() {
+
+    }
+
+    async function sentToEmail() {
+
+    }
+
+    console.log("================ export js end ===================");
+
+</script>

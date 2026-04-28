@@ -3,6 +3,9 @@
   const electric_unit = 4;
   const water_unit = 10.2;
   let data = { day: 0 };
+
+  const branchID = "<?=$_SESSION['branch_id'] ?? 0;?>";
+
   const colors = [
     "#f97316",
     "#14b8a6",
@@ -78,13 +81,12 @@
     }
   }
 
-  function redirectTo(page, path="") {
+  function redirectTo(page, path = "") {
     if (!page) return;
 
     // กำหนด path ตามที่ต้องการ
     window.location.href = path + page + ".php";
   }
-
 
   function getStatusByKey(key, v, min, max) {
     if (v >= min && v <= max) return { text: "ดีที่สุด", type: "success" };
@@ -113,8 +115,10 @@
 
   function setCardValue(key, value, min, max) {
     const card = document.getElementById(`card-${key}`);
+    console.log(card);
     if (!card) return;
 
+    
     const valueEl = card.querySelector(".value");
     const statusEl = card.querySelector(".status");
 
@@ -649,6 +653,7 @@
       },
     });
   }
+
   function toggleDarkMode() {
     const isDark = document.documentElement.classList.toggle("dark");
     document.documentElement.classList.toggle("light", !isDark);
@@ -716,5 +721,26 @@
     donut.style.background = `conic-gradient(${gradient})`;
 
     SetValueInHTMLById("card-4-total", total);
+  }
+
+  function generateOption(id, data, selectfirst = true) {
+    let select = document.getElementById(id);
+    select.innerHTML = '<option value="">== โปรดเลือก ==</option>';
+
+    if (!isArray(data)) {
+      data = Object.values(data);
+    }
+    data.forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.id;
+      option.textContent = `[${row.id}] ${row.name}`;
+      select.appendChild(option);
+    });
+
+    if (selectfirst && data.length > 0) {
+      select.value = data[0].id;
+      MeterID = data[0].id;
+    }
+
   }
 </script>

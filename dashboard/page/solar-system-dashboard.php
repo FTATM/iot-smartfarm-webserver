@@ -362,14 +362,13 @@ $classIconHeader = "boxicons--container";
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <?php include"../components/footer.php"; ?>
+    <?php include "../components/footer.php"; ?>
 
-    <?php include"../scripts/js.html"; ?>
-    <?php include"../scripts/js-solar.html"; ?>
+    <?php include "../scripts/js.html"; ?>
+    <?php include "../scripts/js-solar.html"; ?>
 </body>
 
 </html>
