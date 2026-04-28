@@ -81,9 +81,21 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                                     </p>
                                 </div>
                             </div>
-                            <div
-                                class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
-                                <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                            <!-- กราฟ + Checkbox Panel -->
+                            <div class="flex flex-1 min-h-0 gap-2">
+                                <!-- Canvas -->
+                                <div
+                                    class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                    <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                                </div>
+                                <!-- Sensor Toggle Button Panel -->
+                                <div id="sensor-checkbox-panel"
+                                    class="flex flex-col gap-[0.35vh] justify-start bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.4vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700 overflow-y-auto">
+                                    <p
+                                        class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
+                                        Sensors</p>
+                                    <!-- Sensor toggle buttons จะถูก inject โดย JS -->
+                                </div>
                             </div>
                         </div>
 
