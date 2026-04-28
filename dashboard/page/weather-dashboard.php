@@ -110,7 +110,7 @@ $classIconHeader = "arcticons--weathercan";
                         <!-- พื้นที่กลาง (รูปบน) -->
                         <div class="rounded-xl px-[1.5vw] flex flex-col items-center justify-center">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Weather System with IoT App.
                             </div>
                             <img src="images/weather_top-3.png" alt="เครื่องมือ/อุปกรณ์"
@@ -120,7 +120,7 @@ $classIconHeader = "arcticons--weathercan";
 
                         <div class=" flex flex-col flex-1 px-[1.5vw]">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Weather System Architecture
                             </div>
 

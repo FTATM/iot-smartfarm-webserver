@@ -34,7 +34,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                         <!-- พื้นที่กลาง (รูปบน) -->
                         <div class="rounded-xl px-[1.5vw] flex flex-col items-center justify-center">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Outdoor Farm with IoT App.
                             </div>
                             <img src="images/outdoor_top.png" alt="เครื่องมือ/อุปกรณ์"
@@ -43,7 +43,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                         <div class="flex flex-col flex-1 px-[1.5vw]">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Outdoor Farm IoT System Architecture
                             </div>
 
@@ -84,9 +84,21 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                     </p>
                                 </div>
                             </div>
-                            <div
-                                class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
-                                <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                            <!-- กราฟ + Checkbox Panel -->
+                            <div class="flex flex-1 min-h-0 gap-2">
+                                <!-- Canvas -->
+                                <div
+                                    class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                    <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                                </div>
+                                <!-- Sensor Checkbox Panel -->
+                                <div id="sensor-checkbox-panel"
+                                    class="flex flex-col gap-[0.4vh] justify-center bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.5vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700">
+                                    <p
+                                        class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
+                                        Sensors</p>
+                                    <!-- Checkboxes จะถูก inject โดย JS -->
+                                </div>
                             </div>
                         </div>
 
