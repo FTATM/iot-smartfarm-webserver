@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Knowledge Management";
 $subTitle = "manage knowledge about farm in website.";
 $classIconHeader = "material-symbols--book";

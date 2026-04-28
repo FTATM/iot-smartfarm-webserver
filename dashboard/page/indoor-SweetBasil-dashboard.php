@@ -1,6 +1,7 @@
 <?php
-$Title = "Indoor Dashboard";
-$subTitle = "Plant hydroponic intellegent system";
+session_start();
+$Title = "SweetBasil Dashboard";
+$subTitle = "Plant hydroponic indoor intellegent system";
 $classIconHeader = "fluent--door-arrow-left-20-regular";
 ?>
 <!DOCTYPE html>
@@ -10,7 +11,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Indoor System - Dashboard</title>
+    <title>SweetBasil System - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">

@@ -9,20 +9,25 @@
         <div class="p-8 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-1">
-                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">อุปกรณ์ (Device)</label>
+                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">ชนิดข้อมูล (Data types)</label>
                     <div class="relative">
-                        <select id="select-device" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
-                            <option value="0">-- เลือกข้อมูล --</option>
+                        <select id="select-type"
+                            onchange="checkParameterForExport('popup-export-log')"
+                            class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
+                            <option>-- เลือกชนิดข้อมูล --</option>
+                            <option value="all">ทั้งหมด (All)</option>
+                            <option value="income">รายรับ (incomes)</option>
+                            <option value="expanse">รายจ่าย (Expanse)</option>
                         </select>
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">ชนิดข้อมูล (Data types)</label>
+                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">หมวดหมู่ (Catagory)</label>
                     <div class="relative">
-                        <select id="select-type" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
-                            <option value="-">-- เลือกชนิดข้อมูล --</option>
-                            <option value="income">รายรับ (incomes)</option>
-                            <option value="expanse">รายจ่าย (Expanse)</option>
+                        <select id="select-catagory"
+                            onchange="checkParameterForExport('popup-export-log')"
+                            class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
+                            <option>-- เลือกหมวดหมู่ข้อมูล --</option>
                             <option value="all">ทั้งหมด (All)</option>
                         </select>
                     </div>

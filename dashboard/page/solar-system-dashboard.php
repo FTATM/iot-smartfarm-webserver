@@ -1,6 +1,7 @@
 <?php
-$Title ="Container Dashboard";
-$subTitle ="Container Intelligence Dashboard";
+session_start();
+$Title = "Solar Dashboard";
+$subTitle = "Solar system intelligence Dashboard";
 $classIconHeader = "boxicons--container";
 ?>
 <!DOCTYPE html>
@@ -10,11 +11,11 @@ $classIconHeader = "boxicons--container";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Container Dashboard</title>
+    <title>Solar system - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
-    <?php include"../components/header.php"; ?>
+    <?php include "../components/header.php"; ?>
 
     <!-- Main Content -->
     <main

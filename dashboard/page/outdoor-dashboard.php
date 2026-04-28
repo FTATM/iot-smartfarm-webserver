@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Outdoor Dashboard";
 $subTitle = "Outdoor Farm Intelligence Dashboard";
 $classIconHeader = "fluent--door-arrow-right-28-regular";

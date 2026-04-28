@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -11,196 +14,196 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-        font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
-        background: #F5F3EE;
-        color: #1C1917;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
+        body {
+            font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+            background: #F5F3EE;
+            color: #1C1917;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    .mono {
-        font-family: 'IBM Plex Mono', monospace;
-    }
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
 
-    ::-webkit-scrollbar {
-        width: 3px;
-        height: 3px;
-    }
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
 
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-    ::-webkit-scrollbar-thumb {
-        background: #D3D1C7;
-        border-radius: 4px;
-    }
+        ::-webkit-scrollbar-thumb {
+            background: #D3D1C7;
+            border-radius: 4px;
+        }
 
-    .card {
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #E7E5DF;
-        transition: box-shadow .15s, border-color .15s;
-    }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #E7E5DF;
+            transition: box-shadow .15s, border-color .15s;
+        }
 
-    .card:hover {
-        border-color: #EF9F27;
-        box-shadow: 0 0 0 2px #EF9F2722;
-    }
+        .card:hover {
+            border-color: #EF9F27;
+            box-shadow: 0 0 0 2px #EF9F2722;
+        }
 
-    .sec-title {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: .75rem;
-        font-weight: 600;
-        color: #44403C;
-        text-transform: uppercase;
-        letter-spacing: .04em;
-        margin-bottom: 8px;
-    }
+        .sec-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .75rem;
+            font-weight: 600;
+            color: #44403C;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin-bottom: 8px;
+        }
 
-    .sec-title .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
+        .sec-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
 
-    .dash-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: .72rem;
-    }
+        .dash-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .72rem;
+        }
 
-    .dash-table th {
-        text-align: left;
-        padding: 5px 6px;
-        color: #78716C;
-        font-weight: 500;
-        border-bottom: 1px solid #E7E5DF;
-        white-space: nowrap;
-    }
+        .dash-table th {
+            text-align: left;
+            padding: 5px 6px;
+            color: #78716C;
+            font-weight: 500;
+            border-bottom: 1px solid #E7E5DF;
+            white-space: nowrap;
+        }
 
-    .dash-table td {
-        padding: 6px 6px;
-        border-bottom: 1px solid #F5F3EE;
-        vertical-align: middle;
-    }
+        .dash-table td {
+            padding: 6px 6px;
+            border-bottom: 1px solid #F5F3EE;
+            vertical-align: middle;
+        }
 
-    .dash-table tr:last-child td {
-        border-bottom: none;
-    }
+        .dash-table tr:last-child td {
+            border-bottom: none;
+        }
 
-    .dash-table tr:hover td {
-        background: #FAFAF8;
-    }
+        .dash-table tr:hover td {
+            background: #FAFAF8;
+        }
 
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 2px 8px;
-        border-radius: 20px;
-        font-size: .68rem;
-        font-weight: 600;
-        white-space: nowrap;
-    }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: .68rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
 
-    .progress-track {
-        flex: 1;
-        height: 5px;
-        background: #F1EFE8;
-        border-radius: 3px;
-        overflow: hidden;
-        min-width: 40px;
-    }
+        .progress-track {
+            flex: 1;
+            height: 5px;
+            background: #F1EFE8;
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 40px;
+        }
 
-    .progress-fill {
-        height: 100%;
-        border-radius: 3px;
-    }
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
 
-    .metric-sub {
-        display: inline-block;
-        margin-top: 3px;
-        font-size: .65rem;
-        font-weight: 600;
-        padding: 1px 7px;
-        border-radius: 20px;
-    }
+        .metric-sub {
+            display: inline-block;
+            margin-top: 3px;
+            font-size: .65rem;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 20px;
+        }
 
-    .disease-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 8px;
-        background: #FAFAF8;
-        border-radius: 8px;
-        font-size: .7rem;
-    }
+        .disease-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            background: #FAFAF8;
+            border-radius: 8px;
+            font-size: .7rem;
+        }
 
-    .milk-bar-wrap {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 0;
-        font-size: .67rem;
-        border-bottom: 1px solid #F5F3EE;
-    }
+        .milk-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 0;
+            font-size: .67rem;
+            border-bottom: 1px solid #F5F3EE;
+        }
 
-    .milk-bar-wrap:last-child {
-        border-bottom: none;
-    }
+        .milk-bar-wrap:last-child {
+            border-bottom: none;
+        }
 
-    .profit-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 8px;
-        border-radius: 8px;
-        font-size: .72rem;
-    }
+        .profit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: .72rem;
+        }
 
-    .profit-highlight {
-        background: #FAEEDA;
-        border: 1px solid #FAC775;
-    }
+        .profit-highlight {
+            background: #FAEEDA;
+            border: 1px solid #FAC775;
+        }
 
-    input[type=range] {
-        width: 100%;
-        height: 3px;
-        cursor: pointer;
-        -webkit-appearance: none;
-        appearance: none;
-        background: #E7E5DF;
-        border-radius: 2px;
-        outline: none;
-    }
+        input[type=range] {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #E7E5DF;
+            border-radius: 2px;
+            outline: none;
+        }
 
-    input[type=range]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #EF9F27;
-        cursor: pointer;
-    }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #EF9F27;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -750,85 +753,85 @@
     </footer>
 
     <script>
-    function updateClock() {
-        const now = new Date();
-        const pad = n => String(n).padStart(2, '0');
-        document.getElementById('clock').textContent =
-            `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-        document.getElementById('footer-date').textContent = `${now.getFullYear()} · Mock Data`;
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
+        function updateClock() {
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            document.getElementById('clock').textContent =
+                `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+            document.getElementById('footer-date').textContent = `${now.getFullYear()} · Mock Data`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
 
-    new Chart(document.getElementById('weightChart').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: ['3m', '6m', '12m', '18m', '24m', 'รีดนม'],
-            datasets: [{
-                data: [70, 130, 230, 320, 420, 500],
-                borderColor: '#EF9F27',
-                backgroundColor: 'rgba(239,159,39,0.07)',
-                borderWidth: 2,
-                pointBackgroundColor: '#EF9F27',
-                pointRadius: 3,
-                fill: true,
-                tension: 0.35
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
+        new Chart(document.getElementById('weightChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['3m', '6m', '12m', '18m', '24m', 'รีดนม'],
+                datasets: [{
+                    data: [70, 130, 230, 320, 420, 500],
+                    borderColor: '#EF9F27',
+                    backgroundColor: 'rgba(239,159,39,0.07)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#EF9F27',
+                    pointRadius: 3,
+                    fill: true,
+                    tension: 0.35
+                }]
             },
-            scales: {
-                x: {
-                    grid: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
                         display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
-                        },
-                        color: '#A8A29E'
                     }
                 },
-                y: {
-                    grid: {
-                        color: 'rgba(0,0,0,0.04)'
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
                         },
-                        color: '#A8A29E',
-                        callback: v => v + 'kg'
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.04)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E',
+                            callback: v => v + 'kg'
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-    function calcIncome() {
-        const n = parseInt(document.getElementById('num-cattle').value);
-        const m = parseInt(document.getElementById('milk-prod').value);
-        const p = parseInt(document.getElementById('milk-price').value);
-        document.getElementById('num-out').textContent = n + ' ตัว';
-        document.getElementById('milk-out').textContent = m + ' ลิตร';
-        document.getElementById('price-out').textContent = p + ' ฿';
-        const incomeDay = n * m * p;
-        const incomeMonth = incomeDay * 30;
-        const costMonth = n * 6750;
-        const profit = incomeMonth - costMonth;
-        document.getElementById('p-day').textContent = '฿' + incomeDay.toLocaleString();
-        document.getElementById('p-month').textContent = '฿' + incomeMonth.toLocaleString();
-        const el = document.getElementById('p-profit');
-        el.textContent = '฿' + profit.toLocaleString();
-        el.style.color = profit >= 0 ? '#0F6E56' : '#A32D2D';
-    }
-    calcIncome();
+        function calcIncome() {
+            const n = parseInt(document.getElementById('num-cattle').value);
+            const m = parseInt(document.getElementById('milk-prod').value);
+            const p = parseInt(document.getElementById('milk-price').value);
+            document.getElementById('num-out').textContent = n + ' ตัว';
+            document.getElementById('milk-out').textContent = m + ' ลิตร';
+            document.getElementById('price-out').textContent = p + ' ฿';
+            const incomeDay = n * m * p;
+            const incomeMonth = incomeDay * 30;
+            const costMonth = n * 6750;
+            const profit = incomeMonth - costMonth;
+            document.getElementById('p-day').textContent = '฿' + incomeDay.toLocaleString();
+            document.getElementById('p-month').textContent = '฿' + incomeMonth.toLocaleString();
+            const el = document.getElementById('p-profit');
+            el.textContent = '฿' + profit.toLocaleString();
+            el.style.color = profit >= 0 ? '#0F6E56' : '#A32D2D';
+        }
+        calcIncome();
     </script>
 </body>
 

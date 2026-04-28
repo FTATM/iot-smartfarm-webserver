@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Income Managements";
 $subTitle = "Chicken Farm Intelligence Dashboard";
 $classIconHeader = "hugeicons--bitcoin-down-01";

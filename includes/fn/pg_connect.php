@@ -11,9 +11,9 @@ define("DEVICE_TOKEN", "5pdKx3CmIY4kzVAbf7dhhzEIVY+eU6GyZGOp7nrNJmGK6oJz6KTk8nlt
 #####PGSQL#######
 $host   = "host = " .$db_config['host']   ?? '127.0.0.1';
 $port   = "port = " .$db_config['port']   ?? '5432';
-$dbname = "dbname = " .$db_config['name'] ?? 'smartfarm';
+$dbname = "dbname = " .$db_config['name'] ?? 'databasename';
 $user   = $db_config['user']   ?? 'postgres';
-$pass   = $db_config['pass']   ?? 'postgres';
+$pass   = $db_config['pass']   ?? '';
 $credentials = "user=$user password=$pass";
 date_default_timezone_set("Asia/Bangkok");
 

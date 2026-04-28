@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Chicken Dashboard";
 $subTitle = "Chicken Farm Intelligence Dashboard";
 $classIconHeader = "emojione-monotone--chicken";
