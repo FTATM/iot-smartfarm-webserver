@@ -1,6 +1,6 @@
 <!-- JavaScript -->
 <script>
-    let devices = [];
+    let catagories = [];
 
     console.log("branch ID : " + branchID);
 
@@ -9,19 +9,54 @@
     });
 
     async function fetchAll() {
-        const raw = await fetch("../../api-website/fetch-branchs.php");
-        const res = await raw.json();
-        devices = res['data'] ?? [];
-        console.log(devices);
+        const catagory_res = await fetch("../../api-website/fetch-branchs.php");
+        const catagory_raw = await catagory_res.json();
+        catagories = catagory_raw['data'] ?? [];
+        console.log(catagories);
+
     }
 
     function setInfomation() {
         const div = document.getElementById('popup-export-log');
         if (!div) {
-            console.warn("not found Element popup-export-log");
+            console.warn("Not found Element popup-export-log");
             return;
         }
-        generateOption('select-device', devices, true);
+    }
+
+    function checkParameterForExport(id) {
+        let popup = document.getElementById('popup-export-log');
+        if (!popup) console.warn('Not found Element popup-export-log'); return;
+
+        let type = popup.querySelector('select-type');
+        if (!type) console.warn('Not found Element select-type'); return;
+
+        let catagory = popup.querySelector('select-catagory');
+        if (!catagory) console.warn('Not found Element select-catagory'); return;
+
+        let startDate = popup.querySelector('start-date');
+        if (!startDate) console.warn('Not Select Start date, please select and try again.'); return;
+
+        let LastDate = popup.querySelector('start-date');
+        if (!LastDate) console.warn('Not Select Last date, please select and try again.'); return;
+
+        let oldTypeValue = null;
+        let SelectTypeValue = type.value;
+        let SelectCatagoryValue = catagory.value;
+        console.log(SelectTypeValue, SelectCatagoryValue);
+
+        if (SelectTypeValue && SelectTypeValue != oldTypeValue) {
+            oldTypeValue = SelectTypeValue;
+            let filterCatagory = catagories;
+            if (SelectTypeValue != 'all') {
+                filterCatagory = catagories.filter((c) => { c.type == SelectTypeValue });
+            }
+            console.log(filterCatagory);
+            generateOption('select-catagory', filterCatagory);
+            return;
+        }
+
+
     }
 
     async function process() {

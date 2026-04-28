@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Weather Dashboard";
 $subTitle = "Weather Dashboard Farm Intelligence";
 $classIconHeader = "arcticons--weathercan";
@@ -10,7 +11,7 @@ $classIconHeader = "arcticons--weathercan";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Weather Dashboard</title>
+    <title>Weather - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">

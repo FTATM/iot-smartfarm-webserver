@@ -1,6 +1,7 @@
 <?php
+session_start();
 $Title = "Indoor Dashboard";
-$subTitle = "Plant hydroponic intellegent system";
+$subTitle = "Plant hydroponic indoor intellegent system";
 $classIconHeader = "fluent--door-arrow-left-20-regular";
 ?>
 <!DOCTYPE html>

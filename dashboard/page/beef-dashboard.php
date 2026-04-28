@@ -1,4 +1,5 @@
 <?php
+session_start();
 // ============================================================
 //  BEEF CATTLE MANAGEMENT DASHBOARD
 //  Single-file PHP · Mock Data · ออกแบบตามต้นแบบ
@@ -17,46 +18,47 @@ $summaryStats = [
 ];
 
 $stages = [
-    ['name'=>'ลูกวัว (Calf)',  'age'=>'0–3 เดือน',   'weight'=>'40–90 kg',   'bar_pct'=>15,  'bar_color'=>'#EF9F27','sell_label'=>'ยังไม่ควรขาย','sell_style'=>'background:#F1EFE8;color:#5F5E5A;'],
-    ['name'=>'หย่านม',         'age'=>'4–8 เดือน',   'weight'=>'90–180 kg',  'bar_pct'=>30,  'bar_color'=>'#EF9F27','sell_label'=>'ยังไม่ควรขาย','sell_style'=>'background:#F1EFE8;color:#5F5E5A;'],
-    ['name'=>'รุ่น (Grower)',  'age'=>'9–15 เดือน',  'weight'=>'180–300 kg', 'bar_pct'=>50,  'bar_color'=>'#EF9F27','sell_label'=>'ยังไม่ควรขาย','sell_style'=>'background:#F1EFE8;color:#5F5E5A;'],
-    ['name'=>'ขุนต้น',         'age'=>'16–22 เดือน', 'weight'=>'300–450 kg', 'bar_pct'=>75,  'bar_color'=>'#EF9F27','sell_label'=>'บางตลาด',     'sell_style'=>'background:#FAEEDA;color:#854F0B;'],
-    ['name'=>'ขุนปลาย',        'age'=>'23–30 เดือน', 'weight'=>'450–600 kg', 'bar_pct'=>90,  'bar_color'=>'#1D9E75','sell_label'=>'เหมาะขายแล้ว','sell_style'=>'background:#E1F5EE;color:#0F6E56;'],
-    ['name'=>'เกินขุน',        'age'=>'>30 เดือน',   'weight'=>'>600 kg',    'bar_pct'=>100, 'bar_color'=>'#E24B4A','sell_label'=>'ควรขายแล้ว!', 'sell_style'=>'background:#FCEBEB;color:#A32D2D;'],
+    ['name' => 'ลูกวัว (Calf)',  'age' => '0–3 เดือน',   'weight' => '40–90 kg',   'bar_pct' => 15,  'bar_color' => '#EF9F27', 'sell_label' => 'ยังไม่ควรขาย', 'sell_style' => 'background:#F1EFE8;color:#5F5E5A;'],
+    ['name' => 'หย่านม',         'age' => '4–8 เดือน',   'weight' => '90–180 kg',  'bar_pct' => 30,  'bar_color' => '#EF9F27', 'sell_label' => 'ยังไม่ควรขาย', 'sell_style' => 'background:#F1EFE8;color:#5F5E5A;'],
+    ['name' => 'รุ่น (Grower)',  'age' => '9–15 เดือน',  'weight' => '180–300 kg', 'bar_pct' => 50,  'bar_color' => '#EF9F27', 'sell_label' => 'ยังไม่ควรขาย', 'sell_style' => 'background:#F1EFE8;color:#5F5E5A;'],
+    ['name' => 'ขุนต้น',         'age' => '16–22 เดือน', 'weight' => '300–450 kg', 'bar_pct' => 75,  'bar_color' => '#EF9F27', 'sell_label' => 'บางตลาด',     'sell_style' => 'background:#FAEEDA;color:#854F0B;'],
+    ['name' => 'ขุนปลาย',        'age' => '23–30 เดือน', 'weight' => '450–600 kg', 'bar_pct' => 90,  'bar_color' => '#1D9E75', 'sell_label' => 'เหมาะขายแล้ว', 'sell_style' => 'background:#E1F5EE;color:#0F6E56;'],
+    ['name' => 'เกินขุน',        'age' => '>30 เดือน',   'weight' => '>600 kg',    'bar_pct' => 100, 'bar_color' => '#E24B4A', 'sell_label' => 'ควรขายแล้ว!', 'sell_style' => 'background:#FCEBEB;color:#A32D2D;'],
 ];
 
 $diseases = [
-    ['age'=>'0–3 เดือน',   'name'=>'ท้องเสีย',       'cause'=>'ภูมิต่ำ',       'risk'=>'high'],
-    ['age'=>'4–8 เดือน',   'name'=>'ปอดอักเสบ',      'cause'=>'อากาศเปลี่ยน',  'risk'=>'med'],
-    ['age'=>'9–15 เดือน',  'name'=>'พยาธิ',          'cause'=>'กินหญ้าเยอะ',   'risk'=>'low'],
-    ['age'=>'16–22 เดือน', 'name'=>'กรดในกระเพาะ',   'cause'=>'อาหารข้นสูง',   'risk'=>'med'],
-    ['age'=>'23–30 เดือน', 'name'=>'ขาอักเสบ',       'cause'=>'น้ำหนักมาก',    'risk'=>'high'],
+    ['age' => '0–3 เดือน',   'name' => 'ท้องเสีย',       'cause' => 'ภูมิต่ำ',       'risk' => 'high'],
+    ['age' => '4–8 เดือน',   'name' => 'ปอดอักเสบ',      'cause' => 'อากาศเปลี่ยน',  'risk' => 'med'],
+    ['age' => '9–15 เดือน',  'name' => 'พยาธิ',          'cause' => 'กินหญ้าเยอะ',   'risk' => 'low'],
+    ['age' => '16–22 เดือน', 'name' => 'กรดในกระเพาะ',   'cause' => 'อาหารข้นสูง',   'risk' => 'med'],
+    ['age' => '23–30 เดือน', 'name' => 'ขาอักเสบ',       'cause' => 'น้ำหนักมาก',    'risk' => 'high'],
 ];
 
 $feedTable = [
-    ['stage'=>'ลูกวัว',  'main'=>'นม+หญ้าอ่อน', 'conc'=>'16–18% โปรตีน','daily'=>'2–3%BW'],
-    ['stage'=>'หย่านม',  'main'=>'หญ้าสด',       'conc'=>'1 kg',          'daily'=>'3%BW'],
-    ['stage'=>'รุ่น',    'main'=>'หญ้า+ฟาง',     'conc'=>'1.5–2 kg',      'daily'=>'2.5–3%'],
-    ['stage'=>'ขุนต้น',  'main'=>'หญ้า 60%',     'conc'=>'อาหารข้น 40%', 'daily'=>'3%'],
-    ['stage'=>'ขุนปลาย', 'main'=>'หญ้า 30%',     'conc'=>'อาหารข้น 70%', 'daily'=>'3–3.5%'],
+    ['stage' => 'ลูกวัว',  'main' => 'นม+หญ้าอ่อน', 'conc' => '16–18% โปรตีน', 'daily' => '2–3%BW'],
+    ['stage' => 'หย่านม',  'main' => 'หญ้าสด',       'conc' => '1 kg',          'daily' => '3%BW'],
+    ['stage' => 'รุ่น',    'main' => 'หญ้า+ฟาง',     'conc' => '1.5–2 kg',      'daily' => '2.5–3%'],
+    ['stage' => 'ขุนต้น',  'main' => 'หญ้า 60%',     'conc' => 'อาหารข้น 40%', 'daily' => '3%'],
+    ['stage' => 'ขุนปลาย', 'main' => 'หญ้า 30%',     'conc' => 'อาหารข้น 70%', 'daily' => '3–3.5%'],
 ];
 
 $marketData = [
-    ['range'=>'<300 kg',    'pct'=>30,  'status'=>'ราคาต่ำ',    'dot'=>'#888780', 'sbg'=>'#F1EFE8','stx'=>'#5F5E5A', 'featured'=>false],
-    ['range'=>'400 kg',     'pct'=>55,  'status'=>'เริ่มคุ้ม',  'dot'=>'#EF9F27', 'sbg'=>'#FAEEDA','stx'=>'#854F0B', 'featured'=>false],
-    ['range'=>'500 kg',     'pct'=>80,  'status'=>'เหมาะขาย',  'dot'=>'#1D9E75', 'sbg'=>'#E1F5EE','stx'=>'#0F6E56', 'featured'=>false],
-    ['range'=>'550–600 kg', 'pct'=>100, 'status'=>'กำไรสูงสุด','dot'=>'#639922', 'sbg'=>'#EAF3DE','stx'=>'#3B6D11', 'featured'=>true],
-    ['range'=>'>650 kg',    'pct'=>60,  'status'=>'Overfeed',   'dot'=>'#E24B4A', 'sbg'=>'#FCEBEB','stx'=>'#A32D2D', 'featured'=>false],
+    ['range' => '<300 kg',    'pct' => 30,  'status' => 'ราคาต่ำ',    'dot' => '#888780', 'sbg' => '#F1EFE8', 'stx' => '#5F5E5A', 'featured' => false],
+    ['range' => '400 kg',     'pct' => 55,  'status' => 'เริ่มคุ้ม',  'dot' => '#EF9F27', 'sbg' => '#FAEEDA', 'stx' => '#854F0B', 'featured' => false],
+    ['range' => '500 kg',     'pct' => 80,  'status' => 'เหมาะขาย',  'dot' => '#1D9E75', 'sbg' => '#E1F5EE', 'stx' => '#0F6E56', 'featured' => false],
+    ['range' => '550–600 kg', 'pct' => 100, 'status' => 'กำไรสูงสุด', 'dot' => '#639922', 'sbg' => '#EAF3DE', 'stx' => '#3B6D11', 'featured' => true],
+    ['range' => '>650 kg',    'pct' => 60,  'status' => 'Overfeed',   'dot' => '#E24B4A', 'sbg' => '#FCEBEB', 'stx' => '#A32D2D', 'featured' => false],
 ];
 
 // chart data
-$chartWeightLabels = json_encode(['3m','6m','12m','18m','24m','30m']);
-$chartWeightData   = json_encode([80,150,250,380,500,600]);
-$chartCostLabels   = json_encode(['ลูกวัว','รุ่น','ขุนต้น','ขุนปลาย']);
-$chartCostData     = json_encode([1000,2000,3000,4500]);
+$chartWeightLabels = json_encode(['3m', '6m', '12m', '18m', '24m', '30m']);
+$chartWeightData   = json_encode([80, 150, 250, 380, 500, 600]);
+$chartCostLabels   = json_encode(['ลูกวัว', 'รุ่น', 'ขุนต้น', 'ขุนปลาย']);
+$chartCostData     = json_encode([1000, 2000, 3000, 4500]);
 
-function riskDot(string $risk): string {
-    $c = ['high'=>'#E24B4A','med'=>'#EF9F27','low'=>'#1D9E75'][$risk] ?? '#888';
+function riskDot(string $risk): string
+{
+    $c = ['high' => '#E24B4A', 'med' => '#EF9F27', 'low' => '#1D9E75'][$risk] ?? '#888';
     return "<span style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:{$c};flex-shrink:0;\"></span>";
 }
 ?>
@@ -73,240 +75,240 @@ function riskDot(string $risk): string {
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-        font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
-        background: #F5F3EE;
-        color: #1C1917;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
+        body {
+            font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+            background: #F5F3EE;
+            color: #1C1917;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    .mono {
-        font-family: 'IBM Plex Mono', monospace;
-    }
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
 
-    /* scrollbars */
-    ::-webkit-scrollbar {
-        width: 3px;
-        height: 3px;
-    }
+        /* scrollbars */
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
 
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-    ::-webkit-scrollbar-thumb {
-        background: #D3D1C7;
-        border-radius: 4px;
-    }
+        ::-webkit-scrollbar-thumb {
+            background: #D3D1C7;
+            border-radius: 4px;
+        }
 
-    /* cards */
-    .card {
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #E7E5DF;
-        transition: box-shadow .15s, border-color .15s;
-    }
+        /* cards */
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #E7E5DF;
+            transition: box-shadow .15s, border-color .15s;
+        }
 
-    .card:hover {
-        border-color: #EF9F27;
-        box-shadow: 0 0 0 2px #EF9F2722;
-    }
+        .card:hover {
+            border-color: #EF9F27;
+            box-shadow: 0 0 0 2px #EF9F2722;
+        }
 
-    /* accent dots */
-    .dot-amber {
-        background: #EF9F27;
-    }
+        /* accent dots */
+        .dot-amber {
+            background: #EF9F27;
+        }
 
-    .dot-teal {
-        background: #1D9E75;
-    }
+        .dot-teal {
+            background: #1D9E75;
+        }
 
-    .dot-coral {
-        background: #D85A30;
-    }
+        .dot-coral {
+            background: #D85A30;
+        }
 
-    .dot-blue {
-        background: #378ADD;
-    }
+        .dot-blue {
+            background: #378ADD;
+        }
 
-    .dot-green {
-        background: #639922;
-    }
+        .dot-green {
+            background: #639922;
+        }
 
-    .dot-red {
-        background: #E24B4A;
-    }
+        .dot-red {
+            background: #E24B4A;
+        }
 
-    /* section title */
-    .sec-title {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: .75rem;
-        font-weight: 600;
-        color: #44403C;
-        text-transform: uppercase;
-        letter-spacing: .04em;
-        margin-bottom: 8px;
-    }
+        /* section title */
+        .sec-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .75rem;
+            font-weight: 600;
+            color: #44403C;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin-bottom: 8px;
+        }
 
-    .sec-title .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
+        .sec-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
 
-    /* table base */
-    .dash-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: .72rem;
-    }
+        /* table base */
+        .dash-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .72rem;
+        }
 
-    .dash-table th {
-        text-align: left;
-        padding: 5px 6px;
-        color: #78716C;
-        font-weight: 500;
-        border-bottom: 1px solid #E7E5DF;
-        white-space: nowrap;
-    }
+        .dash-table th {
+            text-align: left;
+            padding: 5px 6px;
+            color: #78716C;
+            font-weight: 500;
+            border-bottom: 1px solid #E7E5DF;
+            white-space: nowrap;
+        }
 
-    .dash-table td {
-        padding: 6px 6px;
-        border-bottom: 1px solid #F5F3EE;
-        vertical-align: middle;
-    }
+        .dash-table td {
+            padding: 6px 6px;
+            border-bottom: 1px solid #F5F3EE;
+            vertical-align: middle;
+        }
 
-    .dash-table tr:last-child td {
-        border-bottom: none;
-    }
+        .dash-table tr:last-child td {
+            border-bottom: none;
+        }
 
-    .dash-table tr:hover td {
-        background: #FAFAF8;
-    }
+        .dash-table tr:hover td {
+            background: #FAFAF8;
+        }
 
-    /* sell badge */
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 2px 8px;
-        border-radius: 20px;
-        font-size: .68rem;
-        font-weight: 600;
-        white-space: nowrap;
-    }
+        /* sell badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: .68rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
 
-    /* progress bar */
-    .progress-wrap {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
+        /* progress bar */
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-    .progress-track {
-        flex: 1;
-        height: 5px;
-        background: #F1EFE8;
-        border-radius: 3px;
-        overflow: hidden;
-        min-width: 40px;
-    }
+        .progress-track {
+            flex: 1;
+            height: 5px;
+            background: #F1EFE8;
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 40px;
+        }
 
-    .progress-fill {
-        height: 100%;
-        border-radius: 3px;
-    }
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
 
-    /* disease row */
-    .disease-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 8px;
-        background: #FAFAF8;
-        border-radius: 8px;
-        font-size: .7rem;
-    }
+        /* disease row */
+        .disease-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            background: #FAFAF8;
+            border-radius: 8px;
+            font-size: .7rem;
+        }
 
-    /* market row */
-    .market-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 8px;
-        border-radius: 8px;
-        border: 1px solid #E7E5DF;
-        font-size: .7rem;
-    }
+        /* market row */
+        .market-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #E7E5DF;
+            font-size: .7rem;
+        }
 
-    .market-row.featured {
-        border: 1.5px solid #639922;
-        background: #F6FBF0;
-    }
+        .market-row.featured {
+            border: 1.5px solid #639922;
+            background: #F6FBF0;
+        }
 
-    /* profit calc */
-    .profit-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 8px;
-        border-radius: 8px;
-        font-size: .72rem;
-    }
+        /* profit calc */
+        .profit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: .72rem;
+        }
 
-    .profit-highlight {
-        background: #FAEEDA;
-        border: 1px solid #FAC775;
-    }
+        .profit-highlight {
+            background: #FAEEDA;
+            border: 1px solid #FAC775;
+        }
 
-    /* slider */
-    input[type=range] {
-        width: 100%;
-        height: 3px;
-        cursor: pointer;
-        -webkit-appearance: none;
-        appearance: none;
-        background: #E7E5DF;
-        border-radius: 2px;
-        outline: none;
-    }
+        /* slider */
+        input[type=range] {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #E7E5DF;
+            border-radius: 2px;
+            outline: none;
+        }
 
-    input[type=range]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #EF9F27;
-        cursor: pointer;
-    }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #EF9F27;
+            cursor: pointer;
+        }
 
-    /* metric card accent */
-    .metric-sub {
-        display: inline-block;
-        margin-top: 3px;
-        font-size: .65rem;
-        font-weight: 600;
-        padding: 1px 7px;
-        border-radius: 20px;
-    }
+        /* metric card accent */
+        .metric-sub {
+            display: inline-block;
+            margin-top: 3px;
+            font-size: .65rem;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 
@@ -352,28 +354,28 @@ function riskDot(string $risk): string {
         <!-- ── ROW 1: SUMMARY METRICS ── -->
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;flex-shrink:0;">
             <?php
-    $mc = [
-      ['#FAEEDA','#854F0B'],
-      ['#E1F5EE','#0F6E56'],
-      ['#FAECE7','#993C1D'],
-      ['#EAF3DE','#3B6D11'],
-    ];
-    foreach ($summaryStats as $i => $s):
-      [$bg,$tx] = $mc[$i];
-    ?>
-            <div class="card" style="padding:12px 14px; position:relative;">
-                <div
-                    style="font-size:.65rem;font-weight:600;color:#78716C;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;">
-                    <?= htmlspecialchars($s['label']) ?>
+            $mc = [
+                ['#FAEEDA', '#854F0B'],
+                ['#E1F5EE', '#0F6E56'],
+                ['#FAECE7', '#993C1D'],
+                ['#EAF3DE', '#3B6D11'],
+            ];
+            foreach ($summaryStats as $i => $s):
+                [$bg, $tx] = $mc[$i];
+            ?>
+                <div class="card" style="padding:12px 14px; position:relative;">
+                    <div
+                        style="font-size:.65rem;font-weight:600;color:#78716C;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;">
+                        <?= htmlspecialchars($s['label']) ?>
+                    </div>
+                    <div class="mono" style="font-size:1.4rem;font-weight:700;color:#1C1917;line-height:1.2;">
+                        <?= htmlspecialchars($s['value']) ?>
+                    </div>
+                    <span class="metric-sub"
+                        style="position:absolute; top:8px; right:10px; background:<?= $bg ?>; color:<?= $tx ?>;">
+                        <?= htmlspecialchars($s['sub']) ?>
+                    </span>
                 </div>
-                <div class="mono" style="font-size:1.4rem;font-weight:700;color:#1C1917;line-height:1.2;">
-                    <?= htmlspecialchars($s['value']) ?>
-                </div>
-                <span class="metric-sub"
-                    style="position:absolute; top:8px; right:10px; background:<?= $bg ?>; color:<?= $tx ?>;">
-                    <?= htmlspecialchars($s['sub']) ?>
-                </span>
-            </div>
             <?php endforeach; ?>
         </div>
 
@@ -404,29 +406,29 @@ function riskDot(string $risk): string {
                                 </thead>
                                 <tbody>
                                     <?php foreach ($stages as $s): ?>
-                                    <tr>
-                                        <td style="font-weight:600;color:#1C1917;"><?= htmlspecialchars($s['name']) ?>
-                                        </td>
-                                        <td style="color:#78716C;white-space:nowrap;"><?= htmlspecialchars($s['age']) ?>
-                                        </td>
-                                        <td style="color:#78716C;" class="mono"><?= htmlspecialchars($s['weight']) ?>
-                                        </td>
-                                        <td>
-                                            <div class="progress-wrap">
-                                                <div class="progress-track">
-                                                    <div class="progress-fill"
-                                                        style="width:<?= $s['bar_pct'] ?>%;background:<?= $s['bar_color'] ?>;">
+                                        <tr>
+                                            <td style="font-weight:600;color:#1C1917;"><?= htmlspecialchars($s['name']) ?>
+                                            </td>
+                                            <td style="color:#78716C;white-space:nowrap;"><?= htmlspecialchars($s['age']) ?>
+                                            </td>
+                                            <td style="color:#78716C;" class="mono"><?= htmlspecialchars($s['weight']) ?>
+                                            </td>
+                                            <td>
+                                                <div class="progress-wrap">
+                                                    <div class="progress-track">
+                                                        <div class="progress-fill"
+                                                            style="width:<?= $s['bar_pct'] ?>%;background:<?= $s['bar_color'] ?>;">
+                                                        </div>
                                                     </div>
+                                                    <span style="font-size:.65rem;color:#A8A29E;min-width:22px;"
+                                                        class="mono"><?= $s['bar_pct'] ?>%</span>
                                                 </div>
-                                                <span style="font-size:.65rem;color:#A8A29E;min-width:22px;"
-                                                    class="mono"><?= $s['bar_pct'] ?>%</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge"
-                                                style="<?= $s['sell_style'] ?>"><?= htmlspecialchars($s['sell_label']) ?></span>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td>
+                                                <span class="badge"
+                                                    style="<?= $s['sell_style'] ?>"><?= htmlspecialchars($s['sell_label']) ?></span>
+                                            </td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -443,13 +445,13 @@ function riskDot(string $risk): string {
                             <div
                                 style="flex:1;display:flex;flex-direction:column;gap:5px;overflow-y:auto;min-height:0;">
                                 <?php foreach ($diseases as $d): ?>
-                                <div class="disease-row">
-                                    <?= riskDot($d['risk']) ?>
-                                    <span
-                                        style="color:#A8A29E;min-width:80px;flex-shrink:0;"><?= htmlspecialchars($d['age']) ?></span>
-                                    <span style="font-weight:600;flex:1;"><?= htmlspecialchars($d['name']) ?></span>
-                                    <span style="color:#A8A29E;"><?= htmlspecialchars($d['cause']) ?></span>
-                                </div>
+                                    <div class="disease-row">
+                                        <?= riskDot($d['risk']) ?>
+                                        <span
+                                            style="color:#A8A29E;min-width:80px;flex-shrink:0;"><?= htmlspecialchars($d['age']) ?></span>
+                                        <span style="font-weight:600;flex:1;"><?= htmlspecialchars($d['name']) ?></span>
+                                        <span style="color:#A8A29E;"><?= htmlspecialchars($d['cause']) ?></span>
+                                    </div>
                                 <?php endforeach; ?>
                                 <div
                                     style="display:flex;gap:10px;padding-top:4px;font-size:.65rem;color:#A8A29E;justify-content:flex-end;">
@@ -470,19 +472,19 @@ function riskDot(string $risk): string {
                             </div>
                             <?php
                             $costRows = [
-                                ['ลูกวัว','30–40 บาท/วัน','~฿1,000/เดือน'],
-                                ['รุ่น','50–70 บาท/วัน','~฿2,000/เดือน'],
-                                ['ขุนต้น','80–110 บาท/วัน','~฿3,000/เดือน'],
-                                ['ขุนปลาย','120–160 บาท/วัน','~฿4,500/เดือน'],
+                                ['ลูกวัว', '30–40 บาท/วัน', '~฿1,000/เดือน'],
+                                ['รุ่น', '50–70 บาท/วัน', '~฿2,000/เดือน'],
+                                ['ขุนต้น', '80–110 บาท/วัน', '~฿3,000/เดือน'],
+                                ['ขุนปลาย', '120–160 บาท/วัน', '~฿4,500/เดือน'],
                             ];
                             foreach ($costRows as $cr):
                             ?>
-                            <div
-                                style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #F5F3EE;font-size:.68rem;">
-                                <span style="font-weight:600;color:#44403C;"><?= $cr[0] ?></span>
-                                <span style="color:#78716C;"><?= $cr[1] ?></span>
-                                <span class="mono" style="font-weight:600;color:#EF9F27;"><?= $cr[2] ?></span>
-                            </div>
+                                <div
+                                    style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #F5F3EE;font-size:.68rem;">
+                                    <span style="font-weight:600;color:#44403C;"><?= $cr[0] ?></span>
+                                    <span style="color:#78716C;"><?= $cr[1] ?></span>
+                                    <span class="mono" style="font-weight:600;color:#EF9F27;"><?= $cr[2] ?></span>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -522,20 +524,20 @@ function riskDot(string $risk): string {
                                 </thead>
                                 <tbody>
                                     <?php foreach ($feedTable as $f): ?>
-                                    <tr>
-                                        <td style="font-weight: 600; padding: clamp(3px, 0.4vh, 6px) 4px;">
-                                            <?= htmlspecialchars($f['stage']) ?>
-                                        </td>
-                                        <td style="color: #78716C; padding: clamp(3px, 0.4vh, 6px) 4px;">
-                                            <?= htmlspecialchars($f['main']) ?>
-                                        </td>
-                                        <td style="color: #78716C; padding: clamp(3px, 0.4vh, 6px) 4px;">
-                                            <?= htmlspecialchars($f['conc']) ?>
-                                        </td>
-                                        <td class="mono" style="color: #44403C; padding: clamp(3px, 0.4vh, 6px) 4px;">
-                                            <?= htmlspecialchars($f['daily']) ?>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; padding: clamp(3px, 0.4vh, 6px) 4px;">
+                                                <?= htmlspecialchars($f['stage']) ?>
+                                            </td>
+                                            <td style="color: #78716C; padding: clamp(3px, 0.4vh, 6px) 4px;">
+                                                <?= htmlspecialchars($f['main']) ?>
+                                            </td>
+                                            <td style="color: #78716C; padding: clamp(3px, 0.4vh, 6px) 4px;">
+                                                <?= htmlspecialchars($f['conc']) ?>
+                                            </td>
+                                            <td class="mono" style="color: #44403C; padding: clamp(3px, 0.4vh, 6px) 4px;">
+                                                <?= htmlspecialchars($f['daily']) ?>
+                                            </td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -554,21 +556,21 @@ function riskDot(string $risk): string {
                         <div
                             style="flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: clamp(4px, 0.6vh, 8px);">
                             <?php foreach ($marketData as $m): ?>
-                            <div class="market-row <?= $m['featured'] ? 'featured' : '' ?>"
-                                style="display: flex; align-items: center; gap: clamp(4px, 0.5vw, 8px); font-size: clamp(9px, 0.9vw, 12px);">
-                                <span
-                                    style="width: clamp(6px, 0.6vw, 8px); height: clamp(6px, 0.6vw, 8px); border-radius: 50%; background: <?= $m['dot'] ?>; flex-shrink: 0;"></span>
-                                <span class="mono" style=" font-weight: 600; min-width: clamp(52px, 5vw, 72px); flex-shrink: 0;
+                                <div class="market-row <?= $m['featured'] ? 'featured' : '' ?>"
+                                    style="display: flex; align-items: center; gap: clamp(4px, 0.5vw, 8px); font-size: clamp(9px, 0.9vw, 12px);">
+                                    <span
+                                        style="width: clamp(6px, 0.6vw, 8px); height: clamp(6px, 0.6vw, 8px); border-radius: 50%; background: <?= $m['dot'] ?>; flex-shrink: 0;"></span>
+                                    <span class="mono" style=" font-weight: 600; min-width: clamp(52px, 5vw, 72px); flex-shrink: 0;
                 "><?= htmlspecialchars($m['range']) ?></span>
-                                <div
-                                    style="flex: 1; height: 4px; background: #F1EFE8; border-radius: 2px; overflow: hidden;">
                                     <div
-                                        style="width: <?= $m['pct'] ?>%; height: 100%; background: <?= $m['dot'] ?>; border-radius:2px;">
+                                        style="flex: 1; height: 4px; background: #F1EFE8; border-radius: 2px; overflow: hidden;">
+                                        <div
+                                            style="width: <?= $m['pct'] ?>%; height: 100%; background: <?= $m['dot'] ?>; border-radius:2px;">
+                                        </div>
                                     </div>
+                                    <span class="badge"
+                                        style="background: <?= $m['sbg'] ?>; color: <?= $m['stx'] ?>; font-size: clamp(8px, 0.75vw, 10px); padding: clamp(1px, 0.2vh, 3px) clamp(4px, 0.5vw, 8px); flex-shrink: 0;"><?= htmlspecialchars($m['status']) ?></span>
                                 </div>
-                                <span class="badge"
-                                    style="background: <?= $m['sbg'] ?>; color: <?= $m['stx'] ?>; font-size: clamp(8px, 0.75vw, 10px); padding: clamp(1px, 0.2vh, 3px) clamp(4px, 0.5vw, 8px); flex-shrink: 0;"><?= htmlspecialchars($m['status']) ?></span>
-                            </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -655,8 +657,12 @@ function riskDot(string $risk): string {
                     <div class="sec-title"><span class="dot dot-teal"></span>สูตรอาหารขุน (ต่อ 100 kg)</div>
                     <?php
                     $formula = [
-                        ['ข้าวโพดบด',35,45],['มันเส้น',25,30],['รำละเอียด',20,10],
-                        ['กากถั่วเหลือง',15,10],['เกลือแร่',3,3],['ยูเรีย',2,2],
+                        ['ข้าวโพดบด', 35, 45],
+                        ['มันเส้น', 25, 30],
+                        ['รำละเอียด', 20, 10],
+                        ['กากถั่วเหลือง', 15, 10],
+                        ['เกลือแร่', 3, 3],
+                        ['ยูเรีย', 2, 2],
                     ];
                     ?>
                     <table class="dash-table">
@@ -669,12 +675,12 @@ function riskDot(string $risk): string {
                         </thead>
                         <tbody>
                             <?php foreach ($formula as $r): ?>
-                            <tr>
-                                <td style="color:#44403C;"><?= htmlspecialchars($r[0]) ?></td>
-                                <td class="mono" style="text-align:right;color:#78716C;"><?= $r[1] ?> kg</td>
-                                <td class="mono" style="text-align:right;font-weight:600;color:#EF9F27;"><?= $r[2] ?> kg
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td style="color:#44403C;"><?= htmlspecialchars($r[0]) ?></td>
+                                    <td class="mono" style="text-align:right;color:#78716C;"><?= $r[1] ?> kg</td>
+                                    <td class="mono" style="text-align:right;font-weight:600;color:#EF9F27;"><?= $r[2] ?> kg
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -705,122 +711,122 @@ function riskDot(string $risk): string {
      SCRIPTS
 ════════════════════════════════════ -->
     <script>
-    // ── Weight Chart ──
-    new Chart(document.getElementById('weightChart'), {
-        type: 'line',
-        data: {
-            labels: <?= $chartWeightLabels ?>,
-            datasets: [{
-                data: <?= $chartWeightData ?>,
-                borderColor: '#EF9F27',
-                backgroundColor: 'rgba(239,159,39,0.07)',
-                borderWidth: 2,
-                pointBackgroundColor: '#EF9F27',
-                pointRadius: 3,
-                fill: true,
-                tension: 0.35
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
+        // ── Weight Chart ──
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: <?= $chartWeightLabels ?>,
+                datasets: [{
+                    data: <?= $chartWeightData ?>,
+                    borderColor: '#EF9F27',
+                    backgroundColor: 'rgba(239,159,39,0.07)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#EF9F27',
+                    pointRadius: 3,
+                    fill: true,
+                    tension: 0.35
+                }]
             },
-            scales: {
-                x: {
-                    grid: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
                         display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
-                        },
-                        color: '#A8A29E'
                     }
                 },
-                y: {
-                    grid: {
-                        color: 'rgba(0,0,0,0.04)'
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
                         },
-                        color: '#A8A29E',
-                        callback: v => v + 'kg'
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.04)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E',
+                            callback: v => v + 'kg'
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-    // ── Cost Chart ──
-    new Chart(document.getElementById('costChart'), {
-        type: 'bar',
-        data: {
-            labels: <?= $chartCostLabels ?>,
-            datasets: [{
-                data: <?= $chartCostData ?>,
-                backgroundColor: ['#9FE1CB', '#5DCAA5', '#EF9F27', '#BA7517'],
-                borderRadius: 4,
-                borderSkipped: false
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
+        // ── Cost Chart ──
+        new Chart(document.getElementById('costChart'), {
+            type: 'bar',
+            data: {
+                labels: <?= $chartCostLabels ?>,
+                datasets: [{
+                    data: <?= $chartCostData ?>,
+                    backgroundColor: ['#9FE1CB', '#5DCAA5', '#EF9F27', '#BA7517'],
+                    borderRadius: 4,
+                    borderSkipped: false
+                }]
             },
-            scales: {
-                x: {
-                    grid: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
                         display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
-                        },
-                        color: '#A8A29E'
                     }
                 },
-                y: {
-                    grid: {
-                        color: 'rgba(0,0,0,0.04)'
-                    },
-                    ticks: {
-                        font: {
-                            size: 10
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
                         },
-                        color: '#A8A29E',
-                        callback: v => '฿' + v.toLocaleString()
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.04)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            color: '#A8A29E',
+                            callback: v => '฿' + v.toLocaleString()
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-    // ── Profit Calculator ──
-    function calcProfit() {
-        const n = parseInt(document.getElementById('num-cattle').value);
-        const w = parseInt(document.getElementById('avg-weight').value);
-        document.getElementById('num-out').textContent = n + ' ตัว';
-        document.getElementById('wt-out').textContent = w + ' kg';
-        const income = n * w * 85;
-        const cost = n * 135000;
-        const profit = income - cost;
-        document.getElementById('p-income').textContent = '฿' + income.toLocaleString();
-        document.getElementById('p-cost').textContent = '฿' + cost.toLocaleString();
-        const el = document.getElementById('p-profit');
-        el.textContent = '฿' + profit.toLocaleString();
-        el.style.color = profit >= 0 ? '#0F6E56' : '#A32D2D';
-    }
-    calcProfit();
+        // ── Profit Calculator ──
+        function calcProfit() {
+            const n = parseInt(document.getElementById('num-cattle').value);
+            const w = parseInt(document.getElementById('avg-weight').value);
+            document.getElementById('num-out').textContent = n + ' ตัว';
+            document.getElementById('wt-out').textContent = w + ' kg';
+            const income = n * w * 85;
+            const cost = n * 135000;
+            const profit = income - cost;
+            document.getElementById('p-income').textContent = '฿' + income.toLocaleString();
+            document.getElementById('p-cost').textContent = '฿' + cost.toLocaleString();
+            const el = document.getElementById('p-profit');
+            el.textContent = '฿' + profit.toLocaleString();
+            el.style.color = profit >= 0 ? '#0F6E56' : '#A32D2D';
+        }
+        calcProfit();
     </script>
 
 </body>

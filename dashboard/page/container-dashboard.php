@@ -1,6 +1,7 @@
 <?php
+session_start();
 $Title = "Container Dashboard";
-$subTitle = "Plant hydroponic intellegent system";
+$subTitle = "Plant hydroponic indoor intellegent system";
 $classIconHeader = "boxicons--container";
 ?>
 <!DOCTYPE html>

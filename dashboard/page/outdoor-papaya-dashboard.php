@@ -1,5 +1,6 @@
 <?php
-$Title = "Outdoor Dashboard";
+session_start();
+$Title = "Papaya Dashboard";
 $subTitle = "Outdoor Farm Intelligence Dashboard";
 $classIconHeader = "fluent--door-arrow-right-28-regular";
 ?>
@@ -10,7 +11,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Outdoor System - Dashboard</title>
+    <title>Papaya - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
