@@ -1,4 +1,5 @@
 <?php
+session_start();
 $Title = "Outdoor Dashboard";
 $subTitle = "Outdoor Farm Intelligence Dashboard";
 $classIconHeader = "fluent--door-arrow-right-28-regular";
@@ -466,10 +467,13 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                         </div>
                     </div>
                     <button
-                        class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
+                        class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm"
+                        onclick="showPopup('popup-export-log')" >
                         <span>Export Report</span>
                         <span
                             class="material-icons-round text-sm hover:translate-y-0.5 transition-transform">download</span>
+
+                        
                     </button>
                 </div>
 
@@ -507,11 +511,17 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             class="text-[0.65vw] font-bold text-emerald-600 dark:text-emerald-400">฿0</span>
                     </div>
                     <div
+                        class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400 uppercase">กำไรสุทธิ (Net Profit)</span>
+                        <span id="card-4-remain"
+                            class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400">฿0</span>
+                    </div>
+                    <!-- <div
                         class="bg-orange-50 dark:bg-orange-900/20 p-[0.5vw] rounded-xl border border-orange-100 dark:border-orange-900/30">
                         <div class="flex justify-between items-end">
                             <div>
                                 <p
-                                    class="text-[0.65vw] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-[0.5vh]">
+                                    class="text-[0.65vw] font-bold  uppercase tracking-wider mb-[0.5vh]">
                                     กำไรสุทธิ (Net Profit)</p>
                                 <p id="card-4-remain"
                                     class="text-[0.8vw] font-bold font-display text-slate-900 dark:text-white leading-none">
@@ -519,7 +529,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             </div>
                             <span class="text-[0.8vw] font-bold text-slate-500 dark:text-slate-400">฿</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -527,8 +537,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
     </main>
 
     <?php include "../components/footer.php"; ?>
-
     <?php include "../scripts/js.html"; ?>
+    <?php include "../components/popup-export-log.php"; ?>
     <?php include "../scripts/js-outdoor-chili.html"; ?>
 </body>
 

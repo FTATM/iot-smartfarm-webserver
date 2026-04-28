@@ -57,11 +57,6 @@
         if (!el) return;
         el.innerHTML = '';
 
-        const newItem = document.createElement('div');
-        newItem.className = 'km-item km-new';
-        newItem.textContent = '+ สร้างตารางใหม่';
-        newItem.onclick = () => redirectTo('knowledge-create');
-        el.appendChild(newItem);
 
         list.forEach(l => {
             const div = document.createElement('div');
@@ -252,11 +247,30 @@
         console.log("Confirm Delete");
     }
 
-    function confirmSave() {
+    async function confirmSave() {
         const result = collectData();
         const all = buildAllTables(result, table, childen);
         console.log(all);
+        await SaveToDatabase(all);
         confirmCancel();
+
+    }
+
+    async function SaveToDatabase(data) {
+        let raw = await fetch('../../api-website/update-knowledge.php', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await raw.json();
+        console.log(res);
+
+        if (res.status == 'success') {
+            window.location.href = "knowledge-management.php";
+        }
+
     }
 
     function confirmCancel() {

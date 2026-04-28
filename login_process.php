@@ -56,7 +56,7 @@
           $_SESSION['role_id'] = $rs[0]->role_id;
           $_SESSION['branch_id'] = $rs[0]->branch_id;
           $_SESSION['branch_name'] = $rs_branch[0]->branch_name;
-          header("location: dashboard_view_v3.php");
+          header("location: index.php");
         }
         
       }else{
