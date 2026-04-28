@@ -118,14 +118,31 @@
             const min = row['min'] || 0;
             const max = row['max'] || 1;
             let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
+            const hasData = row['unit'] !== "--" && row.monitor_id;
+            const isSelected = hasData && sensor_selected_set.has(String(row.monitor_id));
+            const sensorColor = hasData ? (sensorColorMap[String(row.monitor_id)] || '#f97316') : null;
+
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border shadow-sm flex flex-col transition-all duration-200 shrink-0 select-none"
+                + (hasData ? " cursor-pointer hover:ring-2 hover:ring-orange-400" : "");
+
+            // border + ring based on selected state
+            if (isSelected && sensorColor) {
+                div.style.borderColor = sensorColor;
+                div.style.boxShadow = `0 0 0 2px ${sensorColor}55`;
+            } else {
+                div.style.borderColor = '';
+            }
+
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">
-                        ${s}
-                    </span>
+                    <div class="flex items-center gap-[0.3vw]">
+                        ${isSelected && sensorColor ? `<span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0" style="background:${sensorColor}"></span>` : `<span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0 bg-stone-300 dark:bg-stone-600"></span>`}
+                        <span class="text-[0.75vw] font-bold uppercase tracking-widest" style="color:${isSelected && sensorColor ? sensorColor : ''};" class="text-stone-500 dark:text-white">
+                            ${s}
+                        </span>
+                    </div>
                     <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
                         --
                     </span>
@@ -147,23 +164,35 @@
                         <span class="label-left"></span>
                         <span class="label-right"></span>
                     </div>
-
                     <div class="relative h-1.5 rounded-full bar">
                         <div class="fill"></div>
                     </div>
                 </div>
+                ${hasData ? `<div class="mt-[0.3vh] flex items-center justify-center gap-[0.2vw]">
+                    <span class="text-[0.45vw] font-semibold uppercase tracking-wide" style="color:${isSelected && sensorColor ? sensorColor : '#a8a29e'}">
+                        ${isSelected ? '● แสดงในกราฟ' : '○ แตะเพื่อเพิ่ม'}
+                    </span>
+                </div>` : ''}
                 `;
 
-            if (row['unit'] !== "--") {
+            if (hasData) {
                 div.onclick = () => {
-                    const id = row.monitor_id;
-                    if (!id) return;
-                    // Toggle checkbox ที่ตรงกัน
-                    const cb = document.getElementById(`cb-sensor-${id}`);
-                    if (cb) {
-                        cb.checked = !cb.checked;
-                        onSensorCheckboxChange(id, cb.checked, _sensors_cache);
+                    const id = String(row.monitor_id);
+                    const nowSelected = sensor_selected_set.has(id);
+                    // toggle
+                    if (nowSelected) {
+                        sensor_selected_set.delete(id);
+                    } else {
+                        sensor_selected_set.add(id);
                     }
+                    // sync checkbox panel button
+                    const btn = document.getElementById(`sensor-btn-${id}`);
+                    if (btn) {
+                        _updateSensorBtnStyle(btn, !nowSelected, sensorColorMap[id] || '#f97316', s);
+                    }
+                    // re-render card และ graph
+                    _updateCardSelectedStyle(div, s, row, !nowSelected);
+                    if (_sensors_cache) renderSensorGraph(_sensors_cache);
                 }
             }
 
@@ -174,6 +203,49 @@
                 sensor_select = row.monitor_id;
             }
         })
+    }
+
+    // อัปเดต visual ของการ์ดเมื่อ toggle
+    function _updateCardSelectedStyle(div, sensorName, row, isSelected) {
+        const id = String(row.monitor_id);
+        const color = sensorColorMap[id] || '#f97316';
+
+        if (isSelected) {
+            div.style.borderColor = color;
+            div.style.boxShadow = `0 0 0 2px ${color}55`;
+        } else {
+            div.style.borderColor = '';
+            div.style.boxShadow = '';
+        }
+
+        // update dot + name color + label
+        const dotEl = div.querySelector('span[class*="rounded-full shrink-0"]') || div.querySelector('.sensor-dot');
+        const nameEl = div.querySelector('.sensor-name-text');
+        const labelEl = div.querySelector('.sensor-card-label');
+
+        // rebuild innerHTML ของ header ส่วนต้น
+        const headerDiv = div.querySelector('.w-full.flex.justify-between.items-center');
+        if (headerDiv) {
+            const statusSpan = headerDiv.querySelector('.status');
+            const statusHtml = statusSpan ? statusSpan.outerHTML : '';
+            headerDiv.innerHTML = `
+                <div class="flex items-center gap-[0.3vw]">
+                    <span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0" style="background:${isSelected ? color : '#a8a29e'}"></span>
+                    <span class="text-[0.75vw] font-bold uppercase tracking-widest" style="color:${isSelected ? color : ''}">
+                        ${sensorName}
+                    </span>
+                </div>
+                ${statusHtml}
+            `;
+        }
+
+        // update label ด้านล่าง
+        const labelWrapper = div.querySelector('div[class*="flex items-center justify-center gap"]');
+        if (labelWrapper) {
+            labelWrapper.innerHTML = `<span class="text-[0.45vw] font-semibold uppercase tracking-wide" style="color:${isSelected ? color : '#a8a29e'}">
+                ${isSelected ? '● แสดงในกราฟ' : '○ แตะเพื่อเพิ่ม'}
+            </span>`;
+        }
     }
 
     async function Card1() {
@@ -570,67 +642,183 @@ function buildSensorCheckboxes(sensors) {
         }
     }
 
-    // ถ้า checkbox มีอยู่แล้ว → แค่ sync visual state ตาม sensor_selected_set แล้วออก
-    const alreadyBuilt = panel.querySelector('input[data-sensor-id]');
+    // ถ้า button มีอยู่แล้ว → แค่ sync visual state ตาม sensor_selected_set แล้วออก
+    const alreadyBuilt = panel.querySelector('button[data-sensor-id]');
     if (alreadyBuilt) {
-        panel.querySelectorAll('input[data-sensor-id]').forEach(cb => {
-            const id      = cb.dataset.sensorId;
-            const color   = cb.dataset.color || '#f97316';
+        panel.querySelectorAll('button[data-sensor-id]').forEach(btn => {
+            const id      = btn.dataset.sensorId;
+            const name    = btn.dataset.sensorName;
+            const color   = sensorColorMap[id] || '#f97316';
             const checked = sensor_selected_set.has(id);
-            const span    = cb.nextElementSibling;
-            const icon    = document.getElementById(`cb-icon-${id}`);
-            const label   = document.getElementById(`cb-label-${id}`);
-
-            cb.checked = checked;
-            if (span)  { span.style.background = checked ? color : 'transparent'; span.style.borderColor = color; }
-            if (icon)  { icon.classList.toggle('hidden', !checked); }
-            if (label) { label.style.color = checked ? color : ''; }
+            _updateSensorBtnStyle(btn, checked, color, name);
         });
+        const allBtn = document.getElementById('sensor-btn-all');
+        if (allBtn) _updateAllBtnStyle(allBtn, sensors);
         return;
     }
 
-    // ครั้งแรก — สร้าง checkbox ทั้งหมด
+    // ครั้งแรก — สร้าง toggle button ทั้งหมด
     const header = panel.querySelector('p');
     panel.innerHTML = '';
     if (header) panel.appendChild(header);
 
+    // ── ปุ่ม ALL ──
+    const allBtn = document.createElement('button');
+    allBtn.id = 'sensor-btn-all';
+    allBtn.type = 'button';
+    _updateAllBtnStyle(allBtn, sensors);
+
+    allBtn.addEventListener('click', () => {
+        const validIds = Object.entries(sensors)
+            .filter(([, r]) => r?.monitor_id && r.unit !== '--')
+            .map(([, r]) => String(r.monitor_id));
+
+        const allSelected = validIds.every(id => sensor_selected_set.has(id));
+
+        if (allSelected) {
+            // ถ้าเลือกทั้งหมดอยู่แล้ว → ยกเลิกทั้งหมด (เหลือแค่ตัวแรก)
+            sensor_selected_set.clear();
+            if (validIds.length > 0) sensor_selected_set.add(validIds[0]);
+        } else {
+            // เลือกทั้งหมด
+            validIds.forEach(id => sensor_selected_set.add(id));
+        }
+
+        // sync ปุ่ม sensor ทุกตัว
+        panel.querySelectorAll('button[data-sensor-id]').forEach(btn => {
+            const id    = btn.dataset.sensorId;
+            const name  = btn.dataset.sensorName;
+            const color = sensorColorMap[id] || '#f97316';
+            _updateSensorBtnStyle(btn, sensor_selected_set.has(id), color, name);
+        });
+
+        // sync การ์ดด้านล่าง
+        if (_sensors_cache) {
+            Object.entries(_sensors_cache).forEach(([name, row]) => {
+                if (!row?.monitor_id || row.unit === '--') return;
+                const card = document.getElementById(`card-${name}`);
+                if (card) _updateCardSelectedStyle(card, name, row, sensor_selected_set.has(String(row.monitor_id)));
+            });
+        }
+
+        _updateAllBtnStyle(allBtn, sensors);
+        if (_sensors_cache) renderSensorGraph(_sensors_cache);
+    });
+
+    panel.appendChild(allBtn);
+
+    // ── divider ──
+    const hr = document.createElement('div');
+    hr.style.cssText = 'width:100%;height:1px;background:#e7e5e4;margin:0.2vh 0;';
+    panel.appendChild(hr);
+
+    // ── ปุ่ม sensor แต่ละตัว ──
     Object.entries(sensors).forEach(([name, row]) => {
         if (!row?.monitor_id || row.unit === '--') return;
-        const id    = String(row.monitor_id);
-        const color = sensorColorMap[id] || '#f97316';
+        const id      = String(row.monitor_id);
+        const color   = sensorColorMap[id] || '#f97316';
         const isChecked = sensor_selected_set.has(id);
 
-        const wrapper = document.createElement('label');
-        wrapper.className = 'flex items-center gap-[0.3vw] cursor-pointer group';
-        wrapper.style.minWidth = '5vw';
-        wrapper.innerHTML = `
-            <input
-                type="checkbox"
-                id="cb-sensor-${id}"
-                data-sensor-id="${id}"
-                data-sensor-name="${name}"
-                data-color="${color}"
-                ${isChecked ? 'checked' : ''}
-                class="sr-only peer"
-                onchange="onSensorCheckboxChange('${id}', this.checked, _sensors_cache)"
-            />
-            <span class="w-[0.8vw] h-[0.8vw] rounded flex items-center justify-center border-2 transition-all duration-150"
-                style="border-color:${color}; background:${isChecked ? color : 'transparent'};">
-                <svg viewBox="0 0 10 8" class="${isChecked ? '' : 'hidden'} w-full h-full" id="cb-icon-${id}">
-                    <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
-            <span class="text-[0.55vw] font-bold dark:text-stone-300 text-stone-600 group-hover:text-orange-500 transition-colors"
-                style="color:${isChecked ? color : ''};" id="cb-label-${id}">
-                ${name}
-            </span>
-        `;
-        panel.appendChild(wrapper);
+        const btn = document.createElement('button');
+        btn.id = `sensor-btn-${id}`;
+        btn.dataset.sensorId = id;
+        btn.dataset.sensorName = name;
+        btn.dataset.color = color;
+        btn.type = 'button';
+
+        _updateSensorBtnStyle(btn, isChecked, color, name);
+
+        btn.addEventListener('click', () => {
+            const nowSelected = sensor_selected_set.has(id);
+            if (nowSelected) {
+                sensor_selected_set.delete(id);
+            } else {
+                sensor_selected_set.add(id);
+            }
+            _updateSensorBtnStyle(btn, !nowSelected, color, name);
+
+            // sync การ์ดด้านล่าง
+            const card = document.getElementById(`card-${name}`);
+            const rowData = _sensors_cache?.[name];
+            if (card && rowData) _updateCardSelectedStyle(card, name, rowData, !nowSelected);
+
+            // อัปเดต ALL button
+            _updateAllBtnStyle(allBtn, sensors);
+
+            if (_sensors_cache) renderSensorGraph(_sensors_cache);
+        });
+
+        panel.appendChild(btn);
     });
 }
 
+// helper: สร้าง/อัปเดต style ปุ่ม ALL
+function _updateAllBtnStyle(btn, sensors) {
+    const validIds = Object.entries(sensors)
+        .filter(([, r]) => r?.monitor_id && r.unit !== '--')
+        .map(([, r]) => String(r.monitor_id));
+    const allSelected = validIds.length > 0 && validIds.every(id => sensor_selected_set.has(id));
+
+    if (allSelected) {
+        btn.style.cssText = `
+            display: flex; align-items: center; justify-content: center; gap: 0.3vw;
+            width: 100%; padding: 0.3vh 0.4vw; border-radius: 0.5vw;
+            border: 1.5px solid #f97316; background: #f9731622;
+            cursor: pointer; transition: all 0.15s;
+        `;
+        btn.innerHTML = `
+            <span style="font-size:0.55vw;font-weight:800;color:#f97316;letter-spacing:0.05em;">ALL ✓</span>
+        `;
+    } else {
+        btn.style.cssText = `
+            display: flex; align-items: center; justify-content: center; gap: 0.3vw;
+            width: 100%; padding: 0.3vh 0.4vw; border-radius: 0.5vw;
+            border: 1.5px dashed #d4d4d4; background: transparent;
+            cursor: pointer; transition: all 0.15s;
+        `;
+        btn.innerHTML = `
+            <span style="font-size:0.55vw;font-weight:700;color:#a8a29e;letter-spacing:0.05em;">ALL</span>
+        `;
+    }
+}
+
+// helper: อัปเดต style ของ toggle button ใน panel
+function _updateSensorBtnStyle(btn, isSelected, color, name) {
+    if (isSelected) {
+        btn.style.cssText = `
+            display: flex; align-items: center; gap: 0.3vw;
+            width: 100%;
+            padding: 0.3vh 0.4vw;
+            border-radius: 0.5vw;
+            border: 1.5px solid ${color};
+            background: ${color}22;
+            cursor: pointer;
+            transition: all 0.15s;
+        `;
+        btn.innerHTML = `
+            <span style="width:0.5vw;height:0.5vw;border-radius:50%;background:${color};flex-shrink:0;"></span>
+            <span style="font-size:0.55vw;font-weight:700;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:5vw;">${name}</span>
+        `;
+    } else {
+        btn.style.cssText = `
+            display: flex; align-items: center; gap: 0.3vw;
+            width: 100%;
+            padding: 0.3vh 0.4vw;
+            border-radius: 0.5vw;
+            border: 1.5px solid #d4d4d4;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+        `;
+        btn.innerHTML = `
+            <span style="width:0.5vw;height:0.5vw;border-radius:50%;background:transparent;border:1.5px solid #a8a29e;flex-shrink:0;"></span>
+            <span style="font-size:0.55vw;font-weight:600;color:#a8a29e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:5vw;">${name}</span>
+        `;
+    }
+}
+
 function onSensorCheckboxChange(sensorId, checked, sensors) {
-    const id = String(sensorId);  // normalize เป็น string เสมอ
+    const id = String(sensorId);
 
     if (checked) {
         sensor_selected_set.add(id);
@@ -638,16 +826,23 @@ function onSensorCheckboxChange(sensorId, checked, sensors) {
         sensor_selected_set.delete(id);
     }
 
-    // อัปเดต UI checkbox
-    const cb    = document.getElementById(`cb-sensor-${id}`);
-    const color = cb?.dataset?.color || '#f97316';
-    const span  = cb?.nextElementSibling;
-    const icon  = document.getElementById(`cb-icon-${id}`);
-    const label = document.getElementById(`cb-label-${id}`);
+    // อัปเดต toggle button ใน panel
+    const btn = document.getElementById(`sensor-btn-${id}`);
+    if (btn) {
+        const name  = btn.dataset.sensorName || id;
+        const color = sensorColorMap[id] || '#f97316';
+        _updateSensorBtnStyle(btn, checked, color, name);
+    }
 
-    if (span)  { span.style.background  = checked ? color : 'transparent'; span.style.borderColor = color; }
-    if (icon)  { icon.classList.toggle('hidden', !checked); }
-    if (label) { label.style.color = checked ? color : ''; }
+    // อัปเดต card ด้านล่าง
+    if (_sensors_cache) {
+        Object.entries(_sensors_cache).forEach(([name, row]) => {
+            if (String(row?.monitor_id) === id) {
+                const card = document.getElementById(`card-${name}`);
+                if (card) _updateCardSelectedStyle(card, name, row, checked);
+            }
+        });
+    }
 
     // re-render กราฟ
     if (sensors) renderSensorGraph(sensors);

@@ -53,7 +53,7 @@ $classIconHeader = "boxicons--container";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/solar-bottom.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/Container.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 30vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">

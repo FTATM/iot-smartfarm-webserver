@@ -92,13 +92,13 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                     class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
                                     <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
                                 </div>
-                                <!-- Sensor Checkbox Panel -->
+                                <!-- Sensor Toggle Button Panel -->
                                 <div id="sensor-checkbox-panel"
-                                    class="flex flex-col gap-[0.4vh] justify-center bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.5vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700">
+                                    class="flex flex-col gap-[0.35vh] justify-start bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.4vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700 overflow-y-auto">
                                     <p
                                         class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
                                         Sensors</p>
-                                    <!-- Checkboxes จะถูก inject โดย JS -->
+                                    <!-- Sensor toggle buttons จะถูก inject โดย JS -->
                                 </div>
                             </div>
                         </div>
@@ -468,12 +468,12 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                     </div>
                     <button
                         class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm"
-                        onclick="showPopup('popup-export-log')" >
+                        onclick="showPopup('popup-export-log')">
                         <span>Export Report</span>
                         <span
                             class="material-icons-round text-sm hover:translate-y-0.5 transition-transform">download</span>
 
-                        
+
                     </button>
                 </div>
 
@@ -512,7 +512,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                     </div>
                     <div
                         class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                        <span class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400 uppercase">กำไรสุทธิ (Net Profit)</span>
+                        <span class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400 uppercase">กำไรสุทธิ
+                            (Net Profit)</span>
                         <span id="card-4-remain"
                             class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400">฿0</span>
                     </div>
