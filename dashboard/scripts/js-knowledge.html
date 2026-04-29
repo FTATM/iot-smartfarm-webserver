@@ -16,7 +16,13 @@
     });
 
     async function fetchs() {
-        const res = await fetch("../../api-website/fetch-tableknowledge.php");
+        let fd = new FormData();
+        fd.append('bid', branchID);
+        const res = await fetch("../../api-app/fetch-tableknowledge.php", {
+            method: "POST",
+            body: fd
+            
+        });
         const raw = await res.json();
         tables = raw['data'] ?? [];
         console.log(tables);
@@ -92,8 +98,7 @@
     /* --- helper: check if today's day-of-month is within range --- */
     function isCurrentDay(startDay, endDay) {
         if (startDay == null || endDay == null) return false;
-        const today = new Date().getDate();
-        return today >= Number(startDay) && today <= Number(endDay);
+        return data.day >= Number(startDay) && data.day <= Number(endDay);
     }
 
     /* --- table body (view) --- */

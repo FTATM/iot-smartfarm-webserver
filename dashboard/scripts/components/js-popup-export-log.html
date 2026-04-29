@@ -9,7 +9,7 @@
     });
 
     async function fetchAll() {
-        const catagory_res = await fetch("../../api-website/fetch-branchs.php");
+        const catagory_res = await fetch("../../api-website/fetch-catagories.php");
         const catagory_raw = await catagory_res.json();
         catagories = catagory_raw['data'] ?? [];
         console.log(catagories);

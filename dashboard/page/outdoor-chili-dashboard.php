@@ -541,7 +541,6 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
     <?php include "../components/footer.php"; ?>
     <?php include "../scripts/js.html"; ?>
-    <?php include "../components/popup-export-log.php"; ?>
     <?php include "../scripts/js-outdoor-chili.html"; ?>
 </body>
 
