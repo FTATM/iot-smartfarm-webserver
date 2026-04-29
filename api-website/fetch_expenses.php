@@ -13,11 +13,18 @@ if (!$db) {
     exit;
 }
 
+$bid = $_GET['bid'] ?? null;
+if(!$bid){
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "branch id is required"]);
+    exit;
+}
+
 
 // // ✅ เขียน SQL (ใช้ pg_query เพื่อป้องกัน SQL Injection)
-$sql = "SELECT * FROM expense ORDER BY expense_id DESC";
+$sql = "SELECT * FROM expense WHERE branch_id = $1 ORDER BY expense_id DESC";
 
-$result = pg_query($db, $sql);
+$result = pg_query_params($db, $sql, [$bid]);
 
 if (!$result) {
     echo json_encode(["status" => "error", "message" => "Query failed"]);

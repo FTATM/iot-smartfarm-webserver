@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 ?>
 <!DOCTYPE html>
 <html lang="th">

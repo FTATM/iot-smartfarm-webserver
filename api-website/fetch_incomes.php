@@ -11,10 +11,18 @@ if (!$db) {
     exit;
 }
 
+$bid = $_GET['bid'] ?? 0;
+// ✅ ตรวจสอบว่ามีค่ามาครบไหม
+if (empty($bid)) {
+    http_response_code(400); // Bad Request
+    echo json_encode(["status" => "error", "message" => "need parameter json"]);
+    pg_close($db);
+    exit;
+}
 // // ✅ เขียน SQL (ใช้ pg_query_params เพื่อป้องกัน SQL Injection)
-$sql = "SELECT * FROM income ORDER BY income_id DESC";
+$sql = "SELECT * FROM income WHERE branch_id = $1 ORDER BY income_id DESC";
 
-$result = pg_query($db, $sql);
+$result = pg_query_params($db, $sql, [$bid]);
 
 if (!$result) {
     echo json_encode(["status" => "error", "message" => "Query failed"]);

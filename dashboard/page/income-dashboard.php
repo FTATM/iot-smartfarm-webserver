@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Income Managements";
 $subTitle = "Chicken Farm Intelligence Dashboard";
 $classIconHeader = "hugeicons--bitcoin-down-01";
@@ -59,18 +61,18 @@ $classIconHeader = "hugeicons--bitcoin-down-01";
                                 <thead>
                                     <tr
                                         class="bg-stone-50 dark:bg-stone-800/50 border-b border-stone-200 dark:border-stone-800">
-                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase">Branch ID
+                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase">Branch ID
                                         </th>
-                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase">Amount
+                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase">Amount
                                             (฿)</th>
-                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase">Category
+                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase">Category
                                         </th>
-                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase">
+                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase">
                                             Description</th>
-                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase">Date
+                                        <th class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase">Date
                                             Range</th>
                                         <th
-                                            class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 uppercase text-center">
+                                            class="px-6 py-4 text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase text-center">
                                             Actions</th>
                                     </tr>
                                 </thead>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "lettuce Dashboard";
 $subTitle = "Plant hydroponic indoor intellegent system";
 $classIconHeader = "fluent--door-arrow-left-20-regular";

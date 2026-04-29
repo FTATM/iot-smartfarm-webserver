@@ -80,6 +80,13 @@
                 <span class="text-[0.75vw] text-stone-600 dark:text-stone-300 font-bold leading-none" id="start-date">
                     -- --- ---- </span>
             </div>
+            <div class="grid grid-rows-3 border-l border-stone-200 dark:border-stone-700 pl-4">
+                <div class="row-span-2 flex flex-col justify-center items-center gap-2">
+                    <img src="../../img/avatar.png" alt="Avatar"
+                        class="w-10 h-10 rounded-full object-cover border-2 border-stone-300 dark:border-stone-300">
+                </div>
+                <div class="row-span-1 dark:text-white"><?= $_SESSION['branch_name'] ?? "---"; ?></div>
+            </div>
         </div>
     </div>
 </header>

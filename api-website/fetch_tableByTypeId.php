@@ -65,7 +65,11 @@ if ($amountDay == 'all') {
         ORDER BY p.id ,c.id;";
 
     $result = pg_query_params($conn, $sql, [$typeId, $amountDay]);
-
+    if (!$result) {
+        echo json_encode(["status" => "error", "message" => "Query failed"]);
+        pg_close($conn);
+        exit;
+    }
     while ($row = pg_fetch_assoc($result)) {
         $pid = $row['parent_id'];
 

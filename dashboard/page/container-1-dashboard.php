@@ -2,9 +2,9 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Outdoor Dashboard";
-$subTitle = "Outdoor Farm Intelligence Dashboard";
-$classIconHeader = "fluent--door-arrow-right-28-regular";
+$Title = "Container Dashboard";
+$subTitle = "Plant hydroponic indoor intellegent system";
+$classIconHeader = "boxicons--container";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">
@@ -13,16 +13,17 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Outdoor System - Dashboard</title>
+    <title>Container - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
     <?php include "../components/header.php"; ?>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
+    <main
+        class="flex-1 flex flex-col p-[0.5vw] gap-3 overflow-hidden min-h-0 bg-stone-50 dark:bg-stone-950 transition-colors duration-300">
         <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
-        <div class="grid grid-cols-12 gap-4 h-full">
+        <div class="grid grid-cols-12 gap-3 h-full min-h-0">
 
             <!-- ========== LEFT SECTION (10 columns) ========== -->
             <div class="col-span-10 flex flex-col justify-between gap-3 min-h-0">
@@ -34,20 +35,18 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                     <div
                         class="box col-span-2 flex flex-col bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
 
-                        <!-- พื้นที่กลาง (รูปบน) -->
                         <div class="rounded-xl px-[1.5vw] flex flex-col items-center justify-center">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
-                                Outdoor Farm with IoT App.
+                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                Container with IoT App.
                             </div>
-                            <img src="images/outdoor_top.png" alt="เครื่องมือ/อุปกรณ์"
+                            <img src="images/solar_top.png" alt="เครื่องมือ/อุปกรณ์"
                                 class="rounded-lg object-cover object-center" style="width: 130em; height: 30vh;" />
                         </div>
-
                         <div class="flex flex-col flex-1 px-[1.5vw]">
                             <div
-                                class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
-                                Outdoor Farm IoT System Architecture
+                                class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
+                                Container with IoT App Architecture
                             </div>
 
                             <!-- เนื้อหาส่วนล่าง -->
@@ -57,7 +56,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/Outdoor.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/Indoor.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 30vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
@@ -67,10 +66,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                         </div>
                     </div>
 
-
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col justify-between gap-3 min-h-0">
-
                         <!-- ===== กราฟบน ===== -->
                         <div
                             class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col flex-1 min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
@@ -87,21 +84,9 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                     </p>
                                 </div>
                             </div>
-                            <!-- กราฟ + Checkbox Panel -->
-                            <div class="flex flex-1 min-h-0 gap-2">
-                                <!-- Canvas -->
-                                <div
-                                    class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
-                                    <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
-                                </div>
-                                <!-- Sensor Toggle Button Panel -->
-                                <div id="sensor-checkbox-panel"
-                                    class="flex flex-col gap-[0.35vh] justify-start bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.4vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700 overflow-y-auto">
-                                    <p
-                                        class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
-                                        Sensors</p>
-                                    <!-- Sensor toggle buttons จะถูก inject โดย JS -->
-                                </div>
+                            <div
+                                class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
                             </div>
                         </div>
 
@@ -172,6 +157,10 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                 <div
                     class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
+                    <!-- Header -->
+                    <div class="flex items-center">
+                    </div>
+
                     <!-- Tab Buttons -->
                     <div class="grid grid-cols-3 gap-[0.3vw] w-full mb-[0.8vh]">
                         <button id="tab1-plant" onclick="switchCard1(0)"
@@ -215,14 +204,14 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                                 class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
                                 <span
                                     class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">พื้นที่
-                                    (ก × ย)</span>
+                                    (ก×ย)</span>
                                 <span id="planting-area"
                                     class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
                             </div>
                             <div
                                 class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
                                 <span
-                                    class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ต้น/พื้นที่</span>
+                                    class="text-[0.50vw] text-stone-400 dark:text-white font-bold uppercase">ต้น/พื้นที่</span>
                                 <span id="planting-density"
                                     class="text-[0.65vw] font-black text-stone-800 dark:text-stone-100 mt-0.3">—</span>
                             </div>
@@ -231,6 +220,8 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                     <!-- Panel B: ผลผลิต -->
                     <div id="panel1-1" class="hidden flex flex-col gap-2">
+                        <div class="grid grid-cols-2 gap-2">
+                        </div>
                         <div
                             class="bg-stone-50 dark:bg-stone-800 rounded-xl py-[0.5vh] px-[0.5vw] flex flex-col justify-center">
                             <span class="text-[0.50vw] text-stone-400 dark:text-stone-300 font-bold uppercase">ผลผลิต
@@ -242,8 +233,14 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                     <!-- Panel C: ระยะเติบโต -->
                     <div id="panel1-2" class="hidden flex flex-col">
-                        <p
-                            class="text-[clamp(8px,0.5vw,28px)] text-gray-500 dark:text-white font-light uppercase tracking-wide mb-1">
+                        <p style="
+                                font-size: clamp(8px, 0.5vw, 28px);
+                                color: #888;
+                                font-weight: 200;
+                                text-transform: uppercase;
+                                letter-spacing: 0.08em;
+                                margin: 0 0 4px;
+                            ">
                             ระยะการเติบโต
                         </p>
 
@@ -270,12 +267,20 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                         </div>
                     </div>
 
+                    <!-- Panel D: ค่าใช้จ่ายคงที่ -->
+                    <div id="panel1-3" class="hidden flex flex-col gap-2">
+                    </div>
+
+                    <!-- Panel E: ต้นทุนหมุนเวียน -->
+                    <div id="panel1-4" class="hidden flex flex-col gap-2">
+                    </div>
+
                 </div>
 
 
                 <!-- ===== กรอบที่ 2: สภาพแวดล้อม / ปุ๋ย / การดูแล ===== -->
                 <div
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.75vw] shadow-sm flex flex-col overflow-hidden">
 
                     <!-- header -->
                     <div class="flex flex-col mb-[0.8vh] gap-[0.4vh]">
@@ -420,7 +425,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
                 </div>
 
-                <!-- Card 4: ต้นทุนทรัพยากรวันนี้ -->
+                <!-- Card 3: ต้นทุนทรัพยากรวันนี้ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
                     <div class="flex justify-between">
@@ -469,17 +474,14 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                         </div>
                     </div>
                     <button
-                        class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm"
-                        onclick="showPopup('popup-export-log')">
+                        class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
                         <span>Export Report</span>
                         <span
                             class="material-icons-round text-sm hover:translate-y-0.5 transition-transform">download</span>
-
-
                     </button>
                 </div>
 
-                <!-- Card 5: Performance Ranking -->
+                <!-- Card 4: Performance Ranking -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
                     <div class="flex items-center mb-2">
@@ -487,13 +489,11 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
                             <span class="solar--graph-bold"></span>
                         </div>
-                        <h3 class="ml-2 text-[0.75vw] font-bold text-stone-700 dark:text-stone-200">
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">
                             ผลรวม
                         </h3>
                     </div>
-
-                    <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0">
-                    </div>
+                    <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
                     <div
                         class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
                         <span class="text-[0.65vw] font-bold text-slate-500 uppercase">รวมต้นทุน</span>
@@ -513,18 +513,11 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             class="text-[0.65vw] font-bold text-emerald-600 dark:text-emerald-400">฿0</span>
                     </div>
                     <div
-                        class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                        <span class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400 uppercase">กำไรสุทธิ
-                            (Net Profit)</span>
-                        <span id="card-4-remain"
-                            class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400">฿0</span>
-                    </div>
-                    <!-- <div
                         class="bg-orange-50 dark:bg-orange-900/20 p-[0.5vw] rounded-xl border border-orange-100 dark:border-orange-900/30">
                         <div class="flex justify-between items-end">
                             <div>
                                 <p
-                                    class="text-[0.65vw] font-bold  uppercase tracking-wider mb-[0.5vh]">
+                                    class="text-[0.65vw] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-[0.5vh]">
                                     กำไรสุทธิ (Net Profit)</p>
                                 <p id="card-4-remain"
                                     class="text-[0.8vw] font-bold font-display text-slate-900 dark:text-white leading-none">
@@ -532,17 +525,16 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             </div>
                             <span class="text-[0.8vw] font-bold text-slate-500 dark:text-slate-400">฿</span>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </main>
 
     <?php include "../components/footer.php"; ?>
+
     <?php include "../scripts/js.html"; ?>
-    <?php include "../components/popup-export-log.php"; ?>
-    <?php include "../scripts/js-outdoor-chili.html"; ?>
+    <?php include "../scripts/js-container-1.html"; ?>
 </body>
 
 </html>
