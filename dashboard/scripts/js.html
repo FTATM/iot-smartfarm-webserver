@@ -5,6 +5,7 @@
   let data = { day: 0 };
 
   const branchID = "<?=$_SESSION['branch_id'] ?? 0;?>";
+  console.log('Branch : ' + branchID);
 
   const colors = [
     "#f97316",
@@ -67,7 +68,7 @@
     document.getElementById("last-update").textContent = formattedtime;
 
     try {
-      const res = await fetch("../../api-website/fetch_homeBybid.php?bid=1");
+      const res = await fetch("../../api-website/fetch_homeBybid.php?bid=" + branchID);
       const raw = await res.json();
       data = raw["data"];
       const remain =
@@ -685,7 +686,7 @@
 
   async function loadPieGraph() {
     // const data = [40, 30, 15, 15];
-    const res = await fetch("../../api-website/fetch_expenses.php");
+    const res = await fetch("../../api-website/fetch_expenses.php?bid=" + branchID);
     const raw = await res.json();
     const data = raw["data"];
 

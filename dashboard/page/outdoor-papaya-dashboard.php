@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Papaya Dashboard";
 $subTitle = "Outdoor Farm Intelligence Dashboard";
 $classIconHeader = "fluent--door-arrow-right-28-regular";

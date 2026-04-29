@@ -78,6 +78,8 @@ if (!isset($_GET['code']) && !isset($_POST['provider'])) {
 require 'vendor/autoload.php';
 
 session_start();
+include '../components/session.php';
+checkLogin();
 
 $providerName = '';
 $clientId = '';

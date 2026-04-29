@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Container Dashboard";
 $subTitle = "Plant hydroponic indoor intellegent system";
 $classIconHeader = "boxicons--container";

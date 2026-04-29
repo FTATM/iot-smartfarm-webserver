@@ -13,7 +13,7 @@
     const rowsPerPage = Math.ceil(screenHeight * 0.008);
     let globalData = [];
 
-    const branch_id = 1;
+    const branch_id = branchID;
     const category_type = 'income';
     const market_name = "";           //name market example => solar, shrimp, indoor, outdoor
     const type = "price";             //multi type example => demand,price
@@ -41,7 +41,7 @@
 
     async function initLoadData() {
         try {
-            const resdata = await fetch('../../api-website/fetch_incomes.php');
+            const resdata = await fetch('../../api-website/fetch_incomes.php?bid=' + branch_id);
             const raw1 = await resdata.json();
             datas = raw1['data'];
             const resbr = await fetch('../../api-website/fetch_branch.php');
@@ -51,7 +51,7 @@
             const raw3 = await rescat.json();
             categories = raw3['data'];
 
-            const resdata2 = await fetch('../../api-website/fetch_expenses.php');
+            const resdata2 = await fetch('../../api-website/fetch_expenses.php?bid=' + branch_id);
             const raw4 = await resdata2.json();
             diffDatas = raw4['data'];
 
@@ -321,13 +321,13 @@
 
             let row = document.createElement('tr');
             row.innerHTML = `
-            <td class="px-6 py-4 text-[0.75vw]">${branchName}</td>
-            <td class="px-6 py-4 text-[0.75vw] font-bold text-emerald-600">${f['amount']}</td>
+            <td class="px-6 py-4 text-[0.75vw] dark:text-stone-200">${branchName}</td>
+            <td class="px-6 py-4 text-[0.75vw] font-bold text-emerald-600 dark:text-emerald-400">${f['amount']}</td>
             <td class="px-6 py-4">
-                <span class="px-2 py-1 text-[0.75vw] font-bold uppercase rounded-md bg-blue-100 text-blue-600">${categoryName}</span>
+                <span class="px-2 py-1 text-[0.75vw] font-bold uppercase rounded-md bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300">${categoryName}</span>
             </td>
-            <td class="px-6 py-4 text-[0.75vw] truncate max-w-xs">${f['description'] ?? ""}</td>
-            <td class="px-6 py-4 text-[0.75vw]">${month}/${day}</td>
+            <td class="px-6 py-4 text-[0.75vw] truncate max-w-xs dark:text-stone-200">${f['description'] ?? ""}</td>
+            <td class="px-6 py-4 text-[0.75vw] dark:text-stone-200">${month}/${day}</td>
             <td class="px-6 py-4 text-center">
                 <button onclick="setIdForDelete('popup-delete',${id})" 
                     class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg">
@@ -407,16 +407,7 @@
             console.warn("ไม่พบ ID : " + id);
             return;
         }
-        const branchEl = addPopup.querySelector("#select-branch");
         const categoryEl = addPopup.querySelector("#select-category");
-
-        branchEl.innerHTML = '';
-        branchs.forEach(b => {
-            let option = document.createElement('option');
-            option.value = b['branch_id'] ?? 0;
-            option.textContent = b['branch_name'] ?? "unknown";
-            branchEl.appendChild(option);
-        });
 
         categoryEl.innerHTML = '';
         categories.forEach(c => {
@@ -438,7 +429,6 @@
             console.warn("ไม่พบ ID : " + id);
             return;
         }
-        const branch = addPopup.querySelector("#select-branch");
         const amount = addPopup.querySelector("#amount");
         const category = addPopup.querySelector("#select-category");
         const start = addPopup.querySelector("#start-date");
@@ -449,7 +439,7 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    'branch_id': branch.value || 1,
+                    'branch_id': branchID,
                     'amount': amount.value || 0,
                     'category_id': category.value || '0',
                     'description': description.value || 1,

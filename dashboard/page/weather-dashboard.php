@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Weather Dashboard";
 $subTitle = "Weather Dashboard Farm Intelligence";
 $classIconHeader = "arcticons--weathercan";

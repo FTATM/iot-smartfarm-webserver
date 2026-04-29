@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 // ============================================================
 //  BEEF CATTLE MANAGEMENT DASHBOARD
 //  Single-file PHP · Mock Data · ออกแบบตามต้นแบบ

@@ -1,4 +1,4 @@
 <?php
-  header("Location:/iotsf/dashboard/page/outdoor-chili-dashboard.php");
+  header("Location:/iotsf/accesspage.php");
   die();
 ?>

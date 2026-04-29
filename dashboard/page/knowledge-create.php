@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Knowledge Management";
 $subTitle = "manage knowledge about farm in website.";
 $classIconHeader = "material-symbols--book";

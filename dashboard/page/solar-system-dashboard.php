@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../components/session.php';
+checkLogin();
 $Title = "Solar Dashboard";
 $subTitle = "Solar system intelligence Dashboard";
 $classIconHeader = "boxicons--container";

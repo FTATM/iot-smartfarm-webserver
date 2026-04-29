@@ -714,12 +714,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <span class="nav-icon dark:text-white emojione-monotone--chicken"></span>Chicken Dashboard
             </a>
         </li> -->
-        <li>
+        <!-- <li>
             <a href="outdoor-chili-dashboard.php"
                 class="<?php echo ($current_page == 'outdoor-chili-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span>Outdoor Dashboard
             </a>
-        </li>
+        </li> -->
         <!-- <li>
             <a href="outdoor-dashboard.php"
                 class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
@@ -766,13 +766,14 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </ul>
 
         </li> -->
-
-        <li>
-            <a href="indoor-lettuce-dashboard.php"
-                class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>indoor Dashboard
-            </a>
-        </li>
+        <?php if ($_SESSION['branch_id'] == 2) { ?>
+            <li>
+                <a href="indoor-lettuce-dashboard.php"
+                    class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>indoor Dashboard
+                </a>
+            </li>
+        <?php } ?>
 
         <!-- <li>
             <a href="indoor-dashboard.php" class="<?php echo ($current_page == 'indoor-dashboard') ? 'active' : ''; ?>">
@@ -812,6 +813,21 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </li>
             </ul>
         </li> -->
+
+        
+        <?php if ($_SESSION['branch_id'] == 3) { ?>
+        <li>
+            <a href="container-1-dashboard.php"
+                class="<?php echo ($current_page == 'container-1-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white boxicons--container"></span>Container 1 Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="container-2-dashboard.php"
+                class="<?php echo ($current_page == 'container-2-dashboard') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white boxicons--container"></span>Container 2 Dashboard
+            </a>
+        </li>
         <li>
             <a href="weather-dashboard.php"
                 class="<?php echo ($current_page == 'weather-dashboard') ? 'active' : ''; ?>">
@@ -821,18 +837,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <li>
             <a href="solar-system-dashboard.php"
                 class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white boxicons--container"></span>Container Dashboard
+                <span class="nav-icon dark:text-white boxicons--container"></span>Solar system Dashboard
             </a>
         </li>
-        <!-- <li>
-            <a href="container-dashboard.php"
-                class="<?php echo ($current_page == 'container-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white boxicons--container"></span>Container Dashboard
-            </a>
-        </li> -->
-        <!-- </br> -->
-        <!-- <div class="text-center text-[1.25vw] font-bold">Income and expense</div> -->
-        <!-- <hr> -->
+
+        <?php } ?>
+
         <div class="pt-6 pb-2 px-6">
             <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Managements</h3>
         </div>

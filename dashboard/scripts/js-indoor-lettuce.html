@@ -314,11 +314,11 @@
         const table_type = 6;
         const category_type = 'expense';
         try {
-            const res = await fetch('../../api-website/fetch_expenses.php');
+            const res = await fetch('../../api-website/fetch_expenses.php?bid=' + branchID);
             const raw = await res.json();
             expense = raw['data'];
 
-            const resincome = await fetch('../../api-website/fetch_incomes.php');
+            const resincome = await fetch('../../api-website/fetch_incomes.php?bid=' + branchID);
             const rawincome = await resincome.json();
             income = rawincome['data'];
 
@@ -647,7 +647,7 @@ function setActive(index, totalRows) {
   async function loadlettuceTableData() {
     try {
         const fd = new FormData();
-        fd.append('bid', '1');
+        fd.append('bid', branchID);
 
         const res = await fetch('../../api-app/fetch-tableknowledge.php', {
             method: 'POST',
