@@ -233,74 +233,11 @@
     }
 
     async function Card1() {
-        console.log("Card 1");
-        const table_type = 1; //Watch table id in
-        try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type +
-                "&aDay=" +
-                data.day,
-            );
-            const raw = await res.json();
-            const table = Object.values(raw.data);
-
-            const mealsCount = table[0].value;
-            const volumeMeal = table[0].children[0]["value"];
-            const totalMealperDay =
-                toNumber(mealsCount) * toNumber(volumeMeal) || "-";
-
-            SetValueInHTMLById("meals-count", mealsCount);
-            SetValueInHTMLById("volume-meal", volumeMeal);
-            SetValueInHTMLById("total-meal-per-day", totalMealperDay);
-        } catch (err) {
-            console.error("❌ loadSensorData error:", err);
-        }
+       
     }
 
     async function Card2() {
-        console.log("Card 2");
-        const table_type_humidity = 5; //Watch table id in database
-        try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type_humidity +
-                "&aDay=" +
-                data.day,
-            );
-            const raw = await res.json();
-            const humidityTable = Object.values(raw.data);
-
-            const humidity = humidityTable[0].value;
-
-            SetValueInHTMLById("humidity", humidity + "%");
-        } catch (err) {
-            console.error("❌ loadSensorData error:", err);
-        }
-
-        // =============== Light ==============
-        const table_type_light = 4; //Watch table id in database
-        try {
-            const res = await fetch(
-                "../../api-website/fetch_tableByTypeId.php?typeId=" +
-                table_type_light +
-                "&aDay=" +
-                data.day,
-            );
-            const raw = await res.json();
-            const LuminanceTable = Object.values(raw.data);
-            console.log(LuminanceTable);
-
-            const totalhours = LuminanceTable[0].value;
-            const lighttime = LuminanceTable[0].children[0].value;
-            const luminance = LuminanceTable[0].children[1].value;
-
-            SetValueInHTMLById("total-hours", totalhours);
-            SetValueInHTMLById("light-time", lighttime);
-            SetValueInHTMLById("light-recommentation", luminance);
-        } catch (err) {
-            console.error("❌ loadSensorData error:", err);
-        }
+      
     }
 
     async function Card3() {
@@ -653,10 +590,7 @@ function setActive(index, totalRows) {
             method: 'POST',
             body: fd
         });
-
         const json = await res.json();
-
-
         const tables = json.data;
         console.log(tables);
         
@@ -712,11 +646,10 @@ function setActive(index, totalRows) {
         // ===============================
         // ✅ CARD 1 (ปลูก)
         // ===============================
-        SetValueInHTMLById('planting-stage',   getVal(1));
-        SetValueInHTMLById('planting-days',    getRange(2));
-        SetValueInHTMLById('planting-area',    getVal(3));
-        SetValueInHTMLById('planting-density', getVal(4));
-        SetValueInHTMLById('planting-yield',   getVal(5));
+        SetValueInHTMLById('planting-days',    getRange(73));
+        SetValueInHTMLById('planting-area',    getVal(74));
+        SetValueInHTMLById('planting-density', '-');
+        SetValueInHTMLById('planting-yield',   getVal(75));
 
 
 const table1 = tables.find(t => t.id == 1);
@@ -734,28 +667,28 @@ if (table1 && table1.rows) {
         // ===============================
         // ✅ PANEL A
         // ===============================
-        SetValueInHTMLById('ec',          getVal(5));   // EC
-        SetValueInHTMLById('ph',          getVal(6));   // pH
-        SetValueInHTMLById('temperature', getVal(7));   // Temp (°C)
-        SetValueInHTMLById('humidity',    getVal(8));   // RH (%)
-        SetValueInHTMLById('light',       getVal(9));   // แสง (LUX)
-        SetValueInHTMLById('o2',          getVal(10));  // O₂
-        SetValueInHTMLById('co2',         getVal(11));  // CO₂
+        SetValueInHTMLById('ec',          getVal(76));   // EC
+        SetValueInHTMLById('ph',          getVal(77));   // pH
+        SetValueInHTMLById('temperature', getVal(78));   // Temp (°C)
+        SetValueInHTMLById('humidity',    getVal(79));   // RH (%)
+        SetValueInHTMLById('light',       getVal(80));   // แสง (LUX)
+        SetValueInHTMLById('o2',          getVal(81));  // O₂
+        SetValueInHTMLById('co2',         getVal(82));  // CO₂
 
         // ===============================
         // ✅ PANEL B
         // ===============================
-        SetValueInHTMLById('fert-chemical', getVal(12)); // ปุ๋ยเคมี
-        SetValueInHTMLById('fert-bio',      getVal(13)); // ปุ๋ยชีวภาพ
-        SetValueInHTMLById('fert-organic',  getVal(14)); // ปุ๋ยอินทรี
-        SetValueInHTMLById('fert-ab',       getVal(15)); // ปุ๋ย AB
-        SetValueInHTMLById('fert-mix',      getVal(16)); // วิธีผสมปุ๋ย
+        SetValueInHTMLById('fert-chemical', getVal(83)); // ปุ๋ยเคมี
+        SetValueInHTMLById('fert-bio',      getVal(84)); // ปุ๋ยชีวภาพ
+        SetValueInHTMLById('fert-organic',  getVal(85)); // ปุ๋ยอินทรี
+        SetValueInHTMLById('fert-ab',       getVal(86)); // ปุ๋ย AB
+        SetValueInHTMLById('fert-mix',      getVal(87)); // วิธีผสมปุ๋ย
 
         // ===============================
         // ✅ PANEL C
         // ===============================
-        SetValueInHTMLById('care-disease', getVal(17)); // โรค/ปัญหา
-        SetValueInHTMLById('care-note',    getVal(18)); // การดูแล
+        SetValueInHTMLById('care-disease', getVal(88)); // โรค/ปัญหา
+        SetValueInHTMLById('care-note',    getVal(89)); // การดูแล
 
         console.log('✅ Papaya data loaded');
 

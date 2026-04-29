@@ -71,11 +71,12 @@
       const res = await fetch("../../api-website/fetch_homeBybid.php?bid=" + branchID);
       const raw = await res.json();
       data = raw["data"];
-      const remain =
-        data["value"].find((v) => v.home_row_id == "5")?.value || 0;
+      const remain = data["value"].find((v) => v.home_row_id == "5")?.value || 0;
+      const cycleRound = data["value"].find((v) => v.home_row_id == "6")?.value || 0;
 
       SetValueInHTMLById("day-age", data.day);
       SetValueInHTMLById("remain-live", remain);
+      SetValueInHTMLById("cycle-round", cycleRound);
     } catch (err) {
       console.warn("error : " + err);
       return;
@@ -200,11 +201,7 @@
     const n = parseFloat(v);
     return Number.isFinite(n) ? n : 0;
   }
-
-  // function formatNumber(n) {
-  //     return (Number.isFinite(n) ? n : 0).toFixed(1);
-  // }
-
+  
   function formatNumber(num) {
     return new Intl.NumberFormat("en-US").format(num);
   }
