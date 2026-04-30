@@ -13,13 +13,11 @@ if (!$db) {
 
 $type = $_GET['type'] ?? "all";
 
-// // ✅ เขียน SQL (ใช้ pg_query_params เพื่อป้องกัน SQL Injection)
-$sql = "SELECT * FROM categories WHERE type = $1 ORDER BY name ASC";
-if ($type == 'all') {
-    $sql = "SELECT * FROM categories ORDER BY name ASC";
-}
+// ✅ เขียน SQL (ใช้ pg_query_params เพื่อป้องกัน SQL Injection)
+$sql = "SELECT * FROM categories ORDER BY name ASC";
+$result = pg_query($db, $sql);
 
-$result = pg_query_params($db, $sql, [$type]);
+
 
 if (!$result) {
     echo json_encode(["status" => "error", "message" => "Query failed"]);

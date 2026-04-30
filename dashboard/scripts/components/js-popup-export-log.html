@@ -2,14 +2,12 @@
 <script>
     let catagories = [];
 
-    console.log("branch ID : " + branchID);
-
     document.addEventListener('DOMContentLoaded', async () => {
         await fetchAll();
     });
 
     async function fetchAll() {
-        const catagory_res = await fetch("../../api-website/fetch-catagories.php");
+        const catagory_res = await fetch("../../api-website/fetch_categories.php");
         const catagory_raw = await catagory_res.json();
         catagories = catagory_raw['data'] ?? [];
         console.log(catagories);
@@ -25,20 +23,12 @@
     }
 
     function checkParameterForExport(id) {
-        let popup = document.getElementById('popup-export-log');
-        if (!popup) console.warn('Not found Element popup-export-log'); return;
+        let popup = document.getElementById(id);
+        console.log(popup);
+        if (!popup) console.warn('Not found Element ' + id);
 
         let type = popup.querySelector('select-type');
-        if (!type) console.warn('Not found Element select-type'); return;
-
-        let catagory = popup.querySelector('select-catagory');
-        if (!catagory) console.warn('Not found Element select-catagory'); return;
-
-        let startDate = popup.querySelector('start-date');
-        if (!startDate) console.warn('Not Select Start date, please select and try again.'); return;
-
-        let LastDate = popup.querySelector('start-date');
-        if (!LastDate) console.warn('Not Select Last date, please select and try again.'); return;
+        if (!type) console.warn('Not found Element select-type');
 
         let oldTypeValue = null;
         let SelectTypeValue = type.value;
@@ -55,6 +45,14 @@
             generateOption('select-catagory', filterCatagory);
             return;
         }
+        let catagory = popup.querySelector('select-catagory');
+        if (!catagory) console.warn('Not found Element select-catagory');
+
+        let startDate = popup.querySelector('start-date');
+        if (!startDate) console.warn('Not Select Start date, please select and try again.');
+
+        let LastDate = popup.querySelector('last-date');
+        if (!LastDate) console.warn('Not Select Last date, please select and try again.');
 
 
     }

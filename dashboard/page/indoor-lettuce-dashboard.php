@@ -483,6 +483,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                         </div>
                     </div>
                     <button
+                        onclick="showPopup('popup-export-log')"
                         class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
                         <span>Export Report</span>
                         <span
@@ -522,6 +523,13 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             class="text-[0.65vw] font-bold text-emerald-600 dark:text-emerald-400">฿0</span>
                     </div>
                     <div
+                        class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                        <span class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400 uppercase">กำไรสุทธิ
+                            (Net Profit)</span>
+                        <span id="card-4-remain"
+                            class="text-[0.75vw] font-bold text-orange-600 dark:text-orange-400">฿0</span>
+                    </div>
+                    <!-- <div
                         class="bg-orange-50 dark:bg-orange-900/20 p-[0.5vw] rounded-xl border border-orange-100 dark:border-orange-900/30">
                         <div class="flex justify-between items-end">
                             <div>
@@ -534,7 +542,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             </div>
                             <span class="text-[0.8vw] font-bold text-slate-500 dark:text-slate-400">฿</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
