@@ -1,15 +1,19 @@
 <!-- JavaScript -->
 <script>
     let catagories = [];
+    let oldTypeValue = null;
+    let oldStartDateValue = null;
+    let dataForExport = null;
+    let tempNameForExport = null;
 
     document.addEventListener('DOMContentLoaded', async () => {
         await fetchAll();
     });
 
     async function fetchAll() {
-        const catagory_res = await fetch("../../api-website/fetch_categories.php");
-        const catagory_raw = await catagory_res.json();
-        catagories = catagory_raw['data'] ?? [];
+        const category_res = await fetch("../../api-website/fetch_categories.php");
+        const category_raw = await category_res.json();
+        catagories = category_raw['data'] ?? [];
         console.log(catagories);
 
     }
@@ -24,49 +28,154 @@
 
     function checkParameterForExport(id) {
         let popup = document.getElementById(id);
-        console.log(popup);
         if (!popup) console.warn('Not found Element ' + id);
 
-        let type = popup.querySelector('select-type');
+        let type = popup.querySelector('#select-type');
         if (!type) console.warn('Not found Element select-type');
 
-        let oldTypeValue = null;
         let SelectTypeValue = type.value;
-        let SelectCatagoryValue = catagory.value;
-        console.log(SelectTypeValue, SelectCatagoryValue);
 
         if (SelectTypeValue && SelectTypeValue != oldTypeValue) {
             oldTypeValue = SelectTypeValue;
-            let filterCatagory = catagories;
+            let filtercategory = catagories;
             if (SelectTypeValue != 'all') {
-                filterCatagory = catagories.filter((c) => { c.type == SelectTypeValue });
+                filtercategory = catagories.filter((c) => { return c.type == SelectTypeValue });
             }
-            console.log(filterCatagory);
-            generateOption('select-catagory', filterCatagory);
+            generateOption('select-category', filtercategory, false, true);
             return;
         }
-        let catagory = popup.querySelector('select-catagory');
-        if (!catagory) console.warn('Not found Element select-catagory');
 
-        let startDate = popup.querySelector('start-date');
+        let category = popup.querySelector('#select-category');
+        if (!category) console.warn('Not found Element select-category');
+
+        let SelectcategoryValue = category.value;
+
+        if (!SelectcategoryValue) {
+            console.warn('Not Select category, please select and try again.');
+            return;
+        }
+
+        let startDate = popup.querySelector('#start-date');
         if (!startDate) console.warn('Not Select Start date, please select and try again.');
 
-        let LastDate = popup.querySelector('last-date');
+        let SelectStartDateValue = startDate.value;
+        if (!SelectStartDateValue) {
+            console.warn('Not Select Start date, please select and try again.');
+            return;
+        }
+
+        if (SelectStartDateValue != oldStartDateValue) {
+            oldStartDateValue = SelectStartDateValue;
+
+            let LastDate = popup.querySelector('#last-date');
+            if (LastDate) {
+                LastDate.value = null;
+            }
+        }
+
+        let LastDate = popup.querySelector('#last-date');
         if (!LastDate) console.warn('Not Select Last date, please select and try again.');
 
+        let SelectLastDateValue = LastDate.value;
+        if (!SelectLastDateValue) {
+            console.warn('Not Select Last date, please select and try again.');
+            return;
+        }
 
+        fetchExportData(SelectTypeValue, SelectcategoryValue, SelectStartDateValue, SelectLastDateValue);
+
+        tempNameForExport = `export_${branchName}_${SelectTypeValue}-${SelectcategoryValue}`;
     }
 
-    async function process() {
-
+    async function fetchExportData(type, category, startDate, lastDate) {
+        try {
+            let url = `../../api-website/fetch_exportLog.php?type=${type}&category=${category}&start_date=${startDate}&last_date=${lastDate}`;
+            const res = await fetch(url);
+            const raw = await res.json();
+            dataForExport = raw['data'] ?? [];
+            console.log(dataForExport);
+        } catch (error) {
+            console.error('Error fetching export data:', error);
+        }
     }
 
     async function loadFile() {
+        if (dataForExport) {
+            const prepared = await prepareDataExport(dataForExport);
+            BlobContent = prepared.content;
+            fileName = prepared.fileName;
+            mimeType = prepared.mimeType;
+        } else {
+            alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
+            return;
+        }
 
+        const blob = new Blob([BlobContent], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
     }
 
     async function sentToEmail() {
+        const form = new FormData();
+        form.append("email", document.getElementById("email").value);
 
+        let BlobContent = null;
+        let fileName = null;
+        let mimeType = null;
+
+        if (dataForExport) {
+            const prepared = await prepareDataExport(dataForExport);
+            BlobContent = prepared.content;
+            fileName = prepared.fileName;
+            mimeType = prepared.mimeType;
+        } else {
+            alert("ไม่มีข้อมูลสำหรับส่งอีเมล");
+            return;
+        }
+
+        form.append("file", new Blob([BlobContent], { type: mimeType }), fileName);
+        try {
+            const res = await fetch("../../api-website/mail.php", {
+                method: "POST",
+                body: form
+            });
+            const text = await res.text();
+            console.log(text);
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    }
+
+    async function prepareDataExport(data) {
+        if (!data || data.length === 0) {
+            alert("ไม่มีข้อมูลสำหรับส่งอีเมล");
+            return;
+        }
+
+        let content, fileName, mimeType;
+        try {
+            let csvContent = "amount,category_id,description,date,branchName\n";
+            Object.values(data).forEach(d => {
+                let row = [
+                    d.amount,
+                    d.category_id,
+                    d.description,
+                    d.start_expense_date,
+                    branchName
+                ];
+                csvContent += '\n' + row.join(',');
+            });
+            content = "\uFEFF" + csvContent;
+            fileName = tempNameForExport + ".csv";
+            mimeType = "text/csv";
+            return { content, fileName, mimeType };
+        } catch (err) {
+            console.error(err);
+            alert("เกิดข้อผิดพลาดในการส่งไฟล์ไปอีเมล");
+        }
     }
 
     console.log("================ export js end ===================");

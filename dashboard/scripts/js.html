@@ -5,7 +5,7 @@
   let data = { day: 0 };
 
   const branchID = "<?=$_SESSION['branch_id'] ?? 0;?>";
-  console.log('Branch : ' + branchID);
+  const branchName = "<?=$_SESSION['branch_name'] ?? 0;?>";
 
   const colors = [
     "#f97316",
@@ -720,13 +720,21 @@
     SetValueInHTMLById("card-4-total", total);
   }
 
-  function generateOption(id, data, selectfirst = true) {
+  function generateOption(id, data, selectfirst = true, allOption = false) {
     let select = document.getElementById(id);
     select.innerHTML = '<option value="">== โปรดเลือก ==</option>';
 
-    if (!isArray(data)) {
+    if (!Array.isArray(data)) {
       data = Object.values(data);
     }
+
+    if (allOption) {
+      let option = document.createElement('option');
+      option.value = 'all';
+      option.textContent = '== ทั้งหมด (All) ==';
+      select.appendChild(option);
+    }
+
     data.forEach(row => {
       let option = document.createElement('option');
       option.value = row.id;

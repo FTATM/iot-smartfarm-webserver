@@ -17,14 +17,14 @@
                             <option>-- เลือกชนิดข้อมูล --</option>
                             <option value="all">ทั้งหมด (All)</option>
                             <option value="income">รายรับ (incomes)</option>
-                            <option value="expanse">รายจ่าย (Expanse)</option>
+                            <option value="expense">รายจ่าย (Expanse)</option>
                         </select>
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">หมวดหมู่ (Catagory)</label>
+                    <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">หมวดหมู่ (category)</label>
                     <div class="relative">
-                        <select id="select-catagory"
+                        <select id="select-category"
                             onchange="checkParameterForExport('popup-export-log')"
                             class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none">
                             <option>-- เลือกหมวดหมู่ข้อมูล --</option>
@@ -35,14 +35,18 @@
                 <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">วันที่เริ่มต้น (Start Date)</label>
                     <div class="relative">
-                        <input id="start-date" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all " type="date" />
+                        <input id="start-date"
+                            onchange="checkParameterForExport('popup-export-log')"
+                            class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all " type="date" />
                         <!-- <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">calendar_today</span> -->
                     </div>
                 </div>
                 <div class="space-y-1">
                     <label class="text-[0.75vw] font-semibold text-slate-700 dark:text-slate-300 font-display">วันที่สิ้นสุด (Last Date)</label>
                     <div class="relative">
-                        <input id="last-date" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all " type="date" />
+                        <input id="last-date"
+                            onchange="checkParameterForExport('popup-export-log')"
+                            class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-[0.75vw] focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all " type="date" />
                         <!-- <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">calendar_today</span> -->
                     </div>
                 </div>
@@ -69,7 +73,7 @@
             </div> -->
             <hr />
             <div class="text-center">
-                <button onclick="LoadFile('popup-export-log')" class="px-6 py-2.5 rounded-xl text-[0.65vw] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-display">
+                <button onclick="loadFile('popup-export-log')" class="px-6 py-2.5 rounded-xl text-[0.65vw] font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-display">
                     โหลดเลย ตอนนี้ </br> (Download now)
                 </button>
             </div>
