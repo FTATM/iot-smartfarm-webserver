@@ -6,201 +6,364 @@
     const Sensors_realtime = ["wind_Direction", "Air_Quality", "Ammonia", "Oxygen", "Rainfall", "light_int"];
     const Sensors_name_left = ["PM 2.5", "PM 10", "PM 1", "Voltage Supply", "Current Supply", "Power Supply"];
     const Sensors_name_right = ["AQI", "Heat Index", "-", "Voltage Loaded", "Current Loaded", "Power Loaded"];
-    const market_name = "weather";     //name market example => solar, shrimp, indoor, outdoor
-    const type = "price";              //multi type example => demand,price
+    const market_name = "weather";
+    const type = "price";
 
-    // Adjust font sizes based on screen width
+    // ============================================================
+    //  TMD API CONFIG
+    //  fields ที่ใช้กับ daily/at
+    //  wsNNN / wdNNN = ความเร็ว+ทิศทางลมที่ระดับความกดอากาศ (925,850,700,500,200 hPa)
+    //  ws10m คงไว้สำหรับ widget-windChill เท่านั้น (ไม่แสดงใน Card2)
+    // ============================================================
+    const TMD_CONFIG = {
+        url: "https://data.tmd.go.th/nwpapi/v1/forecast/location/daily/at",
+        lat: 7.2021,
+        lon: 100.5972,
+        fields: "tc_min,tc_max,rh,rain,ws10m,ws925,wd925,ws850,wd850,ws700,wd700,ws500,wd500,ws200,wd200,cond",
+        duration: 5,
+        token: " eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzODRiZDhjMzI5MmRjZWI5YjhjOGVhOWI1ZTdlYWVkOGI0YThjMjYwNTEyZTgyNTFmYTEzNGYzMDQ4MDA2Zjc4YTliNmRhZjMzZWE5MzA0In0.eyJhdWQiOiIyIiwianRpIjoiMzM4NGJkOGMzMjkyZGNlYjliOGM4ZWE5YjVlN2VhZWQ4YjRhOGMyNjA1MTJlODI1MWZhMTM0ZjMwNDgwMDZmNzhhOWI2ZGFmMzNlYTkzMDQiLCJpYXQiOjE3Njg1MzEzNDAsIm5iZiI6MTc2ODUzMTM0MCwiZXhwIjoxODAwMDY3MzQwLCJzdWIiOiI0ODYxIiwic2NvcGVzIjpbXX0.JqrSk5_Kj9w-ID3yRnORgvcomPtmph4M6wBOrYLaw3IZavQfdh8Djspmy1KFe-OyzN-9bKnJqddcG218VgmGu-SlPp2MfwThgupJqPVb3fOLaWtuj0-QdlTV1zCnHqMYXsGsmIARR7R888inxCoqzHvclH_yYT6ouIZW9mzET713WKtmfTEGfk6-nd1NVjJMurUAXu_ZVNs0GSG1OoKu0h-1wySK2cKE_zChaLzavlC6DCX9zTgaaZauxOZu9ec-jFHEarS6P5EXy7-T5Kqnr40Qf6iABgw10yAs3hB9uhuOeHdiA1rHrC34sh76zcfLsXMGrdTlxQ4fndZOfnRYG8L3lPoVjfN66kuCI-R0nUOt6WZvxhJfzaBMxsofcAF-qE-B0lMR7kSxS9wfnk-n1Q9H53YfiiFsHJ5HCeaMQ4yV9MF2L_7MswaPBkg94GeoT5BUIbrYjZvD4wnVFyF-l8VJ6sKGKK7PcdhdsajQc3w-zcSzYyA8CNsfIjM9auOTZIgI1XvA5TtzZT2IVvj-ipO8AeqiySYgMl-C6sbUJ8P21WIyWnpMBwyHHyxqLVx9jSAXwZdHL6SyAF7SW61LS2ZSTS9fN2aTVgZV1bziODUz3xzcwsQ-igmxw5ZFnmJmhER7PlrPfTkhz0Ll7QgNJ5rtWlQkHnYCrqf--C-f148"  // <-- ใส่ Bearer Token ของกรมอุตุฯ ที่นี่
+    };
+
+    // cache ผลลัพธ์ TMD (fetch ครั้งเดียวต่อรอบ process)
+    let _tmdCache = null;
+    let _tmdCacheDate = null;
+
+    // ============================================================
+    //  fetchTMD – fetch ครั้งเดียว, cache ใน memory
+    // ============================================================
+    async function fetchTMD() {
+        const today = new Date().toISOString().split('T')[0];
+        if (_tmdCache && _tmdCacheDate === today) return _tmdCache;
+
+        const params = new URLSearchParams({
+            lat: TMD_CONFIG.lat,
+            lon: TMD_CONFIG.lon,
+            fields: TMD_CONFIG.fields,
+            date: today,
+            duration: TMD_CONFIG.duration
+        });
+
+        const fullURL = `${TMD_CONFIG.url}?${params.toString()}`;
+        console.log(`[TMD] GET → ${fullURL}`);
+
+        const res = await fetch(fullURL, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'authorization': `Bearer ${TMD_CONFIG.token}`
+            }
+        });
+
+        if (!res.ok) {
+            const errBody = await res.text();
+            // แสดง body เต็มเพื่อดูว่า 422 เกิดจากอะไร
+            console.error(`[TMD] HTTP ${res.status} body:`, errBody);
+            throw new Error(`TMD ${res.status}: ${errBody.substring(0, 300)}`);
+        }
+
+        const json = await res.json();
+        console.log('[TMD] response:', json);
+        _tmdCache = json;
+        _tmdCacheDate = today;
+        return json;
+    }
+
+    // คืน forecasts[] หรือ [] ถ้า error
+    async function getTMDForecasts() {
+        try {
+            const data = await fetchTMD();
+            return data?.WeatherForecasts?.[0]?.forecasts ?? [];
+        } catch (err) {
+            console.error('[TMD] failed:', err.message);
+            return [];
+        }
+    }
+
+    // ============================================================
+    //  Safe fetch helper – ป้องกัน PHP คืน HTML แทน JSON
+    // ============================================================
+    async function safeFetchJSON(url, options = {}) {
+        try {
+            const res  = await fetch(url, options);
+            const text = await res.text();
+            if (!text || text.trimStart().startsWith('<')) {
+                const plain = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                console.warn(`[DB] HTML instead of JSON (${url.split('/').pop()}):`, plain.substring(0, 200));
+                return null;
+            }
+            return JSON.parse(text);
+        } catch (err) {
+            console.error(`[safeFetch] ${url}:`, err.message);
+            return null;
+        }
+    }
+
+    // ============================================================
+    //  Helpers
+    // ============================================================
+    const COND_MAP = {
+    1:  { label: "ท้องฟ้าแจ่มใส",        icon: "wb_sunny",          color: "text-yellow-500" },
+    2:  { label: "มีเมฆบางส่วน",          icon: "partly_cloudy_day", color: "text-blue-300"   },
+    3:  { label: "เมฆเป็นส่วนมาก",        icon: "cloud",             color: "text-slate-400"  },
+    4:  { label: "มีเมฆมาก",              icon: "cloud_queue",       color: "text-gray-500"   },
+    5:  { label: "ฝนตกเล็กน้อย",          icon: "rainy",             color: "text-blue-500"   },
+    6:  { label: "ฝนปานกลาง",             icon: "rainy",             color: "text-blue-600"   },
+    7:  { label: "ฝนตกหนัก",              icon: "rainy_heavy",       color: "text-indigo-600" },
+    8:  { label: "ฝนฟ้าคะนอง",            icon: "thunderstorm",      color: "text-purple-600" },
+    9:  { label: "อากาศหนาวจัด",          icon: "ac_unit",           color: "text-cyan-400"   },
+    10: { label: "อากาศหนาว",             icon: "severe_cold",       color: "text-cyan-500"   },
+    11: { label: "อากาศเย็น",             icon: "cool_to_dry",       color: "text-teal-400"   },
+    12: { label: "อากาศร้อนจัด",          icon: "whatshot",          color: "text-red-500"    },
+
+    default: { label: "--", icon: "cloud_queue", color: "text-slate-300" }
+};
+    const condInfo = (code) => COND_MAP[code] ?? COND_MAP.default;
+    const fmt1     = (v)    => (v != null ? Number(v).toFixed(1) : "--");
+    const fmt0     = (v)    => (v != null ? Number(v).toFixed(0) : "--");
+
+    // แปลงองศาทิศทางลมเป็นภาษาไทย (16 ทิศ)
+    function degToDir(deg) {
+        if (deg == null || deg === "" || isNaN(deg)) return "--";
+        const dirs = [
+            "เหนือ", "เหนือ-ตอ.เฉียงเหนือ", "ตะวันออกเฉียงเหนือ", "ตอ.-ตอ.เฉียงเหนือ",
+            "ตะวันออก", "ตอ.-ตอ.เฉียงใต้", "ตะวันออกเฉียงใต้", "ใต้-ตอ.เฉียงใต้",
+            "ใต้", "ใต้-ตต.เฉียงใต้", "ตะวันตกเฉียงใต้", "ตต.-ตต.เฉียงใต้",
+            "ตะวันตก", "ตต.-ตต.เฉียงเหนือ", "ตะวันตกเฉียงเหนือ", "เหนือ-ตต.เฉียงเหนือ"
+        ];
+        return dirs[Math.round(Number(deg) / 22.5) % 16];
+    }
+    // แปลง m/s → knots
+    const toKnots  = (v)    => (v != null ? (Number(v) * 1.94).toFixed(1) : "--");
+
+    function shortDate(dateStr) {
+        const d = new Date(dateStr);
+        const m = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+        return `${d.getDate()} ${m[d.getMonth()]}`;
+    }
+
+    // ============================================================
+    //  Card 1 – พยากรณ์อุณหภูมิวันนี้ (tc_min / tc_max)
+    //  + widget-humidex → ความชื้นสัมพัทธ์วันนี้ (rh)
+    // ============================================================
+    async function Card1() {
+        const forecasts = await getTMDForecasts();
+        const d = forecasts[0]?.data ?? {};
+
+        const minEl = document.getElementById('temp-min');
+        const maxEl = document.getElementById('temp-max');
+        if (minEl) minEl.innerHTML = `<span class="dark:text-white">${fmt1(d.tc_min)}</span>`;
+        if (maxEl) maxEl.innerHTML = `<span class="dark:text-white">${fmt1(d.tc_max)}</span>`;
+
+        // เทอร์โมมิเตอร์ widget (scale -60 ถึง 140)
+        if (d.tc_max != null) {
+            const pct = Math.min(100, Math.max(0, ((d.tc_max + 60) / 200) * 100));
+            const mercury     = document.getElementById('widget-mercury');
+            const tempDisplay = document.getElementById('widget-currentTemp');
+            if (mercury)     mercury.style.height   = pct + '%';
+            if (tempDisplay) tempDisplay.textContent = `${fmt1(d.tc_max)}°C`;
+        }
+
+        // widget-humidex → ความชื้นสัมพัทธ์วันนี้
+        const humidexEl = document.getElementById('widget-humidex');
+        if (humidexEl) humidexEl.textContent = d.rh != null ? `${fmt0(d.rh)}%` : "--%";
+    }
+
+    // ============================================================
+    //  Card 2 – พยากรณ์ลมที่ระดับความกดอากาศ (wsNNN / wdNNN)
+    //  + widget-windChill → ใช้ ws10m (ไม่แสดงใน Card2)
+    // ============================================================
+    async function Card2() {
+        const forecasts = await getTMDForecasts();
+
+        // widget-windChill → ความเร็วลมวันแรก (ws10m, แสดงที่ widget เท่านั้น)
+        const windChillEl = document.getElementById('widget-windChill');
+        if (windChillEl) {
+            const ws = forecasts[0]?.data?.ws10m;
+            windChillEl.textContent = ws != null ? `${toKnots(ws)} kts` : "-- kts";
+        }
+
+        // ===== grid card สำหรับแต่ละ pressure level =====
+        const pressureContainer = document.getElementById('wind-pressure-table');
+        if (pressureContainer) {
+            const d = forecasts[0]?.data ?? {};
+            const levels = [
+                { label: '925 hPa', ws: d.ws925, wd: d.wd925, bg: 'bg-sky-50/60 dark:bg-sky-900/20',   border: 'border-sky-100 dark:border-sky-100/10',   color: 'text-sky-600 dark:text-sky-400'   },
+                { label: '850 hPa', ws: d.ws850, wd: d.wd850, bg: 'bg-blue-50/60 dark:bg-blue-900/20',  border: 'border-blue-100 dark:border-blue-100/10',  color: 'text-blue-600 dark:text-blue-400'  },
+                { label: '700 hPa', ws: d.ws700, wd: d.wd700, bg: 'bg-violet-50/60 dark:bg-violet-900/20', border: 'border-violet-100 dark:border-violet-100/10', color: 'text-violet-600 dark:text-violet-400' },
+                { label: '500 hPa', ws: d.ws500, wd: d.wd500, bg: 'bg-orange-50/60 dark:bg-orange-900/20', border: 'border-orange-100 dark:border-orange-100/10', color: 'text-orange-500 dark:text-orange-400' },
+                { label: '200 hPa', ws: d.ws200, wd: d.wd200, bg: 'bg-red-50/60 dark:bg-red-900/20',    border: 'border-red-100 dark:border-red-100/10',    color: 'text-red-500 dark:text-red-400'    },
+            ];
+            pressureContainer.innerHTML = levels.map(lv => `
+                <div class="${lv.bg} ${lv.border} rounded-xl border p-[0.4vw] flex flex-col items-center justify-center text-center">
+                    <p class="text-[0.6vw] font-bold ${lv.color} uppercase mb-1">${lv.label}</p>
+                    <p class="text-[1vw] font-black text-slate-800 dark:text-white leading-none">${toKnots(lv.ws)}</p>
+                    <p class="text-[0.55vw] font-bold text-slate-400 dark:text-slate-400 mt-0.5">knots</p>
+                    <p class="text-[0.55vw] font-bold text-slate-600 dark:text-slate-200 mt-1 leading-tight">${degToDir(lv.wd)}</p>
+                    <p class="text-[0.5vw] text-slate-400 dark:text-slate-500">(${fmt0(lv.wd)}°)</p>
+                </div>`).join('');
+        }
+    }
+
+    // ============================================================
+    //  Card 3 – พยากรณ์ความชื้นสัมพัทธ์ (rh)
+    // ============================================================
+    async function Card3() {
+        const forecasts = await getTMDForecasts();
+        const todayRH = forecasts[0]?.data?.rh ?? null;
+
+        const humCurrent = document.getElementById('humidity-current');
+        const humBar     = document.getElementById('humidity-bar');
+        if (humCurrent) humCurrent.textContent = todayRH != null ? `${fmt0(todayRH)}%` : "--%";
+        if (humBar)     humBar.style.width      = `${todayRH ?? 10}%`;
+
+        const container = document.getElementById('humidity-forecast');
+        if (container) {
+            container.innerHTML = forecasts.slice(1, 5).map((f, i) => {
+                const rh = f?.data?.rh;
+                return `<div class="text-slate-400 dark:text-slate-300">+${i + 1} วัน<br/>
+                    <span class="text-slate-700 dark:text-slate-100">${rh != null ? fmt0(rh) + '%' : '--'}</span>
+                </div>`;
+            }).join('');
+        }
+    }
+
+    // ============================================================
+    //  Card 4 – พยากรณ์สภาพอากาศ (cond + rain)
+    // ============================================================
+    async function Card4() {
+        const forecasts = await getTMDForecasts();
+        const todayData = forecasts[0]?.data ?? {};
+        const todayCond = condInfo(todayData.cond);
+
+        const iconEl = document.getElementById('current-icon');
+        const condEl = document.getElementById('current-condition');
+        const rainEl = document.getElementById('current-rain');
+
+        if (iconEl) { iconEl.textContent = todayCond.icon; iconEl.className = `material-symbols-outlined text-[1vw] ${todayCond.color}`; }
+        if (condEl) condEl.textContent = todayCond.label;
+        if (rainEl) rainEl.textContent  = todayData.rain != null ? `${fmt1(todayData.rain)} mm/day` : "-- mm/day";
+
+        const dailyContainer = document.getElementById('daily-forecast');
+        if (dailyContainer) {
+            dailyContainer.innerHTML = forecasts.slice(1, 5).map((f) => {
+                const d    = f?.data ?? {};
+                const info = condInfo(d.cond);
+                return `
+                <div class="flex justify-between items-center text-[0.5vw] font-medium">
+                    <span class="text-slate-500 dark:text-slate-400 w-[3vw]">${shortDate(f.time)}</span>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined ${info.color} text-[0.75vw]">${info.icon}</span>
+                        <span class="text-slate-500 dark:text-slate-300 text-[0.5vw]">${info.label}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-blue-400 text-[0.75vw]">water_drop</span>
+                        <span class="text-slate-700 dark:text-slate-400">${d.rain != null ? fmt1(d.rain) + ' mm' : '--'}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+    }
+
+    // ============================================================
+    //  Main Process
+    // ============================================================
     document.addEventListener('DOMContentLoaded', async () => {
-
         await process();
-
         isLoading = false;
 
         setInterval(async () => {
+            _tmdCache = null;   // reset cache เพื่อดึงข้อมูลใหม่
             setHeaderInit();
-            console.log("loading new data from database ...");
+            console.log("loading new data ...");
             await process();
-            console.log("load data success");
-            console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+            console.log("load done -=-=-=-=-=-=-");
         }, 10000);
-
     });
 
     async function process() {
-        await loadSensorData();
-        await SensorsLeft();
-        await SensorsRight();
-        Card1();
-        Card2();
-        Card3();
-        Card4();
-
+        // sensor DB + TMD พร้อมกัน (ถ้า DB ล่มก็ไม่กระทบ TMD)
+        await Promise.allSettled([loadSensorData(), SensorsLeft(), SensorsRight()]);
+        await Promise.allSettled([Card1(), Card2(), Card3(), Card4()]);
         await loadGraphMarketById();
         await loadPieGraph();
     }
 
+    // ============================================================
+    //  Sensor functions (null-safe – รองรับ DB offline)
+    // ============================================================
     async function loadSensorData() {
-        let sensors;
-        try {
-            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sensorLog: Sensors_realtime
-                    })
-                }
-            );
-            const data = await res.json();
-            sensors = data['sensors'];
-        } catch (err) {
-            console.error('❌ loadSensorData error:', err);
-        }
-
+        const data = await safeFetchJSON('../../api-website/plot_sensor_log_multiple.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sensorLog: Sensors_realtime })
+        });
+        const sensors = data?.sensors ?? null;
         Create_sensorCard(Sensors_realtime, sensors);
-
-        loadGraphSensorById(sensors);
-
+        if (sensors) loadGraphSensorById(sensors);
     }
 
     async function SensorsLeft() {
-        try {
-            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sensorLog: Sensors_name_left
-                    })
-                }
-            );
-            const data = await res.json();
-            const sensors = data['sensors'];
-
-            SetCardsBynames(Sensors_name_left, sensors, 'left');
-
-        } catch (err) {
-            console.error('❌ loadSensorData error:', err);
-        }
+        const data = await safeFetchJSON('../../api-website/plot_sensor_log_multiple.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sensorLog: Sensors_name_left })
+        });
+        if (data?.sensors) SetCardsBynames(Sensors_name_left, data.sensors, 'left');
     }
 
     async function SensorsRight() {
-        try {
-            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sensorLog: Sensors_name_right
-                    })
-                }
-            );
-            const data = await res.json();
-            const sensors = data['sensors'];
-
-            SetCardsBynames(Sensors_name_right, sensors, 'right');
-
-        } catch (err) {
-            console.error('❌ loadSensorData error:', err);
-        }
+        const data = await safeFetchJSON('../../api-website/plot_sensor_log_multiple.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sensorLog: Sensors_name_right })
+        });
+        if (data?.sensors) SetCardsBynames(Sensors_name_right, data.sensors, 'right');
     }
 
     function Create_sensorCard(sensor_names, sensors) {
-        let metricsCards = document.getElementById('metrics-cards');
+        const metricsCards = document.getElementById('metrics-cards');
+        if (!metricsCards) return;
         metricsCards.innerHTML = "";
+
         Object.values(sensor_names).forEach((s) => {
-            const row = sensors[s] || { "min": 0, "max": 0, "unit": "--", "logs": [] };
-            const min = row['min'] || 0;
-            const max = row['max'] || 1;
-            let value = row.logs.length > 0 ? row.logs[0].data_value : "--";
-            let div = document.createElement('div');
-            div.id = `card-${s}`;
+            const row   = sensors?.[s] ?? { min: 0, max: 1, unit: "--", logs: [] };
+            const min   = row.min ?? 0;
+            const max   = row.max ?? 1;
+            const value = Array.isArray(row.logs) && row.logs.length > 0
+                ? row.logs[0].data_value : "--";
+
+            const div = document.createElement('div');
+            div.id        = `card-${s}`;
             div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">
-                        ${s}
-                    </span>
-                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">
-                        --
-                    </span>
+                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">${s}</span>
+                    <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">--</span>
                 </div>
                 <div class="flex-1 flex items-center justify-center">
                     <div class="flex items-baseline gap-1">
-                        <span class="text-[1.5vw] font-black text-black dark:text-white value">
-                            ${value}
-                        </span>
-                        <span class="text-[0.75vw] font-bold text-stone-400 dark:text-stone-200">
-                            ${row.unit ?? ''}
-                        </span>
+                        <span class="text-[1.5vw] font-black text-black dark:text-white value">${value}</span>
+                        <span class="text-[0.75vw] font-bold text-stone-400 dark:text-stone-200">${row.unit ?? ''}</span>
                     </div>
                 </div>
-
-                <!-- Range Bar with Fixed Gradient -->
                 <div class="metric-range mt-2 hidden" data-key="${s}" data-min="${min}" data-max="${max}">
                     <div class="flex justify-between text-[1vw] font-bold leading-none mb-1">
-                        <span class="label-left"></span>
-                        <span class="label-right"></span>
+                        <span class="label-left"></span><span class="label-right"></span>
                     </div>
+                    <div class="relative h-1.5 rounded-full bar"><div class="fill"></div></div>
+                </div>`;
 
-                    <div class="relative h-1.5 rounded-full bar">
-                        <div class="fill"></div>
-                    </div>
-                </div>
-                `;
-
-            if (row['unit'] !== "--") {
+            if (row.unit !== "--" && row.monitor_id) {
                 div.onclick = () => {
                     sensor_select = row.monitor_id;
-                    loadGraphSensorById(sensors);
-                }
+                    if (sensors) loadGraphSensorById(sensors);
+                };
             }
 
             metricsCards.appendChild(div);
-
-            setCardValue(s, value, min, max);
-            if (sensor_select == 0 && row.monitor_id) {
-                sensor_select = row.monitor_id;
-            }
-        })
-    }
-
-    async function Card1() {
-        console.log("Card 1");
-        try {
-
-        } catch (err) {
-            console.error('❌ card-1 error:', err);
-        }
-    }
-
-    async function Card2() {
-        console.log("Card 2");
-        try {
-
-        } catch (err) {
-            console.error('❌ card-2 error:', err);
-        }
-
-    }
-
-    async function Card3() {
-        console.log("Card 3");
-        try {
-
-        } catch (err) {
-            console.error('❌ card-3 error:', err);
-        }
-
-    }
-
-    async function Card4() {
-        console.log("Card 4");
-        try {
-
-        } catch (err) {
-            console.error('❌ card-4 error:', err);
-        }
+            if (typeof setCardValue === 'function') setCardValue(s, value, min, max);
+            if (sensor_select === 0 && row.monitor_id) sensor_select = row.monitor_id;
+        });
     }
 
 </script>

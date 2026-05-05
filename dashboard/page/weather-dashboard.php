@@ -78,7 +78,7 @@ $classIconHeader = "arcticons--weathercan";
 
                                     <!-- Mercury -->
                                     <div id="widget-mercury"
-                                        class="absolute bg-orange-500 rounded-t-full right-0 w-[0.9vw] bottom-[1.8vh] transition-all duration-700 ease-in-out"
+                                        class="absolute bg-orange-500 rounded-t-full right-0 w-[1vw] bottom-[1.8vh] transition-all duration-700 ease-in-out"
                                         style="height: 0%;"></div>
 
                                     <!-- Bulb -->
@@ -268,7 +268,7 @@ $classIconHeader = "arcticons--weathercan";
                     </div>
                 </div>
 
-                <!-- Card 2: พยากรณ์ลมรายชั่วโมง -->
+                <!-- Card 2: ลมที่ระดับความกดอากาศ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden flex-1">
                     <div class="flex items-center mb-2">
@@ -276,36 +276,21 @@ $classIconHeader = "arcticons--weathercan";
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
                             <span class="solar--wind-bold-duotone"></span>
                         </div>
-                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">พยากรณ์ลมรายชั่วโมง
+                        <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">ลมที่ระดับความกดอากาศ
                         </h3>
                     </div>
-                    <div class="grid grid-cols-4 gap-2 text-center flex-1" id="wind-forecast">
-                        <!-- Loading state -->
+
+                    <!-- grid 5 การ์ด (JS inject ข้อมูล) -->
+                    <div id="wind-pressure-table" class="grid grid-cols-5 gap-2 flex-1">
+                        <!-- loading placeholders -->
+                        <?php foreach (['925', '850', '700', '500', '200'] as $hpa): ?>
                         <div
-                            class="bg-stone-50 flex flex-col justify-between dark:bg-stone-900/20 p-2 rounded-lg border border-stone-200 dark:border-orange-100/20">
-                            <p class="text-[0.75vw] text-[#ff8021] font-bold mb-1">ตอนนี้</p>
-                            <p id="wind-spd-now" class="text-[0.65vw] font-bold text-slate-800 dark:text-slate-100">--
-                            </p>
-                            <p id="wind-dir-now" class="text-[0.5vw] text-slate-400 dark:text-slate-200">(--)</p>
+                            class="bg-stone-50 dark:bg-stone-800/40 rounded-xl border border-stone-200 dark:border-stone-700 p-[0.4vw] flex flex-col items-center justify-center text-center animate-pulse">
+                            <p class="text-[0.6vw] font-bold text-slate-400 mb-1"><?= $hpa ?> hPa</p>
+                            <p class="text-[1vw] font-black text-slate-300">--</p>
+                            <p class="text-[0.5vw] text-slate-300 mt-1">--</p>
                         </div>
-                        <div class="p-2 flex flex-col justify-between">
-                            <p class="text-[0.75vw] text-slate-400 font-bold mb-1">1 ชม.</p>
-                            <p id="wind-spd-1hr" class="text-[0.65vw] font-bold text-slate-600 dark:text-slate-200">--
-                            </p>
-                            <p id="wind-dir-1hr" class="text-[0.5vw] text-slate-300 dark:text-slate-200">(--)</p>
-                        </div>
-                        <div class="p-2 flex flex-col justify-between">
-                            <p class="text-[0.75vw] text-slate-400 font-bold mb-1">2 ชม.</p>
-                            <p id="wind-spd-2hr" class="text-[0.65vw] font-bold text-slate-600 dark:text-slate-200">--
-                            </p>
-                            <p id="wind-dir-2hr" class="text-[0.5vw] text-slate-300 dark:text-slate-200">(--)</p>
-                        </div>
-                        <div class="p-2 flex flex-col justify-between">
-                            <p class="text-[0.75vw] text-slate-400 font-bold mb-1">3 ชม.</p>
-                            <p id="wind-spd-3hr" class="text-[0.65vw] font-bold text-slate-600 dark:text-slate-200">--
-                            </p>
-                            <p id="wind-dir-3hr" class="text-[0.5vw] text-slate-300 dark:text-slate-200">(--)</p>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 

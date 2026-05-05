@@ -577,7 +577,7 @@
         }
     }
 
-    setActive(73);
+    setActive(91);
     async function loadlettuceTableData() {
         try {
             const fd = new FormData();
@@ -642,20 +642,20 @@
             // ===============================
             // ✅ CARD 1 (ปลูก)
             // ===============================
-            SetValueInHTMLById('planting-stage', getVal(73));
-            SetValueInHTMLById('planting-days', getRange(73));
-            SetValueInHTMLById('planting-area', getVal(74));
-            SetValueInHTMLById('planting-density', '-');
-            SetValueInHTMLById('planting-yield', getVal(75));
+            SetValueInHTMLById('planting-stage', getVal(91));
+            SetValueInHTMLById('planting-days', getRange(91));
+            SetValueInHTMLById('planting-area', getVal(92));
+            SetValueInHTMLById('planting-density', getVal(93));
+            SetValueInHTMLById('planting-yield', getVal(94));
 
             // ระยะเติบโต ให้เปลี่ยน id ในวงเล็บเป็น id ของตารางที่มีข้อมูลระยะเติบโต (ถ้ามี) และเพิ่มใน getRow/getVal ด้วย
-            const table1 = tables.find(t => t.id == 73);
+            const table1 = tables.find(t => t.id == 91);
             if (table1 && table1.rows) {
                 // สร้าง dot ตาม rows จาก DB
                 buildDots(table1.rows);
 
                 // หา index ของ row ที่ตรงกับ day ปัจจุบัน
-                const currentVal = getVal(73);
+                const currentVal = getVal(91);
                 const activeIndex = table1.rows.findIndex(r => r.d_value === currentVal);
 
                 setActive(activeIndex >= 0 ? activeIndex : 0, table1.rows.length);
@@ -664,28 +664,28 @@
             // ===============================
             // ✅ PANEL A
             // ===============================
-            SetValueInHTMLById('ec', getVal(76));   // EC
-            SetValueInHTMLById('ph', getVal(77));   // pH
-            SetValueInHTMLById('temperature', getVal(78));   // Temp (°C)
-            SetValueInHTMLById('humidity', getVal(79));   // RH (%)
-            SetValueInHTMLById('light', getVal(80));   // แสง (LUX)
-            SetValueInHTMLById('o2', getVal(81));  // O₂
-            SetValueInHTMLById('co2', getVal(82));  // CO₂
+            SetValueInHTMLById('ec', getVal(95));   // EC
+            SetValueInHTMLById('ph', getVal(96));   // pH
+            SetValueInHTMLById('temperature', getVal(97));   // Temp (°C)
+            SetValueInHTMLById('humidity', getVal(98));   // RH (%)
+            SetValueInHTMLById('light', getVal(99));   // แสง (LUX)
+            SetValueInHTMLById('o2', getVal(100));  // O₂
+            SetValueInHTMLById('co2', getVal(101));  // CO₂
 
             // ===============================
             // ✅ PANEL B
             // ===============================
-            SetValueInHTMLById('fert-chemical', getVal(83)); // ปุ๋ยเคมี
-            SetValueInHTMLById('fert-bio', getVal(84)); // ปุ๋ยชีวภาพ
-            SetValueInHTMLById('fert-organic', getVal(85)); // ปุ๋ยอินทรี
-            SetValueInHTMLById('fert-ab', getVal(86)); // ปุ๋ย AB
-            SetValueInHTMLById('fert-mix', getVal(87)); // วิธีผสมปุ๋ย
+            SetValueInHTMLById('fert-chemical', getVal(102)); // ปุ๋ยเคมี
+            SetValueInHTMLById('fert-bio', getVal(103)); // ปุ๋ยชีวภาพ
+            SetValueInHTMLById('fert-organic', getVal(104)); // ปุ๋ยอินทรี
+            SetValueInHTMLById('fert-ab', getVal(105)); // ปุ๋ย AB
+            SetValueInHTMLById('fert-mix', getVal(106)); // วิธีผสมปุ๋ย
 
             // ===============================
             // ✅ PANEL C
             // ===============================
-            SetValueInHTMLById('care-disease', getVal(88)); // โรค/ปัญหา
-            SetValueInHTMLById('care-note', getVal(89)); // การดูแล
+            SetValueInHTMLById('care-disease', getVal(107)); // โรค/ปัญหา
+            SetValueInHTMLById('care-note', getVal(108)); // การดูแล
 
         } catch (err) {
             console.error('❌ loadTableData error:', err);
