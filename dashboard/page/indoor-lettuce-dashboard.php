@@ -69,36 +69,80 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col justify-between gap-3 min-h-0">
                         <!-- ===== กราฟบน ===== -->
-                        <div
-                            class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col flex-1 min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-                            <div class="flex justify-between items-center mb-2 shrink-0">
-                                <div>
-                                    <h2
-                                        class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-                                        <span class="w-[0.25vw] h-4 2xl:h-6 bg-orange-500 rounded-full"></span>
-                                        <div id="title-graph-sensor">แนวโน้ม</div>
-                                    </h2>
-                                    <p id="title-graph-sensor-sub"
-                                        class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
-                                        Historical Data
-                                    </p>
+                        <div class="grid grid-cols-5 gap-3 flex-1 min-h-0">
+                            <div
+                                class="col-span-3 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col flex-1 min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+                                <div class="flex justify-between items-center mb-2 shrink-0">
+                                    <div>
+                                        <h2
+                                            class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
+                                            <span class="w-[0.25vw] h-4 2xl:h-6 bg-orange-500 rounded-full"></span>
+                                            <div id="title-graph-sensor">แนวโน้ม</div>
+                                        </h2>
+                                        <p id="title-graph-sensor-sub"
+                                            class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
+                                            Historical Data
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- กราฟ + Checkbox Panel -->
+                                <div class="flex flex-1 min-h-0 gap-2">
+                                    <!-- Canvas -->
+                                    <div
+                                        class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
+                                        <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                                    </div>
+                                    <!-- Sensor Toggle Button Panel -->
+                                    <div id="sensor-checkbox-panel"
+                                        class="flex flex-col gap-[0.35vh] justify-start bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.4vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700 overflow-y-auto">
+                                        <p
+                                            class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
+                                            Sensors</p>
+                                        <!-- Sensor toggle buttons จะถูก inject โดย JS -->
+                                    </div>
                                 </div>
                             </div>
-                            <!-- กราฟ + Checkbox Panel -->
-                            <div class="flex flex-1 min-h-0 gap-2">
-                                <!-- Canvas -->
+                            <div
+                                class="col-span-2 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
+
+                                <!-- Header -->
                                 <div
-                                    class="flex-1 min-h-0 relative border-l border-b border-stone-200 dark:border-stone-700 rounded-md overflow-hidden">
-                                    <canvas id="TrendChart" class="absolute inset-0 w-full h-full"></canvas>
+                                    class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
+                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI
+                                        Assistant</span>
+                                    <span class="ml-auto text-xs text-stone-400">พร้อมใช้งาน</span>
                                 </div>
-                                <!-- Sensor Toggle Button Panel -->
-                                <div id="sensor-checkbox-panel"
-                                    class="flex flex-col gap-[0.35vh] justify-start bg-stone-50 dark:bg-stone-800 rounded-xl px-[0.4vw] py-[0.5vh] shrink-0 border border-stone-200 dark:border-stone-700 overflow-y-auto">
-                                    <p
-                                        class="text-[0.45vw] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-[0.2vh] text-center">
-                                        Sensors</p>
-                                    <!-- Sensor toggle buttons จะถูก inject โดย JS -->
+
+                                <!-- Messages -->
+                                <div id="chatMessages"
+                                    class="flex-1 overflow-y-auto py-3 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-stone-200 dark:scrollbar-thumb-stone-700">
+                                    <!-- AI welcome -->
+                                    <div class="flex items-end gap-2">
+                                        <div
+                                            class="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-[10px] font-semibold text-stone-500 flex-shrink-0">
+                                            AI</div>
+                                        <div
+                                            class="max-w-[78%] px-3 py-2 rounded-2xl rounded-bl-sm bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 text-[13px] leading-relaxed">
+                                            สวัสดีครับ ผมช่วยอะไรได้บ้าง?
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Input -->
+                                <div
+                                    class="flex items-end gap-2 pt-2.5 border-t border-stone-200 dark:border-stone-700 flex-shrink-0">
+                                    <textarea id="chatInput" rows="1" placeholder="พิมพ์ข้อความ..."
+                                        onkeydown="chatOnKey(event)" oninput="chatResize(this)"
+                                        class="flex-1 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-[13px] text-stone-800 dark:text-stone-100 placeholder-stone-400 resize-none outline-none leading-relaxed max-h-[90px] focus:border-orange-400 dark:focus:border-orange-500 transition-colors duration-150"></textarea>
+                                    <button id="chatSend" onclick="chatSend()"
+                                        class="w-8 h-8 rounded-full bg-orange-500 hover:bg-orange-600 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 transition-all duration-150">
+                                        <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
+                                            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
 
@@ -482,8 +526,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             </div>
                         </div>
                     </div>
-                    <button
-                        onclick="showPopup('popup-export-log')"
+                    <button onclick="showPopup('popup-export-log')"
                         class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
                         <span>Export Report</span>
                         <span
