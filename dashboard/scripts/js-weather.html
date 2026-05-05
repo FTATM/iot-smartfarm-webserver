@@ -2,6 +2,8 @@
 <script>
     let isLoading = true;
     let sensor_select = 0;
+    let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่านปุ่ม
+    let _sensors_cache = null;           // cache sensors data ล่าสุด
 
     const Sensors_realtime = ["wind_Direction", "Air_Quality", "Ammonia", "Oxygen", "Rainfall", "light_int"];
     const Sensors_name_left = ["PM 2.5", "PM 10", "PM 1", "Voltage Supply", "Current Supply", "Power Supply"];
@@ -19,8 +21,8 @@
         url: "https://data.tmd.go.th/nwpapi/v1/forecast/location/daily/at",
         lat: 7.2021,
         lon: 100.5972,
-        fields: "tc_min,tc_max,rh,rain,ws10m,ws925,wd925,ws850,wd850,ws700,wd700,ws500,wd500,ws200,wd200,cond",
-        duration: 5,
+        fields: "tc_min,tc_max,rh,rain,ws10m,ws925,wd925,ws850,wd850,ws700,wd700,ws500,wd500,ws200,wd200,cloudlow,cloudmed,cond",
+        duration: 6,
         token: " eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzODRiZDhjMzI5MmRjZWI5YjhjOGVhOWI1ZTdlYWVkOGI0YThjMjYwNTEyZTgyNTFmYTEzNGYzMDQ4MDA2Zjc4YTliNmRhZjMzZWE5MzA0In0.eyJhdWQiOiIyIiwianRpIjoiMzM4NGJkOGMzMjkyZGNlYjliOGM4ZWE5YjVlN2VhZWQ4YjRhOGMyNjA1MTJlODI1MWZhMTM0ZjMwNDgwMDZmNzhhOWI2ZGFmMzNlYTkzMDQiLCJpYXQiOjE3Njg1MzEzNDAsIm5iZiI6MTc2ODUzMTM0MCwiZXhwIjoxODAwMDY3MzQwLCJzdWIiOiI0ODYxIiwic2NvcGVzIjpbXX0.JqrSk5_Kj9w-ID3yRnORgvcomPtmph4M6wBOrYLaw3IZavQfdh8Djspmy1KFe-OyzN-9bKnJqddcG218VgmGu-SlPp2MfwThgupJqPVb3fOLaWtuj0-QdlTV1zCnHqMYXsGsmIARR7R888inxCoqzHvclH_yYT6ouIZW9mzET713WKtmfTEGfk6-nd1NVjJMurUAXu_ZVNs0GSG1OoKu0h-1wySK2cKE_zChaLzavlC6DCX9zTgaaZauxOZu9ec-jFHEarS6P5EXy7-T5Kqnr40Qf6iABgw10yAs3hB9uhuOeHdiA1rHrC34sh76zcfLsXMGrdTlxQ4fndZOfnRYG8L3lPoVjfN66kuCI-R0nUOt6WZvxhJfzaBMxsofcAF-qE-B0lMR7kSxS9wfnk-n1Q9H53YfiiFsHJ5HCeaMQ4yV9MF2L_7MswaPBkg94GeoT5BUIbrYjZvD4wnVFyF-l8VJ6sKGKK7PcdhdsajQc3w-zcSzYyA8CNsfIjM9auOTZIgI1XvA5TtzZT2IVvj-ipO8AeqiySYgMl-C6sbUJ8P21WIyWnpMBwyHHyxqLVx9jSAXwZdHL6SyAF7SW61LS2ZSTS9fN2aTVgZV1bziODUz3xzcwsQ-igmxw5ZFnmJmhER7PlrPfTkhz0Ll7QgNJ5rtWlQkHnYCrqf--C-f148"  // <-- ใส่ Bearer Token ของกรมอุตุฯ ที่นี่
     };
 
@@ -135,6 +137,24 @@
     // แปลง m/s → knots
     const toKnots  = (v)    => (v != null ? (Number(v) * 1.94).toFixed(1) : "--");
 
+    // ---- helper สำหรับเกษตรกร ----
+    function windLevel(kts) {
+        const k = parseFloat(kts);
+        if (isNaN(k))  return { label: '--',           color: 'text-slate-400',                       bg: '',                                       icon: '🌫️', tip: '' };
+        if (k < 7)     return { label: 'ลมอ่อน',       color: 'text-green-600 dark:text-green-400',   bg: 'bg-green-50 dark:bg-green-900/20',        icon: '🍃', tip: 'เหมาะพ่นยา' };
+        if (k < 14)    return { label: 'ลมปานกลาง',    color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-50 dark:bg-yellow-900/20',       icon: '💨', tip: 'ระวังสารพ่น' };
+        if (k < 22)    return { label: 'ลมแรง',        color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20',       icon: '🌬️', tip: 'งดพ่นยา' };
+        return          { label: 'ลมแรงมาก',    color: 'text-red-600 dark:text-red-400',       bg: 'bg-red-50 dark:bg-red-900/20',            icon: '⚠️', tip: 'อันตราย' };
+    }
+
+    const LEVEL_DESC = {
+        '925 hPa': { alt: '~750 ม.',    desc: 'ใกล้พื้น',         useFor: 'พ่นยา/เก็บเกี่ยว' },
+        '850 hPa': { alt: '~1,500 ม.', desc: 'ระดับต้นไม้สูง',   useFor: 'ทิศลมฝน' },
+        '700 hPa': { alt: '~3,000 ม.', desc: 'ระดับเมฆฝน',       useFor: 'พยากรณ์ฝน' },
+        '500 hPa': { alt: '~5,500 ม.', desc: 'กลางอากาศ',         useFor: 'ระบบอากาศ' },
+        '200 hPa': { alt: '~12,000 ม.',desc: 'ระดับเจ็ตสตรีม',   useFor: 'สภาพอากาศรวม' },
+    };
+
     function shortDate(dateStr) {
         const d = new Date(dateStr);
         const m = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
@@ -154,13 +174,14 @@
         if (minEl) minEl.innerHTML = `<span class="dark:text-white">${fmt1(d.tc_min)}</span>`;
         if (maxEl) maxEl.innerHTML = `<span class="dark:text-white">${fmt1(d.tc_max)}</span>`;
 
-        // เทอร์โมมิเตอร์ widget (scale -60 ถึง 140)
+        // เทอร์โมมิเตอร์ widget (scale -20 ถึง 70)
         if (d.tc_max != null) {
-            const pct = Math.min(100, Math.max(0, ((d.tc_max + 60) / 200) * 100));
-            const mercury     = document.getElementById('widget-mercury');
-            const tempDisplay = document.getElementById('widget-currentTemp');
-            if (mercury)     mercury.style.height   = pct + '%';
-            if (tempDisplay) tempDisplay.textContent = `${fmt1(d.tc_max)}°C`;
+        const pct = Math.min(100, Math.max(0, ((d.tc_max + 20) / 90) * 100));
+        const mercury     = document.getElementById('widget-mercury');
+        const tempDisplay = document.getElementById('widget-currentTemp');
+        if (mercury)     mercury.style.height   = pct + '%';
+        if (tempDisplay) tempDisplay.textContent = `${fmt1(d.tc_max)}°C`;
+
         }
 
         // widget-humidex → ความชื้นสัมพัทธ์วันนี้
@@ -182,46 +203,76 @@
             windChillEl.textContent = ws != null ? `${toKnots(ws)} kts` : "-- kts";
         }
 
-        // ===== grid card สำหรับแต่ละ pressure level =====
+        // ===== วันนี้ highlight (925 hPa — ระดับใกล้พื้นที่เกษตรกรใช้) =====
+        const today0 = forecasts[0]?.data ?? {};
+        const todayKts = toKnots(today0.ws925);
+        const todayDir = degToDir(today0.wd925);
+        const todaySpdEl = document.getElementById('wind-today-spd');
+        const todayDirEl = document.getElementById('wind-today-dir');
+        if (todaySpdEl) todaySpdEl.textContent = `${todayKts} kts`;
+        if (todayDirEl) todayDirEl.textContent  = todayDir;
+
+        // ===== list 5 วันถัดไป × 925 hPa (เหมือน daily-forecast ใน Card3/Card4) =====
         const pressureContainer = document.getElementById('wind-pressure-table');
         if (pressureContainer) {
-            const d = forecasts[0]?.data ?? {};
-            const levels = [
-                { label: '925 hPa', ws: d.ws925, wd: d.wd925, bg: 'bg-sky-50/60 dark:bg-sky-900/20',   border: 'border-sky-100 dark:border-sky-100/10',   color: 'text-sky-600 dark:text-sky-400'   },
-                { label: '850 hPa', ws: d.ws850, wd: d.wd850, bg: 'bg-blue-50/60 dark:bg-blue-900/20',  border: 'border-blue-100 dark:border-blue-100/10',  color: 'text-blue-600 dark:text-blue-400'  },
-                { label: '700 hPa', ws: d.ws700, wd: d.wd700, bg: 'bg-violet-50/60 dark:bg-violet-900/20', border: 'border-violet-100 dark:border-violet-100/10', color: 'text-violet-600 dark:text-violet-400' },
-                { label: '500 hPa', ws: d.ws500, wd: d.wd500, bg: 'bg-orange-50/60 dark:bg-orange-900/20', border: 'border-orange-100 dark:border-orange-100/10', color: 'text-orange-500 dark:text-orange-400' },
-                { label: '200 hPa', ws: d.ws200, wd: d.wd200, bg: 'bg-red-50/60 dark:bg-red-900/20',    border: 'border-red-100 dark:border-red-100/10',    color: 'text-red-500 dark:text-red-400'    },
-            ];
-            pressureContainer.innerHTML = levels.map(lv => `
-                <div class="${lv.bg} ${lv.border} rounded-xl border p-[0.4vw] flex flex-col items-center justify-center text-center">
-                    <p class="text-[0.6vw] font-bold ${lv.color} uppercase mb-1">${lv.label}</p>
-                    <p class="text-[1vw] font-black text-slate-800 dark:text-white leading-none">${toKnots(lv.ws)}</p>
-                    <p class="text-[0.55vw] font-bold text-slate-400 dark:text-slate-400 mt-0.5">knots</p>
-                    <p class="text-[0.55vw] font-bold text-slate-600 dark:text-slate-200 mt-1 leading-tight">${degToDir(lv.wd)}</p>
-                    <p class="text-[0.5vw] text-slate-400 dark:text-slate-500">(${fmt0(lv.wd)}°)</p>
-                </div>`).join('');
+            pressureContainer.innerHTML = forecasts.slice(1, 6).map(f => {
+                const d   = f?.data ?? {};
+                const kts = toKnots(d.ws925);
+                const wl  = windLevel(kts);
+                const dir = degToDir(d.wd925);
+                return `
+                <div class="flex justify-between items-center text-[0.5vw] font-medium">
+                    <span class="text-slate-500 dark:text-slate-400 w-[3vw]">${shortDate(f.time)}</span>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined ${wl.color} text-[0.75vw]">air</span>
+                        <span class="text-slate-500 dark:text-slate-300">${dir}</span>
+                    </div>
+                    <span class="font-bold ${wl.color}">${kts} kts</span>
+                </div>`;
+            }).join('');
         }
     }
 
     // ============================================================
     //  Card 3 – พยากรณ์ความชื้นสัมพัทธ์ (rh)
     // ============================================================
+    // ============================================================
+    //  Card 3 – ความชื้นสัมพัทธ์ + ฝน + เมฆ
+    // ============================================================
     async function Card3() {
         const forecasts = await getTMDForecasts();
-        const todayRH = forecasts[0]?.data?.rh ?? null;
+        const d0 = forecasts[0]?.data ?? {};
 
+        // highlight วันนี้
         const humCurrent = document.getElementById('humidity-current');
         const humBar     = document.getElementById('humidity-bar');
-        if (humCurrent) humCurrent.textContent = todayRH != null ? `${fmt0(todayRH)}%` : "--%";
-        if (humBar)     humBar.style.width      = `${todayRH ?? 10}%`;
+        const humRain    = document.getElementById('humidity-rain');
+        const humCloud   = document.getElementById('humidity-cloud');
+        if (humCurrent) humCurrent.textContent = d0.rh   != null ? `${fmt0(d0.rh)}%`           : '--%';
+        if (humBar)     humBar.style.width      = `${d0.rh ?? 10}%`;
+        if (humRain)    humRain.textContent     = d0.rain != null ? `${fmt1(d0.rain)} mm`        : '-- mm';
+        if (humCloud)   humCloud.textContent    = d0.cloudlow != null ? `${fmt0(d0.cloudlow)}%` : '--%';
 
+        // list รายวันถัดไป
         const container = document.getElementById('humidity-forecast');
         if (container) {
-            container.innerHTML = forecasts.slice(1, 5).map((f, i) => {
-                const rh = f?.data?.rh;
-                return `<div class="text-slate-400 dark:text-slate-300">+${i + 1} วัน<br/>
-                    <span class="text-slate-700 dark:text-slate-100">${rh != null ? fmt0(rh) + '%' : '--'}</span>
+            container.innerHTML = forecasts.slice(1, 6).map(f => {
+                const d = f?.data ?? {};
+                return `
+                <div class="flex justify-between items-center text-[0.5vw] font-medium">
+                    <span class="text-slate-500 dark:text-slate-400 w-[3vw]">${shortDate(f.time)}</span>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-blue-400 text-[0.75vw]">humidity_percentage</span>
+                        <span class="text-slate-600 dark:text-slate-300">${d.rh != null ? fmt0(d.rh) + '%' : '--'}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-blue-400 text-[0.75vw]">water_drop</span>
+                        <span class="text-slate-700 dark:text-slate-400">${d.rain != null ? fmt1(d.rain) + ' mm' : '--'}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-slate-400 text-[0.75vw]">cloud</span>
+                        <span class="text-slate-500 dark:text-slate-400">${d.cloudlow != null ? fmt0(d.cloudlow) + '%' : '--'}</span>
+                    </div>
                 </div>`;
             }).join('');
         }
@@ -245,7 +296,7 @@
 
         const dailyContainer = document.getElementById('daily-forecast');
         if (dailyContainer) {
-            dailyContainer.innerHTML = forecasts.slice(1, 5).map((f) => {
+            dailyContainer.innerHTML = forecasts.slice(1, 6).map((f) => {
                 const d    = f?.data ?? {};
                 const info = condInfo(d.cond);
                 return `
@@ -298,8 +349,12 @@
             body: JSON.stringify({ sensorLog: Sensors_realtime })
         });
         const sensors = data?.sensors ?? null;
+        _sensors_cache = sensors;
         Create_sensorCard(Sensors_realtime, sensors);
-        if (sensors) loadGraphSensorById(sensors);
+        if (sensors) {
+            buildSensorCheckboxes(sensors);
+            renderSensorGraph(sensors);
+        }
     }
 
     async function SensorsLeft() {
@@ -320,6 +375,17 @@
         if (data?.sensors) SetCardsBynames(Sensors_name_right, data.sensors, 'right');
     }
 
+    // ===== SENSOR COLOR MAP & LINE COLORS =====
+    const sensorLineColors = [
+        '#f97316', // orange
+        '#3b82f6', // blue
+        '#10b981', // green
+        '#a855f7', // purple
+        '#ef4444', // red
+        '#eab308', // yellow
+    ];
+    const sensorColorMap = {};
+
     function Create_sensorCard(sensor_names, sensors) {
         const metricsCards = document.getElementById('metrics-cards');
         if (!metricsCards) return;
@@ -332,12 +398,32 @@
             const value = Array.isArray(row.logs) && row.logs.length > 0
                 ? row.logs[0].data_value : "--";
 
+            const hasData = row.unit !== "--" && row.monitor_id;
+            const isSelected = hasData && sensor_selected_set.has(String(row.monitor_id));
+            const sensorColor = hasData ? (sensorColorMap[String(row.monitor_id)] || '#f97316') : null;
+
             const div = document.createElement('div');
             div.id        = `card-${s}`;
-            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border border-stone-200 dark:border-0 shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-20 shrink-0";
+            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border shadow-sm flex flex-col transition-all duration-200 shrink-0 select-none"
+                + (hasData ? " cursor-pointer hover:ring-2 hover:ring-orange-400" : "");
+
+            if (isSelected && sensorColor) {
+                div.style.borderColor = sensorColor;
+                div.style.boxShadow = `0 0 0 2px ${sensorColor}55`;
+            } else {
+                div.style.borderColor = '';
+            }
+
             div.innerHTML = `
                 <div class="w-full flex justify-between items-center">
-                    <span class="text-[0.75vw] font-bold text-stone-500 dark:text-white uppercase tracking-widest">${s}</span>
+                    <div class="flex items-center gap-[0.3vw]">
+                        ${isSelected && sensorColor
+                            ? `<span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0" style="background:${sensorColor}"></span>`
+                            : `<span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0 bg-stone-300 dark:bg-stone-600"></span>`}
+                        <span class="text-[0.75vw] font-bold uppercase tracking-widest" style="color:${isSelected && sensorColor ? sensorColor : ''};" class="text-stone-500 dark:text-white">
+                            ${s}
+                        </span>
+                    </div>
                     <span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 text-[0.5vw] font-bold uppercase status">--</span>
                 </div>
                 <div class="flex-1 flex items-center justify-center">
@@ -351,18 +437,354 @@
                         <span class="label-left"></span><span class="label-right"></span>
                     </div>
                     <div class="relative h-1.5 rounded-full bar"><div class="fill"></div></div>
-                </div>`;
+                </div>
+                ${hasData ? `<div class="mt-[0.3vh] flex items-center justify-center gap-[0.2vw]">
+                    <span class="text-[0.45vw] font-semibold uppercase tracking-wide" style="color:${isSelected && sensorColor ? sensorColor : '#a8a29e'}">
+                        ${isSelected ? '● แสดงในกราฟ' : '○ แตะเพื่อเพิ่ม'}
+                    </span>
+                </div>` : ''}`;
 
-            if (row.unit !== "--" && row.monitor_id) {
+            if (hasData) {
                 div.onclick = () => {
-                    sensor_select = row.monitor_id;
-                    if (sensors) loadGraphSensorById(sensors);
+                    const id = String(row.monitor_id);
+                    const nowSelected = sensor_selected_set.has(id);
+                    if (nowSelected) {
+                        sensor_selected_set.delete(id);
+                    } else {
+                        sensor_selected_set.add(id);
+                    }
+                    const btn = document.getElementById(`sensor-btn-${id}`);
+                    if (btn) {
+                        _updateSensorBtnStyle(btn, !nowSelected, sensorColorMap[id] || '#f97316', s);
+                    }
+                    _updateCardSelectedStyle(div, s, row, !nowSelected);
+                    if (_sensors_cache) renderSensorGraph(_sensors_cache);
                 };
             }
 
             metricsCards.appendChild(div);
             if (typeof setCardValue === 'function') setCardValue(s, value, min, max);
             if (sensor_select === 0 && row.monitor_id) sensor_select = row.monitor_id;
+        });
+    }
+
+    // อัปเดต visual ของการ์ดเมื่อ toggle
+    function _updateCardSelectedStyle(div, sensorName, row, isSelected) {
+        const id = String(row.monitor_id);
+        const color = sensorColorMap[id] || '#f97316';
+
+        if (isSelected) {
+            div.style.borderColor = color;
+            div.style.boxShadow = `0 0 0 2px ${color}55`;
+        } else {
+            div.style.borderColor = '';
+            div.style.boxShadow = '';
+        }
+
+        const headerDiv = div.querySelector('.w-full.flex.justify-between.items-center');
+        if (headerDiv) {
+            const statusSpan = headerDiv.querySelector('.status');
+            const statusHtml = statusSpan ? statusSpan.outerHTML : '';
+            headerDiv.innerHTML = `
+                <div class="flex items-center gap-[0.3vw]">
+                    <span class="w-[0.5vw] h-[0.5vw] rounded-full shrink-0" style="background:${isSelected ? color : '#a8a29e'}"></span>
+                    <span class="text-[0.75vw] font-bold uppercase tracking-widest" style="color:${isSelected ? color : ''}">
+                        ${sensorName}
+                    </span>
+                </div>
+                ${statusHtml}`;
+        }
+
+        const labelWrapper = div.querySelector('div[class*="flex items-center justify-center gap"]');
+        if (labelWrapper) {
+            labelWrapper.innerHTML = `<span class="text-[0.45vw] font-semibold uppercase tracking-wide" style="color:${isSelected ? color : '#a8a29e'}">
+                ${isSelected ? '● แสดงในกราฟ' : '○ แตะเพื่อเพิ่ม'}
+            </span>`;
+        }
+    }
+
+    // ===== SENSOR CHECKBOX PANEL =====
+    function buildSensorCheckboxes(sensors) {
+        const panel = document.getElementById('sensor-checkbox-panel');
+        if (!panel) return;
+
+        // assign สีถาวรให้แต่ละ sensor
+        let colorIdx = 0;
+        Object.entries(sensors).forEach(([name, row]) => {
+            if (!row?.monitor_id) return;
+            const key = String(row.monitor_id);
+            if (!sensorColorMap[key]) {
+                sensorColorMap[key] = sensorLineColors[colorIdx % sensorLineColors.length];
+            }
+            colorIdx++;
+        });
+
+        // auto-select sensor แรกถ้ายังไม่มี
+        if (sensor_selected_set.size === 0) {
+            const first = Object.values(sensors).find(r => r?.monitor_id && r.unit !== '--');
+            if (first) {
+                sensor_selected_set.add(String(first.monitor_id));
+                sensor_select = first.monitor_id;
+            }
+        }
+
+        // ถ้า button มีอยู่แล้ว → sync visual state แล้วออก
+        const alreadyBuilt = panel.querySelector('button[data-sensor-id]');
+        if (alreadyBuilt) {
+            panel.querySelectorAll('button[data-sensor-id]').forEach(btn => {
+                const id    = btn.dataset.sensorId;
+                const name  = btn.dataset.sensorName;
+                const color = sensorColorMap[id] || '#f97316';
+                _updateSensorBtnStyle(btn, sensor_selected_set.has(id), color, name);
+            });
+            const allBtn = document.getElementById('sensor-btn-all');
+            if (allBtn) _updateAllBtnStyle(allBtn, sensors);
+            return;
+        }
+
+        const header = panel.querySelector('p');
+        panel.innerHTML = '';
+        if (header) panel.appendChild(header);
+
+        // ── ปุ่ม ALL ──
+        const allBtn = document.createElement('button');
+        allBtn.id = 'sensor-btn-all';
+        allBtn.type = 'button';
+        _updateAllBtnStyle(allBtn, sensors);
+
+        allBtn.addEventListener('click', () => {
+            const validIds = Object.entries(sensors)
+                .filter(([, r]) => r?.monitor_id && r.unit !== '--')
+                .map(([, r]) => String(r.monitor_id));
+
+            const allSelected = validIds.every(id => sensor_selected_set.has(id));
+
+            if (allSelected) {
+                sensor_selected_set.clear();
+                if (validIds.length > 0) sensor_selected_set.add(validIds[0]);
+            } else {
+                validIds.forEach(id => sensor_selected_set.add(id));
+            }
+
+            panel.querySelectorAll('button[data-sensor-id]').forEach(btn => {
+                const id   = btn.dataset.sensorId;
+                const name = btn.dataset.sensorName;
+                const color = sensorColorMap[id] || '#f97316';
+                _updateSensorBtnStyle(btn, sensor_selected_set.has(id), color, name);
+            });
+
+            if (_sensors_cache) {
+                Object.entries(_sensors_cache).forEach(([name, row]) => {
+                    if (!row?.monitor_id || row.unit === '--') return;
+                    const card = document.getElementById(`card-${name}`);
+                    if (card) _updateCardSelectedStyle(card, name, row, sensor_selected_set.has(String(row.monitor_id)));
+                });
+            }
+
+            _updateAllBtnStyle(allBtn, sensors);
+            if (_sensors_cache) renderSensorGraph(_sensors_cache);
+        });
+
+        panel.appendChild(allBtn);
+
+        const hr = document.createElement('div');
+        hr.style.cssText = 'width:100%;height:1px;background:#e7e5e4;margin:0.2vh 0;';
+        panel.appendChild(hr);
+
+        // ── ปุ่ม sensor แต่ละตัว ──
+        Object.entries(sensors).forEach(([name, row]) => {
+            if (!row?.monitor_id || row.unit === '--') return;
+            const id      = String(row.monitor_id);
+            const color   = sensorColorMap[id] || '#f97316';
+            const isChecked = sensor_selected_set.has(id);
+
+            const btn = document.createElement('button');
+            btn.id = `sensor-btn-${id}`;
+            btn.dataset.sensorId = id;
+            btn.dataset.sensorName = name;
+            btn.dataset.color = color;
+            btn.type = 'button';
+
+            _updateSensorBtnStyle(btn, isChecked, color, name);
+
+            btn.addEventListener('click', () => {
+                const nowSelected = sensor_selected_set.has(id);
+                if (nowSelected) {
+                    sensor_selected_set.delete(id);
+                } else {
+                    sensor_selected_set.add(id);
+                }
+                _updateSensorBtnStyle(btn, !nowSelected, color, name);
+
+                const card = document.getElementById(`card-${name}`);
+                const rowData = _sensors_cache?.[name];
+                if (card && rowData) _updateCardSelectedStyle(card, name, rowData, !nowSelected);
+
+                _updateAllBtnStyle(allBtn, sensors);
+                if (_sensors_cache) renderSensorGraph(_sensors_cache);
+            });
+
+            panel.appendChild(btn);
+        });
+    }
+
+    function _updateAllBtnStyle(btn, sensors) {
+        const validIds = Object.entries(sensors)
+            .filter(([, r]) => r?.monitor_id && r.unit !== '--')
+            .map(([, r]) => String(r.monitor_id));
+        const allSelected = validIds.length > 0 && validIds.every(id => sensor_selected_set.has(id));
+
+        if (allSelected) {
+            btn.style.cssText = `display:flex;align-items:center;justify-content:center;gap:0.3vw;width:100%;padding:0.3vh 0.4vw;border-radius:0.5vw;border:1.5px solid #f97316;background:#f9731622;cursor:pointer;transition:all 0.15s;`;
+            btn.innerHTML = `<span style="font-size:0.55vw;font-weight:800;color:#f97316;letter-spacing:0.05em;">ALL ✓</span>`;
+        } else {
+            btn.style.cssText = `display:flex;align-items:center;justify-content:center;gap:0.3vw;width:100%;padding:0.3vh 0.4vw;border-radius:0.5vw;border:1.5px dashed #d4d4d4;background:transparent;cursor:pointer;transition:all 0.15s;`;
+            btn.innerHTML = `<span style="font-size:0.55vw;font-weight:700;color:#a8a29e;letter-spacing:0.05em;">ALL</span>`;
+        }
+    }
+
+    function _updateSensorBtnStyle(btn, isSelected, color, name) {
+        if (isSelected) {
+            btn.style.cssText = `display:flex;align-items:center;gap:0.3vw;width:100%;padding:0.3vh 0.4vw;border-radius:0.5vw;border:1.5px solid ${color};background:${color}22;cursor:pointer;transition:all 0.15s;`;
+            btn.innerHTML = `<span style="width:0.5vw;height:0.5vw;border-radius:50%;background:${color};flex-shrink:0;"></span><span style="font-size:0.55vw;font-weight:700;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:5vw;">${name}</span>`;
+        } else {
+            btn.style.cssText = `display:flex;align-items:center;gap:0.3vw;width:100%;padding:0.3vh 0.4vw;border-radius:0.5vw;border:1.5px solid #d4d4d4;background:transparent;cursor:pointer;transition:all 0.15s;`;
+            btn.innerHTML = `<span style="width:0.5vw;height:0.5vw;border-radius:50%;background:transparent;border:1.5px solid #a8a29e;flex-shrink:0;"></span><span style="font-size:0.55vw;font-weight:600;color:#a8a29e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:5vw;">${name}</span>`;
+        }
+    }
+
+    // ===== renderSensorGraph — render กราฟตาม sensor ที่เลือก =====
+    function renderSensorGraph(sensors) {
+        if (!sensors) return;
+
+        const titleEl    = document.getElementById('title-graph-sensor');
+        const subtitleEl = document.getElementById('title-graph-sensor-sub');
+        const canvas     = document.getElementById('TrendChart');
+        if (!canvas) return;
+
+        const sw       = window.innerWidth;
+        let   fontSize = 9;
+        if (sw >= 3840) fontSize = 18;
+        else if (sw >= 1920) fontSize = 12;
+        const ptRadius = sw >= 3840 ? 4 : 2;
+
+        const isDark    = document.documentElement.classList.contains('dark');
+        const tickColor = isDark ? '#a8a29e' : '#78716c';
+
+        const selectedIds = new Set([...sensor_selected_set].map(id => String(id)));
+
+        if (selectedIds.size === 0) {
+            const row = Object.values(sensors).find(s => String(s.monitor_id) === String(sensor_select));
+            if (!row || !row.logs?.length) return;
+            _renderSingleLine(row, canvas, titleEl, subtitleEl, fontSize, ptRadius, tickColor);
+            return;
+        }
+
+        const datasets   = [];
+        const titleNames = [];
+        let   allLabels  = [];
+
+        Object.entries(sensors).forEach(([name, row]) => {
+            if (!row?.monitor_id) return;
+            if (!selectedIds.has(String(row.monitor_id))) return;
+
+            const logs = row.logs || [];
+            const labels = logs.map(p => {
+                const d = new Date(p.createtime);
+                return isNaN(d.getTime())
+                    ? String(p.createtime || '')
+                    : `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+            });
+            if (labels.length > allLabels.length) allLabels = labels;
+
+            const color = sensorColorMap[String(row.monitor_id)] || '#f97316';
+            const values = logs.map(p => { const v = parseFloat(p.data_value); return isNaN(v) ? null : v; });
+
+            titleNames.push(name);
+            datasets.push({
+                label:                `${name}${row.unit ? ' (' + row.unit + ')' : ''}`,
+                data:                 values,
+                borderColor:          color,
+                backgroundColor:      color + '22',
+                borderWidth:          2,
+                pointRadius:          ptRadius,
+                pointHoverRadius:     ptRadius + 2,
+                pointBackgroundColor: color,
+                tension:              0.4,
+                fill:                 false,
+                spanGaps:             true,
+            });
+        });
+
+        if (datasets.length === 0) return;
+
+        if (titleEl)    titleEl.textContent    = 'แนวโน้มค่า ' + titleNames.join(' / ');
+        if (subtitleEl) subtitleEl.textContent = titleNames.join(' | ') + ' Historical Data';
+
+        const allVals = datasets.flatMap(d => d.data).filter(v => v !== null);
+        let yMin = Math.min(...allVals); yMin -= Math.abs(yMin) * 0.05;
+        let yMax = Math.max(...allVals); yMax += Math.abs(yMax) * 0.05;
+
+        if (typeof sensorChart !== 'undefined' && sensorChart) {
+            sensorChart.destroy();
+            sensorChart = null;
+        }
+
+        sensorChart = new Chart(canvas, {
+            type: 'line',
+            data: { labels: allLabels, datasets },
+            options: {
+                responsive:          true,
+                maintainAspectRatio: false,
+                interaction:         { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display:  datasets.length > 1,
+                        position: 'top',
+                        labels:   { font: { size: fontSize - 1 }, boxWidth: 10, padding: 6, color: tickColor }
+                    },
+                    tooltip: {
+                        mode:      'index',
+                        intersect: false,
+                        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(2) ?? '-'}` }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: fontSize }, color: tickColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+                    y: { min: yMin, max: yMax, ticks: { font: { size: fontSize }, color: tickColor, callback: v => v.toFixed(1) }, grid: { color: 'rgba(0,0,0,0.05)' } }
+                }
+            }
+        });
+    }
+
+    function _renderSingleLine(row, canvas, titleEl, subtitleEl, fontSize, ptRadius, tickColor) {
+        const labels = row.logs.map(p => {
+            const d = new Date(p.createtime);
+            return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+        });
+        const values = row.logs.map(p => parseFloat(p.data_value));
+        const min    = Math.min(...values) * 0.95;
+        const max    = Math.max(...values) * 1.05;
+
+        if (titleEl)    titleEl.textContent    = 'แนวโน้มค่า ' + row.monitor_name;
+        if (subtitleEl) subtitleEl.textContent = 'Historical ' + row.monitor_name + ' Data';
+
+        if (typeof sensorChart !== 'undefined' && sensorChart) { sensorChart.destroy(); sensorChart = null; }
+
+        sensorChart = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{ data: values, borderColor: '#ff8021', backgroundColor: 'rgba(255,128,33,0.1)', tension: 0.4, fill: true, pointRadius: ptRadius, pointBackgroundColor: '#ff8021' }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y.toFixed(2)}` } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: fontSize }, color: tickColor, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+                    y: { beginAtZero: true, min, max, ticks: { font: { size: fontSize }, color: tickColor, callback: v => v.toFixed(1) }, grid: { color: 'rgba(0,0,0,0.05)' } }
+                }
+            }
         });
     }
 
