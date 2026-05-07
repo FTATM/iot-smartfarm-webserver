@@ -1,0 +1,91 @@
+<!-- JavaScript -->
+<script>
+    const chatInput = document.getElementById("chatInput");
+    const chatSendBtn = document.getElementById("chatSend");
+    const chatMessage = document.getElementById("chatMessages");
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log("... AI ready ...");
+
+    });
+
+    function chatOnKey(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            chatSend();
+        }
+    }
+
+    function chatResize(el) {
+        el.style.height = "auto";
+        el.style.height = (el.scrollHeight) + "px";
+    }
+
+    // 👉 แสดงข้อความ (ปรับ UI ตามของคุณได้)
+    function appendMessage(text, role = "user", time = null) {
+        console.log(role + ":", text);
+        // ตัวอย่าง: เพิ่มข้อความลงใน element ที่มี id="chatMessages"
+        const messageElement = document.createElement("div");
+        messageElement.className = `w-full flex ${role === "user" ? "justify-end" : ""} `;
+        messageElement.innerHTML = `
+            <div class="flex items-start gap-2 ${role === "user" ? "flex-row-reverse" : ""}">
+                <div
+                    class="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-[10px] font-semibold text-stone-500 flex-shrink-0">
+                    ${role === "user" ? "You" : "AI"}
+                </div>
+                <div
+                    class="max-w-[78%] px-3 py-2 rounded-2xl ${role === "user" ? "rounded-br-sm" : "rounded-bl-sm"} bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 text-[13px] leading-relaxed">
+                    ${text}
+                    ${time ? `<div class="text-[0.65rem] text-stone-500 dark:text-stone-400 mt-1">${time}</div>` : ""}
+                </div>
+            </div>
+        `;
+        chatMessage.appendChild(messageElement);
+    }
+
+    async function chatSend() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        appendMessage(message, "user");
+        chatInput.value = "";
+        chatResize(chatInput);
+
+        chatSendBtn.disabled = true;
+        // ✅ เริ่มจับเวลา
+        const startTime = performance.now();
+        try {
+            // const res = await fetch("../../api-website/AI-1.php", {
+            // const res = await fetch("../../api-website/AI-2.php", {
+            const res = await fetch("../../api-website/AI-3.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            });
+
+            const data = await res.json();
+            console.log(data);
+            // ✅ เวลาสิ้นสุด
+            const endTime = performance.now();
+
+            // ✅ คำนวณเวลา (วินาที)
+            const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+
+            if (data.status === "success") {
+                const reply = JSON.parse(data.data.reply);
+                appendMessage(`${reply.answer}`, "ai", `${responseTime} sec`);
+            } else {
+                appendMessage("Error: " + data.message, "error", `${responseTime} sec`);
+            }
+
+        } catch (err) {
+            console.error(err);
+            appendMessage("Network error", "error", `${responseTime} sec`);
+        }
+
+        chatSendBtn.disabled = false;
+    }
+</script>

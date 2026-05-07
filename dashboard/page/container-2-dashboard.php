@@ -597,6 +597,7 @@ $classIconHeader = "boxicons--container";
     <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
+    <?php include "../scripts/components/js-ai.html"; ?>
     <?php include "../scripts/js-container-2.html"; ?>
 </body>
 
