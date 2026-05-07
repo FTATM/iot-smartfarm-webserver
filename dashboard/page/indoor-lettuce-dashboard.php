@@ -109,8 +109,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                                 <div
                                     class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
                                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI
-                                        Assistant</span>
+                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>
                                     <span class="ml-auto text-xs text-stone-400">พร้อมใช้งาน</span>
                                 </div>
 
@@ -594,6 +593,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
     <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
+    <?php include "../scripts/components/js-ai.html"; ?>
     <?php include "../components/popup-export-log.php"; ?>
     <?php include "../scripts/js-indoor-lettuce.html"; ?>
 </body>
