@@ -21,19 +21,26 @@
     }
 
     // 👉 แสดงข้อความ (ปรับ UI ตามของคุณได้)
-    function appendMessage(text, role = "user", time = null) {
-        console.log(role + ":", text);
+    function appendMessage(text, role = "user", time = null, isTyping = false) {
+        if (!isTyping) {
+            // ลบตัวบ่งชี้ "Typing..." ก่อนเพิ่มข้อความใหม่
+            const typingIndicator = document.getElementById("typingIndicator");
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
         // ตัวอย่าง: เพิ่มข้อความลงใน element ที่มี id="chatMessages"
         const messageElement = document.createElement("div");
+        messageElement.id = isTyping ? "typingIndicator" : "";
         messageElement.className = `w-full flex ${role === "user" ? "justify-end" : ""} `;
         messageElement.innerHTML = `
-            <div class="flex items-start gap-2 ${role === "user" ? "flex-row-reverse" : ""}">
+            <div class="flex items-end gap-2 ${role === "user" ? "flex-row-reverse" : ""}">
                 <div
                     class="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-[10px] font-semibold text-stone-500 flex-shrink-0">
                     ${role === "user" ? "You" : "AI"}
                 </div>
                 <div
-                    class="max-w-[78%] px-3 py-2 rounded-2xl ${role === "user" ? "rounded-br-sm" : "rounded-bl-sm"} bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 text-[13px] leading-relaxed">
+                    class="max-w-[78%] px-3 py-2 rounded-2xl ${role === "user" ? "rounded-br-sm" : "rounded-bl-sm"} ${isTyping ? "isTyping":""} bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 text-[13px] leading-relaxed">
                     ${text}
                 </div>
                 ${time ? `<div class="text-[0.65rem] text-stone-500 dark:text-stone-400 mt-1">${time}</div>` : ""}
@@ -51,10 +58,14 @@
         chatResize(chatInput);
 
         chatSendBtn.disabled = true;
+
+        appendMessage("Thinking...", "AI", null, true); // แสดงข้อความ "Typing..." ขณะรอคำตอบ
+
         // ✅ เริ่มจับเวลา
         const startTime = performance.now();
+        let responseTime = 'N/A'; // กำหนดค่าเริ่มต้นสำหรับเวลาในการตอบกลับ
         try {
-            const res = await fetch("../../api-website/AI-full.php", {
+            const res = await fetch("../../api-website/AI-assistant.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -70,7 +81,7 @@
             const endTime = performance.now();
 
             // ✅ คำนวณเวลา (วินาที)
-            const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+            responseTime = ((endTime - startTime) / 1000).toFixed(2);
 
             if (data.status === "success") {
                 const reply = JSON.parse(data.data.reply);

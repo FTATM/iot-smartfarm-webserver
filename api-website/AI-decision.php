@@ -36,15 +36,15 @@ flush();
 // ============================================================
 $base_url = 'http://localhost/iotsf/api-website/fetch-config-schedule.php';
 
-$mh      = curl_multi_init();
+$mh = curl_multi_init();
 $handles = [];
 
 foreach ($branches as $branch) {
     $bid = $branch['branch_id'];
-    $ch  = curl_init("{$base_url}?bid={$bid}");
+    $ch = curl_init("{$base_url}?bid={$bid}");
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_TIMEOUT => 10,
     ]);
     curl_multi_add_handle($mh, $ch);
     $handles[$bid] = $ch;
@@ -74,17 +74,17 @@ flush();
 $ch = curl_init($TMD_config['api_url']);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => ["Authorization: Bearer {$TMD_config['token']}"],
-    CURLOPT_TIMEOUT        => 15,
+    CURLOPT_HTTPHEADER => ["Authorization: Bearer {$TMD_config['token']}"],
+    CURLOPT_TIMEOUT => 15,
 ]);
-$tmd_raw   = curl_exec($ch);
+$tmd_raw = curl_exec($ch);
 curl_close($ch);
 
-$tmd_data  = json_decode($tmd_raw, true);
+$tmd_data = json_decode($tmd_raw, true);
 $forecasts = $tmd_data['WeatherForecasts'][0]['forecasts'] ?? [];
 
 // แทนที่ checkpoint 6 เดิม
-$tmd_data  = json_decode($tmd_raw, true);
+$tmd_data = json_decode($tmd_raw, true);
 
 echo json_encode(["checkpoint" => 6, "msg" => "tmd ok", "forecasts" => count($forecasts)]);
 
@@ -92,9 +92,9 @@ echo json_encode(["checkpoint" => 6, "msg" => "tmd ok", "forecasts" => count($fo
 // ============================================================
 // 4. Build Prompt รวมทุก branch ในครั้งเดียว
 // ============================================================
-$current_time   = date('Y-m-d H:i:s');
-$forecast_json  = json_encode($forecasts,         JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-$sensors_json   = json_encode($sensors_by_branch, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+$current_time = date('Y-m-d H:i:s');
+$forecast_json = json_encode($forecasts, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+$sensors_json = json_encode($sensors_by_branch, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 $prompt = <<<PROMPT
 SYSTEM:
@@ -149,20 +149,21 @@ PROMPT;
 // 5. เรียก AI ครั้งเดียว (รองรับ Local Ollama + External API)
 // ============================================================
 $prompt_size = strlen($prompt);
-$token_est   = (int)($prompt_size / 4);
+$token_est = (int) ($prompt_size / 4);
 echo json_encode(["checkpoint" => 7, "prompt_chars" => $prompt_size, "tokens_est" => $token_est]);
 flush();
 
 if ($AI_MODE === 0) {
     // ─── Local Ollama ───────────────────────────────────────
     $request_body = json_encode([
-        "model"   => $AI_config['model'],
-        "prompt"  => $prompt,
-        "stream"  => false,
-        "format"  => "json",
+        "model" => $AI_config['model'],
+        "prompt" => $prompt,
+        "stream" => false,
+        "format" => "json",
         "options" => [
             "temperature" => 0.1,
-            "num_ctx"     => 8192,
+            "num_thread" => 7,
+            "num_ctx" => 8192,
             "num_predict" => 2048,
         ],
     ]);
@@ -170,27 +171,27 @@ if ($AI_MODE === 0) {
     $ch = curl_init($AI_config['api_url']);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $request_body,
-        CURLOPT_HTTPHEADER     => ["Content-Type: application/json"],
-        CURLOPT_TIMEOUT        => 3600,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $request_body,
+        CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
+        CURLOPT_TIMEOUT => 3600,
     ]);
     $ai_response = curl_exec($ch);
-    $ai_http     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $ai_http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $ai_curl_err = curl_error($ch);
     curl_close($ch);
 
     // Parse Ollama response
     $ai_decoded = json_decode($ai_response, true);
-    $reply      = $ai_decoded['response'] ?? '';
+    $reply = $ai_decoded['response'] ?? '';
 } else {
     // ─── External API (Groq / OpenAI-compatible) ────────────
     $request_body = json_encode([
-        "model"       => $AI_EXTERNAL_config['model'],
+        "model" => $AI_EXTERNAL_config['model'],
         "temperature" => 0.1,
-        "messages"    => [
+        "messages" => [
             [
-                "role"    => "user",
+                "role" => "user",
                 "content" => $prompt,
             ]
         ],
@@ -200,22 +201,22 @@ if ($AI_MODE === 0) {
     $ch = curl_init($AI_EXTERNAL_config['api_url']);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $request_body,
-        CURLOPT_HTTPHEADER     => [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $request_body,
+        CURLOPT_HTTPHEADER => [
             "Content-Type: application/json",
             "Authorization: Bearer {$AI_EXTERNAL_config['api_key']}",
         ],
-        CURLOPT_TIMEOUT        => 120,
+        CURLOPT_TIMEOUT => 120,
     ]);
     $ai_response = curl_exec($ch);
-    $ai_http     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $ai_http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $ai_curl_err = curl_error($ch);
     curl_close($ch);
 
     // Parse Groq response (OpenAI format)
     $ai_decoded = json_decode($ai_response, true);
-    $reply      = $ai_decoded['choices'][0]['message']['content'] ?? '';
+    $reply = $ai_decoded['choices'][0]['message']['content'] ?? '';
 }
 
 // ─── Parse JSON จาก reply (ใช้ร่วมกันทั้ง 2 mode) ──────────
@@ -223,13 +224,13 @@ $decision = json_decode(trim($reply), true);
 
 echo json_encode([
     "debug" => [
-        "mode"            => $AI_MODE === 0 ? "local_ollama" : "external_api",
-        "ai_http_code"    => $ai_http,
-        "ai_curl_error"   => $ai_curl_err,
+        "mode" => $AI_MODE === 0 ? "local_ollama" : "external_api",
+        "ai_http_code" => $ai_http,
+        "ai_curl_error" => $ai_curl_err,
         "ai_response_raw" => $ai_response,
         "reply_extracted" => $reply,
         "json_last_error" => json_last_error_msg(),
-        "decision"        => $decision,
+        "decision" => $decision,
     ]
 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
@@ -256,10 +257,10 @@ if ($decision && !empty($decision['branches'])) {
 }
 
 echo json_encode([
-    "status"      => "success",
-    "branches"    => count($branches),
+    "status" => "success",
+    "branches" => count($branches),
     "evaluated_at" => $current_time,
-    "decision"    => $decision,
+    "decision" => $decision,
 ], JSON_UNESCAPED_UNICODE);
 
 pg_close($db);
