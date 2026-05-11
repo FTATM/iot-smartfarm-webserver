@@ -53,8 +53,8 @@
                     })
                 }
             );
-            const data = await res.json();
-            sensors = data['sensors'];
+            const data_raw = await res.json();
+            sensors = data_raw['sensors'] || [];
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
@@ -314,80 +314,80 @@
     document.addEventListener('DOMContentLoaded', function () {
         switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
     });
-var T2 = ['tab-env2','tab-fert2','tab-care2'];
-var P2 = ['panel2-0','panel2-1','panel2-2'];
+    var T2 = ['tab-env2', 'tab-fert2', 'tab-care2'];
+    var P2 = ['panel2-0', 'panel2-1', 'panel2-2'];
 
-function switchCard2(idx) {
-    T2.forEach(function(id, i) {
-        var el = document.getElementById(id);
-        if (!el) return;
+    function switchCard2(idx) {
+        T2.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (!el) return;
 
-        if (i === idx) {
-            // ACTIVE (เน้นสีส้ม)
-            el.style.backgroundColor = '#ff8021';
-            el.style.color = '#ffffff';
-            el.style.borderColor = '#ff8021';
-        } else {
-            // INACTIVE
-            el.style.backgroundColor = '#ffffff';
-            el.style.color = '#ff8021';
-            el.style.borderColor = '#ff8021';
-        }
-    });
+            if (i === idx) {
+                // ACTIVE (เน้นสีส้ม)
+                el.style.backgroundColor = '#ff8021';
+                el.style.color = '#ffffff';
+                el.style.borderColor = '#ff8021';
+            } else {
+                // INACTIVE
+                el.style.backgroundColor = '#ffffff';
+                el.style.color = '#ff8021';
+                el.style.borderColor = '#ff8021';
+            }
+        });
 
-    P2.forEach(function(id, i) {
-        var el = document.getElementById(id);
-        if (!el) return;
-        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
-    });
-}
+        P2.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+        });
+    }
 
-const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
-  const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
-  const fillPcts   = [0, 25, 50, 75, 100];
- 
-  function setActive(index) {
-    const dots   = document.querySelectorAll('.dot');
-    const nums   = document.querySelectorAll('.dot-num');
-    const labels = document.querySelectorAll('.label');
-    const fill   = document.getElementById('fill');
- 
-    dots.forEach((dot, i) => {
-      const num = nums[i];
-      if (i < index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#fff';
-      } else if (i === index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '24px';
-        num.style.color = '#fff';
-      } else {
-        dot.style.background  = '#fff';
-        dot.style.borderColor = '#ddd';
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#888';
-      }
-    });
- 
-    labels.forEach((lbl, i) => {
-      if (i === index) {
-        lbl.style.color      = textColors[index];
-        lbl.style.fontWeight = '700';
-      } else if (i < index) {
-        lbl.style.color      = dotColors[index];
-        lbl.style.fontWeight = '500';
-      } else {
-        lbl.style.color      = '#888';
-        lbl.style.fontWeight = '500';
-      }
-    });
- 
-    fill.style.background = dotColors[index];
-    fill.style.width      = fillPcts[index] + '%';
-  }
- 
-  setActive(0);
+    const dotColors = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
+    const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
+    const fillPcts = [0, 25, 50, 75, 100];
+
+    function setActive(index) {
+        const dots = document.querySelectorAll('.dot');
+        const nums = document.querySelectorAll('.dot-num');
+        const labels = document.querySelectorAll('.label');
+        const fill = document.getElementById('fill');
+
+        dots.forEach((dot, i) => {
+            const num = nums[i];
+            if (i < index) {
+                dot.style.background = dotColors[index];
+                dot.style.borderColor = dotColors[index];
+                dot.style.width = dot.style.height = '20px';
+                num.style.color = '#fff';
+            } else if (i === index) {
+                dot.style.background = dotColors[index];
+                dot.style.borderColor = dotColors[index];
+                dot.style.width = dot.style.height = '24px';
+                num.style.color = '#fff';
+            } else {
+                dot.style.background = '#fff';
+                dot.style.borderColor = '#ddd';
+                dot.style.width = dot.style.height = '20px';
+                num.style.color = '#888';
+            }
+        });
+
+        labels.forEach((lbl, i) => {
+            if (i === index) {
+                lbl.style.color = textColors[index];
+                lbl.style.fontWeight = '700';
+            } else if (i < index) {
+                lbl.style.color = dotColors[index];
+                lbl.style.fontWeight = '500';
+            } else {
+                lbl.style.color = '#888';
+                lbl.style.fontWeight = '500';
+            }
+        });
+
+        fill.style.background = dotColors[index];
+        fill.style.width = fillPcts[index] + '%';
+    }
+
+    setActive(0);
 </script>
