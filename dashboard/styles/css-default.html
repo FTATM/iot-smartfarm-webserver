@@ -8,4 +8,44 @@
         ); 
         border-radius: 50%;
     }
+
+    /* Typing animation */
+    .isTyping::after {
+        content: '';
+        display: inline-flex;
+        gap: 3px;
+        width: 28px;
+        height: 10px;
+        background-image: 
+            radial-gradient(circle, currentColor 2px, transparent 2px),
+            radial-gradient(circle, currentColor 2px, transparent 2px),
+            radial-gradient(circle, currentColor 2px, transparent 2px);
+        background-size: 6px 6px;
+        background-position: 0 center, 10px center, 20px center;
+        background-repeat: no-repeat;
+        animation: typing-dots 1.2s infinite ease-in-out;
+        vertical-align: middle;
+        margin-left: 2px;
+    }
+
+    @keyframes typing-dots {
+        0%, 100% {
+            background-image: 
+                radial-gradient(circle, currentColor 2px, transparent 2px),
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px),
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px);
+        }
+        33% {
+            background-image: 
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px),
+                radial-gradient(circle, currentColor 2px, transparent 2px),
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px);
+        }
+        66% {
+            background-image: 
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px),
+                radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px),
+                radial-gradient(circle, currentColor 2px, transparent 2px);
+        }
+    }
     </style>
