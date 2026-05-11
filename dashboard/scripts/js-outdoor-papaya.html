@@ -52,8 +52,8 @@
                     })
                 }
             );
-            const data = await res.json();
-            sensors = data['sensors'];
+            const data_raw = await res.json();
+            sensors = data_raw['sensors'] || [];
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
@@ -312,198 +312,198 @@
     document.addEventListener('DOMContentLoaded', function () {
         switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
     });
-var T2 = ['tab-env2','tab-fert2','tab-care2'];
-var P2 = ['panel2-0','panel2-1','panel2-2'];
+    var T2 = ['tab-env2', 'tab-fert2', 'tab-care2'];
+    var P2 = ['panel2-0', 'panel2-1', 'panel2-2'];
 
-function switchCard2(idx) {
-    T2.forEach(function(id, i) {
-        var el = document.getElementById(id);
-        if (!el) return;
+    function switchCard2(idx) {
+        T2.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (!el) return;
 
-        if (i === idx) {
-            // ACTIVE (เน้นสีส้ม)
-            el.style.backgroundColor = '#ff8021';
-            el.style.color = '#ffffff';
-            el.style.borderColor = '#ff8021';
-        } else {
-            // INACTIVE
-            el.style.backgroundColor = '#ffffff';
-            el.style.color = '#ff8021';
-            el.style.borderColor = '#ff8021';
-        }
-    });
-
-    P2.forEach(function(id, i) {
-        var el = document.getElementById(id);
-        if (!el) return;
-        i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
-    });
-}
-
-const dotColors  = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
-  const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
-  const fillPcts   = [0, 25, 50, 75, 100];
- 
-  function setActive(index) {
-    const dots   = document.querySelectorAll('.dot');
-    const nums   = document.querySelectorAll('.dot-num');
-    const labels = document.querySelectorAll('.label');
-    const fill   = document.getElementById('fill');
- 
-    dots.forEach((dot, i) => {
-      const num = nums[i];
-      if (i < index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#fff';
-      } else if (i === index) {
-        dot.style.background  = dotColors[index];
-        dot.style.borderColor = dotColors[index];
-        dot.style.width = dot.style.height = '24px';
-        num.style.color = '#fff';
-      } else {
-        dot.style.background  = '#fff';
-        dot.style.borderColor = '#ddd';
-        dot.style.width = dot.style.height = '20px';
-        num.style.color = '#888';
-      }
-    });
- 
-    labels.forEach((lbl, i) => {
-      if (i === index) {
-        lbl.style.color      = textColors[index];
-        lbl.style.fontWeight = '700';
-      } else if (i < index) {
-        lbl.style.color      = dotColors[index];
-        lbl.style.fontWeight = '500';
-      } else {
-        lbl.style.color      = '#888';
-        lbl.style.fontWeight = '500';
-      }
-    });
- 
-    fill.style.background = dotColors[index];
-    fill.style.width      = fillPcts[index] + '%';
-  }
- 
-  setActive(0);
-  
-  async function loadPapayaTableData() {
-    try {
-        const fd = new FormData();
-        fd.append('bid', branchID);
-
-        const res = await fetch('../../api-app/fetch-tableknowledge.php', {
-            method: 'POST',
-            body: fd
+            if (i === idx) {
+                // ACTIVE (เน้นสีส้ม)
+                el.style.backgroundColor = '#ff8021';
+                el.style.color = '#ffffff';
+                el.style.borderColor = '#ff8021';
+            } else {
+                // INACTIVE
+                el.style.backgroundColor = '#ffffff';
+                el.style.color = '#ff8021';
+                el.style.borderColor = '#ff8021';
+            }
         });
 
-        const json = await res.json();
+        P2.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
+        });
+    }
 
+    const dotColors = ['#639922', '#1D9E75', '#BA7517', '#D85A30', '#888780'];
+    const textColors = ['#27500A', '#085041', '#633806', '#4A1B0C', '#444441'];
+    const fillPcts = [0, 25, 50, 75, 100];
 
-        const tables = json.data;
-        console.log(tables);
-        
+    function setActive(index) {
+        const dots = document.querySelectorAll('.dot');
+        const nums = document.querySelectorAll('.dot-num');
+        const labels = document.querySelectorAll('.label');
+        const fill = document.getElementById('fill');
 
-        // ดึง day จาก global variable 'data' ที่มาจาก header/footer
-        // ถ้าไม่มี fallback เป็น 0
-        const day = Number(
-            (typeof data !== 'undefined' && data?.day != null)
-                ? data.day
-                : 0
-        );
-        console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
-
-        console.log('DAY:', day);
-
-        // ===============================
-        // 🔥 CORE FUNCTION ใหม่ (ตัวจบ)
-        // ===============================
-        function getRow(tableId) {
-            const table = tables.find(t => t.id == tableId);
-            if (!table || !table.rows) {
-                console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
-                return null;
+        dots.forEach((dot, i) => {
+            const num = nums[i];
+            if (i < index) {
+                dot.style.background = dotColors[index];
+                dot.style.borderColor = dotColors[index];
+                dot.style.width = dot.style.height = '20px';
+                num.style.color = '#fff';
+            } else if (i === index) {
+                dot.style.background = dotColors[index];
+                dot.style.borderColor = dotColors[index];
+                dot.style.width = dot.style.height = '24px';
+                num.style.color = '#fff';
+            } else {
+                dot.style.background = '#fff';
+                dot.style.borderColor = '#ddd';
+                dot.style.width = dot.style.height = '20px';
+                num.style.color = '#888';
             }
+        });
 
-            const matched = table.rows.find(r => {
-                const start = Number(r.d_start_day);
-                const end = Number(r.d_end_day);
+        labels.forEach((lbl, i) => {
+            if (i === index) {
+                lbl.style.color = textColors[index];
+                lbl.style.fontWeight = '700';
+            } else if (i < index) {
+                lbl.style.color = dotColors[index];
+                lbl.style.fontWeight = '500';
+            } else {
+                lbl.style.color = '#888';
+                lbl.style.fontWeight = '500';
+            }
+        });
 
-                // ถ้า start=0 และ end=0 = ใช้ได้กับทุกวัน (หรือ day=0)
-                if (start === 0 && end === 0) return true;
+        fill.style.background = dotColors[index];
+        fill.style.width = fillPcts[index] + '%';
+    }
 
-                return day >= start && day <= end;
+    setActive(0);
+
+    async function loadPapayaTableData() {
+        try {
+            const fd = new FormData();
+            fd.append('bid', branchID);
+
+            const res = await fetch('../../api-app/fetch-tableknowledge.php', {
+                method: 'POST',
+                body: fd
             });
 
-            if (!matched) {
-                console.warn(`⚠️ getRow: table ${tableId} ไม่มี row ที่ตรงกับ day=${day}, ใช้ row แรก`);
+            const json = await res.json();
+
+
+            const tables = json.data;
+            console.log(tables);
+
+
+            // ดึง day จาก global variable 'data' ที่มาจาก header/footer
+            // ถ้าไม่มี fallback เป็น 0
+            const day = Number(
+                (typeof data !== 'undefined' && data?.day != null)
+                    ? data.day
+                    : 0
+            );
+            console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
+
+            console.log('DAY:', day);
+
+            // ===============================
+            // 🔥 CORE FUNCTION ใหม่ (ตัวจบ)
+            // ===============================
+            function getRow(tableId) {
+                const table = tables.find(t => t.id == tableId);
+                if (!table || !table.rows) {
+                    console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
+                    return null;
+                }
+
+                const matched = table.rows.find(r => {
+                    const start = Number(r.d_start_day);
+                    const end = Number(r.d_end_day);
+
+                    // ถ้า start=0 และ end=0 = ใช้ได้กับทุกวัน (หรือ day=0)
+                    if (start === 0 && end === 0) return true;
+
+                    return day >= start && day <= end;
+                });
+
+                if (!matched) {
+                    console.warn(`⚠️ getRow: table ${tableId} ไม่มี row ที่ตรงกับ day=${day}, ใช้ row แรก`);
+                }
+
+                return matched || table.rows[0];
             }
 
-            return matched || table.rows[0];
+            function getVal(tableId) {
+                return getRow(tableId)?.d_value ?? '-';
+            }
+
+            function getRange(tableId) {
+                const r = getRow(tableId);
+                if (!r) return '-';
+                return `${r.d_start_day} - ${r.d_end_day} วัน`;
+            }
+
+            // ===============================
+            // ✅ CARD 1 (ปลูก)
+            // ===============================
+            SetValueInHTMLById('planting-stage', getVal(15));
+            SetValueInHTMLById('planting-days', getRange(15));
+            SetValueInHTMLById('planting-area', getVal(16));
+            SetValueInHTMLById('planting-density', getVal(17));
+            SetValueInHTMLById('planting-yield', getVal(18));
+
+            // ===============================
+            // ✅ DOT PROGRESS
+            // ===============================
+            const dotMap = {
+                'เตรียมดิน': 0, 'เพาะกล้า': 0,
+                'ย้ายปลูก': 1, 'เจริญเติบโต': 1,
+                'เริ่มออกดอก': 2,
+                'ติดผล': 3,
+                'ให้ผลต่อเนื่อง': 4, 'ช่วงปลายอายุ': 4
+            };
+            setActive(dotMap[getVal(15)] ?? 0);
+
+            // ===============================
+            // ✅ PANEL A
+            // ===============================
+            SetValueInHTMLById('ec', getVal(19));
+            SetValueInHTMLById('ph', getVal(20));
+            SetValueInHTMLById('temperature', getVal(21));
+            SetValueInHTMLById('humidity', getVal(22));
+            SetValueInHTMLById('light', getVal(23));
+            SetValueInHTMLById('o2', getVal(24));
+            SetValueInHTMLById('co2', getVal(25));
+
+            // ===============================
+            // ✅ PANEL B
+            // ===============================
+            SetValueInHTMLById('fert-chemical', getVal(26));
+            SetValueInHTMLById('fert-bio', getVal(27));
+            SetValueInHTMLById('fert-organic', getVal(28));
+            SetValueInHTMLById('fert-mix', getVal(29));
+
+            // ===============================
+            // ✅ PANEL C
+            // ===============================
+            SetValueInHTMLById('care-disease', getVal(30));
+            SetValueInHTMLById('care-note', getVal(31));
+
+            console.log('✅ Papaya data loaded');
+
+        } catch (err) {
+            console.error('❌ loadPapayaTableData error:', err);
         }
-
-        function getVal(tableId) {
-            return getRow(tableId)?.d_value ?? '-';
-        }
-
-        function getRange(tableId) {
-            const r = getRow(tableId);
-            if (!r) return '-';
-            return `${r.d_start_day} - ${r.d_end_day} วัน`;
-        }
-
-        // ===============================
-        // ✅ CARD 1 (ปลูก)
-        // ===============================
-        SetValueInHTMLById('planting-stage',   getVal(15));
-        SetValueInHTMLById('planting-days',    getRange(15));
-        SetValueInHTMLById('planting-area',    getVal(16));
-        SetValueInHTMLById('planting-density', getVal(17));
-        SetValueInHTMLById('planting-yield',   getVal(18));
-
-        // ===============================
-        // ✅ DOT PROGRESS
-        // ===============================
-        const dotMap = {
-            'เตรียมดิน': 0, 'เพาะกล้า': 0,
-            'ย้ายปลูก': 1, 'เจริญเติบโต': 1,
-            'เริ่มออกดอก': 2,
-            'ติดผล': 3,
-            'ให้ผลต่อเนื่อง': 4, 'ช่วงปลายอายุ': 4
-        };
-        setActive(dotMap[getVal(15)] ?? 0);
-
-        // ===============================
-        // ✅ PANEL A
-        // ===============================
-        SetValueInHTMLById('ec',          getVal(19));
-        SetValueInHTMLById('ph',          getVal(20));
-        SetValueInHTMLById('temperature', getVal(21));
-        SetValueInHTMLById('humidity',    getVal(22));
-        SetValueInHTMLById('light',       getVal(23));
-        SetValueInHTMLById('o2',          getVal(24));
-        SetValueInHTMLById('co2',         getVal(25));
-
-        // ===============================
-        // ✅ PANEL B
-        // ===============================
-        SetValueInHTMLById('fert-chemical', getVal(26));
-        SetValueInHTMLById('fert-bio',      getVal(27));
-        SetValueInHTMLById('fert-organic',  getVal(28));
-        SetValueInHTMLById('fert-mix',      getVal(29));
-
-        // ===============================
-        // ✅ PANEL C
-        // ===============================
-        SetValueInHTMLById('care-disease', getVal(30));
-        SetValueInHTMLById('care-note',    getVal(31));
-
-        console.log('✅ Papaya data loaded');
-
-    } catch (err) {
-        console.error('❌ loadPapayaTableData error:', err);
     }
-}
 </script>

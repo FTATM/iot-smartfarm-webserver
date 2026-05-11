@@ -54,8 +54,8 @@
                     })
                 }
             );
-            const data = await res.json();
-            sensors = data['sensors'];
+            const data_raw = await res.json();
+            sensors = data_raw['sensors'] || [];
 
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
