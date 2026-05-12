@@ -5,9 +5,9 @@
     let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่าน checkbox
     let _sensors_cache = null;           // cache sensors data ล่าสุด
 
-    const Sensors_realtime = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
-    const Sensors_name_left = [];
-    const Sensors_name_right = [];
+    const Sensors_realtime = ["Temp", "RH", "CO2", "EC1", "PH1", "WM"];
+    const Sensors_name_left = ["FAN_1", "PP", "MV_1", "MV_2", "COOL", "FOG"];
+    const Sensors_name_right = ["SV_01", "SV_02", "DP_01", "DP_02", "MP", "AL"];
 
     // Adjust font sizes based on screen width
     document.addEventListener("DOMContentLoaded", async () => {
@@ -15,10 +15,10 @@
 
         isLoading = false;
 
-    //     setInterval(async () => {
-    //         setHeaderInit();
-    //         await process();
-    //     }, 10000);
+        setInterval(async () => {
+            setHeaderInit();
+            await process();
+        }, 10000);
     });
 
     async function process() {

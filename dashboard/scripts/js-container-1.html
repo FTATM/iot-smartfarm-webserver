@@ -5,11 +5,11 @@
     let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่าน checkbox
     let _sensors_cache = null;           // cache sensors data ล่าสุด
 
-    const Sensors_realtime = ["Soil", "EC", "PH", "Temp", "Humidity", "AirFlow"];
-    const Sensors_name_left = [];
-    const Sensors_name_right = [];
+    const Sensors_realtime = ["Temp", "RH", "CO2", "O2", "PPFD", "WL1"];
+    const Sensors_name_left = ["Alarm", "LIGHT", "RO", "FLOW1", "Mixer1", "Mixer2"];
+    const Sensors_name_right = ["Fog_Up", "Fog_Down", "Intake_Fan", "LP1", "LP2", "LP3"];
     const market_name = "outdoor";     //name market example => solar, shrimp, indoor, outdoor
-    const type = "price";             //multi type example => demand,price
+    const type = "price";              //multi type example => demand,price
 
     // Adjust font sizes based on screen width
     document.addEventListener('DOMContentLoaded', async () => {
