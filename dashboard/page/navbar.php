@@ -768,8 +768,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </li> -->
         <?php if ($_SESSION['branch_id'] == 2) { ?>
             <li>
-                <a href="indoor-lettuce-dashboard.php"
-                    class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
+                <a href="indoor-greenhouse-dashboard.php"
+                    class="<?php echo ($current_page == 'indoor-greenhouse-dashboard') ? 'active' : ''; ?>">
                     <span class="nav-icon dark:text-white fluent--door-arrow-left-20-regular"></span>indoor Dashboard
                 </a>
             </li>
@@ -793,8 +793,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
             <ul class="submenu">
                 <li>
-                    <a href="indoor-lettuce-dashboard.php"
-                        class="<?php echo ($current_page == 'indoor-lettuce-dashboard') ? 'active' : ''; ?>">
+                    <a href="indoor-greenhouse-dashboard.php"
+                        class="<?php echo ($current_page == 'indoor-greenhouse-dashboard') ? 'active' : ''; ?>">
                         <span class="nav-icon  dark:text-white cbi--romaine-lettuce">
                         </span>
                         lettuce
