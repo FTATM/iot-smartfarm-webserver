@@ -59,7 +59,7 @@ $classIconHeader = "emojione-monotone--shrimp";
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
                                     <img src="images/shrimp.png" alt="เครื่องมือ/อุปกรณ์"
-                                        class="object-contain rounded-md" style="max-height: 30vh;" />
+                                        class="object-contain rounded-md" style="max-height: 28vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
                                     <?php include("../components/sensors_right.php"); ?>

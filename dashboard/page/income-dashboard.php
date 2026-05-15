@@ -38,8 +38,10 @@ $classIconHeader = "hugeicons--bitcoin-down-01";
                             </button>
                             <div class="flex bg-stone-100 dark:bg-stone-800 p-1 rounded-xl">
                                 <button
+                                    onclick="pdfDownload('income')"
                                     class="px-4 py-1.5 rounded-lg text-[0.75vw] font-medium hover:bg-white dark:hover:bg-stone-700 hover:shadow-sm transition-all text-stone-600 dark:text-stone-300">PDF</button>
                                 <button
+                                    onclick="excelDownload('income')"
                                     class="px-4 py-1.5 rounded-lg text-[0.75vw] font-medium hover:bg-white dark:hover:bg-stone-700 hover:shadow-sm transition-all text-stone-600 dark:text-stone-300">Excel</button>
                             </div>
                         </div>
