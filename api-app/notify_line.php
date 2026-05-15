@@ -1,8 +1,9 @@
 <?php
+require (__DIR__ . '/../api-website/config.php');
 
 function sendLineOA($to, $message)
 {
-    $access_token = "K/6Bhwmk7rWnncchwC7QKoibeei28mY1Zk7iAgPi+WYJ2Gp662CIWdUbRkg6UMn8lBqrWbLAike4kP2TGTQo5aguktJ9YE/EOddoZ35NK0gWgka8xvQAcKZ3pVoI2W42VrK8goPB/YgH2LqXH1fpugdB04t89/1O/w1cDnyilFU=";
+    $access_token = $LINE_config['token'];
 
     $url = "https://api.line.me/v2/bot/message/push";
 
