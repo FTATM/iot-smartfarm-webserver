@@ -125,8 +125,8 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
 
                 <!-- Card 1: รายรับวันนี้ -->
                 <div
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[1vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
-                    <div class="flex items-center justify-between mb-4">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div
                                 class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
@@ -153,7 +153,7 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
 
                 <!-- Card 2: รายจ่ายวันนี้ -->
                 <div
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[1vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
                     <div class="flex items-center gap-3">
                         <div
                             class="p-[0.5vw] bg-rose-50 dark:bg-rose-900/20 text-rose-600 rounded-lg flex items-center justify-center">
@@ -186,8 +186,8 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
 
                 <!-- Card 3 -->
                 <div id="card3"
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[1vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
-                    <div class="flex items-center gap-3 mb-4">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-3">
                         <div
                             class="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-lg flex items-center justify-center">
                             <span class="emojione-monotone--money-bag"></span>
@@ -207,7 +207,7 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
                     <!-- Weekly bars -->
                     <div id="card3-bars" class="mt-2 h-10 w-full flex items-end justify-between gap-1.5"></div>
 
-                    <div class="flex justify-between text-[0.75vw] text-stone-400 mb-[0.1vw] uppercase font-bold">
+                    <div class="flex justify-around text-[0.55vw] text-stone-400 mb-[0.1vw] uppercase font-bold">
                         <span>W1</span>
                         <span>W2</span>
                         <span>W3</span>
@@ -217,9 +217,9 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
 
                 <!-- Card 4 -->
                 <div id="card4"
-                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[1vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
+                    class="bg-white box dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-[0.5vw] shadow-sm flex flex-col flex-1 hover:ring-2 hover:ring-orange-400 transition-all duration-200 shrink-0 overflow-hidden">
 
-                    <div class="flex items-center gap-3 mb-4">
+                    <div class="flex items-center gap-3">
                         <div
                             class="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg flex items-center justify-center">
                             <span class="material-symbols-light--category-outline"></span>
@@ -229,7 +229,7 @@ $classIconHeader = "hugeicons--bitcoin-up-01";
                         </h3>
                     </div>
 
-                    <div id="card4-list" class="space-y-4"></div>
+                    <div id="card4-list" class="space-y-4 flex-1"></div>
 
                     <div class="mt-5 pt-4 border-t border-stone-100 dark:border-stone-800">
                         <div id="card4-progress"

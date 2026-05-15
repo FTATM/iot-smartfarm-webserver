@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require (__DIR__ . '/../vendor/autoload.php');
+require (__DIR__ . '/../api-website/config.php');
 
 function sendEmail($to, $subject, $message)
 {
@@ -12,15 +13,15 @@ function sendEmail($to, $subject, $message)
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = $MAIL_config['host'];
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'ftatm.it.1@gmail.com';
-        $mail->Password   = 'cwuc cljl lrnv pztw'; // ใช้ App Password เท่านั้น
-        $mail->SMTPSecure = 'tls';
-        $mail->Port       = 587;
+        $mail->Username   = $MAIL_config['username'];
+        $mail->Password   = $MAIL_config['password'];
+        $mail->SMTPSecure = $MAIL_config['encryption'];
+        $mail->Port       = $MAIL_config['port'];
 
         // Recipient
-        $mail->setFrom('FTA@gmail.com', 'IoTSF');
+        $mail->setFrom($MAIL_config['username'], 'FIELDTECH AUTOMATION CO.,LTD.');
         $mail->addAddress($to);
 
         // Content

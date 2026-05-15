@@ -4,6 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php';
+require 'config.php';
 
 if (empty($_POST['email'])) {
     http_response_code(400);
@@ -16,14 +17,14 @@ $email = $_POST['email'];
 $mail = new PHPMailer(true);
 try {
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
+    $mail->Host = $MAIL_config['host'];
     $mail->SMTPAuth = true;
-    $mail->Username = 'ftatm.it.1@gmail.com';
-    $mail->Password = 'sybhegktgdkhljjr';
-    $mail->SMTPSecure = 'tls';
-    $mail->Port = 587;
+    $mail->Username = $MAIL_config['username'];
+    $mail->Password = $MAIL_config['password'];
+    $mail->SMTPSecure = $MAIL_config['encryption'];
+    $mail->Port = $MAIL_config['port'];
 
-    $mail->setFrom('FTA@gmail.com', 'FIELDTECH AUTOMATION CO.,LTD.');
+    $mail->setFrom($MAIL_config['username'], 'FIELDTECH AUTOMATION CO.,LTD.');
     $mail->addAddress($email);
 
     // แนบไฟล์จาก JavaScript

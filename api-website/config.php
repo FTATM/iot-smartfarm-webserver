@@ -22,3 +22,15 @@ $TMD_config = [
     'token'   => $_ENV['TMD_API_KEY'],
     'rain_cond_threshold' => $_ENV['RAIN_THRESHOLD']
 ];
+
+$MAIL_config = [
+    'host' => $_ENV['MAIL_HOST'],
+    'port' => $_ENV['MAIL_PORT'],
+    'encryption' => $_ENV['MIAL_ENCRYPTION'],
+    'username' => $_ENV['MAIL_USERNAME'],
+    'password' => $_ENV['MAIL_PASSWORD']
+];
+
+$LINE_config = [
+    'token' => $_ENV['LINE_NOTIFY_TOKEN']
+];
