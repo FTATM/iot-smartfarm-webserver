@@ -231,7 +231,7 @@ $classIconHeader = "arcticons--weathercan";
                                 </div>
                                 <div class="col-span-8 rounded-2xl p-2 flex items-center justify-center transition-all">
                                     <img src="images/Weather-2.png" alt="เครื่องมือ/อุปกรณ์"
-                                        class="object-contain rounded-md" style="max-height: 30vh;" />
+                                        class="object-contain rounded-md" style="max-height: 28vh;" />
                                 </div>
 
                                 <div class="flex flex-col justify-between">
