@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 header("Content-Type: application/json; charset=utf-8");
 include_once("../includes/fn/pg_connect.php");
 
@@ -12,6 +13,7 @@ if (!$db) {
 
 $input = json_decode(file_get_contents("php://input"), true);
 $sensorNames = $input['sensorLog'] ?? [];
+$branch_id = $_SESSION['branch_id'] ?? null;
 
 // validate
 if (!is_array($sensorNames) || empty($sensorNames)) {
@@ -26,10 +28,10 @@ if (!is_array($sensorNames) || empty($sensorNames)) {
 $sql_parent = "
   SELECT monitor_id, monitor_name,group_id, device_id, type_id, datax_id, unit, min_value, max_value
   FROM page_data_manage_monitor
-  WHERE monitor_name = ANY($1)
+  WHERE monitor_name = ANY($1) AND branch_id = $2
   ORDER BY monitor_name
 ";
-$res_parent = pg_query_params($db, $sql_parent, ['{' . implode(',', $sensorNames) . '}']);
+$res_parent = pg_query_params($db, $sql_parent, ['{' . implode(',', $sensorNames) . '}', $branch_id]);
 $parents = pg_fetch_all($res_parent) ?: [];
 
 if (empty($parents)) {

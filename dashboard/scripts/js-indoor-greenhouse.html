@@ -12,13 +12,15 @@
     // Adjust font sizes based on screen width
     document.addEventListener("DOMContentLoaded", async () => {
         await process();
+        switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
+        switchCard1(0);
 
         isLoading = false;
 
         setInterval(async () => {
             setHeaderInit();
             await process();
-        }, 10000);
+        }, 60000);
     });
 
     async function process() {
@@ -50,6 +52,7 @@
             );
             const data_raw = await res.json();
             sensors = data_raw['sensors'] || [];
+            console.log("Loaded sensor data:", sensors);
 
         } catch (err) {
             console.error("❌ loadSensorData error:", err);
@@ -331,11 +334,6 @@
             `;
         });
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        switchCard2(0); // ให้แท็บแรกขึ้นมาเลย
-        switchCard1(0);
-    });
 
     var T1 = ['tab1-plant', 'tab1-struct', 'tab1-growth', 'tab1-fixed', 'tab1-variable'];
     var P1 = ['panel1-0', 'panel1-1', 'panel1-2', 'panel1-3', 'panel1-4'];

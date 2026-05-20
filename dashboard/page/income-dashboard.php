@@ -38,10 +38,10 @@ $classIconHeader = "hugeicons--bitcoin-down-01";
                             </button>
                             <div class="flex bg-stone-100 dark:bg-stone-800 p-1 rounded-xl">
                                 <button
-                                    onclick="pdfDownload('income')"
+                                    onclick="exportFile('incomes', 'pdf')"
                                     class="px-4 py-1.5 rounded-lg text-[0.75vw] font-medium hover:bg-white dark:hover:bg-stone-700 hover:shadow-sm transition-all text-stone-600 dark:text-stone-300">PDF</button>
                                 <button
-                                    onclick="excelDownload('income')"
+                                    onclick="exportFile('incomes', 'xlsx')"
                                     class="px-4 py-1.5 rounded-lg text-[0.75vw] font-medium hover:bg-white dark:hover:bg-stone-700 hover:shadow-sm transition-all text-stone-600 dark:text-stone-300">Excel</button>
                             </div>
                         </div>
@@ -224,7 +224,7 @@ $classIconHeader = "hugeicons--bitcoin-down-01";
                             <span class="material-symbols-light--category-outline"></span>
                         </div>
                         <h3 class="text-[1vw] font-bold text-stone-700  dark:text-stone-200">
-                            หมวดหมู่รายจ่ายสูงสุด
+                            หมวดหมู่รายรับสูงสุด
                         </h3>
                     </div>
 
@@ -236,7 +236,7 @@ $classIconHeader = "hugeicons--bitcoin-down-01";
                         </div>
 
                         <div class="flex justify-end mt-2 text-[0.7vw] text-stone-400 font-medium">
-                            <span>รายได้จากสินค้า 3 อันดับแรก</span>
+                            <span>รายรับจากสินค้า 3 อันดับแรก</span>
                         </div>
                     </div>
                 </div>

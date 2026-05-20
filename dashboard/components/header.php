@@ -48,6 +48,11 @@
                     <span class="text-[0.75vw] font-bold text-primary leading-none">รอบการเลี้ยง:</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none" id="cycle-round">--</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none">วัน</span>
+                    <div class="w-px h-2.5 bg-stone-300 dark:bg-stone-600"></div>
+                    <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">ผ่านมาแล้ว:</span>
+                    <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none" id="cycle-passed">--</span>
+                    <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">รอบ</span>
+
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-[0.75vw] font-bold text-primary leading-none">อายุปัจจุบัน:</span>

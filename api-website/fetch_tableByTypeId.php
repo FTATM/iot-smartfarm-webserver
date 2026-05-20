@@ -23,8 +23,32 @@ $data = [];
 if ($amountDay == 'all') {
     $sql_1 = "SELECT * FROM table_names WHERE table_type_id = $1 LIMIT 1";
     $result1 = pg_query_params($conn, $sql_1, [$typeId]);
+    if (!$result1) {
 
+        http_response_code(500);
+
+        echo json_encode([
+            "status" => "error",
+            "message" => pg_last_error($conn)
+        ]);
+
+        pg_close($conn);
+        exit();
+    }
     $table = pg_fetch_assoc($result1);
+
+    if (!$table) {
+
+        http_response_code(404);
+
+        echo json_encode([
+            "status" => "error",
+            "message" => "No table found for this typeId"
+        ], JSON_UNESCAPED_UNICODE);
+
+        pg_close($conn);
+        exit();
+    }
 
     $sql_1_1 = "SELECT * FROM table_datas WHERE name_table_id = $1";
     $result1_1 = pg_query_params($conn, $sql_1_1, [$table['id']]);

@@ -20,7 +20,7 @@ if (!$db) {
 // ============================================================
 if (empty($_SESSION['branch_id'])) {
     echo json_encode(["status" => "error", "message" => "ยังไม่ได้เข้าสู่ระบบ กรุณา Login ก่อน"]);
-    exit;
+    // exit;
 }
 
 // รับ JSON
@@ -35,7 +35,7 @@ if (!$message) {
 // ============================================================
 // 👉 ดึงข้อมูลจาก Database ผ่าน API
 // ============================================================
-$bid = $_SESSION['branch_id'];
+$bid = $_SESSION['branch_id'] ?? 2;
 
 $ch_db = curl_init("http://localhost/iotsf/api-app/fetch-tableknowledge.php");
 curl_setopt_array($ch_db, [
@@ -90,87 +90,89 @@ $prompt = "SYSTEM:\n"
     . $message . "\n\n"
     . "OUTPUT:";
 
+    echo $prompt;
 // ============================================================
 // 👉 เรียก AI ตาม Mode
 // ============================================================
-if ($AI_MODE === 0) {
-    // ─── Local Ollama ───────────────────────────────────────
-    $request_body = json_encode([
-        "model" => $AI_config['model'],
-        "prompt" => $prompt,
-        "stream" => false,
-        "format" => "json",
-        "options" => [
-            "temperature" => 0.1,
-            "num_thread" => 6,  // ใช้ทุก thread (4 core = 8 thread)
-            "num_ctx" => 8192,
-            "num_predict" => 2048,
-        ]
-    ]);
+// if ($AI_MODE === 0) {
+//     // ─── Local Ollama ───────────────────────────────────────
+//     $request_body = json_encode([
+//         "model" => $AI_config['model'],
+//         "prompt" => $prompt,
+//         "stream" => false,
+//         "format" => "json",
+//         "options" => [
+//             "temperature" => 0.1,
+//             "num_thread" => 6,  // ใช้ทุก thread (4 core = 8 thread)
+//             "num_ctx" => 8192,
+//             "num_predict" => 2048,
+//         ]
+//     ]);
 
-    $ch = curl_init($AI_config['api_url']);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $request_body,
-        CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
-        CURLOPT_TIMEOUT => 0,
-    ]);
-    $response = curl_exec($ch);
-    $curl_error = curl_error($ch);
-    curl_close($ch);
+//     $ch = curl_init($AI_config['api_url']);
+//     curl_setopt_array($ch, [
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_POST => true,
+//         CURLOPT_POSTFIELDS => $request_body,
+//         CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
+//         CURLOPT_TIMEOUT => 0,
+//     ]);
+//     $response = curl_exec($ch);
+//     $curl_error = curl_error($ch);
+//     curl_close($ch);
 
-    if (!$response) {
-        echo json_encode(["status" => "error", "message" => "curl failed: $curl_error"]);
-        exit;  // ✅ ต้อง exit
-    }
+//     if (!$response) {
+//         echo json_encode(["status" => "error", "message" => "curl failed: $curl_error"]);
+//         exit;  // ✅ ต้อง exit
+//     }
 
-    $decoded = json_decode($response, true);
+//     $decoded = json_decode($response, true);
 
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        echo json_encode(["status" => "error", "message" => "invalid json from AI", "raw" => $response]);
-        exit;  // ✅ ต้อง exit
-    }
+//     if (json_last_error() !== JSON_ERROR_NONE) {
+//         echo json_encode(["status" => "error", "message" => "invalid json from AI", "raw" => $response]);
+//         exit;  // ✅ ต้อง exit
+//     }
 
-    $reply = $decoded['response'] ?? '';  // ✅ restore บรรทัดนี้กลับมา
+//     $reply = $decoded['response'] ?? '';  // ✅ restore บรรทัดนี้กลับมา
 
-} else {
-    // ─── External API (Groq / OpenAI-compatible) ────────────
-    $request_body = json_encode([
-        "model" => $AI_EXTERNAL_config['model'],
-        "temperature" => 0.1,
-        "messages" => [
-            ["role" => "user", "content" => $prompt]
-        ],
-        "response_format" => ["type" => "json_object"],
-    ]);
+// } else {
+//     // ─── External API (Groq / OpenAI-compatible) ────────────
+//     $request_body = json_encode([
+//         "model" => $AI_EXTERNAL_config['model'],
+//         "temperature" => 0.1,
+//         "messages" => [
+//             ["role" => "user", "content" => $prompt]
+//         ],
+//         "response_format" => ["type" => "json_object"],
+//     ]);
 
-    $ch = curl_init($AI_EXTERNAL_config['api_url']);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $request_body,
-        CURLOPT_HTTPHEADER => [
-            "Content-Type: application/json",
-            "Authorization: Bearer {$AI_EXTERNAL_config['api_key']}",
-        ],
-        CURLOPT_TIMEOUT => 60,
-    ]);
-    $response = curl_exec($ch);
-    curl_close($ch);
+//     $ch = curl_init($AI_EXTERNAL_config['api_url']);
+//     curl_setopt_array($ch, [
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_POST => true,
+//         CURLOPT_POSTFIELDS => $request_body,
+//         CURLOPT_HTTPHEADER => [
+//             "Content-Type: application/json",
+//             "Authorization: Bearer {$AI_EXTERNAL_config['api_key']}",
+//         ],
+//         CURLOPT_TIMEOUT => 60,
+//     ]);
+//     $response = curl_exec($ch);
+//     curl_close($ch);
 
-    $decoded = json_decode($response, true);
-    $reply = $decoded['choices'][0]['message']['content'] ?? '';
-}
+//     $decoded = json_decode($response, true);
 
-// ============================================================
-// 👉 Response
-// ============================================================
-echo json_encode([
-    "status" => "success",
-    "data" => [
-        "reply" => trim($reply)
-    ]
-], JSON_UNESCAPED_UNICODE);
+//     $reply = $decoded['choices'][0]['message']['content'] ?? $decoded['error']['message'] ?? 'UNKNOWN';  // ✅ restore บรรทัดนี้กลับมา
+// }
+
+// // ============================================================
+// // 👉 Response
+// // ============================================================
+// echo json_encode([
+//     "status" => "success",
+//     "data" => [
+//         "reply" => trim($reply)
+//     ]
+// ], JSON_UNESCAPED_UNICODE);
 
 pg_close($db);

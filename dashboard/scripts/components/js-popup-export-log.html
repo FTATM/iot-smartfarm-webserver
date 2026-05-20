@@ -14,8 +14,6 @@
         const category_res = await fetch("../../api-website/fetch_categories.php");
         const category_raw = await category_res.json();
         catagories = category_raw['data'] ?? [];
-        console.log(catagories);
-
     }
 
     function setInfomation() {
