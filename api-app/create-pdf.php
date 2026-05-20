@@ -42,7 +42,7 @@ if ($mime !== 'application/pdf') {
     exit;
 }
 
-$uploadDir = "D:/xampp/pdf/$bid/";
+$uploadDir = "C:/xampp/pdf/$bid/";
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }

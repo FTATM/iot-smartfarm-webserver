@@ -30,7 +30,7 @@ while ($row = pg_fetch_assoc($result)) {
 }
 
 if ($data) {
-
+    $cycleRound = (int)$data['5']['value'] ?? 0;
     $db_time = strtotime($data['2']['value']);  // แปลงวันที่เป็น timestamp
     $diff = $now - $db_time;              // ต่างกันกี่วินาที
 
@@ -39,13 +39,18 @@ if ($data) {
     $hours = floor(($diff % 86400) / 3600);
     $minutes = floor(($diff % 3600) / 60);
 
+    $round = ($cycleRound > 0) ? floor($days / $cycleRound) : 0;
+    $remaining_days  = ($cycleRound > 0) ? $days % $cycleRound : $days; $cycleRound;
+
     http_response_code(200);
     echo json_encode([
         "status" => "success",
         "data" => [
-            "day" => $days,
+            "round" => $round,
+            "day" => $remaining_days,
             "hour" => $hours,
             "min" => $minutes,
+            "cycle" => $cycleRound,
             'value' => $data
         ]
     ], JSON_UNESCAPED_UNICODE);

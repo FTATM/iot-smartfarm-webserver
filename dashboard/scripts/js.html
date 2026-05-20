@@ -3,6 +3,8 @@
   const electric_unit = 4;
   const water_unit = 10.2;
   let data = { day: 0 };
+  console.log("Script js loaded.");
+  
 
   const branchID = "<?=$_SESSION['branch_id'] ?? 0;?>";
   const branchName = "<?=$_SESSION['branch_name'] ?? 0;?>";
@@ -71,12 +73,15 @@
       const res = await fetch("../../api-website/fetch_homeBybid.php?bid=" + branchID);
       const raw = await res.json();
       data = raw["data"];
+      console.log("Home data => ", data);
+      
       const remain = data["value"].find((v) => v.home_row_id == "5")?.value || 0;
       const cycleRound = data["value"].find((v) => v.home_row_id == "6")?.value || 0;
 
       SetValueInHTMLById("day-age", data.day);
       SetValueInHTMLById("remain-live", remain);
       SetValueInHTMLById("cycle-round", cycleRound);
+      SetValueInHTMLById("cycle-passed", data.round);
     } catch (err) {
       console.warn("error : " + err);
       return;
@@ -748,37 +753,236 @@
     }
 
   }
+  
+  async function exportFile(type, format = "xls") {
+    try {
 
-  async function excelDownload(type) {
-    const res = await fetch(`../../api-website/fetch_${type}.php?bid=${branchID}`);
-    const raw = await res.json();
-    const data = raw["data"] ?? [];
-    console.log(data);
-    if (!data || data.length === 0) {
-      alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
-      return;
+      const res = await fetch(`../../api-website/fetch_${type}.php?bid=${branchID}`);
+      const raw = await res.json();
+
+      const data = raw["data"] ?? [];
+
+      console.log(data);
+
+      if (!data || data.length === 0) {
+        alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
+        return;
+      }
+
+      // =========================
+      // FILTER COLUMN
+      // =========================
+      const rows = data.map((item, index) => ({
+        "No.": index + 1,
+        "Amount": item.amount ?? "-",
+        "Category": item.category_id ?? "-",
+        "Description": item.description ?? "-",
+        "Start Date": item.start_income_date ?? "-",
+        "End Date": item.end_income_date ?? "-",
+        "Create Date": item.created_at ?? "-"
+      }));
+
+      const headers = Object.keys(rows[0]);
+
+      // =========================
+      // EXPORT EXCEL REAL XLSX
+      // =========================
+      if (format === "xlsx") {
+        // =========================
+        // CREATE DATA
+        // =========================
+
+        const excelData = [
+          [type.toUpperCase() + " REPORT"],
+          ["Branch:", `${branchName || "Unknown Branch"}`],
+          ["Created on:", `${new Date().toLocaleString()}`,],
+          ['Number of results:', data.length, "rows"], // empty row
+          [],
+          headers,
+          ...rows.map(row => Object.values(row))
+        ];
+        // =========================
+        // CREATE WORKSHEET
+        // =========================
+        const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+
+        // =========================
+        // COLUMN WIDTH
+        // =========================
+        worksheet["!cols"] = [
+          { wch: 15 },
+          { wch: 15 },
+          { wch: 15 },
+          { wch: 30 },
+          { wch: 18 },
+          { wch: 18 },
+          { wch: 22 }
+        ];
+
+        // =========================
+        // CREATE WORKBOOK
+        // =========================
+        const workbook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(
+          workbook,
+          worksheet,
+          "Report"
+        );
+
+        // =========================
+        // FILE NAME
+        // =========================
+        const now = new Date();
+
+        const fileName = `${type}_${now.getDate()
+          }-${now.getMonth() + 1
+          }-${now.getFullYear()
+          }_${now.getHours()
+          }-${now.getMinutes()
+          }.xlsx`;
+
+        // =========================
+        // DOWNLOAD
+        // =========================
+        XLSX.writeFile(workbook, fileName);
+      }
+
+      // =========================
+      // EXPORT PDF
+      // =========================
+      else if (format === "pdf") {
+
+        const { jsPDF } = window.jspdf;
+
+        const doc = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4"
+        });
+        // =========================
+        // TITLE
+        // =========================
+        let startY = 10;
+
+        doc.setFontSize(18);
+
+        // REPORT TITLE
+        doc.text(
+          `${type.toUpperCase()} REPORT`,
+          10,
+          startY
+        );
+
+        startY += 10;
+
+
+        // =========================
+        // INFO SECTION
+        // =========================
+        doc.setFontSize(11);
+
+        doc.text(
+          `Branch: ${branchName || "Unknown Branch"}`,
+          10,
+          startY
+        );
+
+        startY += 7;
+
+        doc.text(
+          `Created on: ${new Date().toLocaleString()}`,
+          10,
+          startY
+        );
+
+        startY += 7;
+
+        doc.text(
+          `Number of results: ${data.length} rows`,
+          10,
+          startY
+        );
+
+        startY += 10;
+
+        // =========================
+        // TABLE
+        // =========================
+
+        const colWidth = 38;
+        const rowHeight = 8;
+        const startX = 10;
+
+        doc.setFontSize(10);
+
+        // Header
+        headers.forEach((header, index) => {
+
+          const x = startX + (index * colWidth);
+
+          doc.rect(x, startY, colWidth, rowHeight);
+
+          doc.text(
+            String(header),
+            x + 2,
+            startY + 5
+          );
+
+        });
+
+        startY += rowHeight;
+
+        // Rows
+        rows.forEach((row, rowIndex) => {
+
+          headers.forEach((header, colIndex) => {
+
+            const x = startX + (colIndex * colWidth);
+            const y = startY + (rowIndex * rowHeight);
+
+            let value = row[header] ?? "-";
+
+            value = String(value);
+
+            // ตัดข้อความยาว
+            if (value.length > 18) {
+              value = value.substring(0, 18) + "...";
+            }
+
+            // Cell Border
+            doc.rect(x, y, colWidth, rowHeight);
+
+            // Text
+            doc.text(
+              value,
+              x + 2,
+              y + 5
+            );
+
+          });
+
+        });
+        // =========================
+        // FILE NAME
+        // =========================
+        const now = new Date();
+
+        const fileName = `${type}_${now.getDate()
+          }-${now.getMonth() + 1
+          }-${now.getFullYear()
+          }_${now.getHours()
+          }-${now.getMinutes()
+          }.pdf`;
+
+        doc.save(fileName);
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("เกิดข้อผิดพลาด");
     }
-
-
-
-  }
-
-  async function pdfDownload(type) {
-    const res = await fetch(`../../api-website/fetch_${type}.php?bid=${branchID}`);
-    const raw = await res.json();
-    const data = raw["data"] ?? [];
-    console.log(data);
-    if (!data || data.length === 0) {
-      alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
-      return;
-    }
-
-    const link = document.createElement("a");
-    link.href = `../../api-website/fetch_${type}.php?bid=${branchID}`;
-    link.download = `${type}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 
 </script>
