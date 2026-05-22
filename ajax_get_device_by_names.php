@@ -19,7 +19,7 @@ $data = []; // ✅ ประกาศครั้งเดียว
 foreach ($namesArray as $name) {
 
     $sql = "SELECT id, name, 
-            COALESCE(DATA01, DATA02, DATA03, DATA04) AS value
+            COALESCE(\"DATA01\", \"DATA02\", \"DATA03\", \"DATA04\") AS value
         FROM public.volte_censor 
         WHERE name = $1
         ORDER BY id DESC 
