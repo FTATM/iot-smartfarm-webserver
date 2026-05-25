@@ -26,7 +26,7 @@ $TMD_config = [
 $MAIL_config = [
     'host' => $_ENV['MAIL_HOST'],
     'port' => $_ENV['MAIL_PORT'],
-    'encryption' => $_ENV['MIAL_ENCRYPTION'],
+    'encryption' => $_ENV['MAIL_ENCRYPTION'],
     'username' => $_ENV['MAIL_USERNAME'],
     'password' => $_ENV['MAIL_PASSWORD']
 ];
