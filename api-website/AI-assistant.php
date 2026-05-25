@@ -65,6 +65,11 @@ $data_from_db = json_encode($db_data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
 
 
 // 👉 Build Prompt
+
+    // . $data_from_db . "\n\n"
+    // . "- You have access to the following data from my database. Use this data to answer the user's question.\n\n"
+    // . "DATA FROM MY DATABASE:\n"
+
 $prompt = "SYSTEM:\n"
     . "You are a helpful AI assistant.\n"
     . "You MUST answer with ONLY valid JSON.\n\n"
@@ -75,9 +80,6 @@ $prompt = "SYSTEM:\n"
     . "- No explanation outside JSON\n"
     . "- If unsure, answer UNKNOWN\n"
     . "- Keep answer concise\n"
-    . "- You have access to the following data from my database. Use this data to answer the user's question.\n\n"
-    . "DATA FROM MY DATABASE:\n"
-    . $data_from_db . "\n\n"
     . "SCHEMA (ห้ามเพิ่ม key อื่น ห้ามห่อใน array):\n"
     . "{\n"
     . "  \"topic\": \"string\",\n"
