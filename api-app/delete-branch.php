@@ -29,16 +29,38 @@ if (empty($decode->branch_id)) {
     pg_close($db);
     exit;
 }
+pg_query($db, "BEGIN");
 
-$sql = "DELETE FROM branch_info WHERE branch_id = $1";
+try {
 
-// ✅ เตรียมค่าพารามิเตอร์
-$params = [
-    $decode->branch_id
-];
+    // ลบจาก branch_info
+    $sql = "DELETE FROM branch_info WHERE branch_id = $1";
+    $result = pg_query_params($db, $sql, [$decode->branch_id]);
 
-// ✅ รันคำสั่ง SQL
-$result = pg_query_params($db, $sql, $params);
+    if (!$result) {
+        throw new Exception("Delete branch_info failed");
+    }
+
+    // ลบจาก home_branch
+    $sql_homebranch = "DELETE FROM home_branch WHERE branch_id = $1";
+    $result = pg_query_params($db, $sql_homebranch, [$decode->branch_id]);
+
+    if (!$result) {
+        throw new Exception("Delete home_branch failed");
+    }
+
+    // ✅ ยืนยันการทำงาน
+    pg_query($db, "COMMIT");
+} catch (Exception $e) {
+
+    // ❌ ยกเลิกทั้งหมดถ้ามี error
+    pg_query($db, "ROLLBACK");
+
+    echo json_encode([
+        "status" => false,
+        "message" => $e->getMessage()
+    ]);
+}
 
 if ($result) {
     echo json_encode(["status" => "success", "message" => "deleted success"]);
