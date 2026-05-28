@@ -72,7 +72,7 @@ try {
     $branch_id = $row['branch_id'];
 
     // ================= Copy Dashboard =================
-    $sql_home = "SELECT id, value, type_values_id, icon_id, unitofvalue FROM dashboard_main";
+    $sql_home = "SELECT id, label_text, value, type_values_id, icon_id, unitofvalue FROM dashboard_main";
     $result_home = pg_query($db, $sql_home);
 
     if (!$result_home) {
@@ -82,12 +82,13 @@ try {
     while ($row_home = pg_fetch_assoc($result_home)) {
 
         $sql_homeb = "INSERT INTO home_branch 
-                      (branch_id, home_row_id, value, type_values_id, icon_id, unitofvalue) 
-                      VALUES ($1,$2,$3,$4,$5,$6)";
+                      (branch_id, home_row_id,label, value, type_values_id, icon_id, unitofvalue) 
+                      VALUES ($1,$2,$3,$4,$5,$6,$7)";
 
         $insert_home = pg_query_params($db, $sql_homeb, [
             $branch_id,
             $row_home['id'],
+            $row_home['label_text'] ?? null,
             $row_home['value'] ?? 0,
             $row_home['type_values_id'] ?? 1,
             $row_home['icon_id'] ?? 0,

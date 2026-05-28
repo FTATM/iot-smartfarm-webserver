@@ -7,7 +7,7 @@ include_once("../includes/fn/pg_connect.php");
 // ✅ ใช้ตัวแปรเดียวกันกับที่เชื่อมต่อ
 $db = pg_connect("$host $port $dbname $credentials");
 if (!$db) {
-    echo json_encode(["status" => "error", "message" => "can not connect to database"]);
+    echo json_encode(["status" => "error", "message" => "ไม่สามารถเชื่อมต่อฐานข้อมูลได้"]);
     exit;
 }
 
@@ -16,7 +16,7 @@ $username = $_POST['username'] ?? '';
 $password = md5($_POST['password']) ?? '';
 // ✅ ตรวจสอบว่ามีค่ามาครบไหม
 if (empty($username) || empty($password)) {
-    echo json_encode(["status" => "error", "message" => "please input username and password"]);
+    echo json_encode(["status" => "error", "message" => "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน"]);
     pg_close($db);
     exit;
 }
@@ -64,7 +64,7 @@ if (pg_num_rows($result) > 0) {
     $user = pg_fetch_assoc($result);
     echo json_encode(["status" => "success", "user" => $user], JSON_UNESCAPED_UNICODE);
 } else {
-    echo json_encode(["status" => "error", "message" => "username or password wrong!"]);
+    echo json_encode(["status" => "error", "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"]);
 }
 
 // ✅ ปิดการเชื่อมต่อ
