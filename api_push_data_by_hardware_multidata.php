@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sensor Data Receiver API
  * รับข้อมูล sensor หลายรายการพร้อมกัน (batch)
@@ -45,7 +46,7 @@ foreach ($items as $index => $item) {
     $required = ['group_id', 'device_id', 'type_id', 'datax_id', 'data_value'];
     $missing  = [];
     foreach ($required as $field) {
-        if (empty($item[$field]) && $item[$field] !== '0') {
+        if (!array_key_exists($field, $item)) {
             $missing[] = $field;
         }
     }
@@ -60,70 +61,73 @@ foreach ($items as $index => $item) {
     $datax_id   = $item['datax_id'];
     $data_value = (float) $item['data_value'];
 
-    // --- 2. Lookup device ---
-    $row_device = queryOne(
-        "SELECT device_id, divice_name FROM page_data_manage_device WHERE device_id = $1",
-        [$device_id],
-        $db
-    );
-    if (!$row_device) {
-        $results[] = errorResult($index, 'DEVICE_NOT_FOUND', "device_id '{$device_id}' not found");
-        continue;
-    }
-    $divice_name = $row_device['divice_name'];
+    // // --- 2. Lookup device ---
+    // $row_device = queryOne(
+    //     "SELECT device_id, divice_name FROM page_data_manage_device WHERE device_id = $1",
+    //     [$device_id],
+    //     $db
+    // );
+    // if (!$row_device) {
+    //     $results[] = errorResult($index, 'DEVICE_NOT_FOUND', "device_id '{$device_id}' not found");
+    //     continue;
+    // }
+    // $divice_name = $row_device['divice_name'];
 
-    // --- 3. Lookup datax ---
-    $row_datax = queryOne(
-        "SELECT datax_id, datax_name FROM page_data_manage_datax WHERE datax_id = $1",
-        [$datax_id],
-        $db
-    );
-    if (!$row_datax) {
-        $results[] = errorResult($index, 'DATAX_NOT_FOUND', "datax_id '{$datax_id}' not found");
-        continue;
-    }
-    $datax_name = $row_datax['datax_name'];
+    // // --- 3. Lookup datax ---
+    // $row_datax = queryOne(
+    //     "SELECT datax_id, datax_name FROM page_data_manage_datax WHERE datax_id = $1",
+    //     [$datax_id],
+    //     $db
+    // );
+    // if (!$row_datax) {
+    //     $results[] = errorResult($index, 'DATAX_NOT_FOUND', "datax_id '{$datax_id}' not found");
+    //     continue;
+    // }
+    // $datax_name = $row_datax['datax_name'];
 
-    // --- 4. Lookup group ---
-    $row_group = queryOne(
-        "SELECT group_id, group_name, value_map_volte_censor FROM page_data_manage_group WHERE group_id = $1",
-        [$group_id],
-        $db
-    );
-    if (!$row_group) {
-        $results[] = errorResult($index, 'GROUP_NOT_FOUND', "group_id '{$group_id}' not found");
-        continue;
-    }
-    $value_map_volte_censor = $row_group['value_map_volte_censor'];
+    // // --- 4. Lookup group ---
+    // $row_group = queryOne(
+    //     "SELECT group_id, group_name, value_map_volte_censor FROM page_data_manage_group WHERE group_id = $1",
+    //     [$group_id],
+    //     $db
+    // );
+    // if (!$row_group) {
+    //     $results[] = errorResult($index, 'GROUP_NOT_FOUND', "group_id '{$group_id}' not found");
+    //     continue;
+    // }
+    // $value_map_volte_censor = $row_group['value_map_volte_censor'];
 
-    // --- 5. Save data (in transaction) ---
-    $col = strtoupper($datax_name);   // dynamic column name (trusted from DB, not user input)
+    // // --- 5. Save data (in transaction) ---
+    // $col = strtoupper($datax_name);   // dynamic column name (trusted from DB, not user input)
 
-    pg_query($db, 'BEGIN');
+    // pg_query($db, 'BEGIN');
 
-    $ins_volte = pg_query_params($db,
-        "INSERT INTO volte_censor
-            (create_uid, write_uid, name, location, date_mornitor, create_date, write_date,
-             volte, sensor, unit, value, voltemax, \"{$col}\")
-         VALUES ($1, $2, $3, $4, $5, now(), now(), $6, $7, $8, $9, $10, $11)",
-        ['4', '4', $divice_name, $value_map_volte_censor, date('Y-m-d'),
-         '0', '1', '0', '0', '0', $data_value]
-    );
+    // $ins_volte = pg_query_params($db,
+    //     "INSERT INTO volte_censor
+    //         (create_uid, write_uid, name, location, date_mornitor, create_date, write_date,
+    //          volte, sensor, unit, value, voltemax, \"{$col}\")
+    //      VALUES ($1, $2, $3, $4, $5, now(), now(), $6, $7, $8, $9, $10, $11)",
+    //     ['4', '4', $divice_name, $value_map_volte_censor, date('Y-m-d'),
+    //      '0', '1', '0', '0', '0', $data_value]
+    // );
 
-    $upd_monitor = pg_query_params($db,
+    $upd_monitor = pg_query_params(
+        $db,
         "UPDATE page_data_manage_monitor
          SET datax_value = $1
          WHERE group_id = $2 AND device_id = $3 AND type_id = $4 AND datax_id = $5",
         [$data_value, $group_id, $device_id, $type_id, $datax_id]
     );
 
-    $ins_log = pg_query_params($db,
+    $ins_log = pg_query_params(
+        $db,
         "INSERT INTO data_log (group_id, device_id, type_id, datax_id, data_value, createtime)
          VALUES ($1, $2, $3, $4, $5, NOW())",
         [$group_id, $device_id, $type_id, $datax_id, $data_value]
     );
 
-    if (!$ins_volte || !$upd_monitor || !$ins_log) {
+    // if (!$ins_volte || !$upd_monitor || !$ins_log) {
+    if (!$upd_monitor || !$ins_log) {
         pg_query($db, 'ROLLBACK');
         $results[] = errorResult($index, 'SAVE_FAILED', pg_last_error($db));
         continue;
