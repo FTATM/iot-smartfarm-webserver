@@ -16,7 +16,7 @@ function callTools($branch_id, $required_sensors, $required_tools, $output_list 
                 $data .= "History:" . json_encode(getHistorySensorSummary($branch_id, $required_sensors)) . "\n";
                 break;
             case 'set_sensor_output':
-                $data .= "Action:" . json_encode(setSensorOutput($branch_id, $output_list, $status)) . "\n";
+                $data = setSensorOutput($branch_id, $output_list, $status);
 
                 break;
         }
@@ -76,11 +76,11 @@ function getHistorySensorSummary(int $branchId, array $requiredSensors)
 function setSensorOutput(int $branchId, array $outputList, string $status = null)
 {
     if (!$outputList && !is_array($outputList)) {
-        return "no output to set or output format invalid";
+        return json_encode(["success" => false, "message" => "no output to set or output format invalid"]);
     }
     if (!$status) {
         $status = "normal";
-        return "no status provided, default to normal. output list: " . json_encode($outputList);
+        return json_encode(["success" => false, "message" => "no status provided, default to normal. output list: " . json_encode($outputList)]);
     }
 
     $ch = curl_init("http://localhost/iotsf/api-website/AI-set-output.php?bid={$branchId}");
@@ -95,7 +95,7 @@ function setSensorOutput(int $branchId, array $outputList, string $status = null
     $response = curl_exec($ch);
     curl_close($ch);
     $result = json_decode($response, true);
-    return $result['message'] ?? ["Failed to set sensor output"];
+    return json_encode(["success" => $result['message'] ? true : false, "message" => $result['message'] ? $result['message'] : "Failed to set sensor output"]);
 }
 
 function CallAI($prompt)
@@ -175,4 +175,43 @@ function CallAI($prompt)
     }
 
     return $reply;
+}
+
+function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $QUESTION = null, $PLANNER_PROMPT = null, $PLANNER_RESPONSE = null, $COLLECTED_DATA = null, $DECISION_PROMPT = null, $DECISION_RESPONSE = null, $EXECUTION_RESULT = null)
+{
+    if (!$db || !$BRANCH_ID || !$QUESTION) {
+        return json_encode(["success" => false, "message" => "Invalid input parameters for logging INTO interaction"]);
+    }
+    if (is_array($PLANNER_RESPONSE)) $PLANNER_RESPONSE = json_encode($PLANNER_RESPONSE, JSON_UNESCAPED_UNICODE);
+
+    if (is_array($DECISION_RESPONSE)) $DECISION_PROMPT = json_encode($DECISION_RESPONSE, JSON_UNESCAPED_UNICODE);
+
+    if (is_array($EXECUTION_RESULT)) $EXECUTION_RESULT = json_encode($EXECUTION_RESULT, JSON_UNESCAPED_UNICODE);
+
+
+    $sql = "INSERT INTO ai_log (branch_id, ai_mode, ai_model, question, planner_prompt, planner_response, collected_data, decision_prompt, decision_response, execution_result) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    $payload = [
+        $BRANCH_ID,
+        $AI_MODE,
+        $AI_MODEL,
+        $QUESTION ?? '',
+        $PLANNER_PROMPT ?? '',
+        $PLANNER_RESPONSE ?? '',
+        $COLLECTED_DATA ?? '',
+        $DECISION_PROMPT ?? '',
+        $DECISION_RESPONSE ?? '',
+        $EXECUTION_RESULT
+    ];
+    $result = pg_query_params($db, $sql, $payload);
+
+    if (!$result) {
+        error_log("Failed to log INTO interaction: " . pg_last_error($db));
+        return json_encode(["success" => false, "message" => "Failed to log INTO interaction", "error" => pg_last_error($db)]);
+    }
+
+    if (pg_affected_rows($result) > 0) {
+        return json_encode(["success" => true, "message" => "Logged INTO interaction successfully"]);
+    } else {
+        return json_encode(["success" => false, "message" => "Failed to log INTO interaction, no rows affected"]);
+    }
 }
