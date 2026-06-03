@@ -29,7 +29,7 @@ while ($row = pg_fetch_assoc($result)) {
     if ($row['type_id'] == '1' || $row['type_id'] == '3') {
         $data['sensor'][] = $row["monitor_name"];
     }
-    if ($row['type_id'] == '2' || $row['type_id'] == '4') {
+    if ($row['type_id'] == '4') {
         $data['output'][] = $row["monitor_name"];
     }
 }

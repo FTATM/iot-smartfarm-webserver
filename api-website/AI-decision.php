@@ -13,7 +13,7 @@ flush();
 include_once(__DIR__ . '/../includes/fn/pg_connect.php');
 require_once 'config.php';
 require_once 'AI-functions.php';
-
+$AI_MODEL = $AI_MODE == 0 ? $AI_config['model'] : $AI_EXTERNAL_config['model'];
 echo json_encode(["checkpoint" => 2, "msg" => "config loaded"]) . "\n";
 flush();
 
@@ -21,9 +21,15 @@ flush();
 // 3.เช็คการเชื่อมต่อ DB
 // ============================================================
 $db = pg_connect("$host $port $dbname $credentials");
-
-echo json_encode(["checkpoint" => 3, "msg" => "db ok"]) . "\n";
-flush();
+$error = error_get_last();
+if (!$db) {
+  echo json_encode(["checkpoint" => 3, "msg" => "DB connection failed", "error" => $error]) . "\n";
+  flush();
+  exit;
+} else {
+  echo json_encode(["checkpoint" => 3, "msg" => "db ok"]) . "\n";
+  flush();
+}
 
 // ============================================================
 // 4. ดึงค่า sensor ของ branch ที่ต้องการ
@@ -33,8 +39,15 @@ $sensor_list = getmonitorList($branch_id);
 
 $sensor_list_json = json_encode($sensor_list['sensor'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 $output_list_json = json_encode($sensor_list['output'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-echo json_encode(["checkpoint" => 4, "msg" => "sensor data fetched"]) . "\n";
-flush();
+if (empty($sensor_list['sensor'])) {
+  echo json_encode(["checkpoint" => 4, "msg" => "no sensors found for branch", "error" => "No sensors available"]) . "\n";
+  flush();
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, "No sensors available");
+  exit;
+} else {
+  echo json_encode(["checkpoint" => 4, "msg" => "sensor data fetched"]) . "\n";
+  flush();
+}
 
 // ============================================================
 // 5. ตั้งคำถามและเก็บคำตอบจาก AI 
@@ -62,49 +75,38 @@ PROMPT;
 // 5. เรียก AI เพื่อวิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
 // ================================================================
 
-// // สมมติว่าเราได้คำตอบจาก AI มาแล้ว (ในรูปแบบ JSON)
-// $ai_response = '{
-//   "required_sensors": [
-//     "Temp",
-//     "RH"
-//   ],
-//   "required_tools": ["get_weather_summary", "get_history_sensor_summary"],
-//   "reason": "การตัดสินใจรดน้ำขึ้นอยู่กับสภาพอากาศและความชื้นในดิน หากอุณหภูมิสูงและความชื้นต่ำ อาจจำเป็นต้องรดน้ำ"
-// }';
-
 $ai_response = CallAI($prompt);
-
 $raw = json_decode($ai_response, true);
 
 if (isset($raw['success']) && !$raw['success'] && $raw['success'] == false) {
   echo json_encode(["checkpoint" => 5, "msg" => $raw['message'], "error" => $raw['error']]) . "\n";
+  flush();
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw['error']);
   exit;
 }
 
 $answer = json_decode($raw['message'], true);
 
-echo "เหตุผล: " . $answer['reason'] . "\n";
-echo "ต้องใช้เซ็นเซอร์:";
-echo json_encode($answer['required_sensors'], JSON_UNESCAPED_UNICODE) . "\n";
-echo "ต้องใช้เครื่องมือ:";
-echo json_encode($answer['required_tools'], JSON_UNESCAPED_UNICODE) . "\n";
-
 echo json_encode(["checkpoint" => 5, "msg" => "AI analysis done"]) . "\n";
+flush();
 
 // ============================================================
 // 6. เรียกเครื่องมือที่ AI บอกว่าต้องใช้ เพื่อดึงข้อมูลมาให้ AI ตัดสินใจอีกครั้ง
 // ============================================================
-$data = callTools($branch_id, $answer['required_sensors'], $answer['required_tools']);
-
+$data_tools = callTools($branch_id, $answer['required_sensors'], $answer['required_tools']);
+if (isset($answer['required_tools']) && count($answer['required_tools']) == 0) {
+  echo json_encode(["checkpoint" => 6, "msg" => "not found required tools", "error" => "AI not required Tools"]) . "\n";
+  flush();
+}
 echo json_encode(["checkpoint" => 6, "msg" => "tools called"]) . "\n";
-echo "ข้อมูลที่ได้จากเครื่องมือ: " . $data . "\n";
+flush();
 
 // ============================================================
 // 7. เตรียม prompt สำหรับให้ AI ตัดสินใจ
 // ============================================================
 $prompt_decision = <<<PROMPT
 Question: {$question}
-ข้อมูลจากเครื่องมือ: {$data}
+ข้อมูลจากเครื่องมือ: {$data_tools}
 
 available output: {$output_list_json}
 available tools: set_sensor_output
@@ -119,51 +121,50 @@ You must respond with valid JSON.
 PROMPT;
 
 echo json_encode(["checkpoint" => 7, "msg" => "prompt for decision ready"]) . "\n";
-
+flush();
 // ================================================================
 // 8. เรียก AI เพื่อตัดสินใจ
 // ================================================================
 $ai_decision_response = CallAI($prompt_decision);
-
-// // สมมติว่าเราได้คำตอบจาก AI มาแล้ว (ในรูปแบบ JSON)
-// $ai_decision_response = [
-//   "required_tools" => ["set_sensor_output"],
-//   "sensor_output" => ["PB_P01", "PB_P02", "PB_P03"],
-//   "status" => "OFF",
-//   "reason" => "จากข้อมูลสภาพอากาศและความชื้นในดิน พบว่าควรรดน้ำในช่วง 6 ชั่วโมงข้างหน้า"
-// ];
-
 $ai_decision_answer = json_decode($ai_decision_response, true);
 
 if (isset($ai_decision_answer['success']) && !$ai_decision_answer['success'] && $ai_decision_answer['success'] == false) {
   echo json_encode(["checkpoint" => 8, "msg" => $ai_decision_answer['message'], "error" => $ai_decision_answer['error']]) . "\n";
+  flush();
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw, $data_tools, $prompt_decision, $ai_decision_answer, null);
   exit;
 }
+
 $awnser_decision = json_decode($ai_decision_answer['message'], true);
 
-
 echo json_encode(["checkpoint" => 8, "msg" => "decision made"]) . "\n";
-echo "เครื่องมือที่ต้องใช้: " . json_encode($awnser_decision['required_tools'], JSON_UNESCAPED_UNICODE) . "\n";
-echo "Output ที่ต้องตั้ง: " . json_encode($awnser_decision['sensor_output'], JSON_UNESCAPED_UNICODE) . "\n";
-echo "การตัดสินใจ: " . $awnser_decision['status'] . "\n";
-echo "เหตุผล: " . $awnser_decision['reason'] . "\n";
-
-
-
+flush();
 // ================================================================
 // 9. นำผลลัพธ์จาก AI ไปตั้งค่า output จริงๆ ผ่าน callTools อีกครั้ง 
 // ================================================================
 $set_output = callTools($branch_id, null, $awnser_decision['required_tools'], $awnser_decision['sensor_output'], $awnser_decision['status']);
+$response_set_output = json_decode($set_output, true);
+
+if (isset($response_set_output) && !$response_set_output['success']) {
+  echo json_encode(["checkpoint" => 9, "msg" => $response_set_output['message'], "error" => $response_set_output['error']]) . "\n";
+  flush();
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw, $data_tools, $prompt_decision, $ai_decision_answer, $response_set_output);
+  exit;
+}
 echo json_encode(["checkpoint" => 9, "msg" => "action executed"]) . "\n";
+flush();
 
 
 // ================================================================
-// 10. สรุปผลลัพธ์ทั้งหมดและปิดการเชื่อมต่อ DB
+// 10. บันทึกข้อมูลทั้งหมดที่ใช้ตัดสินใจไป ลง Log 
 // ================================================================
-echo json_encode(["checkpoint" => 10, "msg" => "process completed"]) . "\n";
-echo "ผลลัพธ์จากการตั้งค่า output: " . $set_output . "\n";
+echo json_encode(["checkpoint" => 10, "msg" => "Insert logs"]) . "\n";
+$raw_logs = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
+$response_log = json_decode($raw_logs, true);
 
+echo "ผลการเพิ่มเข้า log : " . $response_log['message'] . "\n";
+// ================================================================
+// 11. สรุปผลลัพธ์ทั้งหมดและปิดการเชื่อมต่อ DB
+// ================================================================
+echo json_encode(["checkpoint" => 11, "msg" => "process completed"]) . "\n";
 pg_close($db);
-
-
-
