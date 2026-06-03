@@ -1,266 +1,169 @@
 <?php
+// ============================================================
+// 1. เรียกได้จาก: Cron, CLI, หรือ trigger endpoint
+// ============================================================
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
-// run_all_branches.php
-// เรียกได้จาก: Cron, CLI, หรือ trigger endpoint
-echo json_encode(["checkpoint" => 1, "msg" => "start"]);
-flush();
-
-// include_once("../includes/fn/pg_connect.php");
-include_once(__DIR__ . '/../includes/fn/pg_connect.php');
-require_once 'config.php';
-
-echo json_encode(["checkpoint" => 2, "msg" => "config loaded"]);
+echo json_encode(["checkpoint" => 1, "msg" => "start"]) . "\n";
 flush();
 
 // ============================================================
-// 1. ดึงรายการ branch ทั้งหมดจาก DB
+// 2.โหลดไฟล์ที่จำเป็น config, function ต่างๆ
+// ============================================================
+include_once(__DIR__ . '/../includes/fn/pg_connect.php');
+require_once 'config.php';
+require_once 'AI-functions.php';
+
+echo json_encode(["checkpoint" => 2, "msg" => "config loaded"]) . "\n";
+flush();
+
+// ============================================================
+// 3.เช็คการเชื่อมต่อ DB
 // ============================================================
 $db = pg_connect("$host $port $dbname $credentials");
 
-echo json_encode(["checkpoint" => 3, "msg" => "db ok"]);
-flush();
-
-
-$branch_result = pg_query($db, "SELECT branch_id, branch_name FROM branch_info WHERE status = 1");
-$branches = [];
-while ($row = pg_fetch_assoc($branch_result)) {
-    $branches[] = $row;
-}
-
-echo json_encode(["checkpoint" => 4, "msg" => "branches ok", "count" => count($branches)]);
+echo json_encode(["checkpoint" => 3, "msg" => "db ok"]) . "\n";
 flush();
 
 // ============================================================
-// 2. ดึง Sensor ทุก branch พร้อมกัน (Parallel cURL)
+// 4. ดึงค่า sensor ของ branch ที่ต้องการ
 // ============================================================
-$base_url = 'http://localhost/iotsf/api-website/fetch-config-schedule.php';
+$branch_id = 3; // ทดสอบกับ branch เดียวก่อน
+$sensor_list = getmonitorList($branch_id);
 
-$mh = curl_multi_init();
-$handles = [];
-
-foreach ($branches as $branch) {
-    $bid = $branch['branch_id'];
-    $ch = curl_init("{$base_url}?bid={$bid}");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 10,
-    ]);
-    curl_multi_add_handle($mh, $ch);
-    $handles[$bid] = $ch;
-}
-
-// รอทุก request เสร็จพร้อมกัน
-do {
-    curl_multi_exec($mh, $running);
-    curl_multi_select($mh);
-} while ($running > 0);
-
-// รวบรวมผลลัพธ์
-$sensors_by_branch = [];
-foreach ($handles as $bid => $ch) {
-    $raw = curl_multi_getcontent($ch);
-    $sensors_by_branch[$bid] = json_decode($raw, true)['data'] ?? [];
-    curl_multi_remove_handle($mh, $ch);
-}
-curl_multi_close($mh);
-
-echo json_encode(["checkpoint" => 5, "msg" => "sensors ok"]);
+$sensor_list_json = json_encode($sensor_list['sensor'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+$output_list_json = json_encode($sensor_list['output'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+echo json_encode(["checkpoint" => 4, "msg" => "sensor data fetched"]) . "\n";
 flush();
 
 // ============================================================
-// 3. ดึง TMD Forecast (ครั้งเดียว ใช้ร่วมกันทุก branch)
+// 5. ตั้งคำถามและเก็บคำตอบจาก AI 
 // ============================================================
-$ch = curl_init($TMD_config['api_url']);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER => ["Authorization: Bearer {$TMD_config['token']}"],
-    CURLOPT_TIMEOUT => 15,
-]);
-$tmd_raw = curl_exec($ch);
-curl_close($ch);
 
-$tmd_data = json_decode($tmd_raw, true);
-$forecasts = $tmd_data['WeatherForecasts'][0]['forecasts'] ?? [];
-
-// แทนที่ checkpoint 6 เดิม
-$tmd_data = json_decode($tmd_raw, true);
-
-echo json_encode(["checkpoint" => 6, "msg" => "tmd ok", "forecasts" => count($forecasts)]);
-
-
-// ============================================================
-// 4. Build Prompt รวมทุก branch ในครั้งเดียว
-// ============================================================
-$current_time = date('Y-m-d H:i:s');
-$forecast_json = json_encode($forecasts, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-$sensors_json = json_encode($sensors_by_branch, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+$question = "ตอนนี้เวลา 06.00 ควรรดน้ำไหมในช่วงเวลา 6 ชั่วโมงข้างหน้า? พิจารณาจากข้อมูลสภาพอากาศและความชื้น";
 
 $prompt = <<<PROMPT
-SYSTEM:
-คุณคือระบบ AI ตัดสินใจควบคุม Sensor อัตโนมัติ แยกตาม branch
-เวลาปัจจุบัน: {$current_time}
-
-FIELD forecast: cond(1=แจ่มใส...8=ฝนฟ้าคะนอง), rain(มม./ชม.), rh(%), tc(°C)
-เกณฑ์ฝน: cond >= {$TMD_config['rain_cond_threshold']} หรือ rain > 0
-
-กฎการตัดสินใจ (ทุก branch ใช้กฎเดียวกัน):
-1. มีฝน → action: STOP
-2. ไม่มีฝน + อยู่ในช่วง start_work/end_work → action: RUN
-3. ไม่มีฝน + นอกช่วงเวลา หรือ list_time ว่าง → action: IDLE
-4. list_time_of_work คือวันที่ทำงาน (0=อาทิตย์...6=เสาร์)
-   วันปัจจุบัน: {$current_time} ตรวจสอบด้วยว่าวันนี้อยู่ใน list_time_of_work ไหม
-
-ตอบ JSON เท่านั้น
-
-SCHEMA:
+วิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
+Question: {$question}
+Available Sensor: {$sensor_list_json}
+Available Tools:get_weather_summary, get_history_sensor_summary, set_sensor_output
+Schema of Answer:
 {
-  "weather_assessment": {
-    "will_rain": true|false,
-    "max_rain_mm": number,
-    "overall_condition": "string"
-  },
-  "branches": {
-    "<branch_id>": {
-      "summary": "string",
-      "sensor_decisions": [
-        {
-          "monitor_id": "string",
-          "monitor_name": "string",
-          "action": "RUN|STOP|IDLE",
-          "reason": "string"
-        }
-      ]
-    }
-  },
-  "confidence": 0-100
+  "required_sensors": [
+  ],
+  "required_tools": [
+  ],
+  "reason": ""
 }
-
-ข้อมูล SENSOR แยกตาม branch_id:
-{$sensors_json}
-
-ข้อมูลพยากรณ์อากาศ TMD:
-{$forecast_json}
-
-OUTPUT:
+You must respond with valid JSON.
 PROMPT;
 
-// ============================================================
-// 5. เรียก AI ครั้งเดียว (รองรับ Local Ollama + External API)
-// ============================================================
-$prompt_size = strlen($prompt);
-$token_est = (int) ($prompt_size / 4);
-echo json_encode(["checkpoint" => 7, "prompt_chars" => $prompt_size, "tokens_est" => $token_est]);
-flush();
+// ================================================================
+// 5. เรียก AI เพื่อวิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
+// ================================================================
 
-if ($AI_MODE === 0) {
-    // ─── Local Ollama ───────────────────────────────────────
-    $request_body = json_encode([
-        "model" => $AI_config['model'],
-        "prompt" => $prompt,
-        "stream" => false,
-        "format" => "json",
-        "options" => [
-            "temperature" => 0.1,
-            "num_thread" => 7,
-            "num_ctx" => 8192,
-            "num_predict" => 2048,
-        ],
-    ]);
+// // สมมติว่าเราได้คำตอบจาก AI มาแล้ว (ในรูปแบบ JSON)
+// $ai_response = '{
+//   "required_sensors": [
+//     "Temp",
+//     "RH"
+//   ],
+//   "required_tools": ["get_weather_summary", "get_history_sensor_summary"],
+//   "reason": "การตัดสินใจรดน้ำขึ้นอยู่กับสภาพอากาศและความชื้นในดิน หากอุณหภูมิสูงและความชื้นต่ำ อาจจำเป็นต้องรดน้ำ"
+// }';
 
-    $ch = curl_init($AI_config['api_url']);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $request_body,
-        CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
-        CURLOPT_TIMEOUT => 3600,
-    ]);
-    $ai_response = curl_exec($ch);
-    $ai_http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $ai_curl_err = curl_error($ch);
-    curl_close($ch);
+$ai_response = CallAI($prompt);
 
-    // Parse Ollama response
-    $ai_decoded = json_decode($ai_response, true);
-    $reply = $ai_decoded['response'] ?? '';
-} else {
-    // ─── External API (Groq / OpenAI-compatible) ────────────
-    $request_body = json_encode([
-        "model" => $AI_EXTERNAL_config['model'],
-        "temperature" => 0.1,
-        "messages" => [
-            [
-                "role" => "user",
-                "content" => $prompt,
-            ]
-        ],
-        "response_format" => ["type" => "json_object"], // บังคับ JSON
-    ]);
+$raw = json_decode($ai_response, true);
 
-    $ch = curl_init($AI_EXTERNAL_config['api_url']);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $request_body,
-        CURLOPT_HTTPHEADER => [
-            "Content-Type: application/json",
-            "Authorization: Bearer {$AI_EXTERNAL_config['api_key']}",
-        ],
-        CURLOPT_TIMEOUT => 120,
-    ]);
-    $ai_response = curl_exec($ch);
-    $ai_http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $ai_curl_err = curl_error($ch);
-    curl_close($ch);
-
-    // Parse Groq response (OpenAI format)
-    $ai_decoded = json_decode($ai_response, true);
-    $reply = $ai_decoded['choices'][0]['message']['content'] ?? '';
+if (isset($raw['success']) && !$raw['success'] && $raw['success'] == false) {
+  echo json_encode(["checkpoint" => 5, "msg" => $raw['message'], "error" => $raw['error']]) . "\n";
+  exit;
 }
 
-// ─── Parse JSON จาก reply (ใช้ร่วมกันทั้ง 2 mode) ──────────
-$decision = json_decode(trim($reply), true);
+$answer = json_decode($raw['message'], true);
 
-echo json_encode([
-    "debug" => [
-        "mode" => $AI_MODE === 0 ? "local_ollama" : "external_api",
-        "ai_http_code" => $ai_http,
-        "ai_curl_error" => $ai_curl_err,
-        "ai_response_raw" => $ai_response,
-        "reply_extracted" => $reply,
-        "json_last_error" => json_last_error_msg(),
-        "decision" => $decision,
-    ]
-], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+echo "เหตุผล: " . $answer['reason'] . "\n";
+echo "ต้องใช้เซ็นเซอร์:";
+echo json_encode($answer['required_sensors'], JSON_UNESCAPED_UNICODE) . "\n";
+echo "ต้องใช้เครื่องมือ:";
+echo json_encode($answer['required_tools'], JSON_UNESCAPED_UNICODE) . "\n";
 
+echo json_encode(["checkpoint" => 5, "msg" => "AI analysis done"]) . "\n";
 
 // ============================================================
-// 6. Log ทุก branch
+// 6. เรียกเครื่องมือที่ AI บอกว่าต้องใช้ เพื่อดึงข้อมูลมาให้ AI ตัดสินใจอีกครั้ง
 // ============================================================
-if ($decision && !empty($decision['branches'])) {
-    foreach ($decision['branches'] as $bid => $branch_result) {
-        foreach ($branch_result['sensor_decisions'] as $sd) {
-            pg_query_params($db, "
-                INSERT INTO sensor_decision_log
-                    (sensor_id, action, reason, weather_will_rain, weather_max_rain_mm, decided_at)
-                VALUES ($1, $2, $3, $4, $5, NOW())
-            ", [
-                $sd['monitor_id'],
-                $sd['action'],
-                $sd['reason'],
-                $decision['weather_assessment']['will_rain'] ? 'true' : 'false',
-                $decision['weather_assessment']['max_rain_mm'],
-            ]);
-        }
-    }
+$data = callTools($branch_id, $answer['required_sensors'], $answer['required_tools']);
+
+echo json_encode(["checkpoint" => 6, "msg" => "tools called"]) . "\n";
+echo "ข้อมูลที่ได้จากเครื่องมือ: " . $data . "\n";
+
+// ============================================================
+// 7. เตรียม prompt สำหรับให้ AI ตัดสินใจ
+// ============================================================
+$prompt_decision = <<<PROMPT
+Question: {$question}
+ข้อมูลจากเครื่องมือ: {$data}
+
+available output: {$output_list_json}
+available tools: set_sensor_output
+Schema of Answer:
+{
+  "required_tools": ["tools ที่ต้องใช้ถ้ามี"],
+  "sensor_output": ["ชื่อ output ที่ต้องการ"],
+  "status": "ON/OFF",
+  "reason": "เหตุผลในการตัดสินใจ"
 }
+You must respond with valid JSON.
+PROMPT;
 
-echo json_encode([
-    "status" => "success",
-    "branches" => count($branches),
-    "evaluated_at" => $current_time,
-    "decision" => $decision,
-], JSON_UNESCAPED_UNICODE);
+echo json_encode(["checkpoint" => 7, "msg" => "prompt for decision ready"]) . "\n";
+
+// ================================================================
+// 8. เรียก AI เพื่อตัดสินใจ
+// ================================================================
+$ai_decision_response = CallAI($prompt_decision);
+
+// // สมมติว่าเราได้คำตอบจาก AI มาแล้ว (ในรูปแบบ JSON)
+// $ai_decision_response = [
+//   "required_tools" => ["set_sensor_output"],
+//   "sensor_output" => ["PB_P01", "PB_P02", "PB_P03"],
+//   "status" => "OFF",
+//   "reason" => "จากข้อมูลสภาพอากาศและความชื้นในดิน พบว่าควรรดน้ำในช่วง 6 ชั่วโมงข้างหน้า"
+// ];
+
+$ai_decision_answer = json_decode($ai_decision_response, true);
+
+if (isset($ai_decision_answer['success']) && !$ai_decision_answer['success'] && $ai_decision_answer['success'] == false) {
+  echo json_encode(["checkpoint" => 8, "msg" => $ai_decision_answer['message'], "error" => $ai_decision_answer['error']]) . "\n";
+  exit;
+}
+$awnser_decision = json_decode($ai_decision_answer['message'], true);
+
+
+echo json_encode(["checkpoint" => 8, "msg" => "decision made"]) . "\n";
+echo "เครื่องมือที่ต้องใช้: " . json_encode($awnser_decision['required_tools'], JSON_UNESCAPED_UNICODE) . "\n";
+echo "Output ที่ต้องตั้ง: " . json_encode($awnser_decision['sensor_output'], JSON_UNESCAPED_UNICODE) . "\n";
+echo "การตัดสินใจ: " . $awnser_decision['status'] . "\n";
+echo "เหตุผล: " . $awnser_decision['reason'] . "\n";
+
+
+
+// ================================================================
+// 9. นำผลลัพธ์จาก AI ไปตั้งค่า output จริงๆ ผ่าน callTools อีกครั้ง 
+// ================================================================
+$set_output = callTools($branch_id, null, $awnser_decision['required_tools'], $awnser_decision['sensor_output'], $awnser_decision['status']);
+echo json_encode(["checkpoint" => 9, "msg" => "action executed"]) . "\n";
+
+
+// ================================================================
+// 10. สรุปผลลัพธ์ทั้งหมดและปิดการเชื่อมต่อ DB
+// ================================================================
+echo json_encode(["checkpoint" => 10, "msg" => "process completed"]) . "\n";
+echo "ผลลัพธ์จากการตั้งค่า output: " . $set_output . "\n";
 
 pg_close($db);
+
+
+

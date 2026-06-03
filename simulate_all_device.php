@@ -84,7 +84,7 @@ function maybeAnomaly(float $value, string $deviceName, int $typeId): float
     if ($typeId === 3 || $typeId === 4) return $value;
 
     // 5% โอกาสเกิดค่าผิดปกติ
-    if (mt_rand(1, 100) > 5) return $value;
+    if (mt_rand(1, 100) > 2) return $value;
 
     // เรียงจาก specific → general เช่นกัน
     $spikes = [

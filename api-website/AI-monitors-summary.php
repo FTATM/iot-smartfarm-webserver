@@ -12,17 +12,18 @@ if (!$db) {
 }
 
 $branch_id = $_GET['bid'] ?? null;
+$raw = file_get_contents('php://input');
+$sensor_list = json_decode($raw, true);
+$required_sensors = $sensor_list['required_sensors'] ?? [];
 
 if (!$branch_id) {
     echo json_encode(["status" => "error", "message" => "branch_id (bid) is required"]);
     pg_close($db);
     exit;
 }
-function getSensorSummary($db, int $branchId): string
+function getSensorSummary($db, int $branchId, array $requiredSensors): string
 {
-    // ─── Query หลัก (เหมือนเดิม) ───
-    $sql = "
-        SELECT
+    $sql = "SELECT
             s.monitor_id,
             s.monitor_name,
             g.group_name,
@@ -49,6 +50,7 @@ function getSensorSummary($db, int $branchId): string
         JOIN page_data_manage_group  g  ON g.group_id   = s.group_id
         JOIN page_data_manage_device dv ON dv.device_id = s.device_id
         WHERE s.branch_id  = $1
+          AND s.monitor_name IN ('" . implode("', '", $requiredSensors) . "')
           AND l.createtime >= NOW() - INTERVAL '24 HOURS'
         GROUP BY s.monitor_id, s.monitor_name, g.group_name,
                  dv.divice_name, s.min_value, s.max_value
@@ -79,14 +81,7 @@ function getSensorSummary($db, int $branchId): string
     $lines   = [];
     $lines[] = "=== Sensor Summary | Branch {$branchId} | " . date('Y-m-d H:i') . " ===";
 
-    $currentGroup = '';
     while ($row = pg_fetch_assoc($result)) {
-        // หัวกลุ่ม
-        if ($row['group_name'] !== $currentGroup) {
-            $currentGroup = $row['group_name'];
-            $lines[] = "\n[{$currentGroup}]";
-        }
-
         $lines[] = formatSensorLine($row, $schedules[$row['monitor_id']] ?? []);
     }
 
@@ -98,17 +93,17 @@ function formatSensorLine(array $s, array $schedule): string
 {
     // icon
     $anomaly = (int)$s['anomaly_count'];
-    $icon    = $anomaly === 0 ? '🟢' : ($anomaly >= 5 ? '🔴' : '🟡');
+    $icon    = $anomaly === 0 ? 'normal' : ($anomaly >= 5 ? 'danger' : 'warning');
 
     // offline (ไม่มีข้อมูลเกิน 1 ชม.)
-    $offline = (time() - strtotime($s['last_seen'])) > 3600 ? ' ⚫offline' : '';
+    $offline = (time() - strtotime($s['last_seen'])) > 3600 ? 'offline' : '';
 
     // trend เฉพาะเมื่อต่างกันเกิน 2 หน่วย
     $trend = '';
     if ($s['avg_morning'] !== null && $s['avg_afternoon'] !== null) {
         $diff = abs((float)$s['avg_afternoon'] - (float)$s['avg_morning']);
         if ($diff > 2) {
-            $arrow = (float)$s['avg_afternoon'] > (float)$s['avg_morning'] ? '↑' : '↓';
+            $arrow = (float)$s['avg_afternoon'] > (float)$s['avg_morning'] ? '[up]' : '[down]';
             $trend = " trend={$s['avg_morning']}→{$s['avg_afternoon']}{$arrow}";
         }
     }
@@ -117,13 +112,13 @@ function formatSensorLine(array $s, array $schedule): string
     $anomalyText = '';
     if ($anomaly > 0) {
         $peak        = $s['peak_high'] ?? $s['peak_low'];
-        $anomalyText = " ⚠{$anomaly}ครั้ง peak={$peak}";
+        $anomalyText = " anomaly={$anomaly} times peak={$peak}";
     }
 
     // schedule
     $sched = !empty($schedule) ? ' | ' . implode(', ', $schedule) : '';
 
-    return "{$icon} {$s['monitor_name']} [{$s['divice_name']}]"
+    return " | [{$icon}] Device-name:{$s['divice_name']}"
          . " avg={$s['avg_val']} now={$s['latest_value']}"
          . " range={$s['range_val']} limit={$s['min_value']}-{$s['max_value']}"
          . $trend
@@ -132,7 +127,7 @@ function formatSensorLine(array $s, array $schedule): string
          . $offline;
 }
 
-$data = getSensorSummary($db, (int)$branch_id);
+$data = getSensorSummary($db, (int)$branch_id, $required_sensors);
 
 if ($data) {
     echo json_encode(["status" => "success", "data" => $data], JSON_UNESCAPED_UNICODE);
