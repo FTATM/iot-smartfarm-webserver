@@ -102,11 +102,6 @@ function CallAI($prompt)
 {
     global $AI_MODE, $AI_config, $AI_EXTERNAL_config;
 
-    // echo "Prompt to AI: " . $prompt . "\n";
-    // echo $AI_MODE;
-    // var_dump($AI_config);
-    // var_dump($AI_EXTERNAL_config);
-
     if ($AI_MODE === 0) {
         // ─── Local Ollama ───────────────────────────────────────
         $request_body = json_encode([
@@ -169,8 +164,7 @@ function CallAI($prompt)
         curl_close($ch);
 
         $ai_decoded = json_decode($ai_response, true);
-        // echo "AI Response: " . $ai_response . "\n";
-        // echo "AI Decoded: " . json_encode($ai_decoded, JSON_UNESCAPED_UNICODE) . "\n";
+
         if (isset($ai_decoded['choices'][0]['message']['content'])) {
             $reply = json_encode(["success" => true, "message" => $ai_decoded['choices'][0]['message']['content']]);
         } else if (isset($ai_decoded['error'])) {
