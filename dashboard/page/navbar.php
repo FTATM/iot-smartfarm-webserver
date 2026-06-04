@@ -815,7 +815,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </li> -->
 
         
-        <?php if ($_SESSION['branch_id'] == 3) { ?>
+        <?php if ($_SESSION['branch_id'] == 1) { ?>
         <li>
             <a href="container-1-dashboard.php"
                 class="<?php echo ($current_page == 'container-1-dashboard') ? 'active' : ''; ?>">
