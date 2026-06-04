@@ -1,4 +1,13 @@
 <style type="text/tailwindcss">
+    body.menu {
+        font-family: 'Manrope', sans-serif;
+        background: radial-gradient(circle at center, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+    body.dark.menu{
+        background: radial-gradient(circle at center, #1c1917 0%, #0c0a09 100%);
+    }
+
     .donut-chart { 
         background: conic-gradient( 
         #f97316 0% 0%, 
@@ -47,5 +56,31 @@
                 radial-gradient(circle, color-mix(in srgb, currentColor 30%, transparent) 2px, transparent 2px),
                 radial-gradient(circle, currentColor 2px, transparent 2px);
         }
+    }
+
+    .glass-card {
+        background: rgba(240, 240, 240, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(240, 240, 240, 0.5);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+        background: rgba(230, 230, 230, 0.9);
+        transform: translateY(-8px);
+        border-color: rgba(230, 230, 230, 0.8);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+    .dark .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dark .glass-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-8px);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
     </style>
