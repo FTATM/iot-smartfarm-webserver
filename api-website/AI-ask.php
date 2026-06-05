@@ -6,6 +6,7 @@ include_once(__DIR__ . '/../includes/fn/pg_connect.php');
 require_once 'config.php';
 require_once 'AI-functions.php';
 
+$AI_MODEL = $AI_MODE == 0 ? $AI_config['model'] : $AI_EXTERNAL_config['model'];
 // ── DB Connect (optional) ─────────────────────────────────────────────────────
 $db    = null;
 $error = null;
@@ -152,7 +153,7 @@ if (!isset($aiContent['answer'])) {
 $response_log = null;
 
 if ($db) {
-    $raw_logs     = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Assistant', $question, $prompt, $response);
+    $raw_logs     = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Assistant', 1, $message, $prompt, $response);
     $response_log = json_decode($raw_logs, true);
     pg_close($db);
 }

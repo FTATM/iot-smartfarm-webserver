@@ -181,9 +181,9 @@ function CallAI($prompt, $mode, $lo_config, $ex_config, $timeout = 3600)
     return $reply;
 }
 
-function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $CATEGORY = 'assistant', $QUESTION = null, $PLANNER_PROMPT = null, $PLANNER_RESPONSE = null, $COLLECTED_DATA = null, $DECISION_PROMPT = null, $DECISION_RESPONSE = null, $EXECUTION_RESULT = null)
+function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $CATEGORY = 'assistant', $IS_SUCCESS = 0, $DESCRIPTION = null, $QUESTION = null, $PLANNER_PROMPT = null, $PLANNER_RESPONSE = null, $COLLECTED_DATA = null, $DECISION_PROMPT = null, $DECISION_RESPONSE = null, $EXECUTION_RESULT = null)
 {
-    if (!$db || !$BRANCH_ID || !$QUESTION) {
+    if (!$db || !$BRANCH_ID) {
         return json_encode(["success" => false, "message" => "Invalid input parameters for logging INTO interaction"]);
     }
     if (is_array($PLANNER_RESPONSE)) $PLANNER_RESPONSE = json_encode($PLANNER_RESPONSE, JSON_UNESCAPED_UNICODE);
@@ -193,19 +193,21 @@ function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $CATEGORY = 'assistant',
     if (is_array($EXECUTION_RESULT)) $EXECUTION_RESULT = json_encode($EXECUTION_RESULT, JSON_UNESCAPED_UNICODE);
 
 
-    $sql = "INSERT INTO ai_log (branch_id, ai_mode, ai_model, question, planner_prompt, planner_response, collected_data, decision_prompt, decision_response, execution_result, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+    $sql = "INSERT INTO ai_log (branch_id, ai_mode, ai_model, question, planner_prompt, planner_response, collected_data, decision_prompt, decision_response, execution_result, category, is_success, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)";
     $payload = [
         $BRANCH_ID,
         $AI_MODE,
         $AI_MODEL,
-        $QUESTION ?? '',
+        $QUESTION,
         $PLANNER_PROMPT ?? '',
         $PLANNER_RESPONSE,
         $COLLECTED_DATA ?? '',
         $DECISION_PROMPT ?? '',
         $DECISION_RESPONSE,
         $EXECUTION_RESULT,
-        $CATEGORY
+        $CATEGORY,
+        $IS_SUCCESS,
+        $DESCRIPTION
     ];
     $result = pg_query_params($db, $sql, $payload);
 
