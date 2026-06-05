@@ -1,4 +1,6 @@
 <?php
+$branch_id = 1; // ทดสอบกับ branch เดียวก่อน
+
 // ============================================================
 // 1. เรียกได้จาก: Cron, CLI, หรือ trigger endpoint
 // ============================================================
@@ -17,6 +19,9 @@ $AI_MODEL = $AI_MODE == 0 ? $AI_config['model'] : $AI_EXTERNAL_config['model'];
 echo json_encode(["checkpoint" => 2, "msg" => "config loaded"]) . "\n";
 flush();
 
+
+
+
 // ============================================================
 // 3.เช็คการเชื่อมต่อ DB
 // ============================================================
@@ -26,23 +31,36 @@ if (!$db) {
   echo json_encode(["checkpoint" => 3, "msg" => "DB connection failed", "error" => $error]) . "\n";
   flush();
   exit;
-} else {
-  echo json_encode(["checkpoint" => 3, "msg" => "db ok"]) . "\n";
+}
+
+echo json_encode(["checkpoint" => 3, "msg" => "db ok"]) . "\n";
+flush();
+
+// ============================================================
+// 3.1.เช็คโหมด AI 
+// ============================================================
+if ($AI_MODE == 0) {
+  echo json_encode([
+    "checkpoint" => 3.1,
+    "msg"        => "Local mode does not support AI decision.",
+    "error"      => "AI Decision requires External mode (AI_MODE = 1). Please upgrade to Pro for faster response."
+  ]) . "\n";
   flush();
+
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', "AI Decision is not available in Local mode.");
+  exit;
 }
 
 // ============================================================
 // 4. ดึงค่า sensor ของ branch ที่ต้องการ
 // ============================================================
-$branch_id = 3; // ทดสอบกับ branch เดียวก่อน
 $sensor_list = getmonitorList($branch_id);
-
 $sensor_list_json = json_encode($sensor_list['sensor'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 $output_list_json = json_encode($sensor_list['output'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 if (empty($sensor_list['sensor'])) {
   echo json_encode(["checkpoint" => 4, "msg" => "no sensors found for branch", "error" => "No sensors available"]) . "\n";
   flush();
-  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, "No sensors available");
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', "No sensors available");
   exit;
 } else {
   echo json_encode(["checkpoint" => 4, "msg" => "sensor data fetched"]) . "\n";
@@ -75,13 +93,13 @@ PROMPT;
 // 5. เรียก AI เพื่อวิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
 // ================================================================
 
-$ai_response = CallAI($prompt,$AI_MODE,$AI_config,$AI_EXTERNAL_config,60);
+$ai_response = CallAI($prompt, $AI_MODE, $AI_config, $AI_EXTERNAL_config, 60);
 $raw = json_decode($ai_response, true);
 
 if (isset($raw['success']) && !$raw['success'] && $raw['success'] == false) {
   echo json_encode(["checkpoint" => 5, "msg" => $raw['message'], "error" => $raw['error']]) . "\n";
   flush();
-  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw['error']);
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', $question, $prompt, $ai_response);
   exit;
 }
 
@@ -125,13 +143,13 @@ flush();
 // ================================================================
 // 8. เรียก AI เพื่อตัดสินใจ
 // ================================================================
-$ai_decision_response = CallAI($prompt_decision,$AI_MODE,$AI_config,$AI_EXTERNAL_config,60);
+$ai_decision_response = CallAI($prompt_decision, $AI_MODE, $AI_config, $AI_EXTERNAL_config, 60);
 $ai_decision_answer = json_decode($ai_decision_response, true);
 
 if (isset($ai_decision_answer['success']) && !$ai_decision_answer['success'] && $ai_decision_answer['success'] == false) {
   echo json_encode(["checkpoint" => 8, "msg" => $ai_decision_answer['message'], "error" => $ai_decision_answer['error']]) . "\n";
   flush();
-  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw, $data_tools, $prompt_decision, $ai_decision_answer, null);
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, null);
   exit;
 }
 
@@ -148,7 +166,7 @@ $response_set_output = json_decode($set_output, true);
 if (isset($response_set_output) && !$response_set_output['success']) {
   echo json_encode(["checkpoint" => 9, "msg" => $response_set_output['message'], "error" => $response_set_output['error']]) . "\n";
   flush();
-  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $raw, $data_tools, $prompt_decision, $ai_decision_answer, $response_set_output);
+  INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
   exit;
 }
 echo json_encode(["checkpoint" => 9, "msg" => "action executed"]) . "\n";
@@ -159,7 +177,7 @@ flush();
 // 10. บันทึกข้อมูลทั้งหมดที่ใช้ตัดสินใจไป ลง Log 
 // ================================================================
 echo json_encode(["checkpoint" => 10, "msg" => "Insert logs"]) . "\n";
-$raw_logs = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
+$raw_logs = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
 $response_log = json_decode($raw_logs, true);
 
 echo "ผลการเพิ่มเข้า log : " . $response_log['message'] . "\n";
