@@ -105,7 +105,7 @@ $classIconHeader = "boxicons--container";
                             <div
                                 class="col-span-2 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
-                                <!-- Header -->
+                                <!-- Header AI -->
                                 <div class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
                                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                                     <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>

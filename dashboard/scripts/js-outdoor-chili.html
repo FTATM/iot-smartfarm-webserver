@@ -124,7 +124,7 @@
 
             let div = document.createElement('div');
             div.id = `card-${s}`;
-            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border shadow-sm flex flex-col transition-all duration-200 shrink-0 select-none"
+            div.className = "bg-white dark:bg-stone-900 box rounded-2xl p-[0.5vw] border dark:border-stone-800 shadow-sm flex flex-col transition-all duration-200 shrink-0 select-none"
                 + (hasData ? " cursor-pointer hover:ring-2 hover:ring-orange-400" : "");
 
             // border + ring based on selected state
@@ -390,34 +390,6 @@
                 </div>
             </div>
             `;
-        });
-    }
-
-    var T2 = ['tab-env2', 'tab-fert2', 'tab-care2'];
-    var P2 = ['panel2-0', 'panel2-1', 'panel2-2'];
-
-    function switchCard2(idx) {
-        T2.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-
-            if (i === idx) {
-                // ACTIVE (เน้นสีส้ม)
-                el.style.backgroundColor = '#ff8021';
-                el.style.color = '#ffffff';
-                el.style.borderColor = '#ff8021';
-            } else {
-                // INACTIVE
-                el.style.backgroundColor = '#ffffff';
-                el.style.color = '#ff8021';
-                el.style.borderColor = '#ff8021';
-            }
-        });
-
-        P2.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
         });
     }
 
@@ -1024,63 +996,6 @@
         switchCard2(0);
     });
 
-    var T1 = [
-        'tab1-plant',
-        'tab1-struct',
-        'tab1-growth',
-        'tab1-fixed',
-        'tab1-variable'
-    ];
-
-    var P1 = [
-        'panel1-0',
-        'panel1-1',
-        'panel1-2',
-        'panel1-3',
-        'panel1-4'
-    ];
-
-    function switchCard1(idx) {
-        T1.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            if (i === idx) {
-                el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
-                el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
-            } else {
-                el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
-                el.classList.remove('bg-orange-500', 'text-white');
-            }
-        });
-        P1.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
-        });
-    }
-
-    function switchCard2(idx) {
-        T2.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-
-            if (i === idx) {
-                // ACTIVE
-                el.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
-                el.classList.remove('bg-white', 'dark:bg-stone-800', 'text-orange-500');
-            } else {
-                // INACTIVE
-                el.classList.add('bg-white', 'dark:bg-stone-800', 'text-orange-500', 'border-orange-500');
-                el.classList.remove('bg-orange-500', 'text-white');
-            }
-        });
-
-        P2.forEach(function (id, i) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            i === idx ? el.classList.remove('hidden') : el.classList.add('hidden');
-        });
-    }
 
     // ===== BUILD DOTS จาก DB (dynamic เหมือน indoor) =====
     function buildDots(rows) {

@@ -105,13 +105,24 @@ $classIconHeader = "boxicons--container";
                             <div
                                 class="col-span-2 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
 
-                                <!-- Header -->
-                                <div
-                                    class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
+                                <!-- Header AI -->
+                                <div class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
                                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI
-                                        Assistant</span>
-                                    <span class="ml-auto text-xs text-stone-400">พร้อมใช้งาน</span>
+                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>
+
+                                    <!-- Model badge -->
+                                    <span id="ai-model-badge"
+                                        class="text-xs px-1.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 font-mono">
+                                        -
+                                    </span>
+
+                                    <!-- Mode badge -->
+                                    <span id="ai-mode-badge"
+                                        class="text-xs px-1.5 py-0.5 rounded-full font-medium">
+                                        -
+                                    </span>
+
+                                    <span class="ml-auto text-xs text-stone-400" id="ai-status">🟢</span>
                                 </div>
 
                                 <!-- Messages -->
