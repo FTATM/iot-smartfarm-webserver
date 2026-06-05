@@ -98,14 +98,12 @@ function setSensorOutput(int $branchId, array $outputList, string $status = null
     return json_encode(["success" => $result['message'] ? true : false, "message" => $result['message'] ? $result['message'] : "Failed to set sensor output"]);
 }
 
-function CallAI($prompt)
+function CallAI($prompt, $mode, $lo_config, $ex_config, $timeout = 3600)
 {
-    global $AI_MODE, $AI_config, $AI_EXTERNAL_config;
-
-    if ($AI_MODE === 0) {
+    if ($mode === 0) {
         // ─── Local Ollama ───────────────────────────────────────
         $request_body = json_encode([
-            "model" => $AI_config['model'],
+            "model" => $lo_config['model'],
             "prompt" => $prompt,
             "stream" => false,
             "format" => "json",
@@ -117,13 +115,13 @@ function CallAI($prompt)
             ],
         ]);
 
-        $ch = curl_init($AI_config['api_url']);
+        $ch = curl_init($lo_config['api_url']);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $request_body,
             CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
-            CURLOPT_TIMEOUT => 3600,
+            CURLOPT_TIMEOUT => $timeout,
         ]);
         $ai_response = curl_exec($ch);
         $ai_http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -132,11 +130,17 @@ function CallAI($prompt)
 
         // Parse Ollama response
         $ai_decoded = json_decode($ai_response, true);
-        $reply = $ai_decoded['response'] ?? 'No response';
+        if (isset($ai_decoded['response'])) {
+            $reply = json_encode(["success" => true, "message" => $ai_decoded['response']]);
+        // } else if (isset($ai_decoded['error'])) {
+        //     $reply = json_encode(["success" => false, "message" => 'Error from AI: ' . $ai_decoded['error']['message'], "error" => $ai_decoded['error']]);
+        } else {
+            $reply = json_encode(["success" => false, "message" => 'No valid response from AI', "error" => "AI response missing expected fields"]);
+        }
     } else {
         // ─── External API (Groq / OpenAI-compatible) ────────────
         $request_body = json_encode([
-            "model" => $AI_EXTERNAL_config['model'],
+            "model" => $ex_config['model'],
             "temperature" => 0.1,
             "messages" => [
                 [
@@ -147,14 +151,14 @@ function CallAI($prompt)
             "response_format" => ["type" => "json_object"], // บังคับ JSON
         ]);
 
-        $ch = curl_init($AI_EXTERNAL_config['api_url']);
+        $ch = curl_init($ex_config['api_url']);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $request_body,
             CURLOPT_HTTPHEADER => [
                 "Content-Type: application/json",
-                "Authorization: Bearer {$AI_EXTERNAL_config['api_key']}",
+                "Authorization: Bearer {$ex_config['api_key']}",
             ],
             CURLOPT_TIMEOUT => 120,
         ]);

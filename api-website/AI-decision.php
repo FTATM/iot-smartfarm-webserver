@@ -75,7 +75,7 @@ PROMPT;
 // 5. เรียก AI เพื่อวิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
 // ================================================================
 
-$ai_response = CallAI($prompt);
+$ai_response = CallAI($prompt,$AI_MODE,$AI_config,$AI_EXTERNAL_config,60);
 $raw = json_decode($ai_response, true);
 
 if (isset($raw['success']) && !$raw['success'] && $raw['success'] == false) {
@@ -125,7 +125,7 @@ flush();
 // ================================================================
 // 8. เรียก AI เพื่อตัดสินใจ
 // ================================================================
-$ai_decision_response = CallAI($prompt_decision);
+$ai_decision_response = CallAI($prompt_decision,$AI_MODE,$AI_config,$AI_EXTERNAL_config,60);
 $ai_decision_answer = json_decode($ai_decision_response, true);
 
 if (isset($ai_decision_answer['success']) && !$ai_decision_answer['success'] && $ai_decision_answer['success'] == false) {
