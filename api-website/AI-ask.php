@@ -152,7 +152,7 @@ if (!isset($aiContent['answer'])) {
 $response_log = null;
 
 if ($db) {
-    $raw_logs     = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, $question, $prompt, $response);
+    $raw_logs     = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Assistant', $question, $prompt, $response);
     $response_log = json_decode($raw_logs, true);
     pg_close($db);
 }

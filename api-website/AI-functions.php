@@ -132,8 +132,8 @@ function CallAI($prompt, $mode, $lo_config, $ex_config, $timeout = 3600)
         $ai_decoded = json_decode($ai_response, true);
         if (isset($ai_decoded['response'])) {
             $reply = json_encode(["success" => true, "message" => $ai_decoded['response']]);
-        // } else if (isset($ai_decoded['error'])) {
-        //     $reply = json_encode(["success" => false, "message" => 'Error from AI: ' . $ai_decoded['error']['message'], "error" => $ai_decoded['error']]);
+            // } else if (isset($ai_decoded['error'])) {
+            //     $reply = json_encode(["success" => false, "message" => 'Error from AI: ' . $ai_decoded['error']['message'], "error" => $ai_decoded['error']]);
         } else {
             $reply = json_encode(["success" => false, "message" => 'No valid response from AI', "error" => "AI response missing expected fields"]);
         }
@@ -181,7 +181,7 @@ function CallAI($prompt, $mode, $lo_config, $ex_config, $timeout = 3600)
     return $reply;
 }
 
-function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $QUESTION = null, $PLANNER_PROMPT = null, $PLANNER_RESPONSE = null, $COLLECTED_DATA = null, $DECISION_PROMPT = null, $DECISION_RESPONSE = null, $EXECUTION_RESULT = null)
+function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $CATEGORY = 'assistant', $QUESTION = null, $PLANNER_PROMPT = null, $PLANNER_RESPONSE = null, $COLLECTED_DATA = null, $DECISION_PROMPT = null, $DECISION_RESPONSE = null, $EXECUTION_RESULT = null)
 {
     if (!$db || !$BRANCH_ID || !$QUESTION) {
         return json_encode(["success" => false, "message" => "Invalid input parameters for logging INTO interaction"]);
@@ -193,18 +193,19 @@ function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $QUESTION = null, $PLANN
     if (is_array($EXECUTION_RESULT)) $EXECUTION_RESULT = json_encode($EXECUTION_RESULT, JSON_UNESCAPED_UNICODE);
 
 
-    $sql = "INSERT INTO ai_log (branch_id, ai_mode, ai_model, question, planner_prompt, planner_response, collected_data, decision_prompt, decision_response, execution_result) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    $sql = "INSERT INTO ai_log (branch_id, ai_mode, ai_model, question, planner_prompt, planner_response, collected_data, decision_prompt, decision_response, execution_result, category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
     $payload = [
         $BRANCH_ID,
         $AI_MODE,
         $AI_MODEL,
         $QUESTION ?? '',
         $PLANNER_PROMPT ?? '',
-        $PLANNER_RESPONSE ?? '',
+        $PLANNER_RESPONSE,
         $COLLECTED_DATA ?? '',
         $DECISION_PROMPT ?? '',
-        $DECISION_RESPONSE ?? '',
-        $EXECUTION_RESULT
+        $DECISION_RESPONSE,
+        $EXECUTION_RESULT,
+        $CATEGORY
     ];
     $result = pg_query_params($db, $sql, $payload);
 
