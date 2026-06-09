@@ -18,10 +18,9 @@ if (!$conn) {
 }
 
 
-$sql = "SELECT SUM(i.amount) as income, SUM(e.amount) as expense
-FROM income i
-LEFT JOIN expense e ON i.branch_id = e.branch_id
-WHERE i.branch_id = $1";
+$sql = "SELECT 
+    (SELECT COALESCE(SUM(amount), 0) FROM income  WHERE branch_id = $1) AS income,
+    (SELECT COALESCE(SUM(amount), 0) FROM expense WHERE branch_id = $1) AS expense";
 
 $result = pg_query_params($conn, $sql, [$bid]);
 

@@ -5,7 +5,7 @@
     let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่านปุ่ม
     let _sensors_cache = null;           // cache sensors data ล่าสุด
 
-    const Sensors_realtime = ["Voltage_S", "Current_S", "Power_S", "Voltage_L", "Current_L", "Power_L"];
+    const Sensors_realtime = ["Voltage_DC_IN", "Current_DC_IN", "Energy_DC_IN", "Voltage_DC_PV", "Current_DC_PV", "Energy_DC_PV"];
     const Sensors_name_left = [];
     const Sensors_name_right = [];
     const market_name = "solar";             //name market example => solar, shrimp, indoor, outdoor
@@ -105,47 +105,39 @@
 
     async function Card1() {
         console.log("Card 1");
-        const pwrMeterSensor = ["Voltage", "Current", "Power", "Energy"];
+        const pwrMeterSensor = ["Voltage_AC_IN", "Current_AC_IN", "Power_AC_IN", "Energy_AC_IN"];
+
         try {
-            const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sensorLog: pwrMeterSensor
-                    })
-                }
-            );
+            const res = await fetch('../../api-website/plot_sensor_log_multiple.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sensorLog: pwrMeterSensor })
+            });
             const data = await res.json();
             const pwrsensors = data['sensors'];
 
-            const voltageData = (pwrsensors.Voltage?.logs || []).map(log =>
-                parseFloat(log.data_value)
-            );
-            const currentData = (pwrsensors.Current?.logs || []).map(log =>
-                parseFloat(log.data_value)
-            );
-            const powerData = (pwrsensors.Power?.logs || []).map(log =>
-                parseFloat(log.data_value)
-            );
-            const energyData = (pwrsensors.Energy?.logs || []).map(log =>
-                parseFloat(log.data_value)
-            );
+            // loop ดึง logs ทุกตัวใน list
+            const sensorData = {};
+            pwrMeterSensor.forEach(key => {
+                const logs = (pwrsensors[key]?.logs || []).map(log => parseFloat(log.data_value));
+                sensorData[key] = logs;
+            });
 
-            const v = Avg(voltageData);
-            const c = Avg(currentData);
-            const p = Avg(powerData);
-            const e = energyData[energyData.length - 1];
+            // ดึงค่าแยกใช้งาน
+            const v = sensorData[pwrMeterSensor[0]].length > 0 ? Avg(sensorData[pwrMeterSensor[0]]) : "--";
+            const c = sensorData[pwrMeterSensor[1]].length > 0 ? Avg(sensorData[pwrMeterSensor[1]]) : "--";
+            const p = sensorData[pwrMeterSensor[2]].length > 0 ? Avg(sensorData[pwrMeterSensor[2]]) : "--";
+            const e = sensorData[pwrMeterSensor[3]].length > 0 ? sensorData[pwrMeterSensor[3]][sensorData[pwrMeterSensor[3]].length - 1] : "--";
 
             const voltageEl = document.getElementById('pwrm-voltage');
             const currentEl = document.getElementById('pwrm-current');
             const powerEl = document.getElementById('pwrm-power');
             const energyEl = document.getElementById('pwrm-energy');
+            if (voltageEl) voltageEl.textContent = v;
+            if (currentEl) currentEl.textContent = c;
+            if (powerEl) powerEl.textContent = p;
+            if (energyEl) energyEl.textContent = e;
 
-            voltageEl.textContent = v;
-            currentEl.textContent = c;
-            powerEl.textContent = p;
-            energyEl.textContent = e;
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
@@ -190,6 +182,9 @@
             const raw = await res.json();
             const costs = raw['data'];
 
+            console.log(costs);
+            
+
             const initialEl = document.getElementById('initial-capital');
             const refundEl = document.getElementById('refunded');
             const remainEl = document.getElementById('remaining');
@@ -207,8 +202,8 @@
         }
 
     }
+    
     async function Card4() {
-        console.log("Card 4");
         let table = [];
         let expense = [];
         let categories = [];
@@ -226,11 +221,6 @@
             const rescat = await fetch('../../api-website/fetch_categories.php?type=' + category_type);
             const raw3 = await rescat.json();
             categories = raw3['data'];
-
-            const res4 = await fetch('../../api-website/fetch_tableByTypeId.php?typeId=' + table_type + "&aDay=" + data.day);
-            const raw4 = await res4.json();
-            table = raw4['data'];
-
 
         } catch (err) {
             console.error('❌ fetch expenses error:', err);
