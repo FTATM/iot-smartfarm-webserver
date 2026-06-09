@@ -35,40 +35,27 @@ if (empty($datadcode->id)) {
 pg_query($db, "BEGIN");
 
 try {
-
-    // ✅ เตรียมคำสั่ง SQL UPDATE
-    $sql = "UPDATE dashboard_main SET 
-        label_text = $1,
-        is_active = $2,
-        type_values_id = $3,
-        icon_id = $4,
-        unitofvalue = $5
-    WHERE id = $6
+    $sql = "UPDATE home_branch SET 
+        value = $3,
+        type_values_id = $4,
+        icon_id = $5,
+        unitofvalue = $6,
+        label = $7
+        WHERE branch_id = $1 AND home_row_id = $2
     ";
+
     $params = [
-        $datadcode->label_text ?? '',
-        $datadcode->is_active ?? '1',
-        $datadcode->type_values_id ?? 1,
-        $datadcode->icon_id ?? 1,
-        $datadcode->unitofvalue ?? '',
-        $datadcode->id
-    ];
-
-    // ✅ รันคำสั่ง SQL
-    $result = pg_query_params($db, $sql, $params);
-
-    $sql_hb = "UPDATE home_branch SET 
-        value = $1
-        WHERE branch_id = $2 AND home_row_id = $3
-    ";
-
-    $params_hb = [
-        $homedcode->value ?? "",
         $homedcode->branch_id ?? 1,
-        $homedcode->home_row_id ?? $datadcode->id
+        $homedcode->home_row_id ?? $datadcode->id,
+        $homedcode->value ?? "",
+        $homedcode->type_values_id,
+        $homedcode->icon_id,
+        $homedcode->unitofvalue,
+        $homedcode->label
+
     ];
 
-    $result = pg_query_params($db, $sql_hb, $params_hb);
+    $result = pg_query_params($db, $sql, $params);
 
 
     pg_query($db, "COMMIT");

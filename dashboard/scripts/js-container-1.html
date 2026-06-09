@@ -5,8 +5,8 @@
     let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่าน checkbox
     let _sensors_cache = null;           // cache sensors data ล่าสุด
 
-    const Sensors_realtime = ["Temp_AVG", "RH_AVG", "CO2_AVG", "O2_AVG", "PPFD_1", "WL_1"];
-    const Sensors_name_left = ["SS_IoT", "PB_LIGHT", "PH1", "PH2", "PPFD_2", "PPFD_3"];
+    const Sensors_realtime = ["Temp_AVG", "RH_AVG", "CO2_AVG", "O2_AVG", "WL_1", "WL_2"];
+    const Sensors_name_left = ["PB_Start", "SS_Manual", "SS_IoT", "EMG", "PB_LIGHT", "PB_FAN"];
     const Sensors_name_right = ["PB_LP1", "PB_LP2", "PB_LP3", "PB_FLOW", "AL.EA", "Alarm"];
     const market_name = "outdoor";     //name market example => solar, shrimp, indoor, outdoor
     const type = "price";              //multi type example => demand,price
@@ -20,13 +20,13 @@
 
         isLoading = false;
 
-        // setInterval(async () => {
-        //     setHeaderInit();
-        //     console.log("loading new data from database ...");
-        //     await process();
-        //     console.log("load data success");
-        //     console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        // }, 10000);
+        setInterval(async () => {
+            setHeaderInit();
+            console.log("loading new data from database ...");
+            await process();
+            console.log("load data success");
+            console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+        }, 10000);
 
     });
 

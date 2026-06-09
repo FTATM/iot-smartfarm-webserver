@@ -43,7 +43,7 @@
       
       $sql  = "SELECT a.id, a.item_type_id, a.item_name, a.sort, a.status,b.type_path,b.type_name,a.branch_id
                 FROM dashboard_item a left join dashboard_type b on a.item_type_id = b.id
-                where a.status ='1' ".$sql_plus." order by ".$sortx." a.sort desc,id asc;";
+                where a.status ='1' ".$sql_plus." order by ".$sortx." a.sort asc,id asc;";
       $rs   = select($sql,$db);
       // echo "<pre>";
       // print_r($rs);

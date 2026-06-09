@@ -314,13 +314,13 @@
         await process();
         isLoading = false;
 
-        //     setInterval(async () => {
-        //         _tmdCache = null;   // reset cache เพื่อดึงข้อมูลใหม่
-        //         setHeaderInit();
-        //         console.log("loading new data ...");
-        //         await process();
-        //         console.log("load done -=-=-=-=-=-=-");
-        //     }, 10000);
+            setInterval(async () => {
+                _tmdCache = null;   // reset cache เพื่อดึงข้อมูลใหม่
+                setHeaderInit();
+                console.log("loading new data ...");
+                await process();
+                console.log("load done -=-=-=-=-=-=-");
+            }, 10000);
     });
 
     async function process() {
