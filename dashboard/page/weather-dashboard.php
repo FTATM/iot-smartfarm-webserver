@@ -15,101 +15,101 @@ $classIconHeader = "arcticons--weathercan";
 <head>
     <title>Weather - Dashboard</title>
     <style>
-    :root {
-        --fs-xs: clamp(9px, 0.5vw, 14px);
-        --fs-sm: clamp(11px, 0.75vw, 18px);
-        --fs-md: clamp(13px, 1vw, 22px);
-        --fs-lg: clamp(16px, 1.5vw, 28px);
-    }
-
-    /* 4K: 3840×2160 */
-    @media (min-width: 3840px) {
         :root {
-            --fs-xs: clamp(20px, 0.55vw, 28px);
-            --fs-sm: clamp(26px, 0.8vw, 36px);
-            --fs-md: clamp(34px, 1.1vw, 48px);
-            --fs-lg: clamp(44px, 1.6vw, 64px);
+            --fs-xs: clamp(9px, 0.5vw, 14px);
+            --fs-sm: clamp(11px, 0.75vw, 18px);
+            --fs-md: clamp(13px, 1vw, 22px);
+            --fs-lg: clamp(16px, 1.5vw, 28px);
         }
 
-        [class*="text-[0.4vw]"],
-        [class*="text-[0.45vw]"],
-        [class*="text-[0.5vw]"] {
-            font-size: var(--fs-xs) !important;
-        }
+        /* 4K: 3840×2160 */
+        @media (min-width: 3840px) {
+            :root {
+                --fs-xs: clamp(20px, 0.55vw, 28px);
+                --fs-sm: clamp(26px, 0.8vw, 36px);
+                --fs-md: clamp(34px, 1.1vw, 48px);
+                --fs-lg: clamp(44px, 1.6vw, 64px);
+            }
 
-        [class*="text-[0.55vw]"],
-        [class*="text-[0.6vw]"],
-        [class*="text-[0.65vw]"],
-        [class*="text-[0.75vw]"],
-        [class*="text-[0.8vw]"],
-        [class*="text-[0.9vw]"] {
-            font-size: var(--fs-sm) !important;
-        }
+            [class*="text-[0.4vw]"],
+            [class*="text-[0.45vw]"],
+            [class*="text-[0.5vw]"] {
+                font-size: var(--fs-xs) !important;
+            }
 
-        [class*="text-[1vw]"],
-        [class*="text-[1.1vw]"] {
-            font-size: var(--fs-md) !important;
-        }
+            [class*="text-[0.55vw]"],
+            [class*="text-[0.6vw]"],
+            [class*="text-[0.65vw]"],
+            [class*="text-[0.75vw]"],
+            [class*="text-[0.8vw]"],
+            [class*="text-[0.9vw]"] {
+                font-size: var(--fs-sm) !important;
+            }
 
-        [class*="text-[1.5vw]"],
-        [class*="text-[2vw]"] {
-            font-size: var(--fs-lg) !important;
-        }
+            [class*="text-[1vw]"],
+            [class*="text-[1.1vw]"] {
+                font-size: var(--fs-md) !important;
+            }
 
-        /* inline style font-size vw */
-        .material-symbols-outlined {
-            font-size: var(--fs-sm) !important;
-        }
+            [class*="text-[1.5vw]"],
+            [class*="text-[2vw]"] {
+                font-size: var(--fs-lg) !important;
+            }
 
-        /* padding */
-        [class*="p-[0.3vw]"] {
-            padding: clamp(8px, 0.35vw, 14px) !important;
-        }
+            /* inline style font-size vw */
+            .material-symbols-outlined {
+                font-size: var(--fs-sm) !important;
+            }
 
-        [class*="p-[0.4vw]"] {
-            padding: clamp(10px, 0.45vw, 18px) !important;
-        }
+            /* padding */
+            [class*="p-[0.3vw]"] {
+                padding: clamp(8px, 0.35vw, 14px) !important;
+            }
 
-        [class*="p-[0.5vw]"] {
-            padding: clamp(14px, 0.55vw, 22px) !important;
-        }
+            [class*="p-[0.4vw]"] {
+                padding: clamp(10px, 0.45vw, 18px) !important;
+            }
 
-        /* gap */
-        [class*="gap-1"] {
-            gap: clamp(8px, 0.3vw, 14px) !important;
-        }
+            [class*="p-[0.5vw]"] {
+                padding: clamp(14px, 0.55vw, 22px) !important;
+            }
 
-        [class*="gap-2"] {
-            gap: clamp(12px, 0.4vw, 20px) !important;
-        }
+            /* gap */
+            [class*="gap-1"] {
+                gap: clamp(8px, 0.3vw, 14px) !important;
+            }
 
-        [class*="gap-3"] {
-            gap: clamp(16px, 0.5vw, 26px) !important;
-        }
+            [class*="gap-2"] {
+                gap: clamp(12px, 0.4vw, 20px) !important;
+            }
 
-        [class*="gap-[0.3vw]"] {
-            gap: clamp(8px, 0.35vw, 14px) !important;
-        }
+            [class*="gap-3"] {
+                gap: clamp(16px, 0.5vw, 26px) !important;
+            }
 
-        /* space-y */
-        [class*="space-y-[0.3vw]"]>*+* {
-            margin-top: clamp(8px, 0.35vw, 14px) !important;
-        }
+            [class*="gap-[0.3vw]"] {
+                gap: clamp(8px, 0.35vw, 14px) !important;
+            }
 
-        /* progress bar */
-        [class*="h-[0.3vw]"] {
-            height: clamp(6px, 0.3vw, 10px) !important;
-        }
+            /* space-y */
+            [class*="space-y-[0.3vw]"]>*+* {
+                margin-top: clamp(8px, 0.35vw, 14px) !important;
+            }
 
-        /* rounded */
-        .rounded-xl {
-            border-radius: clamp(12px, 0.5vw, 20px) !important;
-        }
+            /* progress bar */
+            [class*="h-[0.3vw]"] {
+                height: clamp(6px, 0.3vw, 10px) !important;
+            }
 
-        .rounded-2xl {
-            border-radius: clamp(16px, 0.6vw, 26px) !important;
+            /* rounded */
+            .rounded-xl {
+                border-radius: clamp(12px, 0.5vw, 20px) !important;
+            }
+
+            .rounded-2xl {
+                border-radius: clamp(16px, 0.6vw, 26px) !important;
+            }
         }
-    }
     </style>
 </head>
 
@@ -281,88 +281,12 @@ $classIconHeader = "arcticons--weathercan";
                         <!-- ===== กราฟล่าง ===== -->
                         <div class="grid grid-cols-5 gap-3 flex-1 min-h-0">
                             <!-- Market Price (3 ส่วน) -->
-                            <div class="col-span-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700
-                            rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400
-                            transition-all duration-200">
+                            <!-- Box - AI -->
+                            <?php $col = 3;
+                            include_once('../components/box-ai.php') ?>
 
-                                <!-- Header AI -->
-                                <div class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
-                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                    <span class="text-sm font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>
-
-                                    <!-- Model badge -->
-                                    <span id="ai-model-badge"
-                                        class="text-xs px-1.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 font-mono">
-                                        -
-                                    </span>
-
-                                    <!-- Mode badge -->
-                                    <span id="ai-mode-badge"
-                                        class="text-xs px-1.5 py-0.5 rounded-full font-medium">
-                                        -
-                                    </span>
-
-                                    <span class="ml-auto text-xs text-stone-400" id="ai-status">🟢</span>
-                                </div>
-
-                                <!-- Messages -->
-                                <div id="chatMessages"
-                                    class="flex-1 overflow-y-auto py-3 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-stone-200 dark:scrollbar-thumb-stone-700">
-                                    <!-- AI welcome -->
-                                    <div class="flex items-end gap-2">
-                                        <div
-                                            class="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-[10px] font-semibold text-stone-500 flex-shrink-0">
-                                            AI</div>
-                                        <div
-                                            class="max-w-[78%] px-3 py-2 rounded-2xl rounded-bl-sm bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 text-[13px] leading-relaxed">
-                                            สวัสดีครับ ผมช่วยอะไรได้บ้าง?
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Input -->
-                                <div
-                                    class="flex items-end gap-2 pt-2.5 border-t border-stone-200 dark:border-stone-700 flex-shrink-0">
-                                    <textarea id="chatInput" rows="1" placeholder="พิมพ์ข้อความ..."
-                                        onkeydown="chatOnKey(event)" oninput="chatResize(this)"
-                                        class="flex-1 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-[13px] text-stone-800 dark:text-stone-100 placeholder-stone-400 resize-none outline-none leading-relaxed max-h-[90px] focus:border-orange-400 dark:focus:border-orange-500 transition-colors duration-150"></textarea>
-                                    <button id="chatSend" onclick="chatSend()"
-                                        class="w-8 h-8 rounded-full bg-orange-500 hover:bg-orange-600 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0 transition-all duration-150">
-                                        <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
-                                            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- ช่องขวา (2 ส่วน) -->
-                            <div
-                                class="col-span-2 bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
-                                <div>
-                                    <h2
-                                        class="text-[1vw] font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2">
-                                        <span class="w-[0.25vw] h-4 2xl:h-6 bg-primary rounded-full"></span>
-                                        สัดส่วนรายจ่าย
-                                    </h2>
-                                    <p
-                                        class="text-[0.5vw] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wider mt-1">
-                                        Distribution
-                                    </p>
-                                </div>
-                                <div class="flex flex-col items-center justify-center flex-grow">
-                                    <div id="donut" class="relative w-[10vw] h-[10vw] donut-chart shadow-xl">
-                                        <div
-                                            class="absolute inset-4 bg-white dark:bg-stone-900 rounded-full flex flex-col items-center justify-center text-center">
-                                            <p class="text-[0.75vw] font-bold text-slate-400 uppercase">Net Profit
-                                            </p>
-                                            <p id="card-4-total"
-                                                class="text-[1vw] font-bold font-display text-slate-900 dark:text-white leading-none">
-                                                0</p>
-                                            <p class="text-[0.75vw] font-bold text-teal-500 mt-1">THB</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Box - Chart - Pie -->
+                            <?php include_once('../components/box-chart-circle.php') ?>
                         </div>
                     </div>
                 </div>
@@ -377,7 +301,7 @@ $classIconHeader = "arcticons--weathercan";
                 <!-- Card 1: พยากรณ์อุณหภูมิ -->
                 <div
                     class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
-                    <div class="flex items-center mb-2">
+                    <div class="flex items-center">
                         <div
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
                             <span class="streamline-ultimate--temperature-thermometer-medium-bold"></span>
@@ -389,22 +313,22 @@ $classIconHeader = "arcticons--weathercan";
                     <div class="grid grid-cols-2 gap-3">
                         <!-- ต่ำสุด -->
                         <div
-                            class="bg-cyan-50/50 dark:bg-cyan-900/20 p-[0.5vw] rounded-xl text-center border border-cyan-100 dark:border-cyan-100/10 flex flex-col justify-center">
-                            <p class="text-[0.75vw] text-cyan-600 dark:text-blue-400 font-bold uppercase mb-1">
+                            class="bg-cyan-50/50 dark:bg-cyan-900/20 p-[0.25vw] rounded-xl text-center border border-cyan-100 dark:border-cyan-100/10 flex flex-col justify-center">
+                            <p class="text-[0.65vw] text-cyan-600 dark:text-blue-400 font-bold uppercase mb-1">
                                 ต่ำสุด (°C)
                             </p>
-                            <p class="text-[1vw] font-bold text-slate-800" id="temp-min">
+                            <p class="text-[0.8vw] font-bold text-slate-800" id="temp-min">
                                 <span class="inline-block dark:text-white animate-pulse">--</span>
                             </p>
                         </div>
 
                         <!-- สูงสุด -->
                         <div
-                            class="bg-orange-50/50 dark:bg-orange-900/20 p-[0.5vw] rounded-xl text-center border border-orange-100 dark:border-orange-100/10 flex flex-col justify-center">
-                            <p class="text-[0.75vw] text-orange-600 dark:text-orange-400 font-bold uppercase mb-1">
+                            class="bg-orange-50/50 dark:bg-orange-900/20 p-[0.25vw] rounded-xl text-center border border-orange-100 dark:border-orange-100/10 flex flex-col justify-center">
+                            <p class="text-[0.65vw] text-orange-600 dark:text-orange-400 font-bold uppercase mb-1">
                                 สูงสุด (°C)
                             </p>
-                            <p class="text-[1vw] font-bold text-slate-800" id="temp-max">
+                            <p class="text-[0.8vw] font-bold text-slate-800" id="temp-max">
                                 <span class="inline-block dark:text-white animate-pulse">--</span>
                             </p>
                         </div>
@@ -426,7 +350,7 @@ $classIconHeader = "arcticons--weathercan";
 
                     <!-- วันนี้ highlight (เหมือน current-weather ใน Card4) -->
                     <div id="wind-today"
-                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.5vw] rounded-xl border border-stone-100 dark:border-stone-100">
+                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-100">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#ff8021] text-[1vw]">air</span>
                             <div>
@@ -469,7 +393,7 @@ $classIconHeader = "arcticons--weathercan";
 
                     <!-- วันนี้ highlight -->
                     <div
-                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.5vw] rounded-xl border border-stone-100 dark:border-stone-100">
+                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100 dark:border-stone-100">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#ff8021] text-[1vw]">humidity_percentage</span>
                             <div>
@@ -523,7 +447,7 @@ $classIconHeader = "arcticons--weathercan";
 
                     <!-- สภาพอากาศปัจจุบัน -->
                     <div id="current-weather"
-                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.5vw] rounded-xl border border-stone-100">
+                        class="flex items-center justify-between mb-2 bg-stone-50 dark:bg-stone-900/20 p-[0.25vw] rounded-xl border border-stone-100">
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-yellow-500 text-[1vw]"
                                 id="current-icon">wb_sunny</span>
