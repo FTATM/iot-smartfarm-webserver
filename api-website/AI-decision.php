@@ -70,8 +70,10 @@ if (empty($sensor_list['sensor'])) {
 // ============================================================
 // 5. ตั้งคำถามและเก็บคำตอบจาก AI 
 // ============================================================
+$now = date('H:i');
 
-$question = "ตอนนี้เวลา 06.00 ควรรดน้ำไหมในช่วงเวลา 6 ชั่วโมงข้างหน้า? พิจารณาจากข้อมูลสภาพอากาศและความชื้น";
+// $question = "ตอนนี้เวลา $now ควรรดน้ำไหมในช่วงเวลา 6 ชั่วโมงข้างหน้า? พิจารณาจากข้อมูลสภาพอากาศและความชื้น";
+$question = "ตอนนี้เวลา $now ควรเปิดหรือปิด อุปกรณ์อะไรไหม พิจารณาจากข้อมูลสภาพอากาศและเวลา";
 
 $prompt = <<<PROMPT
 วิเคราะห์ว่าต้องใช้ข้อมูลอะไรบ้างในการตัดสินใจ
@@ -135,6 +137,13 @@ Schema of Answer:
   "status": "ON/OFF",
   "reason": "เหตุผลในการตัดสินใจ"
 }
+Example :
+{
+  "required_tools": ["set_sensor_output"],
+  "sensor_output": ["VWT_1","VWT_2"],
+  "status": "OFF",
+  "reason": "สภาพอากาศในช่วงเวลา 6 ชั่วโมงข้างหน้าไม่มีฝน และความชื้นสัมพันธ์กันสูงกว่า 78% จึงไม่จำเป็นต้องรดน้ำ"
+}
 You must respond with valid JSON.
 PROMPT;
 
@@ -177,7 +186,7 @@ flush();
 // 10. บันทึกข้อมูลทั้งหมดที่ใช้ตัดสินใจไป ลง Log 
 // ================================================================
 echo json_encode(["checkpoint" => 10, "msg" => "Insert logs"]) . "\n";
-$raw_logs = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', 1, null, $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
+$raw_logs = INTO_log($db, $branch_id, $AI_MODE, $AI_MODEL, 'Decision', 1, "Success", $question, $prompt, $ai_response, $data_tools, $prompt_decision, $ai_decision_response, $response_set_output);
 $response_log = json_decode($raw_logs, true);
 
 echo "ผลการเพิ่มเข้า log : " . $response_log['message'] . "\n";

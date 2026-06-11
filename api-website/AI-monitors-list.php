@@ -19,7 +19,7 @@ if (!$branch_id) {
     exit;
 }
 
-$sql = "SELECT monitor_name, type_id FROM page_data_manage_monitor WHERE branch_id = $1";
+$sql = "SELECT monitor_name, type_id, description FROM page_data_manage_monitor WHERE branch_id = $1 AND ai_allow = 1";
 
 $result = pg_query_params($db, $sql, [$branch_id]);
 
@@ -27,10 +27,10 @@ $data = [];
 while ($row = pg_fetch_assoc($result)) {
 
     if ($row['type_id'] == '1' || $row['type_id'] == '3') {
-        $data['sensor'][] = $row["monitor_name"];
+        $data['sensor'][] = $row["monitor_name"] . " (" . $row['description'] . ")";
     }
     if ($row['type_id'] == '4') {
-        $data['output'][] = $row["monitor_name"];
+        $data['output'][] = $row["monitor_name"] . " (" . $row['description'] . ")";
     }
 }
 
