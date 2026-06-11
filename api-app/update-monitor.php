@@ -67,8 +67,12 @@ try {
         input_email = $28,
         monitor_name = $29,
         input_sms = $30,
-        list_time_of_work = $31
-    WHERE monitor_id = $32
+        list_time_of_work = $31,
+        target_id = $32,
+        is_work = $33,
+        description = $34,
+        ai_allow = $35
+    WHERE monitor_id = $36
 ";
 
     // ✅ เตรียมค่าพารามิเตอร์
@@ -104,6 +108,10 @@ try {
         $decode->monitor_name ?? '',
         $decode->input_sms ?? null,
         $decode->list_time_of_work ?? '',
+        $decode->target_id,
+        $decode->is_work ?? 0,
+        $decode->description,
+        $decode->ai_allow ?? 0,
         $decode->monitor_id
     ];
 
