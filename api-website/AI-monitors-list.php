@@ -26,7 +26,7 @@ $result = pg_query_params($db, $sql, [$branch_id]);
 $data = [];
 while ($row = pg_fetch_assoc($result)) {
 
-    if ($row['type_id'] == '1' || $row['type_id'] == '3') {
+    if ($row['type_id'] == '1') {
         $data['sensor'][] = $row["monitor_name"] . " (" . $row['description'] . ")";
     }
     if ($row['type_id'] == '4') {
