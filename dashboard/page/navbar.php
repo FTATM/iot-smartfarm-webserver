@@ -837,7 +837,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <li>
             <a href="solar-system-dashboard.php"
                 class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white boxicons--container"></span>Solar system Dashboard
+                <span class="nav-icon dark:text-white solar--graph-bold"></span>Solar system Dashboard
             </a>
         </li>
 
@@ -846,6 +846,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <div class="pt-6 pb-2 px-6">
             <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Managements</h3>
         </div>
+        <li>
+            <a href="ai-management.php" class="<?php echo ($current_page == 'ai-management') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white tdesign--ai"></span>AI management
+            </a>
+        </li>
         <li>
             <a href="income-dashboard.php" class="<?php echo ($current_page == 'income-dashboard') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white hugeicons--bitcoin-down-01"></span>Income management

@@ -13,7 +13,7 @@ $classIconHeader = "arcticons--weathercan";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Weather - Dashboard</title>
+    <title><?php echo $Title; ?></title>
     <style>
         :root {
             --fs-xs: clamp(9px, 0.5vw, 14px);
@@ -213,7 +213,7 @@ $classIconHeader = "arcticons--weathercan";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Weather System with IoT App.
                             </div>
-                            <img src="images/weather_top-3.png" alt="เครื่องมือ/อุปกรณ์"
+                            <img src="images/top/weather_top-3.png" alt="เครื่องมือ/อุปกรณ์"
                                 class="object-contain rounded-lg dark:bg-stone-600"
                                 style="width: 130em; height: 30vh;" />
                         </div>
@@ -230,7 +230,7 @@ $classIconHeader = "arcticons--weathercan";
 
                                 </div>
                                 <div class="col-span-8 rounded-2xl p-2 flex items-center justify-center transition-all">
-                                    <img src="images/Weather-2.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/bottom/weather_new.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 28vh;" />
                                 </div>
 
