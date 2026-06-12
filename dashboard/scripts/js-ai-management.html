@@ -1,4 +1,34 @@
 <!-- JavaScript -->
 <script>
 
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await process();
+
+    });
+
+    async function process() {
+        console.log(branchID);
+        await loadDevice(branchID);
+    }
+
+    async function loadDevice() {
+        let res = await fetch('../../api-website/fetch-config.php?bid=' + branchID);
+        let raw = await res.json();
+
+        console.log(raw);
+    }
+
+
+    // Simple micro-interaction for row selection
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('click', () => {
+            document.querySelectorAll('tbody tr').forEach(r => {
+                r.classList.remove('bg-primary-fixed/30', 'border-l-4', 'border-l-primary-container');
+                r.querySelector('td:first-child').classList.add('text-secondary');
+            });
+            row.classList.add('bg-primary-fixed/30', 'border-l-4', 'border-l-primary-container');
+            row.querySelector('td:first-child').classList.remove('text-secondary');
+        });
+    });
 </script>

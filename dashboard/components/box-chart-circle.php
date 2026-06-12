@@ -15,7 +15,7 @@
     <div class="flex flex-col items-center justify-center flex-grow">
         <div id="donut" class="relative w-[10vw] h-[10vw] donut-chart shadow-xl">
             <div
-                class="absolute inset-[10%] bg-white dark:bg-stone-900 rounded-full flex flex-col items-center justify-center text-center">
+                class="absolute inset-[10%] bg-white dark:bg-stone-900 rounded-[100%] flex flex-col items-center justify-center text-center">
                 <p class="text-[0.75vw] font-bold text-slate-400 uppercase">Net Profit
                 </p>
                 <p id="card-4-total"

@@ -19,7 +19,12 @@
             : config.ai_model;
 
         // Model name
-        document.getElementById('ai-model-badge').textContent = aiModelName;
+        let aiElement = document.getElementById('ai-model-badge');
+        if (!aiElement) {
+            console.warn("Not found element ai-model-badge");
+            return;
+        }
+        aiElement.textContent = aiModelName;
 
         // Mode badge
         const modeBadge = document.getElementById('ai-mode-badge');
