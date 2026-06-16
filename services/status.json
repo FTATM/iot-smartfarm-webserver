@@ -1,0 +1,34 @@
+{
+    "schedule-runtime": {
+        "running": false,
+        "progress": 0,
+        "message": "",
+        "started_at": null,
+        "updated_at": null,
+        "finished_at": null
+    },
+    "ai-runtime": {
+        "running": false,
+        "progress": 0,
+        "message": "",
+        "started_at": null,
+        "updated_at": null,
+        "finished_at": null
+    },
+    "schedule": {
+        "running": false,
+        "progress": 0,
+        "message": "",
+        "started_at": null,
+        "finished_at": null,
+        "updated_at": null
+    },
+    "ai-decision": {
+        "running": false,
+        "progress": 0,
+        "message": "",
+        "started_at": null,
+        "updated_at": null,
+        "finished_at": null
+    }
+}

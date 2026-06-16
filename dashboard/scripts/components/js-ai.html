@@ -7,7 +7,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
         await loadConfig();
 
-        console.log("... AI ready ...");
     });
 
     async function loadConfig() {
@@ -21,7 +20,7 @@
         // Model name
         let aiElement = document.getElementById('ai-model-badge');
         if (!aiElement) {
-            console.warn("Not found element ai-model-badge");
+            console.warn("[warn] Not found element ai-model-badge");
             return;
         }
         aiElement.textContent = aiModelName;
@@ -36,10 +35,8 @@
             modeBadge.className += ' bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300';
         }
 
-        return config;
+        console.log("... AI ready ...");
     }
-
-    loadConfig();
 
     function chatOnKey(e) {
         if (e.key === "Enter" && !e.shiftKey) {

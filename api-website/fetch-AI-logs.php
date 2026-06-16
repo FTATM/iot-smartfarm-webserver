@@ -21,9 +21,9 @@ if (empty($branch_id)) {
 }
 
 // // ✅ เขียน SQL (ใช้ pg_query_params เพื่อป้องกัน SQL Injection)
-$sql = "SELECT * FROM page_data_manage_monitor
-        WHERE branch_id = $1 AND status = '1'
-        ORDER BY monitor_id DESC
+$sql = "SELECT * FROM ai_log
+        WHERE branch_id = $1 
+        ORDER BY id DESC
         ";
 
 $result = pg_query_params($db, $sql, [$branch_id]);
@@ -37,7 +37,6 @@ if (!$result) {
 $data = [];
 
 while ($row = pg_fetch_assoc($result)) {
-    $row['list_time'] = [];   // 👈 เตรียม child
     $data[] = $row;
 }
 

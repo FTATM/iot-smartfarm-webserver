@@ -1,34 +1,257 @@
 <!-- JavaScript -->
 <script>
-
+    let devices = [];
+    let AI_logs = [];
+    let temps = [];
 
     document.addEventListener('DOMContentLoaded', async () => {
         await process();
-
+        ManageEvent();
     });
 
     async function process() {
-        console.log(branchID);
-        await loadDevice(branchID);
+        devices = await loadDevices();
+        AI_logs = await loadAiLogs();
+        generateListDevices(devices);
+        generateTableRow('table-Logs', AI_logs);
+
     }
 
-    async function loadDevice() {
-        let res = await fetch('../../api-website/fetch-config.php?bid=' + branchID);
+    async function loadDevices() {
+        let res = await fetch('../../api-website/fetch-config-forAI.php?bid=' + branchID);
         let raw = await res.json();
+        const data = raw['data'] ?? [];
+        temps = data;
+        return data;
+    }
 
-        console.log(raw);
+    async function loadAiLogs() {
+        let res = await fetch('../../api-website/fetch-AI-logs.php?bid=' + branchID);
+        let raw = await res.json();
+        const data = raw['data'] ?? [];
+        return data;
+    }
+
+    function generateTableRow(TableId, rows) {
+        const _table = document.getElementById(TableId);
+        if (!_table) { console.warn("[warn] Not found Element id " + TableId); return; }
+        if (!Array.isArray(rows) || rows.length === 0) {
+            console.warn("[warn] No data.");
+            return;
+        }
+
+        const tbody = _table.querySelector('tbody');
+        if (!tbody) {
+            console.warn("[warn] tbody not found.");
+            return;
+        }
+
+        tbody.textContent = "";
+
+        rows.forEach((r) => {
+            let tr = document.createElement('tr');
+            tr.className = "hover:bg-primary-fixed/50 border-l-4 border-l-secondary/20 hover:border-l-primary-container cursor-pointer transition-colors";
+            tr.innerHTML = `
+                <td class="px-gutter py-4 font-mono-data text-mono-data">${formatDate(r.created_at)}</td>
+                <td class="px-gutter py-4 font-body-sm text-body-sm">${truncate(r.question)}</td>
+                <td class="px-gutter py-4 text-right">
+                    <span 
+                     class="px-2 py-0.5 rounded-full 
+                     ${r.is_success == 1 ? "bg-tertiary-container/20 text-tertiary" : "bg-error/20 text-error"} 
+                     font-label-md text-[10px] uppercase">
+                     ${r.is_success == 1 ? "Success" : "Failed"}
+                    </span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            tr.onclick = () => logDetail(tr, r);
+
+            if (r.id == rows[0].id) {
+                tr.click();
+            }
+        });
+    }
+
+    function logDetail(tr, data) {
+        tr.parentElement.querySelectorAll('tr').forEach(row => {
+            row.classList.remove('active-row');
+        });
+
+        tr.classList.add('active-row');
+
+        let detail = document.getElementById('detail-log');
+        if (!detail) { console.warn('[warn] Not found Element detail-log.'); return; }
+
+
+        // info
+        detail.querySelector('#datetime').textContent = formatDate(data.created_at);
+        detail.querySelector('#status').textContent = data.is_success == 1 ? "Success" : "Failed";
+        detail.querySelector('#description').textContent = data.description ?? "-";
+        detail.querySelector('#model').textContent = data.ai_model ?? "-";
+
+        detail.querySelector('#question').textContent = data.question ?? '-';
+
+        // planner 
+        detail.querySelector('#prompt').textContent = data.planner_prompt ?? '-';
+
+        let response = parseJson(data.planner_response);
+        let planner_req_devices = listToString(response?.message?.required_sensors ?? []);
+        let planner_req_tools = listToString(response?.message?.required_tools ?? []);
+        detail.querySelector('#response-reason').innerHTML = response?.message?.reason || '-';
+        detail.querySelector('#response-required-devices').innerHTML = planner_req_devices || '-';
+        detail.querySelector('#response-required-tools').innerHTML = planner_req_tools || '-';
+        detail.querySelector('#response-detail').textContent = prettyJson(data.planner_response) ?? '-';
+
+        detail.querySelector('#tool-data').textContent = prettyJson(data.collected_data) ?? '-';;
+
+        // decision 
+        detail.querySelector('#decision-prompt').textContent = data.decision_prompt ?? '-';
+        let decision = parseJson(data.decision_response);
+        let decision_req_devices = listToString(decision?.message?.sensor_output ?? []);
+        let decision_req_tools = listToString(decision?.message?.required_tools ?? []);
+
+        detail.querySelector('#decision-response-reason').innerHTML = decision?.message?.reason || '-';
+        detail.querySelector('#decision-response-required-devices').innerHTML = decision_req_devices || '-';
+        detail.querySelector('#decision-response-required-tools').innerHTML = decision_req_tools || '-';
+        detail.querySelector('#decision-response-detail').textContent = prettyJson(data.decision_response) ?? '-';
+
+        //execution result
+        let execution = parseJson(data.execution_result);
+        detail.querySelector('#execution').textContent = execution?.message ?? '-';
+    }
+
+    function ManageEvent() {
+        AddEvent('prompt');
+        AddEvent('tool-data');
+        AddEvent('decision-prompt');
+    }
+
+    function AddEvent(id) {
+        const pre = document.getElementById(id);
+        const btn = document.getElementById('toggle-' + id);
+
+        // รอให้ DOM render ก่อน
+        requestAnimationFrame(() => {
+            // ถ้าเกินประมาณ 6 บรรทัด ค่อยแสดงปุ่ม
+            if (pre.scrollHeight > pre.clientHeight) {
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        });
+
+        btn.addEventListener('click', () => {
+            if (pre.style.maxHeight === 'none') {
+                pre.style.maxHeight = '8em';   // ประมาณ 5-6 บรรทัด
+                btn.textContent = 'ดูเพิ่มเติม';
+            } else {
+                pre.style.maxHeight = 'none';
+                btn.textContent = 'ย่อ';
+            }
+        });
+
+    }
+
+    //interval script check status
+    async function Checkstatus() {
+        const response = await fetch('check_status.php');
+        const data = await response.json();
+
+        document.getElementById('status').innerHTML =
+            `
+        Running : ${data.running}<br>
+        Progress : ${data.progress ?? 0}%<br>
+        Message : ${data.message}
+        `;
     }
 
 
-    // Simple micro-interaction for row selection
-    document.querySelectorAll('tbody tr').forEach(row => {
-        row.addEventListener('click', () => {
-            document.querySelectorAll('tbody tr').forEach(r => {
-                r.classList.remove('bg-primary-fixed/30', 'border-l-4', 'border-l-primary-container');
-                r.querySelector('td:first-child').classList.add('text-secondary');
-            });
-            row.classList.add('bg-primary-fixed/30', 'border-l-4', 'border-l-primary-container');
-            row.querySelector('td:first-child').classList.remove('text-secondary');
+    //helper
+    function formatDate(dateStr) {
+        if (!dateStr) return "-";
+
+        // 2026-06-08 10:48:40.021299
+        return dateStr.split('.')[0];
+    }
+
+    function truncate(text, maxLength = 50) {
+        if (!text) return "-";
+
+        return text.length > maxLength
+            ? text.substring(0, maxLength) + "..."
+            : text;
+    }
+
+    function listToString(list) {
+        let str = '';
+        list.map(l => {
+            str += `
+            <span class="
+                px-2 py-1 rounded-full
+                bg-tertiary-container/20
+                text-tertiary
+                text-xs font-medium
+            ">
+                ${l.split('(')[0]}
+            </span>
+        `;
         });
-    });
+        return str == '' ? '<span class="text-outline">-</span>' : str;
+    }
+
+    function parseJson(value) {
+        try {
+            value = typeof value === 'string'
+                ? JSON.parse(value)
+                : value;
+
+            if (typeof value.message === 'string') {
+                try {
+                    value.message = JSON.parse(value.message);
+                } catch (_) { }
+            }
+
+            return value;
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function prettyJson(value) {
+        try {
+            value = typeof value === 'string' ? JSON.parse(value) : value;
+
+            Object.keys(value).forEach(key => {
+                if (typeof value[key] === 'string') {
+                    try {
+                        value[key] = JSON.parse(value[key]);
+                    } catch (_) { }
+                }
+            });
+
+            return JSON.stringify(value, null, 2);
+        } catch (_) {
+            return value == '' || !value ? '-' : value;
+        }
+    }
+
+    function generateListDevices(lists) {
+
+        const devices_list = document.getElementById('device_list');
+        if (!devices_list) { console.warn("[warn] Not found Element id device_list"); return; }
+        if (!lists) { console.error("[error] Data in list is blank."); return; }
+
+        lists.forEach((l) => {
+            let label = document.createElement('label');
+            label.className = "flex items-center gap-3 p-2 hover:bg-surface-container-low transition-colors cursor-pointer group";
+            label.innerHTML = `
+                <input ${l.ai_allow == 1 ? "checked" : ""} class="w-4 h-4 text-primary-container border-outline rounded focus:ring-primary-container" type="checkbox" />
+                <span class="font-body-sm text-body-sm text-on-surface group-hover:text-primary transition-colors">${l.monitor_name}</span>
+            `;
+            devices_list.appendChild(label);
+        });
+    }
+
+
 </script>

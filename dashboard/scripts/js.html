@@ -3,9 +3,6 @@
   const electric_unit = 4;
   const water_unit = 10.2;
   let data = { day: 0 };
-  console.log("Script js loaded.");
-
-
   const branchID = "<?=$_SESSION['branch_id'] ?? 0;?>";
   const branchName = "<?=$_SESSION['branch_name'] ?? 0;?>";
 
@@ -73,7 +70,7 @@
       const res = await fetch("../../api-website/fetch_homeBybid.php?bid=" + branchID);
       const raw = await res.json();
       data = raw["data"];
-      console.log("Home data => ", data);
+      console.log("Farm data : ", data);
 
       const remain = data["value"].find((v) => v.home_row_id == "5")?.value || 0;
       const cycleRound = data["value"].find((v) => v.home_row_id == "6")?.value || 0;
