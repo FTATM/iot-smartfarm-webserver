@@ -5,15 +5,15 @@ function callTools($branch_id, $required_sensors, $required_tools, $output_list 
     if (!$required_tools) {
         return "no tools required";
     }
-    $data = "";
+    $data = "{";
 
     foreach ($required_tools as $tool) {
         switch ($tool) {
             case 'get_weather_summary':
-                $data .= "Weather:" . json_encode(getWeatherSummary()) . "\n";
+                $data .= '"Weather" :' . json_encode(getWeatherSummary()) . "\n";
                 break;
             case 'get_history_sensor_summary':
-                $data .= "History:" . json_encode(getHistorySensorSummary($branch_id, $required_sensors)) . "\n";
+                $data .= ',"History" :' . json_encode(getHistorySensorSummary($branch_id, $required_sensors)) . "\n";
                 break;
             case 'set_sensor_output':
                 $data = setSensorOutput($branch_id, $output_list, $status);
@@ -21,6 +21,7 @@ function callTools($branch_id, $required_sensors, $required_tools, $output_list 
                 break;
         }
     }
+    $data .= "}";
 
     return $data;
 }
@@ -199,7 +200,7 @@ function INTO_log($db, $BRANCH_ID, $AI_MODE, $AI_MODEL, $CATEGORY = 'assistant',
         $AI_MODE,
         $AI_MODEL,
         $QUESTION,
-        $PLANNER_PROMPT ?? '',
+        $PLANNER_PROMPT,
         $PLANNER_RESPONSE,
         $COLLECTED_DATA ?? '',
         $DECISION_PROMPT ?? '',
