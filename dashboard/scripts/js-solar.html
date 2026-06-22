@@ -5,9 +5,9 @@
     let sensor_selected_set = new Set(); // เก็บ monitor_id ที่เลือกผ่านปุ่ม
     let _sensors_cache = null;           // cache sensors data ล่าสุด
 
-    const Sensors_realtime = ["Voltage_DC_IN", "Current_DC_IN", "Energy_DC_IN", "Voltage_DC_PV", "Current_DC_PV", "Energy_DC_PV"];
-    const Sensors_name_left = [];
-    const Sensors_name_right = [];
+    const Sensors_realtime = ["Voltage_AC_IN", "Power_AC_IN", "VAR_AC_IN", "Pf_AC_IN", "Frequency_AC_IN", "Energy_AC_IN"];
+    const Sensors_name_left = ['Voltage_DC_IN','Current_DC_IN', 'Power_DC_IN', 'Voltage_DC_PV','Current_DC_PV','Power_DC_PV'];
+    const Sensors_name_right = ['Voltage_AC_OUT1','Current_AC_OUT1','Power_AC_OUT1','Voltage_AC_OUT2','Current_AC_OUT2','Power_AC_OUT2'];
     const market_name = "solar";             //name market example => solar, shrimp, indoor, outdoor
     const type = "demand,price";             //multi type example => demand,price
 
@@ -18,20 +18,19 @@
 
         isLoading = false;
 
-        setInterval(async () => {
-            setHeaderInit();
-            console.log("loading new data from database ...");
-            await process();
-            console.log("load data success");
-            console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        }, 10000);
+        // setInterval(async () => {
+        //     setHeaderInit();
+        //     console.log("loading new data from database ...");
+        //     await process();
+        //     console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+        // }, 10000);
 
     });
 
     async function process() {
         await loadSensorData();
-        await SensorsLeft();
-        await SensorsRight();
+        await SensorsLeft('analog');
+        await SensorsRight('analog');
         Card1();
         Card2();
         Card3();
@@ -141,8 +140,6 @@
         } catch (err) {
             console.error('❌ loadSensorData error:', err);
         }
-
-
     }
 
     async function Card2() {

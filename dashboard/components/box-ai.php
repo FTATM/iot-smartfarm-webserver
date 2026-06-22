@@ -3,23 +3,29 @@
                             transition-all duration-200">
 
     <!-- Header AI -->
-    <div class="flex items-center gap-2 pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
-        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-        <span class="text-[1vw] font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>
+    <div class="flex flex-col items-center pb-2.5 border-b border-stone-200 dark:border-stone-700 flex-shrink-0">
+        <div class="flex justify-between w-full items-center">
+            <div class="flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-[1vw] font-semibold text-stone-800 dark:text-stone-100">AI Assistant</span>
+            </div>
 
-        <!-- Model badge -->
-        <span id="ai-model-badge"
-            class="text-[0.5vw] px-1.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 font-mono">
-            -
-        </span>
+            <!-- Mode badge -->
+            <span id="ai-mode-badge"
+                class="text-[0.5vw] px-1.5 py-0.5 rounded-full font-medium">
+                -
+            </span>
+        </div>
 
-        <!-- Mode badge -->
-        <span id="ai-mode-badge"
-            class="text-[0.5vw] px-1.5 py-0.5 rounded-full font-medium">
-            -
-        </span>
+        <div class="flex gap-3 justify-start w-full items-center">
+            <!-- Model badge -->
+            <span id="ai-model-badge"
+                class="text-[0.5vw] px-1.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 font-mono">
+                -
+            </span>
 
-        <span class="ml-auto text-[1vw] text-stone-400" id="ai-status">🟢</span>
+        </div>
+
     </div>
 
     <!-- Messages -->
@@ -39,8 +45,8 @@
 
     <!-- Input -->
     <div
-        class="flex items-end gap-2 pt-2.5 border-t border-stone-200 dark:border-stone-700 flex-shrink-0">
-        <textarea id="chatInput" rows="1" placeholder="พิมพ์ข้อความ..."
+        class="flex items-center gap-2 pt-2.5 border-t border-stone-200 dark:border-stone-700 flex-shrink-0">
+        <textarea id="chatInput" rows="1" placeholder="พิมพ์ข้อความ..."่
             onkeydown="chatOnKey(event)" oninput="chatResize(this)"
             class="flex-1 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-[0.5vw] text-stone-800 dark:text-stone-100 placeholder-stone-400 resize-none outline-none leading-relaxed max-h-[90px] focus:border-orange-400 dark:focus:border-orange-500 transition-colors duration-150"></textarea>
         <button id="chatSend" onclick="chatSend()"

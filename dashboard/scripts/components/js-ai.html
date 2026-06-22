@@ -13,8 +13,8 @@
         const res = await fetch('/iotsf/api-website/config-public.php');
         const config = await res.json();
 
-        const aiModelName = config.ai_model.length > 10
-            ? config.ai_model.substring(0, 10) + '...'
+        const aiModelName = config.ai_model.length > 30
+            ? config.ai_model.substring(0, 28) + '...'
             : config.ai_model;
 
         // Model name

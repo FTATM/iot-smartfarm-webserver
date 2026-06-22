@@ -766,7 +766,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </ul>
 
         </li> -->
-        <?php if ($_SESSION['branch_id'] == 2) { ?>
+        <?php if ($_SESSION['branch_id'] == 3) { ?>
             <li>
                 <a href="indoor-greenhouse-dashboard.php"
                     class="<?php echo ($current_page == 'indoor-greenhouse-dashboard') ? 'active' : ''; ?>">
@@ -814,32 +814,38 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </ul>
         </li> -->
 
-        
+
         <?php if ($_SESSION['branch_id'] == 1) { ?>
-        <li>
-            <a href="container-1-dashboard.php"
-                class="<?php echo ($current_page == 'container-1-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white boxicons--container"></span>Container 1 Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="container-2-dashboard.php"
-                class="<?php echo ($current_page == 'container-2-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white boxicons--container"></span>Container 2 Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="weather-dashboard.php"
-                class="<?php echo ($current_page == 'weather-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white arcticons--weathercan"></span>Weather Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="solar-system-dashboard.php"
-                class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
-                <span class="nav-icon dark:text-white solar--graph-bold"></span>Solar system Dashboard
-            </a>
-        </li>
+            <li>
+                <a href="container-1-dashboard.php"
+                    class="<?php echo ($current_page == 'container-1-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white boxicons--container"></span>Container 1 Dashboard
+                </a>
+            </li>
+        <?php } ?>
+        <?php if ($_SESSION['branch_id'] == 2) { ?>
+            <li>
+                <a href="container-2-dashboard.php"
+                    class="<?php echo ($current_page == 'container-2-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white boxicons--container"></span>Container 2 Dashboard
+                </a>
+            </li>
+        <?php } ?>
+        <?php if ($_SESSION['branch_id'] == 4) { ?>
+            <li>
+                <a href="weather-dashboard.php"
+                    class="<?php echo ($current_page == 'weather-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white arcticons--weathercan"></span>Weather Dashboard
+                </a>
+            </li>
+        <?php } ?>
+        <?php if ($_SESSION['branch_id'] == 5) { ?>
+            <li>
+                <a href="solar-system-dashboard.php"
+                    class="<?php echo ($current_page == 'solar-system-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white solar--graph-bold"></span>Solar system Dashboard
+                </a>
+            </li>
 
         <?php } ?>
 

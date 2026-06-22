@@ -60,7 +60,7 @@ $shutdown = function (?int $signal = null) use (&$scriptStopped) {
     };
 
     updateScriptStatus(
-        'schedule-runtime',
+        'runtime_schedule',
         false,
         $message
     );
@@ -103,14 +103,14 @@ register_shutdown_function(function () use (&$scriptStopped) {
     if ($error !== null) {
 
         updateScriptStatus(
-            'schedule-runtime',
+            'runtime_schedule',
             false,
             'Fatal Error : ' . $error['message']
         );
     } else {
 
         updateScriptStatus(
-            'schedule-runtime',
+            'runtime_schedule',
             false,
             'Script stopped'
         );
@@ -124,7 +124,7 @@ register_shutdown_function(function () use (&$scriptStopped) {
 */
 
 updateScriptStatus(
-    'schedule-runtime',
+    'runtime_schedule',
     true,
     'เริ่มการทำงาน'
 );
@@ -142,7 +142,7 @@ try {
     while (true) {
 
         updateScriptStatus(
-            'schedule-runtime',
+            'runtime_schedule',
             true,
             'Waiting next schedule (' . date('Y-m-d H:i:s') . ')'
         );
@@ -163,7 +163,7 @@ try {
             try {
 
                 updateScriptStatus(
-                    'schedule-runtime',
+                    'runtime_schedule',
                     true,
                     "กำลังรัน Schedule.php เวลา {$time}"
                 );
@@ -210,7 +210,7 @@ try {
                 );
 
                 updateScriptStatus(
-                    'schedule-runtime',
+                    'runtime_schedule',
                     true,
                     "Schedule เสร็จสิ้น ({$time})"
                 );
@@ -220,7 +220,7 @@ try {
             } catch (Throwable $e) {
 
                 updateScriptStatus(
-                    'schedule-runtime',
+                    'runtime_schedule',
                     true,
                     'Schedule Error : ' . $e->getMessage()
                 );
@@ -237,7 +237,7 @@ try {
 } catch (Throwable $e) {
 
     updateScriptStatus(
-        'schedule-runtime',
+        'runtime_schedule',
         false,
         'Runtime Error : ' . $e->getMessage()
     );

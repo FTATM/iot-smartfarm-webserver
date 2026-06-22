@@ -85,6 +85,28 @@
     }
   }
 
+  //helper windows services
+  async function serviceCommand(action, service = '') {
+
+    const formData = new FormData();
+
+    formData.append('action', action);
+
+    if (service) {
+      formData.append('service', service);
+    }
+
+    const response = await fetch(
+      '../../api-website/service-command.php',
+      {
+        method: 'POST',
+        body: formData
+      }
+    );
+
+    return await response.json();
+  }
+
   function redirectTo(page, path = "") {
     if (!page) return;
 
@@ -260,7 +282,7 @@
     SetValueInHTMLById(`${base}-value`, value);
   }
 
-  function SetCardsBynames(names, sensors, side) {
+  function SetCardsBynames(names, sensors, side, type) {
     Object.values(names).forEach((sensorName, index) => {
       if (!sensors || !sensors[sensorName]) {
         setCard(side, index + 1, sensorName, "-");
@@ -269,7 +291,7 @@
       const sensor = sensors[sensorName];
 
       const latestValue = sensor.logs?.[0]?.data_value ?? "-";
-      const textValue = latestValue == 1 ? "ON" : "OFF";
+      const textValue = type == 'digital' ? latestValue == 1 ? "ON" : "OFF" : latestValue;
 
       setCard(side, index + 1, sensorName, textValue);
     });
@@ -1437,7 +1459,7 @@
     renderSensorGraph(sensors);
   }
 
-  async function SensorsLeft() {
+  async function SensorsLeft(type = 'digital') {
     try {
       const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
         {
@@ -1451,14 +1473,14 @@
       const data = await res.json();
       const sensors = data['sensors'];
 
-      SetCardsBynames(Sensors_name_left, sensors, 'left');
+      SetCardsBynames(Sensors_name_left, sensors, 'left', type);
 
     } catch (err) {
       console.error('❌ loadSensorData error:', err);
     }
   }
 
-  async function SensorsRight() {
+  async function SensorsRight(type = 'digital') {
     try {
       const res = await fetch('../../api-website/plot_sensor_log_multiple.php',
         {
@@ -1472,7 +1494,7 @@
       const data = await res.json();
       const sensors = data['sensors'];
 
-      SetCardsBynames(Sensors_name_right, sensors, 'right');
+      SetCardsBynames(Sensors_name_right, sensors, 'right', type);
 
     } catch (err) {
       console.error('❌ loadSensorData error:', err);

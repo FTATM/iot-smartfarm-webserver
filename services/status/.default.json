@@ -3,6 +3,7 @@
         "running": false,
         "progress": 0,
         "message": "",
+        "heartbeat": null,
         "started_at": null,
         "updated_at": null,
         "finished_at": null
@@ -11,6 +12,7 @@
         "running": false,
         "progress": 0,
         "message": "",
+        "heartbeat": null,
         "started_at": null,
         "updated_at": null,
         "finished_at": null
@@ -19,14 +21,16 @@
         "running": false,
         "progress": 0,
         "message": "",
+        "heartbeat": null,
         "started_at": null,
-        "finished_at": null,
-        "updated_at": null
+        "updated_at": null,
+        "finished_at": null
     },
     "ai-decision": {
         "running": false,
         "progress": 0,
         "message": "",
+        "heartbeat": null,
         "started_at": null,
         "updated_at": null,
         "finished_at": null
