@@ -23,19 +23,87 @@ $classIconHeader = "tdesign--ai";
     <main class="flex-1 min-h-0 overflow-hidden w-full grid grid-cols-12 gap-4 p-4 bg-background">
         <!-- Left Column: Device Selection (AI Decision Control) -->
         <section class="col-span-3 bg-surface-container-lowest border border-surface-variant p-6 flex flex-col flex-1 overflow-hidden">
-            <div class="h-[5%] mb-auto flex justify-between items-center">
-                <h2 class="font-headline-md text-headline-md text-on-surface">AI ตัดสินใจ</h2>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input checked="" class="sr-only peer" type="checkbox" value="" />
-                    <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
-                </label>
+            <div class="h-[40%] flex flex-col w-full max-w-md bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                <!-- Widget Header Area (Internal) -->
+                <div class="px-3 py-2 flex items-center justify-between border-b border-surface-container">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary-fixed p-2 rounded-lg">
+                            <span class="material-symbols-outlined text-primary text-[20px]">terminal</span>
+                        </div>
+                        <div>
+                            <h3 class="text-on-surface font-headline font-semibold text-lg leading-none">AI Script</h3>
+                        </div>
+                    </div>
+                    <!-- Status Badge -->
+                    <div id="statusBadge" class="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200/20 text-stone-500 transition-colors" id="statusBadge">
+                        <span class="relative flex h-2 w-2">
+                            <span id="statusBg" class="status-pulse absolute inline-flex h-full w-full rounded-full bg-stone-500 opacity-75"></span>
+                        </span>
+                        <span id="status" class="text-xs font-bold uppercase tracking-wider leading-none">Unknown</span>
+                    </div>
+                </div>
+                <!-- Widget Content -->
+                <div class="px-3 py-2 space-y-1 flex flex-col flex-1">
+                    <!-- Data Grid -->
+                    <div class="grid grid-cols-1 gap-3">
+                        <!-- Started At -->
+                        <div class="flex items-center justify-between group">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-on-surface-variant text-[1vw]">play_circle</span>
+                                <span class="text-on-surface-variant text-[0.75vw] font-label">Started At</span>
+                            </div>
+                            <code id="started_at" class="font-mono text-on-surface bg-surface-container px-2 py-1 rounded text-[0.75vw]">
+                                --:--:--
+                            </code>
+                        </div>
+                        <!-- Updated At -->
+                        <div class="flex items-center justify-between group">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-on-surface-variant text-[1vw]">sync</span>
+                                <span class="text-on-surface-variant text-[0.75vw] font-label">Updated At</span>
+                            </div>
+                            <code id="updated_at" class="font-mono text-on-surface bg-surface-container px-2 py-1 rounded text-[0.75vw]">
+                                --:--:--
+                            </code>
+                        </div>
+                        <!-- Last At -->
+                        <div class="mt-auto flex items-center justify-between group">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-on-surface-variant text-[1vw]">history</span>
+                                <span class="text-on-surface-variant text-[0.75vw] font-label">Last At</span>
+                            </div>
+                            <code id="finished_at" class="font-mono font-semibold px-2 py-1 rounded text-[0.75vw]">
+                                --:--:--
+                            </code>
+                        </div>
+                    </div>
+                    <!-- Visual Separator -->
+                    <div class="h-px w-full bg-gradient-to-r from-transparent via-outline-variant to-transparent opacity-50"></div>
+                    <!-- Action Area -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <button onclick="toggleScript()"
+                            id="start-script-btn"
+                            class="flex-1 bg-primary text-on-primary font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-primary-container">
+                            <span class="material-symbols-outlined text-[1vw]" id="actionIcon">play_circle</span>
+                            <span id="actionText">Start Script</span>
+                        </button>
+                        <button onclick="resetScript()"
+                            id="reset-script-btn"
+                            class="bg-surface-container-high text-on-surface-variant font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-surface-container-highest border border-outline-variant/30">
+                            <span class="material-symbols-outlined text-[1vw]">restart_alt</span>
+                            <span>Reset History</span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            <div class="h-[80%]">
+            <!-- </div> -->
+            <div class="h-[50%]">
                 <span class="font-label-md text-label-md text-outline uppercase tracking-wider block mb-4">อุปกรณ์ที่เลือกได้</span>
                 <div id="device_list" class="space-y-1 flex flex-col overflow-y-auto h-[100%]">
                 </div>
             </div>
-            <div class="h-[10%] mt-auto bg-white pt-6 border-t border-surface-variant">
+            <div class="h-[7%] mt-auto bg-white pt-6 border-t border-surface-variant">
                 <p class="font-body-sm text-body-sm text-secondary thai-leading">
                     รายการอุปกรณ์ที่สามารถเลือกให้ AI นำไปวิเคราะห์เพื่อประกอบการตัดสินใจโดยอัตโนมัติ
                 </p>

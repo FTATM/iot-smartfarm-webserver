@@ -71,7 +71,7 @@ $shutdown = function (?int $signal = null) use (&$scriptStopped) {
     };
 
     updateScriptStatus(
-        'ai-runtime',
+        'runtime_ai',
         false,
         $message
     );
@@ -114,14 +114,14 @@ register_shutdown_function(function () use (&$scriptStopped) {
     if ($error !== null) {
 
         updateScriptStatus(
-            'ai-runtime',
+            'runtime_ai',
             false,
             'Fatal Error : ' . $error['message']
         );
     } else {
 
         updateScriptStatus(
-            'ai-runtime',
+            'runtime_ai',
             false,
             'Script stopped'
         );
@@ -135,7 +135,7 @@ register_shutdown_function(function () use (&$scriptStopped) {
 */
 
 updateScriptStatus(
-    'ai-runtime',
+    'runtime_ai',
     true,
     'เริ่มการทำงาน'
 );
@@ -153,7 +153,7 @@ try {
     while (true) {
 
         updateScriptStatus(
-            'ai-runtime',
+            'runtime_ai',
             true,
             'Waiting next schedule (' . date('Y-m-d H:i:s') . ')'
         );
@@ -163,92 +163,92 @@ try {
 
         $time = $currentTime;
 
-        // foreach ($times as $time) {
+        foreach ($times as $time) {
 
-        if (
-            $currentTime === $time &&
-            ($lastRun[$time] ?? '') !== $nowMinute
-        ) {
-            // if (true) {
+            if (
+                $currentTime === $time &&
+                ($lastRun[$time] ?? '') !== $nowMinute
+            ) {
+                // if (true) {
 
-            try {
+                try {
 
-                updateScriptStatus(
-                    'ai-runtime',
-                    true,
-                    "กำลังรัน AI-decision.php เวลา {$time}"
-                );
+                    updateScriptStatus(
+                        'runtime_ai',
+                        true,
+                        "กำลังรัน AI-decision.php เวลา {$time}"
+                    );
 
-                echo '[' . date('Y-m-d H:i:s') .
-                    "] AI Running ({$time})" . PHP_EOL;
+                    echo '[' . date('Y-m-d H:i:s') .
+                        "] AI Running ({$time})" . PHP_EOL;
 
-                /*
+                    /*
                     |--------------------------------------------------------------------------
                     | Run AI
                     |--------------------------------------------------------------------------
                     */
 
-                $status = getScriptStatus('ai-decision');
+                    $status = getScriptStatus('ai');
 
-                if (!($status['running'] ?? false)) {
+                    if (!($status['running'] ?? false)) {
 
-                    $php = 'C:\xampp\php\php.exe';
-                    $script = __DIR__ . "\..\api-website\AI-decision.php";
+                        $php = 'C:\xampp\php\php.exe';
+                        $script = __DIR__ . "\..\api-website\AI-decision.php";
 
-                    exec(
-                        '"' . $php . '" -dxdebug.mode=off "' . $script . '" > NUL 2>&1 &'
-                    );
+                        exec(
+                            '"' . $php . '" -dxdebug.mode=off "' . $script . '" > NUL 2>&1 &'
+                        );
 
-                    echo "Spawn AI-decision" . PHP_EOL;
-                } else {
+                        echo "Spawn AI-decision" . PHP_EOL;
+                    } else {
 
-                    echo "AI-decision is already running" . PHP_EOL;
-                }
-                /*
+                        echo "AI-decision is already running" . PHP_EOL;
+                    }
+                    /*
                     |--------------------------------------------------------------------------
                     | Save History
                     |--------------------------------------------------------------------------
                     */
 
-                $lastRun[$time] = $nowMinute;
+                    $lastRun[$time] = $nowMinute;
 
-                file_put_contents(
-                    $lastRunFile,
-                    json_encode(
-                        $lastRun,
-                        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
-                    )
-                );
+                    file_put_contents(
+                        $lastRunFile,
+                        json_encode(
+                            $lastRun,
+                            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+                        )
+                    );
 
-                updateScriptStatus(
-                    'ai-runtime',
-                    true,
-                    "AI เสร็จสิ้น ({$time})"
-                );
+                    updateScriptStatus(
+                        'runtime_ai',
+                        true,
+                        "AI เสร็จสิ้น ({$time})"
+                    );
 
-                echo '[' . date('Y-m-d H:i:s') .
-                    "] AI Finished ({$time})" . PHP_EOL;
-            } catch (Throwable $e) {
+                    echo '[' . date('Y-m-d H:i:s') .
+                        "] AI Finished ({$time})" . PHP_EOL;
+                } catch (Throwable $e) {
 
-                updateScriptStatus(
-                    'ai-runtime',
-                    true,
-                    'AI Error : ' . $e->getMessage()
-                );
+                    updateScriptStatus(
+                        'runtime_ai',
+                        true,
+                        'AI Error : ' . $e->getMessage()
+                    );
 
-                echo '[' . date('Y-m-d H:i:s') .
-                    '] AI Error : ' .
-                    $e->getMessage() . PHP_EOL;
+                    echo '[' . date('Y-m-d H:i:s') .
+                        '] AI Error : ' .
+                        $e->getMessage() . PHP_EOL;
+                }
             }
         }
-        // }
 
         sleep(60);
     }
 } catch (Throwable $e) {
 
     updateScriptStatus(
-        'ai-runtime',
+        'runtime_ai',
         false,
         'Runtime Error : ' . $e->getMessage()
     );

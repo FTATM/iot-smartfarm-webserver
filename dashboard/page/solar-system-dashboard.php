@@ -41,7 +41,7 @@ $classIconHeader = "solar--graph-bold";
                                 class="p-[0.25vw] rounded-lg border border-stone-200 dark:border-stone-500 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
                                 Solar System with IoT App.
                             </div>
-                            <img src="images/top/solar-top.jpg" alt="เครื่องมือ/อุปกรณ์"
+                            <img src="images/top/solar-top-2.png" alt="เครื่องมือ/อุปกรณ์"
                                 class="rounded-lg object-cover object-center" style="width: 130em; height: 30vh;" />
                         </div>
 
@@ -56,7 +56,7 @@ $classIconHeader = "solar--graph-bold";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/default-bottom.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/bottom/solar-bottom-2.jpg" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 28vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
