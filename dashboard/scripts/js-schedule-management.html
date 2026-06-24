@@ -1,0 +1,172 @@
+<!-- JavaScript -->
+<script>
+    let status_script = false;
+    let checkInterval = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await process();
+        Checkstatus();
+
+        checkInterval = setInterval(Checkstatus, 10000);
+    });
+
+    async function process() {
+
+    }
+
+    async function loadDevices() {
+        let res = await fetch('../../api-website/fetch-config-forAI.php?bid=' + branchID);
+        let raw = await res.json();
+        const data = raw['data'] ?? [];
+        temps = data;
+        return data;
+    }
+
+    async function loadAiLogs() {
+        let res = await fetch('../../api-website/fetch-AI-logs.php?bid=' + branchID);
+        let raw = await res.json();
+        const data = raw['data'] ?? [];
+        return data;
+    }
+
+    async function toggleScript() {
+        if (checkInterval) {
+            clearInterval(checkInterval);
+            checkInterval = null;
+        }
+
+        const startScriptbtn = document.getElementById('start-script-btn');
+        const textcontentbtn = startScriptbtn.innerHTML;
+
+        startScriptbtn.disabled = true;
+
+        let action = status_script ? 'stop' : 'start';
+        startScriptbtn.textContent = action + 'ing';
+
+
+        const formData = new FormData();
+        formData.append('action', action);
+        formData.append('service', 'runtime_schedule');
+
+        const res = await fetch('../../api-website/service-command.php', {
+            method: "POST",
+            body: formData
+        });
+
+        const raw = await res.json();
+        console.log(raw);
+
+        Checkstatus();
+        startScriptbtn.disabled = false;
+        startScriptbtn.innerHTML = textcontentbtn;
+        checkInterval = setInterval(Checkstatus, 10000);
+    }
+
+    async function resetScript() {
+        const res = await fetch('../../services/script-reset.php?name=runtime_Schedule');
+        const raw = await res.json();
+        const data = raw['data'] ?? [];
+    }
+
+    //interval script check status
+    async function Checkstatus() {
+        const raw = await serviceCommand('dashboard', 'runtime_schedule');
+        status_script = raw.runtime_schedule.service.running;
+        const status = raw.runtime_schedule.status;
+
+        console.log(status_script);
+        console.log(status);
+
+        const startScriptbtn = document.getElementById('start-script-btn');
+        const statusBadge = document.getElementById('statusBadge');
+        if (statusBadge) {
+            // ล้างสีเดิมก่อน
+            const statusbg = statusBadge.querySelector('#statusBg');
+
+            statusbg.classList.remove(
+                'text-stone-500',
+                'text-red-500',
+                'text-green-800',
+                'text-orange-800',
+                'bg-stone-200',
+                'bg-red-200',
+                'bg-green-200',
+                'bg-orange-200'
+            );
+
+            if (status_script) {
+                startScriptbtn.querySelector('#actionIcon').textContent = 'stop_circle';
+                startScriptbtn.querySelector('#actionText').textContent = 'Stop Script';
+                startScriptbtn.disabled = false;
+                startScriptbtn.classList.remove('bg-stone-400');
+                startScriptbtn.classList.add('bg-primary');
+                statusBadge.querySelector('#status').textContent = 'Running';
+                statusbg.classList.add('bg-green-800');
+                statusBadge.classList.add('text-green-800', 'bg-green-200');
+            } else if (!status_script) {
+                startScriptbtn.querySelector('#actionIcon').textContent = 'play_circle';
+                startScriptbtn.querySelector('#actionText').textContent = 'Start Script';
+                startScriptbtn.disabled = false;
+                startScriptbtn.classList.remove('bg-stone-400');
+                startScriptbtn.classList.add('bg-primary');
+                statusBadge.querySelector('#status').textContent = 'Stop';
+                statusbg.classList.add('bg-orange-800');
+                statusBadge.classList.add('text-orange-800', 'bg-orange-200');
+            } else {
+                startScriptbtn.querySelector('#actionIcon').textContent = 'circle';
+                startScriptbtn.querySelector('#actionText').textContent = 'Error Script';
+                startScriptbtn.disabled = true;
+                startScriptbtn.classList.remove('bg-primary');
+                startScriptbtn.classList.add('bg-stone-400');
+                statusBadge.querySelector('#status').textContent = 'Error';
+                statusbg.classList.add('bg-red-500');
+                statusBadge.classList.add('text-red-500', 'bg-red-200');
+            }
+        }
+        const start = document.getElementById('started_at');
+        if (start) start.textContent = status.started_at ?? '--:--:--';
+        const update = document.getElementById('updated_at');
+        if (update) update.textContent = status.updated_at ?? '--:--:--';
+        const last = document.getElementById('finished_at');
+        if (last) last.textContent = status.finished_at ?? '--:--:--';
+
+
+    }
+
+    function parseJson(value) {
+        try {
+            value = typeof value === 'string'
+                ? JSON.parse(value)
+                : value;
+
+            if (typeof value.message === 'string') {
+                try {
+                    value.message = JSON.parse(value.message);
+                } catch (_) { }
+            }
+
+            return value;
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function prettyJson(value) {
+        try {
+            value = typeof value === 'string' ? JSON.parse(value) : value;
+
+            Object.keys(value).forEach(key => {
+                if (typeof value[key] === 'string') {
+                    try {
+                        value[key] = JSON.parse(value[key]);
+                    } catch (_) { }
+                }
+            });
+
+            return JSON.stringify(value, null, 2);
+        } catch (_) {
+            return value == '' || !value ? '-' : value;
+        }
+    }
+
+</script>

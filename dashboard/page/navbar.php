@@ -853,6 +853,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Managements</h3>
         </div>
         <li>
+            <a href="schedule-management.php" class="<?php echo ($current_page == 'schedule-management') ? 'active' : ''; ?>">
+                <span class="nav-icon dark:text-white material-symbols--schedule-outline"></span>Schedule management
+            </a>
+        </li>
+        <li>
             <a href="ai-management.php" class="<?php echo ($current_page == 'ai-management') ? 'active' : ''; ?>">
                 <span class="nav-icon dark:text-white tdesign--ai"></span>AI management
             </a>

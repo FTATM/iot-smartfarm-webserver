@@ -1,4 +1,4 @@
 <?php
-  header("Location:/iotsf/menu.php");
+  header("Location:/iotsf/login.php");
   die();
 ?>

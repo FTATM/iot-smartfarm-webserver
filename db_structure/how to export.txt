@@ -1,1 +1,0 @@
-pg_dump -U tikky -h 127.0.0.1 -d iot_demo -F c -b -v -f 20241102_lastest.dump

@@ -6,7 +6,7 @@ function updateScriptStatus(
     ?int $progress = null
 ): void {
 
-    $file = __DIR__ . '/status/' . $key . '.json';
+    $file = __DIR__ . '/statusall/' . $key . '.json';
 
     if (!is_dir(dirname($file))) {
         mkdir(dirname($file), 0777, true);
@@ -67,7 +67,7 @@ function updateScriptStatus(
 //get status by key
 function getScriptStatus(string $key): array
 {
-    $file = __DIR__ . '/status/' . $key . '.json';
+    $file = __DIR__ . '/statusall/' . $key . '.json';
 
     if (!file_exists($file)) {
 
@@ -95,7 +95,7 @@ function getScriptStatus(string $key): array
 
 function resetScriptStatus(string $key): array
 {
-    $file = __DIR__ . '/status/' . $key . '.json';
+    $file = __DIR__ . '/statusall/' . $key . '.json';
 
     if (!file_exists($file)) {
 

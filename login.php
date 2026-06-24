@@ -2,7 +2,7 @@
   //nav bar
   session_start();
   if(isset($_SESSION['username']) && $_SESSION['username'] !=""){
-    header("location: dashboard_view_v3.php");
+    header("location: menu.php");
     die();
   }
     

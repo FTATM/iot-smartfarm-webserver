@@ -2,7 +2,7 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Expense Managements";
+$Title = $_SESSION['branch_name'] . " Dashboard";
 $subTitle = "Chicken Farm Intelligence Dashboard";
 $classIconHeader = "hugeicons--bitcoin-up-01";
 ?>

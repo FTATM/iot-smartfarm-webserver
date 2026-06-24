@@ -2,8 +2,8 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Indoor Dashboard";
-$subTitle = "Plant hydroponic indoor intellegent system";
+$Title = $_SESSION['branch_name'] . " Dashboard";
+$subTitle = $_SESSION['branch_name'] . " intellegent system";
 $classIconHeader = "fluent--door-arrow-left-20-regular";
 ?>
 <!DOCTYPE html>
