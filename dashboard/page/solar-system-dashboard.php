@@ -2,7 +2,7 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Solar Dashboard";
+$Title = $_SESSION['branch_name'] . " Dashboard";
 $subTitle = "Solar system intelligence Dashboard";
 $classIconHeader = "solar--graph-bold";
 ?>

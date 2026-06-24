@@ -3,3 +3,4 @@
 python/__pycache__
 python/logs/
 services/logs/
+services/statusall/

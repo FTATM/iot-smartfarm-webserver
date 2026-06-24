@@ -2,7 +2,7 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Weather Dashboard";
+$Title = $_SESSION['branch_name'] . " Dashboard";
 $subTitle = "Weather Dashboard Farm Intelligence";
 $classIconHeader = "arcticons--weathercan";
 ?>

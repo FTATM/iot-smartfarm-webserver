@@ -2,8 +2,8 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Container-2 Dashboard";
-$subTitle = "Plant hydroponic indoor intellegent system";
+$Title = $_SESSION['branch_name'] . " Dashboard";
+$subTitle = $_SESSION['branch_name'] . " intellegent system";
 $classIconHeader = "boxicons--container";
 ?>
 <!DOCTYPE html>

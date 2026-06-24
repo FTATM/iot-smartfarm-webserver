@@ -2,8 +2,8 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Container Dashboard";
-$subTitle = "Plant hydroponic indoor intellegent system";
+$Title = $_SESSION['branch_name'] . " Dashboard";
+$subTitle = $_SESSION['branch_name'] . " intellegent system";
 $classIconHeader = "tdesign--ai";
 ?>
 <!DOCTYPE html>
@@ -95,15 +95,17 @@ $classIconHeader = "tdesign--ai";
                         </button>
                     </div>
                 </div>
-
             </div>
             <!-- </div> -->
-            <div class="h-[50%]">
-                <span class="font-label-md text-label-md text-outline uppercase tracking-wider block mb-4">อุปกรณ์ที่เลือกได้</span>
+            <div class="h-[50%] overflow-hidden rounded-xl mt-auto border border-outline-variant shadow-sm">
+                <div class="flex px-3 justify-between items-center">
+                    <span class="font-label-md text-label-md text-outline uppercase tracking-wider block my-4">อุปกรณ์ที่เลือกได้</span>
+                    <button onclick="updateDevicesList(this)" class="font-label-md text-label-md text-outline tracking-wider block p-2 hover:bg-primary/50 hover:text-white border border-primary hover:border-primary/80 rounded rounded-xl shadow hover:shadow-md">Update</button>
+                </div>
                 <div id="device_list" class="space-y-1 flex flex-col overflow-y-auto h-[100%]">
                 </div>
             </div>
-            <div class="h-[7%] mt-auto bg-white pt-6 border-t border-surface-variant">
+            <div class="h-[7%] mt-auto bg-white pt-3 border-t border-surface-variant">
                 <p class="font-body-sm text-body-sm text-secondary thai-leading">
                     รายการอุปกรณ์ที่สามารถเลือกให้ AI นำไปวิเคราะห์เพื่อประกอบการตัดสินใจโดยอัตโนมัติ
                 </p>

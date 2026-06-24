@@ -2,7 +2,7 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Shrimp Dashboard";
+$Title = $_SESSION['branch_name'] . " Dashboard";
 $subTitle = "Smart Vertical Raised Shrimp Farming System(RAS) with IoT App";
 $classIconHeader = "emojione-monotone--shrimp";
 ?>

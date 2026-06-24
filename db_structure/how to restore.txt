@@ -1,1 +1,0 @@
-pg_restore -U tikky -h 127.0.0.1 -d smartict -v 20241008_lastest.dump

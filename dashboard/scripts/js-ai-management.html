@@ -163,10 +163,13 @@
             clearInterval(checkInterval);
             checkInterval = null;
         }
+        const startScriptbtn = document.getElementById('start-script-btn');
+        const textcontentbtn = startScriptbtn.innerHTML;
+
+        startScriptbtn.disabled = true;
 
         let action = status_script ? 'stop' : 'start';
-        console.log('will doing : ' + action);
-
+        startScriptbtn.textContent = action + 'ing';
 
         const formData = new FormData();
         formData.append('action', action);
@@ -181,6 +184,8 @@
         console.log(raw);
 
         Checkstatus();
+        startScriptbtn.disabled = false;
+        startScriptbtn.innerHTML = textcontentbtn;
         checkInterval = setInterval(Checkstatus, 10000);
     }
 
@@ -334,7 +339,10 @@
             let label = document.createElement('label');
             label.className = "flex items-center gap-3 p-2 hover:bg-surface-container-low transition-colors cursor-pointer group";
             label.innerHTML = `
-                <input ${l.ai_allow == 1 ? "checked" : ""} class="w-4 h-4 text-primary-container border-outline rounded focus:ring-primary-container" type="checkbox" />
+                <input 
+                data-device-id="${l.device_id}"
+                ${l.ai_allow == 1 ? "checked" : ""} 
+                class="w-4 h-4 text-primary-container border-outline rounded focus:ring-primary-container" type="checkbox" />
                 <span class="font-body-sm text-body-sm text-on-surface group-hover:text-primary transition-colors">${l.monitor_name}</span>
             `;
             devices_list.appendChild(label);

@@ -2,7 +2,7 @@
 session_start();
 include '../components/session.php';
 checkLogin();
-$Title = "Knowledge Management";
+$Title = $_SESSION['branch_name'] . " Dashboard";
 $subTitle = "manage knowledge about farm in website.";
 $classIconHeader = "material-symbols--book";
 ?>

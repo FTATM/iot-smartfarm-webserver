@@ -17,24 +17,6 @@ if (php_sapi_name() !== 'cli') {
 |--------------------------------------------------------------------------
 */
 
-$lastRunFile = __DIR__ . '/logs/schedule-runtime_history_' . date('Y-m-d') . '.json';
-
-if (!is_dir(dirname($lastRunFile))) {
-    mkdir(dirname($lastRunFile), 0777, true);
-}
-
-$lastRun = [];
-
-if (file_exists($lastRunFile)) {
-
-    $json = file_get_contents($lastRunFile);
-
-    $lastRun = json_decode($json, true);
-
-    if (!is_array($lastRun)) {
-        $lastRun = [];
-    }
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +122,25 @@ echo '[' . date('Y-m-d H:i:s') . "] Schedule Runtime Started" . PHP_EOL;
 try {
 
     while (true) {
+        // Check log file.
+        $lastRunFile = __DIR__ . '/logs/schedule-runtime_history_' . date('Y-m-d') . '.json';
+
+        if (!is_dir(dirname($lastRunFile))) {
+            mkdir(dirname($lastRunFile), 0777, true);
+        }
+
+        $lastRun = [];
+
+        if (file_exists($lastRunFile)) {
+
+            $json = file_get_contents($lastRunFile);
+
+            $lastRun = json_decode($json, true);
+
+            if (!is_array($lastRun)) {
+                $lastRun = [];
+            }
+        }
 
         updateScriptStatus(
             'runtime_schedule',
