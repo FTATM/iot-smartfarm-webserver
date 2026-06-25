@@ -35,15 +35,27 @@ try {
         mkdir($logDir, 0777, true);
     }
 
-    $logFile = $logDir . '/monitor_execute_' . date('Ymd') . '.log';
+    $logFile = $logDir . '/monitor_execute_' . date('Y-m-d') . '.json';
 
-    file_put_contents(
-        $logFile,
-        "\n============================================================\n" .
-            "RUN : " . date('Y-m-d H:i:s') . "\n" .
-            "============================================================\n\n",
-        FILE_APPEND
-    );
+    if (!file_exists($logFile)) {
+        file_put_contents(
+            $logFile,
+            json_encode([], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        );
+    }
+
+    $runTime = date('Y-m-d H:i:s');
+    $runKey = date('H:i');
+
+    $logs = json_decode(file_get_contents($logFile), true);
+
+    if (!is_array($logs)) {
+        $logs = [];
+    }
+
+    if (!isset($logs[$runKey])) {
+        $logs[$runKey] = [];
+    }
     // ========================================================================================
 
 
@@ -59,11 +71,13 @@ ORDER BY branch_id ASC
 
     if (!$result) {
 
-        $msg =
-            "SYSTEM ERROR\n" .
-            "Message : Not found branch in database\n\n";
-
-        file_put_contents($logFile, $msg, FILE_APPEND);
+        appendLog($logs, $runKey, [
+            'run_time' => $runTime,
+            'branch_id' => null,
+            'branch_name' => null,
+            'result' => 'ERROR',
+            'message' => 'Not found branch in database'
+        ]);
 
         http_response_code(401);
 
@@ -85,11 +99,14 @@ ORDER BY branch_id ASC
 
         if ($branch_id === 0) {
 
-            $msg =
-                "SYSTEM ERROR\n" .
-                "Message : branch_id is null\n\n";
+            appendLog($logs, $runKey, [
+                'run_time' => $runTime,
+                'branch_id' => null,
+                'branch_name' => $branch_name,
+                'result' => 'ERROR',
+                'message' => 'branch_id is null'
+            ]);
 
-            file_put_contents($logFile, $msg, FILE_APPEND);
             updateScriptStatus('schedule', false, 'เกิดข้อผิดพลาด มีข้อมูลเสียหาย โปรดติดต่อแอดมิน.', 31);
 
             continue;
@@ -136,13 +153,13 @@ ORDER BY branch_id ASC
 
         if (!$result_m) {
 
-            $msg =
-                "Branch[{$branch_id}] {$branch_name}\n" .
-                "Result  : ERROR\n" .
-                "Message : " . pg_last_error($db) . "\n\n" .
-                "------------------------------------------------------------\n\n";
-
-            file_put_contents($logFile, $msg, FILE_APPEND);
+            appendLog($logs, $runKey, [
+                'run_time' => $runTime,
+                'branch_id' => $branch_id,
+                'branch_name' => $branch_name,
+                'result' => 'ERROR',
+                'message' => pg_last_error($db)
+            ]);
             updateScriptStatus('schedule', false, 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ โปรดติดต่อแอดมิน.', 35);
             continue;
         }
@@ -219,13 +236,13 @@ ORDER BY branch_id ASC
         // ================================ Skip ==============================================
         if (empty($monitors)) {
 
-            $msg =
-                "Branch[{$branch_id}] {$branch_name}\n" .
-                "Result  : SKIP\n" .
-                "Reason  : not has monitor open notify or schedule\n\n" .
-                "------------------------------------------------------------\n\n";
-
-            file_put_contents($logFile, $msg, FILE_APPEND);
+            appendLog($logs, $runKey, [
+                'run_time' => $runTime,
+                'branch_id' => $branch_id,
+                'branch_name' => $branch_name,
+                'result' => 'SKIP',
+                'reason' => 'not has monitor open notify or schedule'
+            ]);
 
             updateScriptStatus('schedule', false, 'ไม่พบอุปกรณ์ที่ตั้งการทำงานล่วงหน้า', 54);
             continue;
@@ -261,29 +278,30 @@ ORDER BY branch_id ASC
 
             $error = curl_error($ch);
 
-            $msg =
-                "Branch[{$branch_id}] {$branch_name}\n" .
-                "Payload : {$json}\n" .
-                "Result  : ERROR\n" .
-                "Message : {$error}\n\n" .
-                "------------------------------------------------------------\n\n";
-
-            file_put_contents($logFile, $msg, FILE_APPEND);
+            appendLog($logs, $runKey, [
+                'run_time' => $runTime,
+                'branch_id' => $branch_id,
+                'branch_name' => $branch_name,
+                'result' => 'ERROR',
+                'payload' => $monitors,
+                'message' => $error
+            ]);
 
             updateScriptStatus('schedule', false, 'เกิดข้อผิดพลาดในการอัพเดตข้อมูลปัจจุบัน', 73);
         } else {
 
             $status = ($httpCode == 200) ? 'SUCCESS' : 'FAILED';
 
-            $msg =
-                "Branch[{$branch_id}] {$branch_name}\n" .
-                "Payload : {$json}\n" .
-                "HTTP    : {$httpCode}\n" .
-                "Result  : {$status}\n" .
-                "Response:\n{$response}\n\n" .
-                "------------------------------------------------------------\n\n";
+            appendLog($logs, $runKey, [
+                'run_time' => $runTime,
+                'branch_id' => $branch_id,
+                'branch_name' => $branch_name,
+                'result' => $status,
+                'http_code' => $httpCode,
+                'payload' => $monitors,
+                'response' => json_decode($response, true)
+            ]);
 
-            file_put_contents($logFile, $msg, FILE_APPEND);
             updateScriptStatus('schedule', true, 'อัพเดตข้อมูลสำเร็จ กำลังทำการปิดการเชื่อมต่อ', 84);
         }
 
@@ -294,10 +312,10 @@ ORDER BY branch_id ASC
     // ================================ End Log ===============================================
     file_put_contents(
         $logFile,
-        "============================================================\n" .
-            "END RUN\n" .
-            "============================================================\n\n",
-        FILE_APPEND
+        json_encode(
+            $logs,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        )
     );
     // ========================================================================================
 
@@ -319,4 +337,10 @@ ORDER BY branch_id ASC
 } catch (Exception $e) {
 
     updateScriptStatus('schedule', false, 'เกิดข้อผิดพลาด : ' . $e->getMessage());
+}
+
+
+function appendLog(&$logs, $runKey, $data)
+{
+    $logs[$runKey][] = $data;
 }
