@@ -91,6 +91,27 @@
         const detail = document.getElementById('detail');
         detail.textContent = '';
         Object.values(value).map((v) => {
+
+            const result = v.result;
+            let css = "";
+            switch (result) {
+                case 'SKIP':
+                    css = "bg-on-surface-variant/10 text-on-surface-variant"
+                    break;
+
+                case 'SUCCESS':
+                    css = "bg-green-100 text-green-700 border border-green-500";
+                    break;
+
+                case 'FAILED':
+                    css = "bg-red-100 text-red-700 border border-red-500";
+                    break;
+
+                default:
+                    css = "bg-on-surface-variant/10 text-on-surface-variant"
+                    break;
+            }
+
             const div = document.createElement('div');
             div.innerHTML = `
                 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg overflow-hidden shadow-sm">
@@ -103,7 +124,7 @@
                                 ${v.branch_name}
                             </span>
                         </div>
-                        <span class="rounded-full p-1 text-mono-data bg-on-surface-variant/10 text-on-surface-variant">${v.result ?? '--'}</span>
+                        <span class="rounded-full py-1 px-2 text-mono-data font-bold ${css}">${v.result ?? '--'}</span>
                     </div>
                     <div class="p-4 space-y-2">
                         <div class="flex items-center gap-2 text-[0.75vw] text-on-surface-variant font-mono">
@@ -112,7 +133,7 @@
                         </div>
                         <div class="bg-surface-container-low p-3 rounded border border-outline-variant/10">
                             <p class="text-[0.8vw] text-on-surface-variant italic">
-                                เหตุผล: ${v.reason}
+                                เหตุผล: ${v.reason ?? v.response.msg}
                             </p>
                         </div>
                     </div>
