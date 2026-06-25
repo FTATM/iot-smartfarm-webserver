@@ -72,6 +72,7 @@
 
 
         const times = document.getElementById('times');
+        times.textContent = '';
         Object.entries(res).map(([k, v]) => {
             const time = document.createElement('div');
             time.className = "w-full text-center py-1 hover:bg-primary/20 ";

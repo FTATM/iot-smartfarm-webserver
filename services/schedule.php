@@ -227,7 +227,7 @@ ORDER BY branch_id ASC
             }
 
             $monitors[] = [
-                "monitor_id" => (int)$row_m['target_id'],
+                "monitor_id" => (int)($row_m['target_id'] ?? $row_m['monitor_id']),
                 "data_value" => $isWorkingNow
             ];
         }
