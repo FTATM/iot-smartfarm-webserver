@@ -13,7 +13,7 @@ $classIconHeader = "material-symbols--schedule-outline";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>AI - Dashboard</title>
+    <title>Schedule - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
@@ -82,27 +82,27 @@ $classIconHeader = "material-symbols--schedule-outline";
                 </div>
 
             </div>
-            
+
             <div class="h-[10%] mt-auto bg-white pt-3 border-t border-surface-variant">
-                    <!-- Action Area -->
-                    <div class="flex items-center gap-3 pt-2">
-                        <button onclick="toggleScript()"
-                            id="start-script-btn"
-                            class="flex-1 bg-primary text-on-primary font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-primary-container">
-                            <span class="material-symbols-outlined text-[1vw]" id="actionIcon">play_circle</span>
-                            <span id="actionText">Start Script</span>
-                        </button>
-                        <button onclick="resetScript()"
-                            id="reset-script-btn"
-                            class="bg-surface-container-high text-on-surface-variant font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-surface-container-highest border border-outline-variant/30">
-                            <span class="material-symbols-outlined text-[1vw]">restart_alt</span>
-                            <span>Reset History</span>
-                        </button>
-                    </div>
+                <!-- Action Area -->
+                <div class="flex items-center gap-3 pt-2">
+                    <button onclick="toggleScript()"
+                        id="start-script-btn"
+                        class="flex-1 bg-primary text-on-primary font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-primary-container">
+                        <span class="material-symbols-outlined text-[1vw]" id="actionIcon">play_circle</span>
+                        <span id="actionText">Start Script</span>
+                    </button>
+                    <button onclick="resetScript()"
+                        id="reset-script-btn"
+                        class="bg-surface-container-high text-on-surface-variant font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 hover:bg-surface-container-highest border border-outline-variant/30">
+                        <span class="material-symbols-outlined text-[1vw]">restart_alt</span>
+                        <span>Reset History</span>
+                    </button>
+                </div>
             </div>
         </section>
         <!-- Middle Column: Activity Log -->
-        <section class="col-span-5 bg-surface-container-lowest border border-surface-variant flex flex-col overflow-hidden">
+        <section class="col-span-4 bg-surface-container-lowest border border-surface-variant flex flex-col overflow-hidden">
             <div class="p-panel-padding border-b border-surface-variant">
                 <h2 class="font-headline-md text-headline-md text-on-surface">บันทึกการทำงานของ Schedule (Schedule Activity Log)</h2>
             </div>
@@ -110,9 +110,9 @@ $classIconHeader = "material-symbols--schedule-outline";
                 <table id="table-Logs" class="w-full text-left border-collapse">
                     <thead class="sticky top-0 bg-surface-container-lowest z-10">
                         <tr class="border-b border-surface-variant">
-                            <th class="px-gutter py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase">เวลา</th>
-                            <th class="px-gutter py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase">เหตุการณ์</th>
-                            <th class="px-gutter py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase text-right">สถานะ</th>
+                            <th class="px-gutter py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase">ชื่อไฟล์</th>
+                            <th class="px-gutter py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase">ขนาด</th>
+                            <th class="pr-[10%] py-3 font-label-md text-label-md text-on-surface-variant bg-surface-container-low uppercase text-right">เวลาล่าสุด</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
@@ -122,9 +122,19 @@ $classIconHeader = "material-symbols--schedule-outline";
             </div>
         </section>
         <!-- Right Column: Execution Details -->
-        <section class="col-span-4 bg-surface-container-lowest border border-surface-variant flex flex-col overflow-y-auto">
+        <section class="col-span-2 bg-surface-container-lowest border border-surface-variant flex flex-col flex-1 min-h-0">
+            <div class="p-panel-padding border-b border-surface-variant">
+                <h2 class="font-headline-md text-headline-md text-on-surface">ช่วงเวลาที่ทำงาน</h2>
+            </div>
+            <div id="times" class="bg-white flex-1 min-h-0  overflow-y-auto">
+            </div>
+
+        </section>
+        <section class="col-span-3 bg-surface-container-lowest border border-surface-variant flex flex-col flex-1 min-h-0">
             <div class="p-panel-padding border-b border-surface-variant">
                 <h2 class="font-headline-md text-headline-md text-on-surface">รายละเอียดการทำงานของ Schedule</h2>
+            </div>
+            <div id="detail" class="bg-stone-100 flex flex-col flex-1 min-h-0  overflow-y-auto">
             </div>
 
         </section>
