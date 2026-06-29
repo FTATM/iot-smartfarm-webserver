@@ -132,7 +132,7 @@ if ($data_sim_type == '1') {
     pg_close($db);
     exit;
   } else {
-    $sql_update = " UPDATE page_data_manage_monitor SET datax_value = '{$data_value}' WHERE group_id = '{$group_id}' AND device_id = '{$device_id}' AND type_id = '{$type_id}' AND datax_id = '{$datax_id}'";
+    $sql_update = " UPDATE page_data_manage_monitor SET datax_value = '{$data_value}', updatetime = NOW() WHERE group_id = '{$group_id}' AND device_id = '{$device_id}' AND type_id = '{$type_id}' AND datax_id = '{$datax_id}'";
     $rs_sql_update = execute($sql_update, $db);
     $sql_insert_log = " INSERT INTO data_log (group_id, device_id, type_id, datax_id, data_value, createtime ) VALUES ('{$group_id}','{$device_id}','{$type_id}','{$datax_id}','{$data_value}',NOW())";
     $rs_sql_insert_log = execute($sql_insert_log, $db);

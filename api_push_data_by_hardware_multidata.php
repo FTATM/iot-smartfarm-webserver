@@ -115,7 +115,7 @@ foreach ($items as $index => $item) {
     $upd_monitor = pg_query_params(
         $db,
         "UPDATE page_data_manage_monitor
-         SET datax_value = $1
+         SET datax_value = $1, updatetime = NOW()
          WHERE group_id = $2 AND device_id = $3 AND type_id = $4 AND datax_id = $5",
         [$data_value, $group_id, $device_id, $type_id, $datax_id]
     );
