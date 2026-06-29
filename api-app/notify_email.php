@@ -7,6 +7,8 @@ require (__DIR__ . '/../api-website/config.php');
 
 function sendEmail($to, $subject, $message)
 {
+    global $MAIL_config;
+    
     $mail = new PHPMailer(true);
     $mail->CharSet = 'UTF-8';
 
