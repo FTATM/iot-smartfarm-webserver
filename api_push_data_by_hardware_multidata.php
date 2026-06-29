@@ -14,6 +14,7 @@
 include_once("includes/fn/pg_connect.php");
 require 'api-app/notify_email.php';
 require 'api-app/notify_line.php';
+require 'api-app/notify_sms.php';
 
 // ─────────────────────────────────────────
 //  Parse Input
@@ -208,6 +209,7 @@ function checkThresholds($db, $group_id, $device_id, $type_id, $datax_id, float 
         $isMax    = $row['is_max'] === '1';
         $isEmail  = $row['is_email'] === '1';
         $isLine   = $row['is_line'] === '1';
+        $isSms   = $row['is_sms'] === '1';
 
         $triggered = [];
         if ($isMin && $data_value <= $minValue) $triggered[] = "ค่าต่ำกว่าที่กำหนด!! (MIN: {$minValue})";
@@ -230,6 +232,15 @@ function checkThresholds($db, $group_id, $device_id, $type_id, $datax_id, float 
         }
         if ($isLine && !empty($row['input_line'])) {
             sendLineOA($row['input_line'], $msg);
+        }
+        $updateTime = strtotime($row['updatetime']);
+        $now        = time();
+
+        $diffMinutes = ($now - $updateTime) / 60;
+
+        // ถ้า update ล่าสุดห่างจากปัจจุบัน < 5 นาที = ห้ามส่ง
+        if ($diffMinutes >= 5) {
+            sendSMS($row['input_sms'], $msg);
         }
 
         $alerts[] = ['monitor_id' => $row['monitor_id'], 'triggers' => $triggered];

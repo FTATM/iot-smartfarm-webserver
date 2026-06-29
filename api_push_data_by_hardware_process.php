@@ -2,6 +2,7 @@
 include_once("includes/fn/pg_connect.php");
 require 'api-app/notify_email.php';
 require 'api-app/notify_line.php';
+require 'api-app/notify_sms.php';
 
 
 
@@ -172,6 +173,7 @@ if ($data_sim_type == '1') {
         $isMax   = $row['is_max'] == '1';
         $isEmail = $row['is_email'] == '1';
         $isLine  = $row['is_line'] == '1';
+        $isSms   = $row['is_sms'] === '1';
 
         $alert = false;
         $msg = "";
@@ -218,6 +220,16 @@ if ($data_sim_type == '1') {
 
         if ($isLine && !empty($row['input_line'])) {
           sendLineOA($row['input_line'], $msg);
+        }
+
+        $updateTime = strtotime($row['updatetime']);
+        $now        = time();
+
+        $diffMinutes = ($now - $updateTime) / 60;
+
+        // ถ้า update ล่าสุดห่างจากปัจจุบัน < 5 นาที = ห้ามส่ง
+        if ($diffMinutes >= 5) {
+          sendSMS($row['input_sms'], $msg);
         }
       }
     }
