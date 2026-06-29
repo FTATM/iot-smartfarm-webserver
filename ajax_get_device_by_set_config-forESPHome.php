@@ -31,26 +31,23 @@ foreach ($input as $item) {
 
     $sql = "
         SELECT 
-            dl.id,
-            dl.group_id,
-            dl.device_id,
-            dl.type_id,
-            dl.datax_id,
-            dl.data_value,
-            dl.createtime,
+            mo.monitor_id,
+            mo.group_id,
+            mo.device_id,
+            mo.type_id,
+            mo.datax_id,
+            mo.datax_value,
+            mo.createtime,
             mo.monitor_name,
             pdmd.divice_name AS device_name
-        FROM public.data_log dl
+        FROM public.page_data_manage_monitor mo
         LEFT JOIN public.page_data_manage_device pdmd 
-            ON dl.device_id = pdmd.device_id
-        LEFT JOIN public.page_data_manage_monitor mo
-            ON dl.group_id = mo.group_id AND dl.device_id = mo.device_id
-               AND dl.type_id = mo.type_id AND dl.datax_id = mo.datax_id
-        WHERE dl.group_id  = $1
-          AND dl.device_id = $2
-          AND dl.type_id   = $3
-          AND dl.datax_id  = $4
-        ORDER BY dl.createtime DESC
+            ON mo.device_id = pdmd.device_id
+        WHERE mo.group_id  = $1
+          AND mo.device_id = $2
+          AND mo.type_id   = $3
+          AND mo.datax_id  = $4
+        ORDER BY mo.createtime DESC
         LIMIT 1
     ";
 
@@ -71,8 +68,8 @@ foreach ($input as $item) {
 
     if ($row) {
         $data[$row['monitor_name']] =
-            $row['data_value'] !== null
-            ? (float)$row['data_value']
+            $row['datax_value'] !== null
+            ? (float)$row['datax_value']
             : null;
     }
 }

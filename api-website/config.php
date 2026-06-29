@@ -34,3 +34,10 @@ $MAIL_config = [
 $LINE_config = [
     'token' => $_ENV['LINE_NOTIFY_TOKEN']
 ];
+
+$SMS_config = [
+    'url'        => $_ENV['SMS_API_URL'],
+    'api_key'    => $_ENV['SMS_API_KEY'],
+    'api_secret' => $_ENV['SMS_API_SECRET'],
+    'sender'     => $_ENV['SMS_SENDER'],
+];
