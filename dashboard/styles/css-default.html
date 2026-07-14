@@ -95,4 +95,17 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
     .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); }
+
+
+    /* Chrome, Safari, Edge, Opera */
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    .no-spinner[type=number] {
+        -moz-appearance: textfield;
+    }
     </style>

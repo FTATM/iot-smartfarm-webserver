@@ -884,6 +884,15 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <div class="pt-6 pb-2 px-6">
             <h3 class="text-[1vw] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Action</h3>
         </div>
+        <?php if (true) { ?>
+            <li>
+                <a href="simulate.php"
+                    class="<?php echo ($current_page == 'simualate') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white gravity-ui--signal"></span>จำลอง (Simulate)
+                </a>
+            </li>
+
+        <?php } ?>
         <li>
             <a href="../../logout.php">
                 <span class="nav-icon dark:text-white material-symbols--book"></span>Logout
