@@ -1,0 +1,170 @@
+<!-- JavaScript -->
+<script>
+    let isLoading = true;
+    let selectedDevices = [];
+    let monitors = [];
+    let manualSelectDevice = {};
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await process();
+        isLoading = false;
+
+    });
+
+    async function process() {
+        await loadDevices();
+        generateDeviceListPanel('devices-list', monitors);
+        generateMonitorOption('devices-list-m', monitors, false);
+        addeventManualSelectDevice();
+    }
+
+    async function loadDevices() {
+        const res = await fetch('../../api-website/fetch-config-simulate.php?bid=' + branchID);
+        const raw = await res.json();
+        const data = raw['data'] ?? [];
+        monitors = data;
+    };
+
+    function generateDeviceListPanel(id, data) {
+        let list = document.getElementById(id);
+        list.innerHTML = '';
+
+        if (!Array.isArray(data)) {
+            data = Object.values(data);
+        }
+
+        data.forEach(row => {
+            let div = document.createElement('div');
+            div.className = 'flex items-center p-3 border-b border-outline-variant hover:bg-surface-container transition-colors cursor-pointer';
+            div.innerHTML = `
+                <input class="device-checkbox w-4 h-4 rounded border-outline text-primary focus:ring-primary" type="checkbox" 
+                    data-id="${row.monitor_id}"
+                    data-name="${row.monitor_name}"
+                    />
+                <div class="ml-3 flex flex-col overflow-hidden">
+                    <span class="font-label-md truncate">${row.monitor_name}</span>
+                    <span class="font-mono-data text-[10px] text-secondary">ID: ${row.monitor_id}</span>
+                </div>
+                <span class="material-symbols-outlined ml-auto text-primary text-lg">chevron_right</span>
+            `;
+            list.appendChild(div);
+
+            div.onclick = () => loadConfigDevice(row);
+
+        });
+        // ดัก event ของ checkbox ทุกตัว
+        list.querySelectorAll('.device-checkbox').forEach(cb => {
+            cb.addEventListener('change', () => {
+
+                selectedDevices = [...list.querySelectorAll('.device-checkbox:checked')]
+                    .map(item => ({
+                        monitor_id: item.dataset.id,
+                        monitor_name: item.dataset.name
+                    }));
+
+                console.log('Selected Devices:', selectedDevices);
+            });
+        });
+    }
+
+    function loadConfigDevice(data) {
+
+
+    }
+
+    function addeventManualSelectDevice() {
+        const select = document.getElementById('devices-list-m');
+        if (!select) {
+            console.warn('not found element id : devices-list-m');
+            return;
+        }
+
+        select.addEventListener('change', () => loadinfoDevice(select.value));
+    }
+
+    function loadinfoDevice(id) {
+        let device = monitors.find((m) => { return m.monitor_id == id });
+        manualSelectDevice = device;
+
+        setinfoDevice(device);
+    }
+
+    function setinfoDevice(data) {
+        const div = document.getElementById('device-info');
+        let group = div.querySelector('#group_label');
+        let device = div.querySelector('#device_label');
+        let type = div.querySelector('#type_label');
+        let datax = div.querySelector('#datax_label');
+
+        if (!group || !device || !type || !datax) {
+            console.warn("not found element for set info please check and try again.");
+            return;
+        }
+        group.textContent = data.group_id;
+        device.textContent = data.device_id;
+        type.textContent = data.type_id;
+        datax.textContent = data.datax_id;
+    }
+
+    async function sendDevice() {
+        const device = manualSelectDevice;
+        console.log(device);
+
+        const simulate_input = document.getElementById('simulate-input');
+        if (!simulate_input) {
+            console.warn("not found element 'simulate-input' please check and try again.");
+            return;
+        }
+
+        const simulate_value = simulate_input.value;
+
+        if (simulate_value == null) {
+            console.warn("Value not null.");
+            return;
+        }
+
+        try {
+            const res = await fetch('../../api_push_data_by_id_multidata.php', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify([
+                    { monitor_id: device.monitor_id, data_value: simulate_value },
+                ])
+            });
+            const raw = await res.json();
+            const result = raw;
+            console.log(result);
+
+            logResult(result, `Manual inject VAL: ${simulate_value}. ---> "${result.success ? device.monitor_name : "Missing device select."}"`);
+        } catch (e) {
+
+            logResult({ "success": false }, "Exception error : " + e);
+        }
+
+        function logResult(data, msg) {
+            const now = new Date();
+
+            const result = document.getElementById('result');
+
+            result.innerHTML += `
+            <div class="p-3 ${data.success ? "bg-green-50 border-l-green-500" : "bg-red-50 border-l-red-500"} border-l-4 rounded shadow-sm">
+                <div class="flex justify-between items-start">
+                    <span class="font-label-md text-green-700">${data.success ? "SUCCESS" : "FAILURE"}</span>
+                    <span class="font-mono-data text-[10px] text-secondary">
+                        ${new Date().toLocaleTimeString('th-TH', {
+                            hour12: false,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                        })}
+                        </span>
+                </div>
+                <p class="font-body-sm ${data.success ? "text-green-800" : "tex-red-800"} mt-1">${msg}</p>
+            </div>
+            `;
+        }
+
+    }
+
+
+</script>

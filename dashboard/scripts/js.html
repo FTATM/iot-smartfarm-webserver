@@ -512,7 +512,7 @@
 
     try {
       const res = await fetch(
-        "../../api-website/fetch_tableByTypeId.php?typeId=" + table_type,
+        "../../api-website/fetch_tablemarket.php?typeId=" + table_type + "&bid=" + branchID,
       );
       const raw = await res.json();
       const tables = raw.data;
@@ -769,6 +769,34 @@
     if (selectfirst && data.length > 0) {
       select.value = data[0].id;
       MeterID = data[0].id;
+    }
+
+  }
+
+    function generateMonitorOption(id, data, selectfirst = true, allOption = false) {
+    let select = document.getElementById(id);
+    select.innerHTML = '<option value="">== เลือกอุปกรณ์ ==</option>';
+
+    if (!Array.isArray(data)) {
+      data = Object.values(data);
+    }
+
+    if (allOption) {
+      let option = document.createElement('option');
+      option.value = 'all';
+      option.textContent = '== ทั้งหมด (All) ==';
+      select.appendChild(option);
+    }
+
+    data.forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.monitor_id;
+      option.textContent = `[${row.monitor_id}] ${row.monitor_name}`;
+      select.appendChild(option);
+    });
+
+    if (selectfirst && data.length > 0) {
+      select.value = data[0].monitor_id;
     }
 
   }
