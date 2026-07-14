@@ -33,7 +33,7 @@
           <h2 class="text-2xl font-bold tracking-tight text-stone-800 dark:text-white text-center">Dashboard</h2>
           <p class="text-stone-400 text-sm leading-relaxed max-w-[200px] group-hover:text-stone-600 group-hover:dark:text-stone-200 transition-colors">
             View real-time analytics and system status.
-          </p>  
+          </p>
         </div>
         <div class="w-12 h-1 bg-[#2dd4bf]/30 rounded-full group-hover:w-24 group-hover:bg-[#2dd4bf] transition-all duration-500"></div>
       </div>
@@ -77,6 +77,18 @@
             d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
         </svg>
         <!-- <span id="mode-label" class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300">Dark</span> -->
+      </button>
+    </div>
+  </div>
+  <div class="absolute bottom-0 right-0">
+    <div class="flex flex-col items-end">
+      <button onclick="window.location.href = 'logout.php'"
+        class="flex items-center gap-2 bg-stone-300 hover:bg-stone-500 dark:bg-stone-700 dark:hover:bg-stone-600 border border-stone-200 dark:border-stone-600 px-3 py-2 rounded-xl transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6q.425 0 .713.288T12 4t-.288.713T11 5H5v14h6q.425 0 .713.288T12 20t-.288.713T11 21zm12.175-8H10q-.425 0-.712-.288T9 12t.288-.712T10 11h7.175L15.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L20.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288t-.713-.313q-.275-.3-.262-.712t.287-.688z" />
+        </svg>
+
       </button>
     </div>
   </div>

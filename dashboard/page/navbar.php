@@ -888,14 +888,14 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             <li>
                 <a href="simulate.php"
                     class="<?php echo ($current_page == 'simualate') ? 'active' : ''; ?>">
-                    <span class="nav-icon dark:text-white gravity-ui--signal"></span>จำลอง (Simulate)
+                    <span class="nav-icon dark:text-white gravity-ui--signal"></span>Simulate Devices
                 </a>
             </li>
 
         <?php } ?>
         <li>
-            <a href="../../logout.php">
-                <span class="nav-icon dark:text-white material-symbols--book"></span>Logout
+            <a href="../../menu.php">
+                <span class="nav-icon dark:text-white pajamas--go-back"></span>Back to Menu
             </a>
         </li>
     </ul>
