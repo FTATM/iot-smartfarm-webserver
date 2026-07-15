@@ -773,7 +773,7 @@
 
   }
 
-    function generateMonitorOption(id, data, selectfirst = true, allOption = false) {
+  function generateMonitorOption(id, data, selectfirst = true, allOption = false) {
     let select = document.getElementById(id);
     select.innerHTML = '<option value="">== เลือกอุปกรณ์ ==</option>';
 
@@ -1800,4 +1800,97 @@
             </span>`;
     }
   }
+
+
+  // =========== env function =============
+  async function loadAIMode() {
+    const aiModeSwitch = document.getElementById("aiModeSwitch");
+    const aiModeText = document.getElementById("aiModeText");
+
+    try {
+
+      const res = await fetch("../../api-website/fetch_env.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          keys: ["AI_MODE"]
+        })
+      });
+
+      const json = await res.json();
+
+      if (!json.success) return;
+
+      const mode = json.data.AI_MODE;
+
+      aiModeSwitch.checked = mode === "1";
+
+      updateModeText();
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  }
+
+  async function updateAIMode() {
+    const aiModeSwitch = document.getElementById("aiModeSwitch");
+    const aiModeText = document.getElementById("aiModeText");
+
+    const mode = aiModeSwitch.checked ? "1" : "0";
+
+    updateModeText();
+
+    try {
+
+      const res = await fetch("../../api-website/update_env.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          key: "AI_MODE",
+          value: mode
+        })
+      });
+
+      const json = await res.json();
+
+      if (!json.success) {
+
+        alert(json.message);
+
+        aiModeSwitch.checked = !aiModeSwitch.checked;
+
+        updateModeText();
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
+      aiModeSwitch.checked = !aiModeSwitch.checked;
+
+      updateModeText();
+
+    }
+
+  }
+
+  function updateModeText() {
+    const aiModeSwitch = document.getElementById("aiModeSwitch");
+    const aiModeText = document.getElementById("aiModeText");
+
+    aiModeText.textContent =
+      aiModeSwitch.checked
+        ? "External API"
+        : "Local AI";
+
+  }
+
 </script>

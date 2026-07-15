@@ -28,18 +28,35 @@ $classIconHeader = "tdesign--ai";
                 <div class="px-3 py-2 flex items-center justify-between border-b border-surface-container">
                     <div class="flex items-center gap-3">
                         <div class="bg-primary-fixed p-2 rounded-lg">
-                            <span class="material-symbols-outlined text-primary text-[20px]">terminal</span>
+                            <span class="material-symbols-outlined text-primary text-[30px]">terminal</span>
                         </div>
-                        <div>
+                        <div class="flex flex-col gap-2">
                             <h3 class="text-on-surface font-headline font-semibold text-lg leading-none">AI Script</h3>
+                            <!-- Status Badge -->
+                            <div id="statusBadge" class="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200/20 text-stone-500 transition-colors" id="statusBadge">
+                                <span class="relative flex h-2 w-2">
+                                    <span id="statusBg" class="status-pulse absolute inline-flex h-full w-full rounded-full bg-stone-500 opacity-75"></span>
+                                </span>
+                                <span id="status" class="text-xs font-bold uppercase tracking-wider leading-none">Unknown</span>
+                            </div>
                         </div>
                     </div>
-                    <!-- Status Badge -->
-                    <div id="statusBadge" class="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200/20 text-stone-500 transition-colors" id="statusBadge">
-                        <span class="relative flex h-2 w-2">
-                            <span id="statusBg" class="status-pulse absolute inline-flex h-full w-full rounded-full bg-stone-500 opacity-75"></span>
-                        </span>
-                        <span id="status" class="text-xs font-bold uppercase tracking-wider leading-none">Unknown</span>
+
+                    <div class="flex items-center gap-2 justify-between p-2 bg-white dark:bg-stone-800 rounded-lg">
+                        <div>
+                            <h3 class="font-semibold text-stone-800 dark:text-white">
+                                AI Mode
+                            </h3>
+
+                            <p id="aiModeText" class="text-sm text-stone-500">
+                                Local AI
+                            </p>
+                        </div>
+
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="aiModeSwitch" class="sr-only peer" onchange="updateAIMode()">
+                            <div class="w-14 h-7 bg-stone-300 peer-focus:outline-none rounded-full peer dark:bg-stone-700 peer-checked:bg-primary after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7"> </div>
+                        </label>
                     </div>
                 </div>
                 <!-- Widget Content -->
