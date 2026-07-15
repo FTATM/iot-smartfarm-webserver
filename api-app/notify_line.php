@@ -1,5 +1,5 @@
 <?php
-require (__DIR__ . '/../api-website/config.php');
+require_once (__DIR__ . '/../api-website/config.php');
 
 function sendLineOA($to, $message)
 {

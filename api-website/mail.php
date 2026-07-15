@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php';
-require 'config.php';
+require_once 'config.php';
 
 if (empty($_POST['email'])) {
     http_response_code(400);
