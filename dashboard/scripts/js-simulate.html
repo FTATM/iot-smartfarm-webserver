@@ -1,5 +1,6 @@
 <!-- JavaScript -->
 <script>
+    let currentData = null;
     let interval = null;
     let timeInterval = 5;
     let isLoading = true;
@@ -41,6 +42,29 @@
         }
         deviceCount.textContent = monitors.length;
 
+        bindEvents();
+
+        function bindEvents() {
+            const info = document.getElementById("sim-info");
+
+            [
+                "min",
+                "max",
+                "base",
+                "pull",
+                "step",
+                "noise"
+            ].forEach(name => {
+
+                const input = info.querySelector(`#sim-${name}`);
+
+                input.addEventListener("input", () => {
+                    if (!currentData) return;
+
+                    currentData[`sim_${name}`] = Number(input.value);
+                });
+            });
+        }
     }
 
     function toggleSimulate() {
@@ -137,28 +161,18 @@
     }
 
     function loadConfigDevice(data) {
-        const deviceinfo = document.getElementById('sim-info');
+        currentData = data;
 
-        const Ename = deviceinfo.querySelector('#device-name');
-        if (Ename) Ename.textContent = data.monitor_name;
+        const info = document.getElementById("sim-info");
 
-        const Emin = deviceinfo.querySelector('#sim-min');
-        if (Emin) Emin.value = data.sim_min;
+        info.querySelector("#device-name").textContent = data.monitor_name;
 
-        const Emax = deviceinfo.querySelector('#sim-max');
-        if (Emax) Emax.value = data.sim_max;
-
-        const Ebase = deviceinfo.querySelector('#sim-base');
-        if (Ebase) Ebase.value = data.sim_base;
-
-        const Epull = deviceinfo.querySelector('#sim-pull');
-        if (Epull) Epull.value = data.sim_pull;
-
-        const Estep = deviceinfo.querySelector('#sim-step');
-        if (Estep) Estep.value = data.sim_step;
-
-        const Enoise = deviceinfo.querySelector('#sim-noise');
-        if (Enoise) Enoise.value = data.sim_noise;
+        info.querySelector("#sim-min").value = data.sim_min;
+        info.querySelector("#sim-max").value = data.sim_max;
+        info.querySelector("#sim-base").value = data.sim_base;
+        info.querySelector("#sim-pull").value = data.sim_pull;
+        info.querySelector("#sim-step").value = data.sim_step;
+        info.querySelector("#sim-noise").value = data.sim_noise;
     }
 
     function addeventManualSelectDevice() {

@@ -45,14 +45,13 @@
             <div
                 class="flex flex-col items-center gap-2 bg-stone-100 dark:bg-stone-800 box p-1 px-3 rounded-xl border border-stone-200 dark:border-stone-700">
                 <div class="flex items-center gap-2">
-                    <span class="text-[0.75vw] font-bold text-primary leading-none">รอบการเลี้ยง:</span>
+                    <span class="text-[0.75vw] font-bold text-primary leading-none">จำนวนวันต่อรอบ:</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none" id="cycle-round">--</span>
                     <span class="text-[0.75vw] font-bold text-primary leading-none">วัน</span>
                     <div class="w-px h-2.5 bg-stone-300 dark:bg-stone-600"></div>
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">ผ่านมาแล้ว:</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none" id="cycle-passed">--</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">รอบ</span>
-
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-[0.75vw] font-bold text-primary leading-none">อายุปัจจุบัน:</span>
@@ -62,7 +61,7 @@
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">เหลือ</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none"
                         id="remain-live">-</span>
-                    <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">ตัว</span>
+                    <span id="remain-unit" class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">ตัว</span>
                 </div>
                 <div class="h-px w-full bg-stone-300 dark:bg-stone-600"></div>
                 <div class="flex items-center gap-2">
@@ -73,7 +72,7 @@
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">น้ำหนัก</span>
                     <span class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none"
                         id="kilogram">-</span>
-                    <span
+                    <span id="kilogram-unit"
                         class="text-[0.75vw] font-bold text-stone-600 dark:text-stone-300 leading-none">กิโล/ตัว</span>
                 </div>
             </div>

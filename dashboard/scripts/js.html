@@ -72,13 +72,15 @@
       data = raw["data"];
       console.log("Farm data : ", data);
 
-      const remain = data["value"].find((v) => v.home_row_id == "5")?.value || 0;
-      const cycleRound = data["value"].find((v) => v.home_row_id == "6")?.value || 0;
+      const remain = data["value"].find((v) => v.home_row_id == "5");
+      const cycleRound = data["value"].find((v) => v.home_row_id == "6");
 
       SetValueInHTMLById("day-age", data.day);
-      SetValueInHTMLById("remain-live", remain);
-      SetValueInHTMLById("cycle-round", cycleRound);
+      SetValueInHTMLById("remain-live", remain.value);
+      SetValueInHTMLById("remain-unit", remain.unitofvalue);
+      SetValueInHTMLById("cycle-round", cycleRound.value);
       SetValueInHTMLById("cycle-passed", data.round);
+      SetValueInHTMLById("kilogram-unit", "กิโล/"+remain.unitofvalue);
     } catch (err) {
       console.warn("error : " + err);
       return;

@@ -18,7 +18,7 @@ if (!$conn) {
 }
 $now = time();
 
-$sql = "SELECT value, home_row_id
+$sql = "SELECT *
         FROM home_branch
         WHERE branch_id = $1 ORDER BY home_row_id ASC";
 
