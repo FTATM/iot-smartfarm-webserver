@@ -1,0 +1,45 @@
+<div id="save-overlay" class="fixed inset-0 bg-black/30 hidden items-center justify-center z-50">
+
+    <div class="bg-surface rounded-xl shadow-lg p-6 flex flex-col items-center gap-3">
+
+        <!-- Loading -->
+        <div id="save-loading" class="flex flex-col justify-center items-center">
+            <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-3 text-sm">Saving configuration...</p>
+        </div>
+
+        <!-- Success -->
+        <div id="save-success" class="hidden flex-col items-center">
+            <span class="material-symbols-outlined text-green-600 text-5xl">
+                check_circle
+            </span>
+            <p class="mt-2 text-sm">Save completed</p>
+        </div>
+
+    </div>
+</div>
+<script>
+    function showSaving() {
+        const overlay = document.getElementById("save-overlay");
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+
+        document.getElementById("save-loading").classList.remove("hidden");
+        document.getElementById("save-success").classList.add("hidden");
+    }
+
+    function showSuccess() {
+        document.getElementById("save-loading").classList.add("hidden");
+        document.getElementById("save-success").classList.remove("hidden");
+        document.getElementById("save-success").classList.add("flex");
+    }
+
+    function hideSaving() {
+        const overlay = document.getElementById("save-overlay");
+
+        overlay.classList.remove("flex");
+        overlay.classList.add("hidden");
+
+        document.getElementById("save-success").classList.remove("flex");
+    }
+</script>
