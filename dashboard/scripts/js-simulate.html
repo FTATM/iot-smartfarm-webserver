@@ -1,15 +1,76 @@
 <!-- JavaScript -->
 <script>
+    let interval = null;
+    let timeInterval = 5;
     let isLoading = true;
-    let selectedDevices = [];
     let monitors = [];
     let manualSelectDevice = {};
 
     document.addEventListener('DOMContentLoaded', async () => {
         await process();
+        init();
         isLoading = false;
 
     });
+
+    function init() {
+        const EtimeInterval = document.getElementById('time-interval');
+        if (!EtimeInterval) {
+            console.warn("Not found Element 'time-interval. please check and try again.'");
+            return;
+        }
+
+        EtimeInterval.value = timeInterval ?? 5;
+
+        EtimeInterval.addEventListener('change', () => {
+            const value = Number(EtimeInterval.value);
+
+            if (!Number.isInteger(value) || value < 1 || value > 100) {
+                console.warn("Please input only INT (integer) between 1 and 100");
+                EtimeInterval.value = timeInterval; // กลับค่าเดิม
+                return;
+            }
+
+            timeInterval = value;
+        });
+
+        const deviceCount = document.getElementById('devices-count');
+        if (!deviceCount) {
+            console.warn("Not found Element 'devices-count'. please check and try again.");
+            return;
+        }
+        deviceCount.textContent = monitors.length;
+
+    }
+
+    function toggleSimulate() {
+        const switchRun = document.getElementById('switch-run');
+        if (switchRun.checked) {
+            CreateInterval();
+            return;
+        }
+        else {
+            clearInterval(interval);
+            interval = null;
+            console.log("Clear interval Success!");
+        }
+    }
+
+    async function CreateInterval() {
+        if (interval) {
+            clearInterval(interval);
+            interval = null;
+            console.log("clear interval for wait new it.");
+        }
+
+        if (!interval) {
+            console.log("Set interval (" + timeInterval + "s) Success!");
+            await deviceSimulateWorking();
+            interval = setInterval(async () => {
+                await deviceSimulateWorking();
+            }, (timeInterval * 1000));
+        }
+    }
 
     async function process() {
         await loadDevices();
@@ -37,13 +98,25 @@
             let div = document.createElement('div');
             div.className = 'flex items-center p-3 border-b border-outline-variant hover:bg-surface-container transition-colors cursor-pointer';
             div.innerHTML = `
-                <input class="device-checkbox w-4 h-4 rounded border-outline text-primary focus:ring-primary" type="checkbox" 
+                <input ${row.is_sim == 1 ? "checked" : ""} class="device-checkbox w-4 h-4 rounded border-outline text-primary focus:ring-primary" type="checkbox" 
                     data-id="${row.monitor_id}"
                     data-name="${row.monitor_name}"
                     />
-                <div class="ml-3 flex flex-col overflow-hidden">
+                <div class="ml-3 w-full flex flex-col overflow-hidden">
                     <span class="font-label-md truncate">${row.monitor_name}</span>
-                    <span class="font-mono-data text-[10px] text-secondary">ID: ${row.monitor_id}</span>
+                    <div class="w-full grid grid-cols-6">
+                        <span class="col-span-1 font-mono-data text-[10px] text-secondary">ID: ${row.monitor_id}</span>
+                        <span class="col-span-5 font-mono-data text-[10px] text-secondary">
+                            |
+                            m:${row.sim_min} 
+                            x:${row.sim_max} 
+                            b:${row.sim_base} 
+                            s:${row.sim_step} 
+                            n:${row.sim_noise} 
+                            p:${row.sim_pull}
+                            |
+                        </span>
+                    </div>
                 </div>
                 <span class="material-symbols-outlined ml-auto text-primary text-lg">chevron_right</span>
             `;
@@ -51,24 +124,41 @@
 
             div.onclick = () => loadConfigDevice(row);
 
-        });
-        // ดัก event ของ checkbox ทุกตัว
-        list.querySelectorAll('.device-checkbox').forEach(cb => {
-            cb.addEventListener('change', () => {
+            const checkbox = div.querySelector('.device-checkbox');
 
-                selectedDevices = [...list.querySelectorAll('.device-checkbox:checked')]
-                    .map(item => ({
-                        monitor_id: item.dataset.id,
-                        monitor_name: item.dataset.name
-                    }));
+            checkbox.addEventListener('change', (e) => {
+                e.stopPropagation(); // กันไม่ให้เปิด loadConfigDevice
 
-                console.log('Selected Devices:', selectedDevices);
+                row.is_sim = checkbox.checked ? 1 : 0;
+
+                console.log(row.monitor_name, row.is_sim);
             });
         });
     }
 
     function loadConfigDevice(data) {
+        const deviceinfo = document.getElementById('sim-info');
 
+        const Ename = deviceinfo.querySelector('#device-name');
+        if (Ename) Ename.textContent = data.monitor_name;
+
+        const Emin = deviceinfo.querySelector('#sim-min');
+        if (Emin) Emin.value = data.sim_min;
+
+        const Emax = deviceinfo.querySelector('#sim-max');
+        if (Emax) Emax.value = data.sim_max;
+
+        const Ebase = deviceinfo.querySelector('#sim-base');
+        if (Ebase) Ebase.value = data.sim_base;
+
+        const Epull = deviceinfo.querySelector('#sim-pull');
+        if (Epull) Epull.value = data.sim_pull;
+
+        const Estep = deviceinfo.querySelector('#sim-step');
+        if (Estep) Estep.value = data.sim_step;
+
+        const Enoise = deviceinfo.querySelector('#sim-noise');
+        if (Enoise) Enoise.value = data.sim_noise;
     }
 
     function addeventManualSelectDevice() {
@@ -143,7 +233,7 @@
         function logResult(data, msg) {
             const now = new Date();
 
-            const result = document.getElementById('result');
+            const result = document.getElementById('result-m');
 
             result.innerHTML += `
             <div class="p-3 ${data.success ? "bg-green-50 border-l-green-500" : "bg-red-50 border-l-red-500"} border-l-4 rounded shadow-sm">
@@ -151,11 +241,11 @@
                     <span class="font-label-md text-green-700">${data.success ? "SUCCESS" : "FAILURE"}</span>
                     <span class="font-mono-data text-[10px] text-secondary">
                         ${new Date().toLocaleTimeString('th-TH', {
-                            hour12: false,
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                        })}
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            })}
                         </span>
                 </div>
                 <p class="font-body-sm ${data.success ? "text-green-800" : "tex-red-800"} mt-1">${msg}</p>
@@ -165,5 +255,164 @@
 
     }
 
+    function randFloat(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    function nextValue(m) {
+
+        const current = Number(m.datax_value);
+
+        const trend =
+            (Number(m.sim_base) - current) * (Number(m.sim_pull) / 100);
+
+        const step =
+            randFloat(-Number(m.sim_step), Number(m.sim_step));
+
+        const noise =
+            randFloat(-Number(m.sim_noise), Number(m.sim_noise));
+
+        const newValue = clamp(current + trend + step + noise, Number(m.sim_min), Number(m.sim_max));
+
+        return newValue;
+    }
+
+    async function deviceSimulateWorking() {
+
+        const result = [];
+
+        monitorsFilter = monitors.filter((m) => { return m.is_sim == 1; });
+
+        monitorsFilter.forEach((m) => {
+            if (!m) return;
+
+            const next = nextValue(m);
+
+            // เก็บค่าใหม่ไว้ใน monitor เพื่อใช้รอบถัดไป
+            m.datax_value = next;
+
+            result.push({
+                monitor_id: m.monitor_id,
+                data_value: Number(next.toFixed(2))
+            });
+        });
+
+        await pushMonitorData(result);
+
+    }
+
+    async function pushMonitorData(data) {
+
+        if (!Array.isArray(data) || data.length === 0) {
+            console.warn("No monitor data to send.");
+            return false;
+        }
+
+        try {
+
+            const res = await fetch('../../api_push_data_by_id_multidata.php', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await res.json();
+
+            logResult(
+                result,
+                result.success
+                    ? `Simulate sent ${data.length} monitor(s).`
+                    : "Failed to send simulate data."
+            );
+
+            return result;
+
+        } catch (e) {
+
+            console.error(e);
+
+            logResult(
+                { success: false },
+                "Exception error : " + e
+            );
+
+            return false;
+        }
+
+        function logResult(res, msg) {
+            const now = new Date();
+
+            const result = document.getElementById('result-a');
+            result.innerHTML = '';
+
+            console.log("---- data ----");
+            console.log(data);
+
+
+            Object.values(data).forEach((d) => {
+                const name = monitors.find((s) => { return s.monitor_id == d.monitor_id }).monitor_name;
+                result.innerHTML += `
+                <div class="flex justify-between font-mono-data text-xs py-1 border-b border-outline-variant/30">
+                    <span class="text-secondary">
+                        ${new Date().toLocaleTimeString('th-TH', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                })}
+                    </span>
+                    <span class="text-on-surface">${name} : ${d.data_value ?? "-"}</span>
+                    <span class="text-green-600 font-bold"></span>
+                </div>
+                `;
+            })
+        }
+    }
+
+    async function updateDeviceList() {
+
+        const payload = monitors.map(m => ({
+            id: m.monitor_id,
+            is_sim: m.is_sim,
+            sim_min: m.sim_min,
+            sim_max: m.sim_max,
+            sim_base: m.sim_base,
+            sim_step: m.sim_step,
+            sim_noise: m.sim_noise,
+            sim_pull: m.sim_pull
+        }));
+
+        try {
+            showSaving();
+
+            const res = await fetch("../../api-website/update-config-simulation.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+
+            console.log(result);
+
+            showSuccess();
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            hideSaving();
+
+        } catch (err) {
+            console.error(err);
+            hideSaving();
+        }
+    }
 
 </script>

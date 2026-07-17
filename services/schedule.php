@@ -171,6 +171,10 @@ ORDER BY branch_id ASC
         updateScriptStatus('schedule', true, 'กำลังเรียบเรียงข้อมูล', 42);
         while ($row_m = pg_fetch_assoc($result_m)) {
 
+            if (!isset($row_m['target_id']) || $row_m['target_id'] === '') {
+                continue;
+            }
+
             $isWorkingNow = 0;
 
             // Monday=0 ... Sunday=6
@@ -227,7 +231,7 @@ ORDER BY branch_id ASC
             }
 
             $monitors[] = [
-                "monitor_id" => (int)($row_m['target_id'] ?? $row_m['monitor_id']),
+                "monitor_id" => (int)$row_m['monitor_id'],
                 "data_value" => $isWorkingNow
             ];
         }

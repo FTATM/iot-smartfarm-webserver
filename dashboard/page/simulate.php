@@ -24,33 +24,36 @@ $classIconHeader = "gravity-ui--signal";
         class="flex-1 flex flex-col p-[0.5vw] gap-3 overflow-hidden min-h-0 bg-stone-50 dark:bg-stone-950 transition-colors duration-300">
         <div class="grid grid-cols-12 h-full min-h-0">
 
-            <div class="col-span-8 flex flex-col min-h-0 bg-white">
-                <div class="flex justify-between items-center h-[10%] min-h-[50px] bg-stone-50 shadow  border-r border-outline-variant">
-                    <div class="text-[2rem]"> Auto simalate devices</div>
+            <div class="col-span-9 flex flex-col min-h-0 bg-white">
+                <div class="flex justify-between items-center h-[10%] min-h-[50px] bg-stone-50 shadow border border-outline-variant px-2">
+                    <div class="text-[2rem]">Simulation Workbench</div>
                     <div class="w-[30%] flex justify-end gap-1 p-2">
-                        <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-3">
                             <div class="flex items-center gap-2">
                                 <span class="font-label-md text-secondary">Auto Active:</span>
                                 <label class="relative inline-flex items-center cursor-pointer">
-                                    <input checked="" class="sr-only peer" type="checkbox" />
-                                    <div id="switch-run" class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    <input onclick="toggleSimulate()" id="switch-run" class="sr-only peer" type="checkbox" />
+                                    <div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
+                            <div class="h-4 w-[1px] bg-outline-variant"></div>
                             <div class="flex items-center gap-2">
                                 <span class="font-label-md text-secondary">Interval (s):</span>
-                                <input id="time-interval" class="w-16 h-8 bg-surface-container-low border border-outline-variant rounded px-2 font-mono-data text-sm focus:ring-1 focus:ring-primary focus:border-primary" type="number" value="5" />
+                                <input id="time-interval" class="w-16 h-8 bg-surface-container-low border border-outline-variant rounded px-2 font-mono-data text-sm focus:ring-1 focus:ring-primary focus:border-primary" type="number" value="5" min="1" max="100" step="1" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-1 min-h-0 bg-red-400 shadow">
                     <!-- Left Panel: Devices Selection -->
-                    <section class="w-72 bg-surface-container-lowest border-r border-outline-variant flex flex-col">
+                    <section class="w-[30%] bg-surface-container-lowest border-r border-outline-variant flex flex-col">
                         <div class="p-4 border-b border-outline-variant bg-surface-container-low">
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="font-label-md text-primary uppercase">Devices Selection</h3>
-                                <span id="devices-count" class="font-mono-data text-[10px] text-secondary">128</span> 
-                                <span class="font-mono-data text-[10px] text-secondary"> devices</span> 
+                                <div class="flex gap-1">
+                                    <span id="devices-count" class="font-mono-data text-[10px] text-secondary">-</span>
+                                    <span class="font-mono-data text-[10px] text-secondary"> devices</span>
+                                </div>
                             </div>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-2 top-1.5 text-secondary text-sm">search</span>
@@ -70,44 +73,52 @@ $classIconHeader = "gravity-ui--signal";
 
                         </div>
                         <div class="p-3 bg-surface-container-low border-t border-outline-variant">
-                            <button class="w-full bg-secondary-container text-on-secondary-container font-label-md text-label-md py-2 rounded flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors">
-                                <span class="material-symbols-outlined text-sm">dynamic_feed</span>
-                                Bulk Action (4 Selected)
-                            </button>
+                            <button onclick="updateDeviceList()" class="w-full bg-primary text-on-primary font-label-md text-label-md py-2 rounded flex items-center justify-center gap-2 hover:bg-primary-container transition-colors"><span class="material-symbols-outlined text-sm">save</span>Save Configuration</button>
                         </div>
                     </section>
                     <!-- Center Panel: Auto-Simulation Config -->
                     <section class="flex-1 flex flex-col bg-surface border-r border-outline-variant">
-                        <div class="p-panel-padding bg-surface-container-lowest border-b border-outline-variant">
+                        <div id="sim-info" class="p-panel-padding bg-surface-container-lowest border-b border-outline-variant">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-12 h-12 rounded bg-primary-container/20 flex items-center justify-center">
                                     <span class="material-symbols-outlined text-primary text-2xl">sensors</span>
                                 </div>
                                 <div>
-                                    <h3 class="font-headline-lg">-</h3>
+                                    <h3 id="device-name" class="font-headline-lg">-</h3>
                                     <p class="font-body-sm text-secondary">Configuring auto-stochastic data stream for temperature sensing node.</p>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                                <div class="space-y-2">
-                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Min Value</label>
-                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Min (Number)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Minimum threshold for randomization.</p>
+                                    <input id="sim-min" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
                                 </div>
-                                <div class="space-y-2">
-                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Max Value</label>
-                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Max (Number)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Maximum threshold for randomization.</p>
+                                    <input id="sim-max" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
                                 </div>
-                                <div class="space-y-2">
-                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Base Value</label>
-                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Base (Number)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Constant starting value offset.</p>
+                                    <input id="sim-base" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
                                 </div>
-                                <div class="space-y-2">
-                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Noise Sigma</label>
-                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Pull (%)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Mean-reversion strength factor.</p>
+                                    <input id="sim-pull" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
                                 </div>
-                            </div>
-                            <div class="p-6 bg-surface-container-low rounded-xl border border-outline-variant border-dashed">
-                                <p class="font-body-sm text-center text-secondary">Simulation Formula: <span class="font-mono-data text-on-surface bg-white px-2 py-1 rounded">Base + (rand() * (Max-Min)) + Gaussian(0, Noise)</span></p>
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Step (±)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Incremental change per iteration.</p>
+                                    <input id="sim-step" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block font-label-md text-secondary uppercase tracking-wider">Noise Sigma (±)</label>
+                                    <p class="text-[10px] text-secondary italic -mt-1">Gaussian variance coefficient.</p>
+                                    <input id="sim-noise" class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 font-mono-data text-primary font-bold text-center input-focus transition-all" type="text" value="-" />
+                                </div>
                             </div>
                         </div>
                         <!-- Result Area -->
@@ -119,15 +130,13 @@ $classIconHeader = "gravity-ui--signal";
                                 </span>
                                 <span class="font-mono-data text-[10px] text-secondary">UPS: 1.2Hz</span>
                             </div>
-                            <div class="flex-1 overflow-y-auto custom-scrollbar bg-white p-4 space-y-2">
-                                <div class="flex justify-between font-mono-data text-xs py-1 border-b border-outline-variant/30">
-                                    <span class="text-secondary">[13:45:21]</span>
-                                    <span class="text-on-surface">VAL: 24.62°C</span>
-                                    <span class="text-green-600 font-bold">PUSH_OK</span>
+                            <div id="result-a" class="flex-1 overflow-y-auto custom-scrollbar bg-white p-4 space-y-1">
+                                <div class="w-full h-full text-stone-400 flex justify-center items-center">
+                                    it's not has Log(s) now.
                                 </div>
 
                             </div>
-                            <div class="p-4 bg-surface-container-low border-t border-outline-variant flex justify-between">
+                            <div class="py-2 px-4 bg-surface-container-low border-t border-outline-variant flex justify-between">
                                 <div class="flex gap-2">
                                     <span class="px-3 py-1 rounded bg-green-100 text-green-700 font-label-md text-[10px]">TOTAL PUSHES: 1,402</span>
                                     <span class="px-3 py-1 rounded bg-red-100 text-red-700 font-label-md text-[10px]">DROPPED: 0</span>
@@ -142,7 +151,7 @@ $classIconHeader = "gravity-ui--signal";
                 </div>
             </div>
 
-            <div class="col-span-4 flex flex-col min-h-0 bg-white">
+            <div class="col-span-3 flex flex-col min-h-0 bg-white">
                 <div class="p-panel-padding bg-surface border-b border-outline-variant">
                     <h3 class="font-headline-md mb-4 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">precision_manufacturing</span>
@@ -194,7 +203,7 @@ $classIconHeader = "gravity-ui--signal";
                             <span class="font-label-md text-on-surface-variant">MANUAL LOG</span>
                             <button class="text-[10px] text-primary hover:underline">Clear</button>
                         </div>
-                        <div id="result" class="flex-1 overflow-y-auto custom-scrollbar p-panel-padding space-y-3 bg-surface-container-low">
+                        <div id="result-m" class="flex-1 overflow-y-auto custom-scrollbar p-panel-padding space-y-3 bg-surface-container-low">
                         </div>
                     </div>
                 </div>
@@ -206,6 +215,7 @@ $classIconHeader = "gravity-ui--signal";
     <?php include "../components/footer.php"; ?>
 
     <?php include "../scripts/js.html"; ?>
+    <?php include "../scripts/components/js-overlay.html"; ?>
     <?php include "../scripts/js-simulate.html"; ?>
 </body>
 
