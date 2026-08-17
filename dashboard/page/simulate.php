@@ -136,7 +136,7 @@ $classIconHeader = "gravity-ui--signal";
                                 </div>
 
                             </div>
-                            <div class="py-2 px-4 bg-surface-container-low border-t border-outline-variant flex justify-between">
+                            <!-- <div class="py-2 px-4 bg-surface-container-low border-t border-outline-variant flex justify-between">
                                 <div class="flex gap-2">
                                     <span class="px-3 py-1 rounded bg-green-100 text-green-700 font-label-md text-[10px]">TOTAL PUSHES: 1,402</span>
                                     <span class="px-3 py-1 rounded bg-red-100 text-red-700 font-label-md text-[10px]">DROPPED: 0</span>
@@ -145,7 +145,7 @@ $classIconHeader = "gravity-ui--signal";
                                     <span class="material-symbols-outlined text-sm">download</span>
                                     Export TSV
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </section>
                 </div>
@@ -214,7 +214,6 @@ $classIconHeader = "gravity-ui--signal";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/components/js-overlay.html"; ?>
     <?php include "../scripts/js-simulate.html"; ?>
 </body>

@@ -460,7 +460,7 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
                             </div>
                         </div>
                     </div>
-                    <button
+                    <button onclick="showPopup('popup-export-log')"
                         class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
                         <span>Export Report</span>
                         <span
@@ -530,7 +530,6 @@ $classIconHeader = "fluent--door-arrow-right-28-regular";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
     <?php include "../scripts/js-outdoor-papaya.html"; ?>
 </body>
 

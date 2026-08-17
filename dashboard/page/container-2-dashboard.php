@@ -13,7 +13,7 @@ $classIconHeader = "boxicons--container";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title><?php echo $Title;?></title>
+    <title><?php echo $Title; ?></title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
@@ -102,17 +102,17 @@ $classIconHeader = "boxicons--container";
                                     </div>
                                 </div>
                             </div>
-                            
-                             <!-- Box - AI -->
-                             <?php include_once('../components/box-ai.php') ?>
+
+                            <!-- Box - AI -->
+                            <?php include_once('../components/box-ai.php') ?>
                         </div>
 
                         <div class="grid grid-cols-5 gap-3 flex-1 min-h-0">
-                             <!-- Box - Chart - market -->
-                             <?php include_once('../components/box-chart-market.php') ?>
+                            <!-- Box - Chart - market -->
+                            <?php include_once('../components/box-chart-market.php') ?>
 
-                             <!-- Box - Chart - Pie -->
-                             <?php include_once('../components/box-chart-circle.php') ?>
+                            <!-- Box - Chart - Pie -->
+                            <?php include_once('../components/box-chart-circle.php') ?>
                         </div>
                     </div>
                 </div>
@@ -444,7 +444,7 @@ $classIconHeader = "boxicons--container";
                             </div>
                         </div>
                     </div>
-                    <button
+                    <button onclick="showPopup('popup-export-log')"
                         class="w-full mt-[0.75vh] px-[0.75vw] py-[0.25vw] flex items-center justify-between text-[0.50vw] font-bold uppercase text-primary dark:hover:text-white border border-primary/40 hover:bg-orange-50 dark:hover:bg-orange-900 bg-white dark:bg-orange-900/20 rounded-xl transition-all shadow-sm">
                         <span>Export Report</span>
                         <span
@@ -511,8 +511,6 @@ $classIconHeader = "boxicons--container";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
-    <?php include "../scripts/components/js-ai.html"; ?>
     <?php include "../scripts/js-container-2.html"; ?>
 </body>
 

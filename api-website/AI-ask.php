@@ -1,6 +1,13 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Accept");
+header("Content-Type: application/json; charset=UTF-8");
+// Handle CORS preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 
 include_once(__DIR__ . '/../includes/fn/pg_connect.php');
 require_once 'config.php';
@@ -42,9 +49,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$branch_id = (int) ($_SESSION['branch_id'] ?? 0);
+$branch_id = (int) ($question['branch_id'] ?? ($_SESSION['branch_id'] ?? 0));
+
 if ($branch_id <= 0) {
-    respond(['success' => false, 'message' => 'Not found session, please login.'], 401);
+    respond([
+        'success' => false,
+        'message' => 'Param branch_id is required'
+    ], 400);
 }
 
 // ── Fetch farm information ────────────────────────────────────────────────────
@@ -82,8 +93,8 @@ $farmData_text = implode(' ', [
     $info['calculated'] . ".",
     "ฟาร์ม: "          . $info['branch_name']     . ".",
     "เริ่มเลี้ยง: "     . $info['start_date_farm'] . ".",
-    "จำนวนทั้งหมด: "   . $info['total']            . " ตัว.",
-    "เหลืออยู่: "       . $info['remain']           . " ตัว.",
+    "จำนวนทั้งหมด: "   . $info['total']            . " ตัว หรือ ต้น.",
+    "เหลืออยู่: "       . $info['remain']           . " ตัว หรือ ต้น.",
     "รอบที่: "          . $info['round']            . ".",
     "รายจ่ายรวม: "     . $info['sum_expense']      . " บาท.",
     "รายรับรวม: "      . $info['sum_income']       . " บาท.",
@@ -97,9 +108,8 @@ SYSTEM:
 คุณคือผู้ช่วย AI ที่คอยตอบคำถามกับผู้ใช้ที่ถามเข้ามา
 - ตอบเป็นภาษาไทยเท่านั้น
 - ตอบสั้นที่สุดเท่าที่จะทำได้ ไม่เกิน 2 ประโยค
-- ห้ามอธิบายซ้ำหรือพูดถึงคำถามซ้ำอีก
+- ห้ามอธิบายซ้ำ
 - จำกัดขอบเขตการตอบให้ตรงประเด็น ไม่มีคำนำหรือคำลงท้ายเสริม
-- หากไม่รู้หรือไม่สามารถตอบคำถามได้ ให้ตอบว่า "ไม่มีข้อมูล"
 - หากไม่พบข้อมูลในฐานข้อมูล ให้ตอบว่า "ไม่พบข้อมูลในฐานข้อมูล"
 - แนะนำให้ผู้ใช้พิจารณาอัพเกรดเป็นเวอร์ชัน Pro ที่เร็วกว่า
 - ตอบข้อมูลในรูปแบบ JSON เท่านั้น ห้ามมี text นอก JSON

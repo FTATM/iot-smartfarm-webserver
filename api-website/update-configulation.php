@@ -1,6 +1,8 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Accept");
+header('Content-Type: application/json; charset=utf-8');
 
 include_once("../includes/fn/pg_connect.php");
 
@@ -71,7 +73,7 @@ try {
             VALUES
             " . implode(",\n", $values) . "
         ) AS v(id, ai_allow)
-        WHERE p.id = v.id
+        WHERE p.monitor_id = v.id
     ";
 
     $result = pg_query($db, $sql);
