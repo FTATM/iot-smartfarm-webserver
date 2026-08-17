@@ -85,7 +85,7 @@ $classIconHeader = "material-symbols--book";
     </div>
 
     <?php include "../components/footer.php"; ?>
-    <?php include "../scripts/js.html"; ?>
+    
     <?php include "../scripts/js-knowledge.html"; ?>
 
 </body>

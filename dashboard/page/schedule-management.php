@@ -144,8 +144,6 @@ $classIconHeader = "material-symbols--schedule-outline";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
-    <?php include "../scripts/components/js-ai.html"; ?>
     <?php include "../scripts/js-schedule-management.html"; ?>
 </body>
 

@@ -3,8 +3,8 @@ session_start();
 include '../components/session.php';
 checkLogin();
 $Title = $_SESSION['branch_name'] . " Dashboard";
-$subTitle = $_SESSION['branch_name'] . " intellegent system";
-$classIconHeader = "fluent--door-arrow-left-20-regular";
+$subTitle = "Outdoor Farm Intelligence Dashboard";
+$classIconHeader = "fluent--door-arrow-right-28-regular";
 ?>
 <!DOCTYPE html>
 <html class="light" lang="th">
@@ -13,17 +13,16 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 <?php include("../styles/css-icon.html"); ?>
 
 <head>
-    <title>Indoor System - Dashboard</title>
+    <title>Outdoor System - Dashboard</title>
 </head>
 
 <body class="h-screen overflow-hidden flex flex-col bg-white dark:bg-stone-950 transition-colors duration-300">
     <?php include "../components/header.php"; ?>
 
     <!-- Main Content -->
-    <main
-        class="flex-1 flex flex-col p-[0.5vw] gap-3 overflow-hidden min-h-0 bg-stone-50 dark:bg-stone-950 transition-colors duration-300">
+    <main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
         <!-- Main Container: แบ่ง 12 คอลัมน์ (10 + 2) -->
-        <div class="grid grid-cols-12 gap-3 h-full min-h-0">
+        <div class="grid grid-cols-12 gap-4 h-full">
 
             <!-- ========== LEFT SECTION (10 columns) ========== -->
             <div class="col-span-10 flex flex-col justify-between gap-3 min-h-0">
@@ -35,18 +34,20 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                     <div
                         class="box col-span-2 flex flex-col bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm p-2 2xl:p-3 hover:ring-2 hover:ring-orange-400 transition-all duration-200 min-h-0">
 
+                        <!-- พื้นที่กลาง (รูปบน) -->
                         <div class="rounded-xl px-[1.5vw] flex flex-col items-center justify-center">
                             <div
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
-                                Indoor Farm with IoT App.
+                                Outdoor Farm with IoT App.
                             </div>
-                            <img src="images/indoor_top.png" alt="เครื่องมือ/อุปกรณ์"
+                            <img src="images/outdoor_top.png" alt="เครื่องมือ/อุปกรณ์"
                                 class="rounded-lg object-cover object-center" style="width: 130em; height: 30vh;" />
                         </div>
+
                         <div class="flex flex-col flex-1 px-[1.5vw]">
                             <div
                                 class="p-[0.25vw] rounded-lg border border-stone-200 font-bold mb-1 mt-1 text-[0.9vw] text-center w-full text-stone-700 dark:text-stone-300">
-                                Indoor Farm with IoT App Architecture
+                                Outdoor Farm IoT System Architecture
                             </div>
 
                             <!-- เนื้อหาส่วนล่าง -->
@@ -56,7 +57,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                                     <?php include("../components/sensors_left.php"); ?>
                                 </div>
                                 <div class=" rounded-lg p-0.5 flex items-center justify-center overflow-hidden min-h-0">
-                                    <img src="images/Indoor.png" alt="เครื่องมือ/อุปกรณ์"
+                                    <img src="images/Outdoor.png" alt="เครื่องมือ/อุปกรณ์"
                                         class="object-contain rounded-md" style="max-height: 28vh;" />
                                 </div>
                                 <div class="flex flex-col justify-between">
@@ -66,8 +67,10 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                         </div>
                     </div>
 
+
                     <!-- กราฟ 2 ส่วน (เรียงแนวตั้ง - ขวาสุด) -->
                     <div class="col-span-2 flex flex-col justify-between gap-3 min-h-0">
+
                         <!-- ===== กราฟบน ===== -->
                         <div
                             class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-3 shadow-sm flex flex-col flex-1 min-h-0 hover:ring-2 hover:ring-orange-400 transition-all duration-200">
@@ -110,7 +113,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 
                 <!-- Card 1: สิ่งที่ต้องทำวันนี้ -->
                 <div
-                    class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
+                    class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center mb-2">
                         <div
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
@@ -119,31 +122,28 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                         <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">สิ่งที่ต้องทำวันนี้
                         </h3>
                     </div>
-                    <div
-                        class="bg-stone-50 dark:bg-stone-900 rounded-lg border border-stone-100 mb-2 dark:border-stone-400/20">
-                        <div class="py-[1vh] px-[0.5vw]">
-                            <p class="text-[0.75vw] text-slate-500 font-bold uppercase tracking-wider">ขั้นตอน</p>
-                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="main-task">-</p>
-                        </div>
-                    </div>
 
-                    <div
-                        class="flex justify-between items-center bg-stone-50 dark:bg-stone-900 rounded-lg border border-stone-100 dark:border-stone-400/20">
-                        <div class="py-[1vh] px-[0.5vw]">
-                            <p class="text-[0.75vw] text-slate-500 font-bold uppercase tracking-wider">เป้าหมาย</p>
-                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="main-task">-</p>
+                    <div id="tasks-container" class="grid grid-cols-2 gap-3">
+                        <div
+                            class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
+                            <span
+                                class="text-[0.75vw] text-stone-400 dark:text-stone-500 font-bold uppercase">ดินที่ควรจะเป็น</span>
+                            <span class="text-[0.75vw] font-black text-stone-800 dark:text-stone-100"
+                                id="soil-moisture">-</span>
                         </div>
-                        <div class="py-[1vh] px-[0.5vw]">
-                            <p class="text-[0.75vw] text-[#ff8021] font-bold uppercase tracking-wider">หมายเหตุ</p>
-                            <p class="text-[1vw] font-bold text-slate-800 dark:text-white" id="recommended-soil">-
-                            </p>
+                        <div
+                            class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
+                            <span class="text-[0.75vw] text-stone-400 dark:text-stone-500 font-bold uppercase">pH
+                                Level</span>
+                            <span class="text-[0.75vw] font-black text-stone-800 dark:text-stone-100"
+                                id="soil-ph">-</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card 2: การให้น้ำและปุ๋ย -->
                 <div
-                    class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 group overflow-hidden">
+                    class="bg-white dark:bg-stone-900 box border border-stone-200 dark:border-stone-700 rounded-2xl p-[0.5vw] shadow-sm flex flex-col hover:ring-2 hover:ring-orange-400 transition-all duration-200 overflow-hidden">
                     <div class="flex items-center mb-2">
                         <div
                             class="p-2 bg-orange-50 dark:bg-orange-900/20 text-primary rounded-lg flex items-center justify-center">
@@ -152,36 +152,35 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                         <h3 class="ml-2 text-[1vw] font-bold text-stone-700 dark:text-stone-200">การให้น้ำและปุ๋ย
                         </h3>
                     </div>
-                    <div class="space-y-2">
+                    <div id="watering-container" class="space-y-2 ">
                         <!-- Grid 2 Columns -->
                         <div class="grid grid-cols-2 gap-3">
                             <div
-                                class="bg-blue-50 dark:bg-blue-900/10 p-2 rounded-lg border border-blue-100 dark:border-blue-600/20">
-                                <p class="text-[0.75vw] text-blue-500 dark:text-blue-200 font-bold uppercase mb-0.5">
-                                    ตารางเวลา</p>
-                                <p class="text-[1vw] font-bold text-blue-600 dark:text-white" id="watering-schedule">-
-                                </p>
+                                class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
+                                <!-- <div class="bg-blue-50 dark:bg-blue-800/20 border rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full border-blue-100 dark:border-blue-600"> -->
+                                <p class="text-[0.75vw] text-blue-500 dark:text-blue-400 font-bold uppercase mb-0.5">
+                                    การให้น้ำ</p>
+                                <p class="text-[0.75vw] font-bold text-blue-600 dark:text-white" id="watering-schedule">
+                                    -</p>
                             </div>
                             <div
-                                class="bg-yellow-50 dark:bg-yellow-900/10 p-2 rounded-lg border border-stone-100 dark:border-stone-600/20">
+                                class="bg-stone-50 dark:bg-stone-800 rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full">
+                                <!-- <div class="bg-yellow-50 dark:bg-yellow-800/20 border rounded-lg py-[1vh] px-[0.5vw] flex flex-col justify-center h-full border-yellow-100 dark:border-yellow-800"> -->
                                 <p
-                                    class="text-[0.75vw] text-yellow-500 dark:text-yellow-200 font-bold uppercase mb-0.5">
-                                    ปุ๋ย</p>
-                                <p class="text-[1vw] font-bold text-stone-600 dark:text-white" id="fertilizer-status">-
-                                </p>
+                                    class="text-[0.75vw] text-yellow-500 dark:text-yellow-400 font-bold uppercase mb-0.5">
+                                    การใส่ปุ๋ย</p>
+                                <p class="text-[0.75vw] font-bold text-blue-600 dark:text-white"
+                                    id="fertilizer-schedule">-</p>
                             </div>
                         </div>
 
-                        <!-- Alert Row -->
+                        <!-- โรค/ศัตรูพืช -->
+                        <!-- <div class="bg-red-50 dark:bg-red-800/20 p-2 rounded-lg border border-red-100 dark:border-red-800"> -->
                         <div
-                            class="flex items-center justify-between bg-red-50 dark:bg-red-900/10 p-2 rounded-lg border border-red-100 dark:border-red-600/20">
-                            <div class="flex items-center gap-1 ">
-                                <span
-                                    class="material-symbols-outlined text-red-600 dark:text-red-500 text-[1vw]">warning</span>
-                                <span class="text-[0.75vw] font-bold text-red-700 dark:text-white">ศัตรูพืช</span>
-                            </div>
-                            <span class="text-[0.75vw] font-medium text-red-600 dark:text-white"
-                                id="pest-alert">-</span>
+                            class="bg-stone-50 dark:bg-stone-800/20 p-2 rounded-lg border border-stone-100 dark:border-stone-800">
+                            <p class="text-[0.75vw] text-red-500 font-bold uppercase tracking-wider mb-0.5">
+                                โรค/ศัตรูพืชที่ต้องระวัง</p>
+                            <p class="text-[0.75vw] font-bold text-red-600 dark:text-white" id="pest-warning">-</p>
                         </div>
                     </div>
                 </div>
@@ -212,8 +211,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             <div class="flex justify-center p-[0.45vw] text-center">
                                 <span id="card-3-water-usage"
                                     class="text-[1vw] text-center font-black text-stone-800 dark:text-stone-100 leading-tight">-</span>
-                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400">
-                                    THB</span>
+                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400"> THB</span>
                             </div>
                         </div>
                         <div class="bg-stone-50 dark:bg-stone-800 rounded-lg p-[0.45vw] flex flex-col justify-center">
@@ -222,8 +220,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             <div class="flex justify-center p-[0.45vw] text-center">
                                 <span id="card-3-electricity-usage"
                                     class="text-[1vw] text-center font-black text-stone-800 dark:text-stone-100 leading-tight">-</span>
-                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400">
-                                    THB</span>
+                                <span class="text-[0.6vw] flex items-end text-slate-500 dark:text-stone-400"> THB</span>
                             </div>
                         </div>
                     </div>
@@ -247,6 +244,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
                             ผลรวม
                         </h3>
                     </div>
+
                     <div id="card-4-list" class="space-y-1 mt-[0.5vh] flex-1 overflow-auto min-h-0"></div>
                     <div
                         class="pt-[0.5vh] border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
@@ -294,7 +292,7 @@ $classIconHeader = "fluent--door-arrow-left-20-regular";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js-indoor.html"; ?>
+    <?php include "../scripts/js-outdoor.html"; ?>
 </body>
 
 </html>

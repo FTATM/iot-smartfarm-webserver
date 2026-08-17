@@ -825,9 +825,9 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <?php } ?>
         <?php if ($_SESSION['branch_id'] == 2) { ?>
             <li>
-                <a href="container-2-dashboard.php"
-                    class="<?php echo ($current_page == 'container-2-dashboard') ? 'active' : ''; ?>">
-                    <span class="nav-icon dark:text-white boxicons--container"></span>Container 2 Dashboard
+                <a href="outdoor-dashboard.php"
+                    class="<?php echo ($current_page == 'outdoor-dashboard') ? 'active' : ''; ?>">
+                    <span class="nav-icon dark:text-white fluent--door-arrow-right-28-regular"></span> Outdoor Dashboard
                 </a>
             </li>
         <?php } ?>

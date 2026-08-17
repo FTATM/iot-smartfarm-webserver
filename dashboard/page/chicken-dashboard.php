@@ -286,11 +286,8 @@ $classIconHeader = "emojione-monotone--chicken";
     </main>
 
     <?php include "../components/footer.php"; ?>
-    <?php include "../scripts/js.html"; ?>
+
     <?php include "../scripts/js-chicken.html"; ?>
-
-
-
 </body>
 
 </html>

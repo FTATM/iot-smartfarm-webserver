@@ -10,3 +10,7 @@
         <span class="text-[0.5vw] font-bold text-stone-500 uppercase">@copyright fieldtech automation co. ltd</span>
     </div>
 </footer>
+
+<?php include "../scripts/js.html"; ?>
+<?php include "../scripts/components/js-ai.html"; ?>
+<?php include "../components/popup-export-log.php"; ?>

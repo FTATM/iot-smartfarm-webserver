@@ -348,8 +348,6 @@ $classIconHeader = "solar--graph-bold";
 
     <?php include "../components/footer.php"; ?>
 
-    <?php include "../scripts/js.html"; ?>
-    <?php include "../scripts/components/js-ai.html"; ?>
     <?php include "../scripts/js-solar.html"; ?>
 </body>
 

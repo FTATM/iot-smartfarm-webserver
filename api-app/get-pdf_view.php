@@ -27,16 +27,17 @@ if (!$file) {
 pg_close($db);
 
 // 📂 base path (Windows)
-$basePath = 'D:/xampp/';
-// $fullPath = realpath($basePath . str_replace('\\', '/', $file['path']));
-$fullPath = $basePath . $file['path'];
+// $basePath = 'C:/xampp/';
+// // $fullPath = realpath($basePath . str_replace('\\', '/', $file['path']));
+$basePath = realpath($_SERVER['DOCUMENT_ROOT']);
 
+$fullPath = $basePath . '/../' . $file['path'];
 // if (!$fullPath || !file_exists($fullPath)) {
 //     http_response_code(404);
 //     exit;
 // }
 
-// print($fullPath);
+print($fullPath);
 
 // // ✅ ส่ง PDF เท่านั้น
 header('Content-Type: application/pdf');

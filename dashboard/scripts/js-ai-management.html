@@ -342,13 +342,40 @@
             label.className = "flex items-center gap-3 p-2 hover:bg-surface-container-low transition-colors cursor-pointer group";
             label.innerHTML = `
                 <input 
-                data-device-id="${l.device_id}"
-                ${l.ai_allow == 1 ? "checked" : ""} 
+                data-device-id="${l.monitor_id}"
+                ${l.ai_allow == '1' ? "checked" : ""} 
                 class="w-4 h-4 text-primary-container border-outline rounded focus:ring-primary-container" type="checkbox" />
                 <span class="font-body-sm text-body-sm text-on-surface group-hover:text-primary transition-colors">${l.monitor_name}</span>
             `;
             devices_list.appendChild(label);
         });
+    }
+
+    async function updateDevicesList() {
+        const devices_list = document.getElementById('device_list');
+        if (!devices_list) {
+            console.warn("[warn] Not found Element id device_list");
+            return;
+        }
+
+        const inputs = devices_list.querySelectorAll('input[data-device-id]');
+
+        const devices = Array.from(inputs).map(input => ({
+            id: input.dataset.deviceId,
+            ai_allow: input.checked ? 1 : 0
+        }));
+
+        console.log(devices);
+
+        let res = await fetch('../../api-website/update-configulation.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(devices)
+        });
+
+        let raw = await res.json();
+        console.log(raw);
+        
     }
 
 </script>

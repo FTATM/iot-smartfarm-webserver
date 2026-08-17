@@ -80,7 +80,7 @@
       SetValueInHTMLById("remain-unit", remain.unitofvalue);
       SetValueInHTMLById("cycle-round", cycleRound.value);
       SetValueInHTMLById("cycle-passed", data.round);
-      SetValueInHTMLById("kilogram-unit", "กิโล/"+remain.unitofvalue);
+      SetValueInHTMLById("kilogram-unit", "กิโล/" + remain.unitofvalue);
     } catch (err) {
       console.warn("error : " + err);
       return;
@@ -1555,7 +1555,10 @@
       console.log('🌴 loadPapayaTableData — day:', day, '| tables count:', tables?.length);
 
       function getRow(tableId) {
-        const table = tables.find(t => t.id == tableId);
+        let table = tables.find(t => t.id == tableId);
+        if (!table) {
+          table = tables[tableId - 1];
+        }
         if (!table || !table.rows) {
           console.warn(`⚠️ getRow: table ${tableId} ไม่พบ`);
           return null;
@@ -1594,7 +1597,10 @@
       SetValueInHTMLById('planting-density', getVal(4));
       SetValueInHTMLById('planting-yield', getVal(5));
 
-      const table1 = tables.find(t => t.id == 1);
+      let table1 = tables.find(t => t.id == 1);
+      if (!table1) {
+        table1 = tables[0];
+      }
       if (table1 && table1.rows) {
         buildDots(table1.rows);
         const currentVal = getVal(1);
