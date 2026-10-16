@@ -64,7 +64,7 @@
 └── migrate.php
 ```
 
-Repository ประกอบด้วยส่วนสำคัญดังนี้ :contentReference[oaicite:1]{index=1}
+Repository ประกอบด้วยส่วนสำคัญดังนี้
 
 - **Dashboard** สำหรับแสดงผลข้อมูล
 - **API** สำหรับรับส่งข้อมูลกับอุปกรณ์ IoT
@@ -143,7 +143,7 @@ Restore Database จากไฟล์ Dump
 pg_restore -U postgres -d smartfarm database/20241222_lastest.dump
 ```
 
-> แนะนำให้ Restore ลง Database ใหม่ก่อน เพื่อป้องกันข้อมูลเดิมถูกทับ :contentReference[oaicite:2]{index=2}
+> แนะนำให้ Restore ลง Database ใหม่ก่อน เพื่อป้องกันข้อมูลเดิมถูกทับ
 
 ---
 
@@ -164,8 +164,6 @@ $port          = "port=5432";
 $user_pg       = "postgres";
 $pass_pg       = "password";
 ```
-
-:contentReference[oaicite:3]{index=3}
 
 ---
 
@@ -239,7 +237,7 @@ define("DEVICE_TOKEN", "YOUR_TOKEN");
 define("HOST_DEVICE_OS", "0");
 ```
 
-หลังจากสร้าง Token แล้วควรลบไฟล์ `get_device.php` ออกจากเครื่อง Production ทันทีเพื่อความปลอดภัย :contentReference[oaicite:4]{index=4}
+หลังจากสร้าง Token แล้วควรลบไฟล์ `get_device.php` ออกจากเครื่อง Production ทันทีเพื่อความปลอดภัย
 
 ---
 
@@ -310,8 +308,6 @@ alert_line_notify.php
 alert_sms_notify.php
 ```
 
-:contentReference[oaicite:5]{index=5}
-
 ---
 
 # Security Recommendations
@@ -345,11 +341,3 @@ psql -U postgres smartfarm < smartfarm_backup.sql
 This project is developed for Smart Farm IoT monitoring and management systems.
 
 ---
-
-# Author
-
-FTATM Team
-
-GitHub Repository:
-
-:contentReference[oaicite:6]{index=6}
